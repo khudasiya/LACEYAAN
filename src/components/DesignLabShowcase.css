@@ -33,7 +33,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 2.5rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 @media (min-width: 1024px) {
@@ -52,6 +52,14 @@
   border-radius: var(--radius-xs);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  align-self: start;
+}
+
+@media (min-width: 1024px) {
+  .lab-media-card {
+    position: sticky;
+    top: 90px;
+  }
 }
 
 .lab-image-container {
@@ -282,4 +290,177 @@
 .lab-lace-card .btn-secondary:hover {
   background-color: #FAF9F5;
   color: #121211;
+}
+
+/* Vault Perks List inside left card */
+.vault-perks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.15rem 1.5rem;
+  background-color: #181716;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.vault-perk-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+  color: #BEBBB3;
+}
+
+.vault-perk-item .perk-icon {
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+/* Grand Master Vault Banner */
+.vault-master-banner {
+  margin-top: 4rem;
+  background: linear-gradient(135deg, #1D1B19 0%, #171614 100%);
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  border-radius: var(--radius-xs);
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 900px) {
+  .vault-master-banner {
+    grid-template-columns: 340px 1fr;
+  }
+}
+
+.vault-master-thumb {
+  position: relative;
+  background-color: #11100F;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.vault-master-thumb img {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.vault-master-thumb:hover img {
+  transform: scale(1.04);
+}
+
+.vault-master-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--accent-gold);
+  color: #121212;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+}
+
+.vault-master-content {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.vault-master-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vault-master-header h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  color: #FAF9F5;
+  margin-top: 0.25rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.vault-master-header h3:hover {
+  color: var(--accent-gold);
+}
+
+.vault-master-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.vault-master-desc {
+  color: #B5B1A7;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.vault-master-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.master-perk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  color: #DDD9CF;
+}
+
+.master-perk-pill svg {
+  color: var(--accent-gold);
+}
+
+.vault-master-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.vault-master-actions .btn-gold {
+  background-color: var(--accent-gold);
+  color: #121212;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius-xs);
+}
+
+.vault-master-actions .btn-gold:hover {
+  background-color: #D6BA93;
+}
+
+.vault-master-actions .btn-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FAF9F5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-xs);
+}
+
+.vault-master-actions .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import BestSellers from '../components/BestSellers';
 import DesignLabShowcase from '../components/DesignLabShowcase';
 import HomePortals from '../components/HomePortals';
@@ -18,6 +19,20 @@ export default function HomePage({
       <Hero
         onShopClick={() => onNavigatePage('shop')}
         onCalculatorClick={() => onNavigatePage('length-guide')}
+      />
+
+      {/* Before & After Interactive Transformation Slider (Immediately after Hero) */}
+      <BeforeAfterSlider
+        onQuickBuyProduct={(product) => {
+          if (onAddToCart) {
+            onAddToCart({
+              product,
+              selectedLength: '54"',
+              selectedSwatch: product.swatches ? product.swatches[0] : null,
+              selectedAglet: product.agletFinishes ? product.agletFinishes[0] : null
+            });
+          }
+        }}
       />
 
       {/* Best Sellers Showcase (Kept on Home page as requested) */}

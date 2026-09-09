@@ -4,50 +4,12 @@ import { PRODUCTS } from '../data/products';
 import './DesignLabShowcase.css';
 
 export default function DesignLabShowcase({ onQuickView, onAddToCart }) {
-  const [activeTab, setActiveTab] = useState('all');
-
   const labProducts = PRODUCTS.filter(p => p.category === 'design-lab');
   const vaultBox = labProducts.find(p => p.id === 'design-lab-4pack-capsule');
-  const individualLaces = labProducts.filter(p => p.id !== 'design-lab-4pack-capsule');
-
-  const laceStyles = [
-    {
-      id: 'wildcat-leopard-jacquard',
-      name: 'Wildcat Leopard',
-      pattern: 'Woven Jacquard Leopard',
-      aglet: 'Matte Black Metal',
-      price: '₹899',
-      color: '#C29352',
-      image: '/images/product-leopard.jpg'
-    },
-    {
-      id: 'baroque-tapestry-crimson',
-      name: 'Baroque Tapestry',
-      pattern: 'Paisley Bandana Jacquard',
-      aglet: 'White Ceramic Enamel',
-      price: '₹949',
-      color: '#8B1E28',
-      image: '/images/product-paisley.jpg'
-    },
-    {
-      id: 'tonal-olive-damier-camo',
-      name: 'Olive Damier Camo',
-      pattern: 'Geometric Micro-Damier',
-      aglet: 'Tonal Olive Metal',
-      price: '₹899',
-      color: '#5A6348',
-      image: '/images/product-olive.jpg'
-    },
-    {
-      id: 'imperial-plum-waffle-weave',
-      name: 'Imperial Plum Waffle',
-      pattern: '3D Waffle Knit Herringbone',
-      aglet: 'Tonal Plum Metal',
-      price: '₹849',
-      color: '#632B59',
-      image: '/images/product-plum.jpg'
-    }
-  ];
+  const grandVault = PRODUCTS.find(p => p.id === 'atelier-grand-master-vault');
+  const individualLaces = labProducts.filter(p => 
+    p.id !== 'design-lab-4pack-capsule' && p.id !== 'atelier-grand-master-vault'
+  );
 
   return (
     <section id="design-lab" className="design-lab-section section-padding">
@@ -67,7 +29,7 @@ export default function DesignLabShowcase({ onQuickView, onAddToCart }) {
 
         {/* Hero Showcase Grid */}
         <div className="lab-showcase-grid">
-          {/* Main Authentic Product Photograph */}
+          {/* Main Authentic Product Photograph & Sticky Feature Card */}
           <div className="lab-media-card">
             <div className="lab-image-container">
               <img 
@@ -108,9 +70,25 @@ export default function DesignLabShowcase({ onQuickView, onAddToCart }) {
                 </div>
               </div>
             )}
+
+            {/* Capsule Craft Highlights */}
+            <div className="vault-perks-list">
+              <div className="vault-perk-item">
+                <Check size={14} className="perk-icon" />
+                <span>4 High-Density Shuttle Looms: Leopard, Baroque, Damier & Plum</span>
+              </div>
+              <div className="vault-perk-item">
+                <Check size={14} className="perk-icon" />
+                <span>Individually coated aglets: Ceramic White, Matte Black, Olive & Plum</span>
+              </div>
+              <div className="vault-perk-item">
+                <Check size={14} className="perk-icon" />
+                <span>Embossed matte black archival collector magnetic box</span>
+              </div>
+            </div>
           </div>
 
-          {/* 4 Individual Laces Cards */}
+          {/* 4 Individual Laces Cards (Symmetrical 2x2 Grid) */}
           <div className="lab-details-col">
             <div className="lab-intro-box">
               <h3>The 4 Jacquard Silhouettes</h3>
@@ -169,6 +147,64 @@ export default function DesignLabShowcase({ onQuickView, onAddToCart }) {
             </div>
           </div>
         </div>
+
+        {/* Grand Master Archive Vault Collector Banner */}
+        {grandVault && (
+          <div className="vault-master-banner">
+            <div className="vault-master-thumb" onClick={() => onQuickView(grandVault)}>
+              <img src={grandVault.primaryImage} alt={grandVault.title} />
+              <span className="vault-master-badge">Ultimate 8-Piece Vault</span>
+            </div>
+            <div className="vault-master-content">
+              <div className="vault-master-header">
+                <div>
+                  <span className="vault-tag">ATELIER MASTER COLLECTION // 8 ARCHIVAL WEAVES</span>
+                  <h3 onClick={() => onQuickView(grandVault)}>{grandVault.title}</h3>
+                </div>
+                <div className="vault-master-pricing">
+                  <span className="price-now">₹{grandVault.price}</span>
+                  <span className="price-was">₹{grandVault.compareAtPrice}</span>
+                </div>
+              </div>
+              <p className="vault-master-desc">{grandVault.description}</p>
+              <div className="vault-master-perks">
+                <div className="master-perk-pill">
+                  <ShieldCheck size={14} />
+                  <span>8 Complete Pairs (Silk, Waxed, Rope, 3M, Velvet, Jacquard)</span>
+                </div>
+                <div className="master-perk-pill">
+                  <Check size={14} />
+                  <span>16 CNC Solid Metal Aglet Kit (Gold, Silver, Gunmetal)</span>
+                </div>
+                <div className="master-perk-pill">
+                  <Sparkles size={14} />
+                  <span>Steel Threading Key & 80g Organic Beeswax Puck</span>
+                </div>
+              </div>
+              <div className="vault-master-actions">
+                <button 
+                  className="btn-gold"
+                  onClick={() => onAddToCart({
+                    product: grandVault,
+                    selectedLength: '54" (Universal Standard)',
+                    selectedSwatch: grandVault.swatches[0],
+                    selectedAglet: grandVault.agletFinishes[0]
+                  })}
+                >
+                  <ShoppingBag size={16} />
+                  <span>Secure The 8-Piece Archive Chest</span>
+                </button>
+                <button 
+                  className="btn-secondary"
+                  onClick={() => onQuickView(grandVault)}
+                >
+                  <Eye size={16} />
+                  <span>Inspect Vault Details</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
