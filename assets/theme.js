@@ -279,6 +279,76 @@
         }
       });
 
+      // Standalone Add to Bag Buttons
+      document.addEventListener('click', async (e) => {
+        const addBtn = e.target.closest('[data-add-to-cart]');
+        if (!addBtn || addBtn.closest('form')) return;
+
+        e.preventDefault();
+        const variantId = addBtn.dataset.variantId;
+        const handle = addBtn.dataset.productHandle;
+
+        if (variantId) {
+          const originalContent = addBtn.innerHTML;
+          addBtn.disabled = true;
+          try {
+            const formData = new FormData();
+            formData.append('id', variantId);
+            formData.append('quantity', '1');
+            const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
+            if (!res.ok) throw new Error('Could not add to bag');
+            const item = await res.json();
+            Utils.showToast(`${item.title} added to your bag`, 'success');
+            this.open();
+          } catch (err) {
+            Utils.showToast(err.message, 'error');
+          } finally {
+            addBtn.disabled = false;
+            addBtn.innerHTML = originalContent;
+          }
+        } else if (handle && window.Laceyaan.quickViewModal) {
+          window.Laceyaan.quickViewModal.open(handle);
+        } else {
+          window.location.href = '/collections/all';
+        }
+      });
+
+      // Standalone BUY NOW Buttons (Direct Checkout)
+      document.addEventListener('click', async (e) => {
+        const buyBtn = e.target.closest('[data-buy-now]');
+        if (!buyBtn) return;
+
+        e.preventDefault();
+        const variantId = buyBtn.dataset.variantId;
+        const handle = buyBtn.dataset.productHandle;
+
+        if (variantId) {
+          const originalText = buyBtn.innerHTML;
+          buyBtn.disabled = true;
+          buyBtn.innerHTML = '<span>CHECKING OUT...</span>';
+          try {
+            const formData = new FormData();
+            formData.append('id', variantId);
+            formData.append('quantity', '1');
+            const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
+            if (res.ok) {
+              window.location.href = '/checkout';
+            } else {
+              window.location.href = '/cart';
+            }
+          } catch (err) {
+            window.location.href = '/checkout';
+          } finally {
+            buyBtn.disabled = false;
+            buyBtn.innerHTML = originalText;
+          }
+        } else if (handle && window.Laceyaan.quickViewModal) {
+          window.Laceyaan.quickViewModal.open(handle);
+        } else {
+          window.location.href = '/collections/all';
+        }
+      });
+
       // Cart Item modifications inside Drawer
       if (this.itemsContainer) {
         this.itemsContainer.addEventListener('click', (e) => {

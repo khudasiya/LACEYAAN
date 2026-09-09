@@ -90,7 +90,98 @@
         </div>
 
         <div class="individual-laces-grid">
-          {%- if section.settings.capsule_products != blank and section.settings.capsule_products.count > 0 -%}
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign b_product = block.settings.product
+                assign b_title = block.settings.custom_title
+                if b_title == blank and b_product != blank
+                  assign b_title = b_product.title
+                elsif b_title == blank
+                  assign b_title = 'Jacquard Loom Lace'
+                endif
+
+                assign b_price = block.settings.custom_price
+                if b_price == blank and b_product != blank
+                  assign b_price = b_product.price | money
+                elsif b_price == blank
+                  assign b_price = '₹899'
+                endif
+
+                assign b_vendor = block.settings.custom_vendor
+                if b_vendor == blank and b_product != blank
+                  assign b_vendor = b_product.vendor
+                elsif b_vendor == blank
+                  assign b_vendor = 'Jacquard Shuttle Loom'
+                endif
+
+                assign b_url = routes.all_products_collection_url
+                if b_product != blank
+                  assign b_url = b_product.url
+                endif
+
+                assign b_variant = b_product.selected_or_first_available_variant
+              -%}
+              <div class="product-card" {{ block.shopify_attributes }}>
+                <div class="card-media">
+                  <a href="{{ b_url }}" class="media-link" aria-label="{{ b_title | escape }}">
+                    {%- if block.settings.custom_image != blank -%}
+                      {{ block.settings.custom_image | image_url: width: 600 | image_tag: 
+                        class: 'card-img-primary',
+                        widths: '300, 450, 600',
+                        loading: 'lazy',
+                        alt: b_title | escape 
+                      }}
+                    {%- elsif b_product.featured_media != blank -%}
+                      {{ b_product.featured_media | image_url: width: 600 | image_tag: 
+                        class: 'card-img-primary',
+                        widths: '300, 450, 600',
+                        loading: 'lazy',
+                        alt: b_title | escape 
+                      }}
+                    {%- else -%}
+                      {%- assign default_img = 'product-leopard.jpg' -%}
+                      {%- case forloop.index -%}
+                        {%- when 2 -%}{%- assign default_img = 'product-paisley.jpg' -%}
+                        {%- when 3 -%}{%- assign default_img = 'product-olive.jpg' -%}
+                        {%- when 4 -%}{%- assign default_img = 'product-plum.jpg' -%}
+                      {%- endcase -%}
+                      <img src="{{ default_img | asset_url }}" alt="{{ b_title | escape }}" class="card-img-primary" width="400" height="400" loading="lazy">
+                    {%- endif -%}
+                  </a>
+                </div>
+                <div class="card-content">
+                  <span class="card-vendor">{{ b_vendor }}</span>
+                  <h3 class="card-title"><a href="{{ b_url }}">{{ b_title }}</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-now">{{ b_price }}</span>
+                  </div>
+                  <div class="card-actions">
+                    <button 
+                      type="button" 
+                      class="btn-buy-now" 
+                      data-buy-now 
+                      {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
+                      {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
+                      aria-label="Buy {{ b_title | escape }} now"
+                    >
+                      <span>{{ block.settings.buy_now_label | default: 'BUY NOW' }}</span>
+                    </button>
+                    <button 
+                      type="button" 
+                      class="btn-add-bag" 
+                      data-add-to-cart 
+                      {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
+                      {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
+                      aria-label="Add {{ b_title | escape }} to bag"
+                    >
+                      {% render 'icon-shopping-bag' %}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- elsif section.settings.capsule_products != blank and section.settings.capsule_products.count > 0 -%}
             {%- for product in section.settings.capsule_products -%}
               {% render 'product-card', product: product %}
             {%- endfor -%}
@@ -99,57 +190,32 @@
               {% render 'product-card', product: product %}
             {%- endfor -%}
           {%- else -%}
-            <div class="product-card">
-              <div class="card-media">
-                <img src="{{ 'product-leopard.jpg' | asset_url }}" alt="Leopard Weave Jacquard" class="card-img-primary" width="400" height="400" loading="lazy">
-              </div>
-              <div class="card-content">
-                <span class="card-vendor">Jacquard Loom</span>
-                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Leopard Weave Jacquard</a></h3>
-                <div class="card-price-row">
-                  <span class="price-now">₹899</span>
+            {%- assign default_capsule = 'product-leopard.jpg|Leopard Weave Jacquard|₹899,product-paisley.jpg|Vintage Paisley Tapestry|₹899,product-olive.jpg|Olive Heritage Shuttle Loom|₹899,product-plum.jpg|Imperial Plum Damier|₹899' | split: ',' -%}
+            {%- for item in default_capsule -%}
+              {%- assign item_parts = item | split: '|' -%}
+              <div class="product-card">
+                <div class="card-media">
+                  <a href="{{ routes.all_products_collection_url }}" class="media-link">
+                    <img src="{{ item_parts[0] | asset_url }}" alt="{{ item_parts[1] }}" class="card-img-primary" width="400" height="400" loading="lazy">
+                  </a>
+                </div>
+                <div class="card-content">
+                  <span class="card-vendor">Jacquard Loom</span>
+                  <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">{{ item_parts[1] }}</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-now">{{ item_parts[2] }}</span>
+                  </div>
+                  <div class="card-actions">
+                    <button type="button" class="btn-buy-now" data-buy-now aria-label="Buy {{ item_parts[1] }} now">
+                      <span>BUY NOW</span>
+                    </button>
+                    <button type="button" class="btn-add-bag" data-add-to-cart aria-label="Add to bag">
+                      {% render 'icon-shopping-bag' %}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div class="product-card">
-              <div class="card-media">
-                <img src="{{ 'product-paisley.jpg' | asset_url }}" alt="Vintage Paisley Tapestry" class="card-img-primary" width="400" height="400" loading="lazy">
-              </div>
-              <div class="card-content">
-                <span class="card-vendor">Jacquard Loom</span>
-                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Vintage Paisley Tapestry</a></h3>
-                <div class="card-price-row">
-                  <span class="price-now">₹899</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <div class="card-media">
-                <img src="{{ 'product-olive.jpg' | asset_url }}" alt="Olive Heritage Shuttle Loom" class="card-img-primary" width="400" height="400" loading="lazy">
-              </div>
-              <div class="card-content">
-                <span class="card-vendor">Jacquard Loom</span>
-                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Olive Heritage Shuttle Loom</a></h3>
-                <div class="card-price-row">
-                  <span class="price-now">₹899</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <div class="card-media">
-                <img src="{{ 'product-plum.jpg' | asset_url }}" alt="Imperial Plum Damier" class="card-img-primary" width="400" height="400" loading="lazy">
-              </div>
-              <div class="card-content">
-                <span class="card-vendor">Jacquard Loom</span>
-                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Imperial Plum Damier</a></h3>
-                <div class="card-price-row">
-                  <span class="price-now">₹899</span>
-                </div>
-              </div>
-            </div>
+            {%- endfor -%}
           {%- endif -%}
         </div>
       </div>
@@ -272,9 +338,84 @@
       "label": "Grand Master Archive Vault Product (8-Piece Chest)"
     }
   ],
+  "blocks": [
+    {
+      "type": "lace_card",
+      "name": "Lace Card / Silhouette",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Shopify Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Photo (Optional override)"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title (Optional override)"
+        },
+        {
+          "type": "text",
+          "id": "custom_vendor",
+          "label": "Loom / Category Tag",
+          "default": "Jacquard Shuttle Loom"
+        },
+        {
+          "type": "text",
+          "id": "custom_price",
+          "label": "Custom Price Display (e.g. ₹899)"
+        },
+        {
+          "type": "text",
+          "id": "buy_now_label",
+          "label": "Buy Button Label",
+          "default": "BUY NOW"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Design Lab Capsule"
+      "name": "Design Lab Capsule",
+      "blocks": [
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Leopard Weave Jacquard",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        },
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Vintage Paisley Tapestry",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        },
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Olive Heritage Shuttle Loom",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        },
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Imperial Plum Damier",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        }
+      ]
     }
   ]
 }

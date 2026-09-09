@@ -2854,6 +2854,433 @@ img {
 }
 
 /* ==========================================================================
+   Product Card Actions & Direct Buy Now
+   ========================================================================== */
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 38px;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.btn-buy-now {
+  background-color: var(--text-main);
+  color: var(--accent-gold);
+  border: 1px solid rgba(197, 168, 128, 0.4);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.btn-buy-now:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-buy-now.btn-sold-out,
+.btn-buy-now:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-add-bag {
+  background-color: #FAF9F5;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.btn-add-bag:hover {
+  background-color: var(--text-main);
+  color: var(--bg-primary);
+  border-color: var(--text-main);
+}
+
+/* ==========================================================================
+   Design Lab S'25 Capsule Showcase
+   ========================================================================== */
+.lab-showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .lab-showcase-grid {
+    grid-template-columns: 1.1fr 1.15fr;
+    gap: 3.5rem;
+  }
+}
+
+.lab-media-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #1E1D1B;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  align-self: start;
+}
+
+@media (min-width: 1024px) {
+  .lab-media-card {
+    position: sticky;
+    top: 90px;
+  }
+}
+
+.lab-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background-color: #0F0E0D;
+}
+
+.lab-hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lab-media-card:hover .lab-hero-photo {
+  transform: scale(1.03);
+}
+
+.lab-overlay-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: rgba(18, 18, 18, 0.88);
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.vault-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+}
+
+.vault-edition {
+  font-size: 0.72rem;
+  color: #CCC8BE;
+}
+
+.vault-quick-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background-color: #242220;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vault-info h4 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #FAF9F5;
+  margin-bottom: 0.2rem;
+}
+
+.vault-save {
+  font-size: 0.75rem;
+  color: #93C5FD;
+}
+
+.vault-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vault-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price-now {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #FAF9F5;
+}
+
+.price-was {
+  font-size: 0.82rem;
+  color: #8C8880;
+  text-decoration: line-through;
+}
+
+.lab-details-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lab-intro-box h3 {
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  color: #FAF9F5;
+  margin-bottom: 0.4rem;
+}
+
+.lab-intro-box p {
+  color: #AAA69C;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.individual-laces-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .individual-laces-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.individual-laces-grid .product-card {
+  background-color: #1E1D1B;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xs);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.individual-laces-grid .product-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+}
+
+.individual-laces-grid .card-content {
+  padding: 1rem;
+}
+
+.individual-laces-grid .card-title a {
+  color: #FAF9F5;
+}
+
+.individual-laces-grid .card-title a:hover {
+  color: var(--accent-gold);
+}
+
+.individual-laces-grid .card-vendor {
+  color: #8C8880;
+}
+
+.vault-perks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.15rem 1.5rem;
+  background-color: #181716;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.vault-perk-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+  color: #BEBBB3;
+}
+
+.vault-perk-item svg {
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+/* Grand Master Vault Banner */
+.vault-master-banner {
+  margin-top: 4rem;
+  background: linear-gradient(135deg, #1D1B19 0%, #171614 100%);
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  border-radius: var(--radius-xs);
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 900px) {
+  .vault-master-banner {
+    grid-template-columns: 340px 1fr;
+  }
+}
+
+.vault-master-thumb {
+  position: relative;
+  background-color: #11100F;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.vault-master-thumb img {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.vault-master-thumb:hover img {
+  transform: scale(1.04);
+}
+
+.vault-master-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--accent-gold);
+  color: #121212;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+}
+
+.vault-master-content {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.vault-master-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vault-master-header h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  color: #FAF9F5;
+  margin-top: 0.25rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.vault-master-header h3:hover {
+  color: var(--accent-gold);
+}
+
+.vault-master-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.vault-master-desc {
+  color: #B5B1A7;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.vault-master-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.master-perk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  color: #DDD9CF;
+}
+
+.master-perk-pill svg {
+  color: var(--accent-gold);
+}
+
+.vault-master-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.vault-master-actions .btn-gold {
+  background-color: var(--accent-gold);
+  color: #121212;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  border: none;
+}
+
+.vault-master-actions .btn-gold:hover {
+  background-color: #D6BA93;
+}
+
+.vault-master-actions .btn-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FAF9F5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-xs);
+}
+
+.vault-master-actions .btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
 @media (max-width: 1024px) {

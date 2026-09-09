@@ -91,27 +91,34 @@
       {%- endif -%}
     {%- endfor -%}
 
-    <!-- Action Buttons -->
+    <!-- Action Buttons with Direct BUY NOW -->
     <div class="card-actions">
       {%- if current_variant.available -%}
         <button 
           type="button" 
-          class="btn-primary btn-add-bag" 
+          class="btn-buy-now" 
+          data-buy-now 
+          data-variant-id="{{ current_variant.id }}"
+          data-product-handle="{{ product.handle }}"
+          aria-label="Buy {{ product.title | escape }} now"
+        >
+          <span>BUY NOW</span>
+        </button>
+        <button 
+          type="button" 
+          class="btn-add-bag" 
           data-add-to-cart 
           data-variant-id="{{ current_variant.id }}"
+          data-product-handle="{{ product.handle }}"
+          aria-label="Add {{ product.title | escape }} to bag"
         >
           {% render 'icon-shopping-bag' %}
-          <span>{{ 'products.product.add_to_cart' | t }}</span>
         </button>
       {%- else -%}
-        <button type="button" class="btn-primary btn-add-bag" disabled>
+        <button type="button" class="btn-buy-now btn-sold-out" disabled>
           <span>{{ 'products.product.sold_out' | t }}</span>
         </button>
       {%- endif -%}
-
-      <a href="{{ product.url }}" class="btn-secondary btn-inspect" aria-label="View {{ product.title | escape }}">
-        <span>Details</span>
-      </a>
     </div>
   </div>
 </div>

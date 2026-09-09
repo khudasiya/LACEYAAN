@@ -40,6 +40,50 @@
     },
     "design_lab": {
       "type": "design-lab-showcase",
+      "blocks": {
+        "silhouette_1": {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Leopard Weave Jacquard",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "buy_now_label": "BUY NOW"
+          }
+        },
+        "silhouette_2": {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Vintage Paisley Tapestry",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "buy_now_label": "BUY NOW"
+          }
+        },
+        "silhouette_3": {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Olive Heritage Shuttle Loom",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "buy_now_label": "BUY NOW"
+          }
+        },
+        "silhouette_4": {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Imperial Plum Damier",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "buy_now_label": "BUY NOW"
+          }
+        }
+      },
+      "block_order": [
+        "silhouette_1",
+        "silhouette_2",
+        "silhouette_3",
+        "silhouette_4"
+      ],
       "settings": {
         "badge": "ALCE DESIGN LAB // S'25 CAPSULE",
         "heading": "Artisanal Jacquard & Tapestry Series",
