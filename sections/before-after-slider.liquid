@@ -14,7 +14,7 @@
 
     <div class="comparison-wrapper">
       <!-- Interactive Comparison Frame -->
-      <div class="slider-container" id="before-after-slider" role="region" aria-label="Before and after transformation comparison">
+      <div class="slider-container" id="before-after-slider" data-before-after-slider role="region" aria-label="Before and after transformation comparison">
         <!-- After Image (Base) -->
         <div class="after-layer">
           {%- if section.settings.image_after != blank -%}
@@ -26,11 +26,10 @@
           {%- else -%}
             <img src="{{ 'after.jpg' | asset_url }}" alt="After: laceyaan luxury shoelaces upgrade" class="comparison-img after-img" width="1000" height="700" loading="lazy">
           {%- endif -%}
-          <div class="slider-badge badge-after">LACEYAAN Atelier Upgrade</div>
         </div>
 
         <!-- Before Image (Clipped Overlay) -->
-        <div class="before-layer" id="before-layer">
+        <div class="before-layer" id="before-layer" data-before-layer style="clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);">
           {%- if section.settings.image_before != blank -%}
             {{ section.settings.image_before | image_url: width: 1200 | image_tag: 
               class: 'comparison-img before-img', 
@@ -40,15 +39,25 @@
           {%- else -%}
             <img src="{{ 'before.jpg' | asset_url }}" alt="Before: Standard factory shoelaces" class="comparison-img before-img" width="1000" height="700" loading="lazy">
           {%- endif -%}
-          <div class="slider-badge badge-before">Standard Factory Laces</div>
         </div>
 
         <!-- Draggable Handle Divider -->
-        <div class="slider-handle" id="slider-handle" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Drag to compare before and after">
+        <div class="slider-handle" id="slider-handle" data-slider-handle style="left: 50%;" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Drag to compare before and after">
           <div class="handle-line"></div>
-          <div class="handle-circle">
-            <span class="handle-arrows">&larr;&rarr;</span>
+          <div class="handle-button" aria-label="Drag slider">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16l-4-4 4-4m10 8l4-4-4-4M3 12h18"/></svg>
           </div>
+          <div class="handle-line"></div>
+        </div>
+
+        <!-- Floating Context Labels -->
+        <div class="label-pill label-before" data-label-before>
+          <span class="pill-dot red"></span>
+          <span>Standard Factory Laces</span>
+        </div>
+        <div class="label-pill label-after" data-label-after>
+          <span class="pill-dot gold"></span>
+          <span>LACEYAAN Atelier Upgrade</span>
         </div>
       </div>
 

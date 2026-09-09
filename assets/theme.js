@@ -565,51 +565,96 @@
      ========================================================================== */
   class BeforeAfterSlider {
     constructor() {
-      this.containers = document.querySelectorAll('[data-before-after-slider]');
-      this.containers.forEach(container => this.initSlider(container));
+      const containers = document.querySelectorAll('[data-before-after-slider], #before-after-slider, .slider-container');
+      containers.forEach(container => this.initSlider(container));
     }
 
     initSlider(container) {
-      const handle = container.querySelector('[data-slider-handle]');
-      const beforeLayer = container.querySelector('[data-before-layer]');
+      const handle = container.querySelector('[data-slider-handle], #slider-handle, .slider-handle');
+      const beforeLayer = container.querySelector('[data-before-layer], #before-layer, .before-layer');
+      const labelBefore = container.querySelector('[data-label-before], .label-before');
+      const labelAfter = container.querySelector('[data-label-after], .label-after');
       if (!handle || !beforeLayer) return;
 
       let isDragging = false;
 
       const setPosition = (clientX) => {
         const rect = container.getBoundingClientRect();
-        let offsetX = clientX - rect.left;
-        offsetX = Math.max(0, Math.min(offsetX, rect.width));
-        const percentage = (offsetX / rect.width) * 100;
+        if (rect.width === 0) return;
+        const offsetX = clientX - rect.left;
+        const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
 
         handle.style.left = `${percentage}%`;
-        beforeLayer.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        beforeLayer.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
+        handle.setAttribute('aria-valuenow', Math.round(percentage));
+
+        if (labelBefore) {
+          labelBefore.style.opacity = percentage < 15 ? '0' : '1';
+        }
+        if (labelAfter) {
+          labelAfter.style.opacity = percentage > 85 ? '0' : '1';
+        }
       };
 
-      const onStart = (e) => {
+      // Pointer events support mouse, pen, and touch seamlessly
+      container.addEventListener('pointerdown', (e) => {
         isDragging = true;
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        setPosition(clientX);
-      };
+        try {
+          container.setPointerCapture(e.pointerId);
+        } catch (err) {}
+        setPosition(e.clientX);
+      });
 
-      const onMove = (e) => {
+      container.addEventListener('pointermove', (e) => {
         if (!isDragging) return;
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        setPosition(clientX);
+        setPosition(e.clientX);
+      });
+
+      const stopDrag = (e) => {
+        if (isDragging) {
+          isDragging = false;
+          try {
+            container.releasePointerCapture(e.pointerId);
+          } catch (err) {}
+        }
       };
 
-      const onEnd = () => {
-        isDragging = false;
-      };
+      container.addEventListener('pointerup', stopDrag);
+      container.addEventListener('pointercancel', stopDrag);
 
-      container.addEventListener('mousedown', onStart);
-      container.addEventListener('touchstart', onStart, { passive: true });
+      // Fallback touch events for older webviews
+      container.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+          isDragging = true;
+          setPosition(e.touches[0].clientX);
+        }
+      }, { passive: true });
 
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('touchmove', onMove, { passive: true });
+      container.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches && e.touches[0]) {
+          setPosition(e.touches[0].clientX);
+        }
+      }, { passive: true });
 
-      window.addEventListener('mouseup', onEnd);
-      window.addEventListener('touchend', onEnd);
+      container.addEventListener('touchend', () => { isDragging = false; });
+
+      // Keyboard accessibility
+      handle.addEventListener('keydown', (e) => {
+        const current = parseFloat(handle.style.left) || 50;
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const next = Math.max(0, current - 5);
+          handle.style.left = `${next}%`;
+          beforeLayer.style.clipPath = `polygon(0 0, ${next}% 0, ${next}% 100%, 0 100%)`;
+          handle.setAttribute('aria-valuenow', Math.round(next));
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          const next = Math.min(100, current + 5);
+          handle.style.left = `${next}%`;
+          beforeLayer.style.clipPath = `polygon(0 0, ${next}% 0, ${next}% 100%, 0 100%)`;
+          handle.setAttribute('aria-valuenow', Math.round(next));
+        }
+      });
     }
   }
 
@@ -928,9 +973,9 @@
   }
 
   /* ==========================================================================
-     DOM Ready Initialization
+     DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
-  document.addEventListener('DOMContentLoaded', () => {
+  function initAll() {
     new AnnouncementBar();
     new Header();
     window.Laceyaan.cartDrawer = new CartDrawer();
@@ -940,6 +985,21 @@
     new ProductVariantSelector();
     new QuickViewModal();
     new Accordion();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+
+  // Shopify Theme Editor dynamic section reload support
+  document.addEventListener('shopify:section:load', () => {
+    new BeforeAfterSlider();
+    new LengthCalculator();
+    new ProductVariantSelector();
+    new Accordion();
+    new AnnouncementBar();
   });
 
 })();
