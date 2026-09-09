@@ -90,25 +90,66 @@
         </div>
 
         <div class="individual-laces-grid">
-          {%- assign lab_col = collections[section.settings.capsule_collection] -%}
-          {%- if lab_col != blank and lab_col.products_count > 0 -%}
-            {%- for product in lab_col.products limit: 4 -%}
+          {%- if section.settings.capsule_products != blank and section.settings.capsule_products.count > 0 -%}
+            {%- for product in section.settings.capsule_products -%}
+              {% render 'product-card', product: product %}
+            {%- endfor -%}
+          {%- elsif section.settings.capsule_collection != blank and collections[section.settings.capsule_collection].products_count > 0 -%}
+            {%- for product in collections[section.settings.capsule_collection].products limit: 4 -%}
               {% render 'product-card', product: product %}
             {%- endfor -%}
           {%- else -%}
-            {%- for i in (1..4) -%}
-              <div class="product-card">
-                <div class="card-media">
-                  {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
-                </div>
-                <div class="card-content">
-                  <h3 class="card-title"><a href="#">Jacquard Silhouette {{ i }}</a></h3>
-                  <div class="card-price-row">
-                    <span class="price-now">₹899</span>
-                  </div>
+            <div class="product-card">
+              <div class="card-media">
+                <img src="{{ 'product-leopard.jpg' | asset_url }}" alt="Leopard Weave Jacquard" class="card-img-primary" width="400" height="400" loading="lazy">
+              </div>
+              <div class="card-content">
+                <span class="card-vendor">Jacquard Loom</span>
+                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Leopard Weave Jacquard</a></h3>
+                <div class="card-price-row">
+                  <span class="price-now">₹899</span>
                 </div>
               </div>
-            {%- endfor -%}
+            </div>
+
+            <div class="product-card">
+              <div class="card-media">
+                <img src="{{ 'product-paisley.jpg' | asset_url }}" alt="Vintage Paisley Tapestry" class="card-img-primary" width="400" height="400" loading="lazy">
+              </div>
+              <div class="card-content">
+                <span class="card-vendor">Jacquard Loom</span>
+                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Vintage Paisley Tapestry</a></h3>
+                <div class="card-price-row">
+                  <span class="price-now">₹899</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <div class="card-media">
+                <img src="{{ 'product-olive.jpg' | asset_url }}" alt="Olive Heritage Shuttle Loom" class="card-img-primary" width="400" height="400" loading="lazy">
+              </div>
+              <div class="card-content">
+                <span class="card-vendor">Jacquard Loom</span>
+                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Olive Heritage Shuttle Loom</a></h3>
+                <div class="card-price-row">
+                  <span class="price-now">₹899</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-card">
+              <div class="card-media">
+                <img src="{{ 'product-plum.jpg' | asset_url }}" alt="Imperial Plum Damier" class="card-img-primary" width="400" height="400" loading="lazy">
+              </div>
+              <div class="card-content">
+                <span class="card-vendor">Jacquard Loom</span>
+                <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">Imperial Plum Damier</a></h3>
+                <div class="card-price-row">
+                  <span class="price-now">₹899</span>
+                </div>
+              </div>
+            </div>
           {%- endif -%}
         </div>
       </div>
@@ -215,9 +256,15 @@
       "label": "4-Pack Capsule Box Product"
     },
     {
+      "type": "product_list",
+      "id": "capsule_products",
+      "label": "Select 4 Specific Laces (Recommended)",
+      "limit": 4
+    },
+    {
       "type": "collection",
       "id": "capsule_collection",
-      "label": "Capsule Laces Collection (Shows first 4 items in 2x2 grid)"
+      "label": "Or Select a Collection (Shows first 4 items)"
     },
     {
       "type": "product",

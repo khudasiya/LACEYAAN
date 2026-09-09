@@ -17,20 +17,27 @@
     {%- assign target_collection = collections[section.settings.collection] | default: collections.all -%}
 
     <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop }}">
-      {%- if target_collection != blank and target_collection.products_count > 0 -%}
+      {%- if section.settings.product_list != blank and section.settings.product_list.count > 0 -%}
+        {%- for product in section.settings.product_list limit: section.settings.products_to_show -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- elsif target_collection != blank and target_collection.products_count > 0 -%}
         {%- for product in target_collection.products limit: section.settings.products_to_show -%}
           {% render 'product-card', product: product %}
         {%- endfor -%}
       {%- else -%}
-        {%- for i in (1..section.settings.products_to_show) -%}
+        {%- assign fallback_laces = 'product-rope.jpg|10mm Chunky Braided Rope Laces|₹899|Raw Ecru Cotton,product-waxed.jpg|Japanese Waxed Flat Sneaker Laces|₹799|Matte Noir Wax,product-reflective.jpg|Nocturnal 3M Reflective Rope Laces|₹999|Reflective Silver,product-vintage.jpg|1985 Vintage Distressed Flat Laces|₹799|Aged Sail Fade,product-leather.jpg|Italian Lambskin Leather Laces|₹1,299|Solid Brass Tips,product-aglets.jpg|CNC Laser-Engraved Brass Aglets Kit|₹699|Gold Aglet Set,product-carbon.jpg|Carbon Weave Technical Laces|₹899|Ballistic Weave,product-duotone.jpg|Duotone Split Weave Laces|₹899|Dual Accent' | split: ',' -%}
+        {%- for lace_str in fallback_laces limit: section.settings.products_to_show -%}
+          {%- assign lace_parts = lace_str | split: '|' -%}
           <div class="product-card">
             <div class="card-media">
-              {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
+              <img src="{{ lace_parts[0] | asset_url }}" alt="{{ lace_parts[1] }}" class="card-img-primary" width="400" height="400" loading="lazy">
             </div>
             <div class="card-content">
-              <h3 class="card-title"><a href="#">Bespoke Woven Lace {{ i }}</a></h3>
+              <span class="card-vendor">{{ lace_parts[3] }}</span>
+              <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">{{ lace_parts[1] }}</a></h3>
               <div class="card-price-row">
-                <span class="price-now">₹899</span>
+                <span class="price-now">{{ lace_parts[2] }}</span>
               </div>
             </div>
           </div>
@@ -72,9 +79,15 @@
       "default": "From our flagship Japanese waxed cotton flats to 10mm chunky rope and nocturnal 3M reflective weaves. Handcrafted with solid brass aglets."
     },
     {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Select Specific Products (Optional)",
+      "limit": 16
+    },
+    {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Or Select a Collection"
     },
     {
       "type": "range",
