@@ -1,0 +1,224 @@
+.before-after-section {
+  background-color: var(--bg-primary);
+}
+
+.comparison-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .comparison-wrapper {
+    grid-template-columns: 1.15fr 1fr;
+    gap: 3.5rem;
+  }
+}
+
+/* Slider Container */
+.slider-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  user-select: none;
+  cursor: ew-resize;
+  background-color: #E6E2D8;
+  touch-action: pan-y;
+}
+
+.comparison-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.before-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+/* Slider Handle */
+.slider-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  margin-left: -20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.handle-line {
+  flex: 1;
+  width: 2px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+}
+
+.handle-button {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background-color: var(--text-main);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  border: 2px solid #FFFFFF;
+  transition: transform var(--transition-fast);
+}
+
+.slider-container:hover .handle-button {
+  transform: scale(1.1);
+}
+
+/* Floating Label Pills */
+.label-pill {
+  position: absolute;
+  bottom: 1.25rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(18, 18, 18, 0.82);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  z-index: 5;
+}
+
+.label-before {
+  left: 1.25rem;
+}
+
+.label-after {
+  right: 1.25rem;
+}
+
+.pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+}
+
+.pill-dot.red {
+  background-color: #E24A4A;
+}
+
+.pill-dot.gold {
+  background-color: var(--accent-gold);
+}
+
+/* Comparison Details Card */
+.comparison-details-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.details-header h3 {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  margin-bottom: 0.5rem;
+}
+
+.details-header p {
+  color: var(--text-sub);
+  font-size: 0.95rem;
+}
+
+.comparison-matrix {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .comparison-matrix {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.matrix-col {
+  padding: 1.25rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+}
+
+.matrix-col.after-col {
+  border-color: rgba(197, 168, 128, 0.4);
+  background-color: #FAF6EF;
+}
+
+.col-status {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+.col-status.highlight {
+  color: var(--accent-gold-dark);
+}
+
+.spec-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  font-size: 0.84rem;
+}
+
+.before-col .spec-list li {
+  color: #7A7873;
+}
+
+.after-col .spec-list li {
+  color: var(--text-main);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.after-col .spec-list li svg {
+  color: #3E8E41;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.comparison-cta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.delivery-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
