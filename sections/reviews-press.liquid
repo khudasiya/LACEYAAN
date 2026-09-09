@@ -1,0 +1,182 @@
+{%- comment -%}
+  Press Coverage & Verified Collector Reviews Section
+{%- endcomment -%}
+
+<section class="reviews-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <!-- Press Coverage Ticker -->
+    <div class="press-coverage-wrap">
+      <span class="press-label">AS FEATURED IN</span>
+      <div class="press-logos-row">
+        <span class="press-name">HYPEBEAST</span>
+        <span class="press-divider">&bull;</span>
+        <span class="press-name">HIGHSNOBIETY</span>
+        <span class="press-divider">&bull;</span>
+        <span class="press-name">COMPLEX SNEAKERS</span>
+        <span class="press-divider">&bull;</span>
+        <span class="press-name">KICKSONFIRE</span>
+      </div>
+    </div>
+
+    <!-- Section Header -->
+    <div class="section-header text-center">
+      {%- if section.settings.badge != blank -%}
+        <span class="badge badge-gold">{{ section.settings.badge }}</span>
+      {%- endif -%}
+      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="reviews-grid">
+      {%- for block in section.blocks -%}
+        <div class="review-card" {{ block.shopify_attributes }}>
+          <div class="review-rating-row">
+            <div class="stars-wrap">
+              {%- for i in (1..block.settings.rating) -%}
+                {% render 'icon-star' %}
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.verified -%}
+              <span class="verified-badge">
+                {% render 'icon-check' %}
+                <span>Verified Collector</span>
+              </span>
+            {%- endif -%}
+          </div>
+
+          <h3 class="review-title">"{{ block.settings.title }}"</h3>
+          <p class="review-comment">{{ block.settings.comment }}</p>
+
+          <div class="review-footer-meta">
+            <div class="reviewer-identity">
+              <span class="reviewer-name">{{ block.settings.author }}</span>
+              <span class="reviewer-location">{{ block.settings.location }}</span>
+            </div>
+            {%- if block.settings.lace_used != blank -%}
+              <div class="review-lace-tag">
+                <span>{{ block.settings.lace_used }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews & Press",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "12,000+ SNEAKERHEADS UPGRADED"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Validated by the Culture"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Read authentic reactions from sneaker collectors, stylists, and footwear enthusiasts who made the switch to bespoke weaves."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star Rating",
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified Collector badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review Headline",
+          "default": "Elevated my high-tops to another stratosphere"
+        },
+        {
+          "type": "textarea",
+          "id": "comment",
+          "label": "Review Body",
+          "default": "The 72\" Vintage Sail flat waxed laces with solid brass tips took my high-top leather sneakers from off-the-shelf to looking like an archival bespoke pair. The drape is thick, substantial, and stays tied all day without slipping."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer Name",
+          "default": "Marcus T."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location / Model",
+          "default": "Los Angeles, CA • High-Top Leather Sneakers"
+        },
+        {
+          "type": "text",
+          "id": "lace_used",
+          "label": "Lace Used",
+          "default": "Heritage Waxed Flat (Vintage Sail, 72\")"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews & Press",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "author": "Marcus T.",
+            "location": "Los Angeles, CA • High-Top Sneakers",
+            "title": "Elevated my kicks to another stratosphere",
+            "comment": "The 72\" Vintage Sail flat waxed laces with solid brass tips took my high-top sneakers from off-the-shelf to looking like an archival bespoke pair. Substantial drape that never slips.",
+            "lace_used": "Heritage Waxed Flat (Vintage Sail, 72\")"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Chloe V.",
+            "location": "London, UK • Retro Court Low-Tops",
+            "title": "The chunky ecru rope is unreal on low-tops",
+            "comment": "Swapped out thin standard polyester for the 10mm chunky rope with gunmetal aglets. Compliments on the street are non-stop. Quality of the combed cotton is ridiculously soft yet holds shape.",
+            "lace_used": "Chunky Braided Rope (Natural Ecru, 45\")"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Julian K.",
+            "location": "New Delhi, India • Sport Running Trainers",
+            "title": "3M reflective pops like crazy on evening runs",
+            "comment": "Took flash photos at night and the micro-glass reflections look incredible. Hardware is heavy solid CNC metal. Fast courier delivery across India too. Ordered 3 more sets immediately.",
+            "lace_used": "3M Nocturnal Reflective (Diamond Grid, 45\")"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

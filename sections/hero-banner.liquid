@@ -1,0 +1,188 @@
+{%- comment -%}
+  LACEYAAN Editorial Hero Banner with Metrics and Trust Marquee
+{%- endcomment -%}
+
+<section class="hero-section" {{ section.shopify_attributes }}>
+  <div class="hero-bg-media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: 
+        class: 'hero-img', 
+        widths: '750, 1100, 1500, 1780, 2000, 2400',
+        alt: section.settings.heading | escape 
+      }}
+    {%- else -%}
+      <img src="{{ 'hero.jpg' | asset_url }}" alt="LACEYAAN luxury sneaker shoelaces" class="hero-img" width="1920" height="1080" loading="eager">
+    {%- endif -%}
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container hero-content-wrap">
+    <div class="hero-inner">
+      {%- if section.settings.badge != blank -%}
+        <div class="hero-badge">
+          {% render 'icon-sparkles' %}
+          <span>{{ section.settings.badge }}</span>
+        </div>
+      {%- endif -%}
+
+      <h1 class="hero-title">
+        {{ section.settings.heading }}
+      </h1>
+
+      <p class="hero-subtitle">
+        {{ section.settings.subtitle }}
+      </p>
+
+      <div class="hero-cta-group">
+        {%- if section.settings.button_1_label != blank -%}
+          <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="btn-primary hero-btn-primary">
+            <span>{{ section.settings.button_1_label }}</span>
+            &rarr;
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.button_2_label != blank -%}
+          <a href="{{ section.settings.button_2_link | default: '/pages/length-guide' }}" class="btn-secondary hero-btn-secondary">
+            <span>{{ section.settings.button_2_label }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      <!-- Key Metrics Counter Grid -->
+      <div class="hero-metrics-grid">
+        <div class="metric-item">
+          <span class="metric-val">{{ section.settings.metric_1_val }}</span>
+          <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-val">{{ section.settings.metric_2_val }}</span>
+          <span class="metric-lbl">{{ section.settings.metric_2_lbl }}</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-val">{{ section.settings.metric_3_val }}</span>
+          <span class="metric-lbl">{{ section.settings.metric_3_lbl }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Continuous Trust Marquee Ticker -->
+  <div class="hero-marquee-bar" aria-hidden="true">
+    <div class="marquee-track">
+      {%- for i in (1..2) -%}
+        <div class="marquee-content">
+          <span class="marquee-bullet">&bull;</span>
+          <span>SOLID CNC-MILLED BRASS AGLETS</span>
+          <span class="marquee-bullet">&bull;</span>
+          <span>JAPANESE SHUTTLE-LOOM COTTON</span>
+          <span class="marquee-bullet">&bull;</span>
+          <span>30-DAY GUARANTEED FIT PROMISE</span>
+          <span class="marquee-bullet">&bull;</span>
+          <span>ORGANIC NATURAL BEESWAX INFUSION</span>
+          <span class="marquee-bullet">&bull;</span>
+          <span>ENGINEERED FOR SNEAKERHEADS &amp; FOOTWEAR CONNOISSEURS</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "THE NEW STANDARD IN FOOTWEAR CRAFT"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading (Supports italics for luxury serif accent)",
+      "default": "Elevate Every Step. <em>Precision Laces</em> for Every Style."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Factory laces were made to save margins. laceyaan laces are engineered to honor design. Hand-finished in solid brass and Japanese combed cotton to elevate your sneakers, sport shoes, formal wear, and boots."
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Primary Button Label",
+      "default": "Shop All Laces"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Secondary Button Label",
+      "default": "Find Your Length"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Metrics"
+    },
+    {
+      "type": "text",
+      "id": "metric_1_val",
+      "label": "Metric 1 Value",
+      "default": "3.8mm"
+    },
+    {
+      "type": "text",
+      "id": "metric_1_lbl",
+      "label": "Metric 1 Label",
+      "default": "Universal Eyelet Fit"
+    },
+    {
+      "type": "text",
+      "id": "metric_2_val",
+      "label": "Metric 2 Value",
+      "default": "20,000"
+    },
+    {
+      "type": "text",
+      "id": "metric_2_lbl",
+      "label": "Metric 2 Label",
+      "default": "Tension Cycle Durability"
+    },
+    {
+      "type": "text",
+      "id": "metric_3_val",
+      "label": "Metric 3 Value",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "metric_3_lbl",
+      "label": "Metric 3 Label",
+      "default": "Solid Milled Metal Aglets"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Hero Banner"
+    }
+  ]
+}
+{% endschema %}

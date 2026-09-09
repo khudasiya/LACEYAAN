@@ -1,0 +1,202 @@
+{%- comment -%}
+  Rotating announcement bar with custom quotes, badges, and currency selector
+{%- endcomment -%}
+
+{%- if section.settings.show_announcement -%}
+  <div 
+    id="announcement-bar" 
+    class="announcement-bar" 
+    data-autoplay="{{ section.settings.auto_rotate }}" 
+    data-speed="{{ section.settings.rotate_speed | times: 1000 }}"
+  >
+    <div class="container announcement-inner">
+      <div class="announcement-ticker">
+        {%- if section.blocks.size > 1 -%}
+          <button type="button" class="announcement-nav-btn" id="announcement-prev" aria-label="Previous quote">
+            {% render 'icon-chevron-left' %}
+          </button>
+        {%- endif -%}
+
+        <div class="announcement-slides-wrap">
+          {%- for block in section.blocks -%}
+            <div 
+              class="announcement-slide{% if forloop.first %} active{% endif %}" 
+              data-index="{{ forloop.index0 }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.badge != blank -%}
+                <span class="announcement-badge">{{ block.settings.badge }}</span>
+              {%- endif -%}
+              <p class="announcement-text">
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+                {%- else -%}
+                  {{ block.settings.text }}
+                {%- endif -%}
+              </p>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.blocks.size > 1 -%}
+          <button type="button" class="announcement-nav-btn" id="announcement-next" aria-label="Next quote">
+            {% render 'icon-chevron-right' %}
+          </button>
+        {%- endif -%}
+      </div>
+
+      <div class="announcement-right">
+        {%- if section.settings.fit_guide_link != blank and section.settings.fit_guide_text != blank -%}
+          <a href="{{ section.settings.fit_guide_link }}" class="announcement-link">
+            {{ section.settings.fit_guide_text }}
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.show_currency_selector and localization.available_countries.size > 1 -%}
+          <div class="currency-selector-wrap">
+            {%- form 'localization', id: 'AnnouncementLocalizationForm' -%}
+              <select name="country_code" class="currency-select" onchange="this.form.submit()">
+                {%- for country in localization.available_countries -%}
+                  <option 
+                    value="{{ country.iso_code }}" 
+                    {% if country.iso_code == localization.country.iso_code %}selected{% endif %}
+                  >
+                    {{ country.currency.iso_code }} ({{ country.currency.symbol }})
+                  </option>
+                {%- endfor -%}
+              </select>
+            {%- endform -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate quotes",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rotate_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change quotes every",
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "fit_guide_text",
+      "label": "Fit Guide link text",
+      "default": "Fit Guide"
+    },
+    {
+      "type": "url",
+      "id": "fit_guide_link",
+      "label": "Fit Guide URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency / country selector",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement Quote",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge text",
+          "default": "UPGRADE"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Quote text",
+          "default": "It is time to upgrade your shoes with laceyaan."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "UPGRADE",
+            "text": "It is time to upgrade your shoes with laceyaan."
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "COUPLE GOALS",
+            "text": "Gift your girlfriend a matching pair of laces — if no matching shoes, why not matching laces?"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "GRAIL RULE",
+            "text": "Don't let flimsy factory laces dilute a ₹20,000 sneaker silhouette."
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "STYLE DROP",
+            "text": "Why buy a whole new sneaker when a bespoke lace swap changes the entire story?"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "TWINNING",
+            "text": "Twin with your favorite person: matching handcrafted luxury weaves."
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "ATELIER CRAFT",
+            "text": "Slow shuttle-loom Japanese cotton with solid CNC naval brass aglets."
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "badge": "FREE SHIPPING",
+            "text": "Complimentary express courier delivery across India on orders over ₹1,499."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

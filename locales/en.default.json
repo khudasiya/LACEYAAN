@@ -1,0 +1,79 @@
+{
+  "general": {
+    "search": {
+      "search": "Search",
+      "placeholder": "Search laces by weave, color, or sneaker silhouette...",
+      "no_results": "No results found for \"{{ terms }}\".",
+      "view_all": "View all results"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ number }}"
+    },
+    "currency": {
+      "dropdown_label": "Select currency"
+    },
+    "social": {
+      "alt_text": {
+        "instagram": "Follow on Instagram",
+        "twitter": "Follow on Twitter",
+        "facebook": "Follow on Facebook"
+      }
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "close": "Close",
+    "loading": "Loading..."
+  },
+  "sections": {
+    "header": {
+      "cart_count": "Items in cart: {{ count }}",
+      "menu": "Menu",
+      "account": "Account",
+      "search": "Search",
+      "bag": "Bag"
+    },
+    "cart": {
+      "title": "Your Bespoke Bag",
+      "empty": "Your shopping bag is currently empty.",
+      "continue_shopping": "Explore Atelier Collections",
+      "subtotal": "Subtotal",
+      "checkout": "Proceed to Checkout",
+      "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout.",
+      "free_shipping_eligible": "You qualify for Free Express Shipping across India!",
+      "free_shipping_remaining": "Add {{ amount }} more for Complimentary Express Shipping",
+      "remove": "Remove",
+      "quantity": "Quantity",
+      "note": "Special Order Instructions / Length Notes"
+    },
+    "quick_view": {
+      "title": "Quick View",
+      "add_to_cart": "Add to Bag",
+      "view_product": "View Full Product Details"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Bag",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "save_html": "Save {{ amount }}",
+      "quantity": "Quantity",
+      "select_option": "Select {{ option }}",
+      "stock_left": "Only {{ count }} pairs left in stock",
+      "in_stock": "In Stock — Ready to Dispatch",
+      "free_returns": "30-Day Guaranteed Fit Promise & Free Exchanges"
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "404 — Silhouette Not Found",
+      "subtext": "The page you are looking for has been archived or does not exist.",
+      "link": "Return to Atelier"
+    }
+  }
+}

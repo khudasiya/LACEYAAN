@@ -1,0 +1,154 @@
+{%- comment -%}
+  Interactive Before vs After Transformation Comparison Slider
+{%- endcomment -%}
+
+<section id="before-after" class="before-after-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <div class="section-header text-center">
+      {%- if section.settings.badge != blank -%}
+        <span class="badge badge-gold">{{ section.settings.badge }}</span>
+      {%- endif -%}
+      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <div class="comparison-wrapper">
+      <!-- Interactive Comparison Frame -->
+      <div class="slider-container" id="before-after-slider" role="region" aria-label="Before and after transformation comparison">
+        <!-- After Image (Base) -->
+        <div class="after-layer">
+          {%- if section.settings.image_after != blank -%}
+            {{ section.settings.image_after | image_url: width: 1200 | image_tag: 
+              class: 'comparison-img after-img', 
+              widths: '600, 900, 1200',
+              alt: 'After: laceyaan luxury shoelaces upgrade' 
+            }}
+          {%- else -%}
+            <img src="{{ 'after.jpg' | asset_url }}" alt="After: laceyaan luxury shoelaces upgrade" class="comparison-img after-img" width="1000" height="700" loading="lazy">
+          {%- endif -%}
+          <div class="slider-badge badge-after">LACEYAAN Atelier Upgrade</div>
+        </div>
+
+        <!-- Before Image (Clipped Overlay) -->
+        <div class="before-layer" id="before-layer">
+          {%- if section.settings.image_before != blank -%}
+            {{ section.settings.image_before | image_url: width: 1200 | image_tag: 
+              class: 'comparison-img before-img', 
+              widths: '600, 900, 1200',
+              alt: 'Before: Standard factory shoelaces' 
+            }}
+          {%- else -%}
+            <img src="{{ 'before.jpg' | asset_url }}" alt="Before: Standard factory shoelaces" class="comparison-img before-img" width="1000" height="700" loading="lazy">
+          {%- endif -%}
+          <div class="slider-badge badge-before">Standard Factory Laces</div>
+        </div>
+
+        <!-- Draggable Handle Divider -->
+        <div class="slider-handle" id="slider-handle" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Drag to compare before and after">
+          <div class="handle-line"></div>
+          <div class="handle-circle">
+            <span class="handle-arrows">&larr;&rarr;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison Facts & Product Card Side -->
+      <div class="comparison-details-col">
+        <div class="comparison-card-box">
+          <h3 class="comparison-col-title">The Difference in Every Dimension</h3>
+          <p class="comparison-intro-text">
+            Why over 12,000 sneaker collectors, runners, and lifestyle dressers refuse to leave flimsy factory laces on their footwear:
+          </p>
+
+          <div class="comparison-columns-grid">
+            <div class="comparison-column col-factory">
+              <span class="col-title">FACTORY STANDARD</span>
+              <ul class="comparison-points-list">
+                <li><span class="cross">&times;</span> 100% cheap synthetic polyester yarn</li>
+                <li><span class="cross">&times;</span> Flimsy clear plastic aglets that crack &amp; peel</li>
+                <li><span class="cross">&times;</span> Flat, lifeless silhouette with zero drape</li>
+                <li><span class="cross">&times;</span> Unties repeatedly after 20 minutes</li>
+              </ul>
+            </div>
+
+            <div class="comparison-column col-laceyaan">
+              <span class="col-title">LACEYAAN UPGRADE</span>
+              <ul class="comparison-points-list">
+                <li><span class="check">&check;</span> 100% Japanese long-staple combed cotton</li>
+                <li><span class="check">&check;</span> Solid CNC-milled brass with laser engraving</li>
+                <li><span class="check">&check;</span> Triple-weave volume &amp; weighted architectural drape</li>
+                <li><span class="check">&check;</span> Organic natural micro-beeswax knot retention</li>
+              </ul>
+            </div>
+          </div>
+
+          {%- if section.settings.featured_product != blank -%}
+            {%- assign upgrade_product = section.settings.featured_product -%}
+            <div class="featured-upgrade-box">
+              <div class="upgrade-info">
+                <span class="upgrade-label">Featured in this transformation:</span>
+                <h4>{{ upgrade_product.title }}</h4>
+                <span class="upgrade-price">{{ upgrade_product.price | money }}</span>
+              </div>
+              <button 
+                type="button" 
+                class="btn-primary btn-sm" 
+                data-add-to-cart 
+                data-variant-id="{{ upgrade_product.selected_or_first_available_variant.id }}"
+              >
+                {% render 'icon-shopping-bag' %}
+                <span>Upgrade This Silhouette</span>
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Before / After Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "THE VISUAL PROOF"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Factory Laces vs. laceyaan Craft"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Drag the slider horizontally to reveal how a single lace swap completely transforms standard footwear into an editorial runway custom."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_before",
+      "label": "Before Image (Factory Laces)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_after",
+      "label": "After Image (LACEYAAN Laces)"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Featured Transformation Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before / After Slider"
+    }
+  ]
+}
+{% endschema %}

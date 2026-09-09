@@ -1,0 +1,111 @@
+{%- comment -%}
+  LACEYAAN Collection Grid with Facet Filters, Sorting, and Pagination
+{%- endcomment -%}
+
+{%- paginate collection.products by section.settings.products_per_page -%}
+<section class="main-collection-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <!-- Collection Banner Header -->
+    <div class="collection-header text-center">
+      <span class="badge badge-gold">Atelier Catalog</span>
+      <h1 class="editorial-heading">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-desc-wrap section-subtitle">
+          {{ collection.description }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Filter & Sort Bar -->
+    <div class="collection-controls-bar">
+      <!-- Collection Filter Pills -->
+      <div class="collection-pills-row">
+        <a href="{{ routes.all_products_collection_url }}" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">
+          All Weaves
+        </a>
+        {%- for tag in collection.all_tags -%}
+          <a href="{{ collection.url }}/{{ tag | handle }}" class="filter-pill{% if current_tags contains tag %} active{% endif %}">
+            {{ tag }}
+          </a>
+        {%- endfor -%}
+      </div>
+
+      <!-- Sort Options Dropdown -->
+      <div class="collection-sort-wrap">
+        <label for="sort-by" class="sort-label">Sort by:</label>
+        <select id="sort-by" class="sort-select" onchange="location = this.value;">
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          <option value="{{ collection.url }}?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
+          <option value="{{ collection.url }}?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+          <option value="{{ collection.url }}?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+          <option value="{{ collection.url }}?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+          <option value="{{ collection.url }}?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest Drops</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    {%- if collection.products_count == 0 -%}
+      <div class="collection-empty-notice text-center">
+        <p>No silhouettes match this filter criteria.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn-primary">View All Laces</a>
+      </div>
+    {%- else -%}
+      <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop }}">
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+
+      <!-- Pagination Navigation -->
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination-wrap text-center" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="pagination-arrow">&larr; Previous</a>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" class="pagination-num">{{ part.title }}</a>
+            {%- else -%}
+              <span class="pagination-num current">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="pagination-arrow">Next &rarr;</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "label": "Products per page",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Desktop Columns",
+      "options": [
+        { "value": "2", "label": "2 Columns" },
+        { "value": "3", "label": "3 Columns" },
+        { "value": "4", "label": "4 Columns" }
+      ],
+      "default": "4"
+    }
+  ]
+}
+{% endschema %}

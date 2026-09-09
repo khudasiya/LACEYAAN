@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "lookbook_gallery": {
+      "type": "lookbook",
+      "settings": {
+        "badge": "STREETWEAR EDITORIAL",
+        "heading": "The Gallery Rotation",
+        "subtitle": "Click on the interactive atelier pins to inspect the exact weaves, aglet finishes, and styling drapes worn on the runway."
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "badge": "FEATURED IN LOOKBOOK",
+        "heading": "Shop the Editorial Looks",
+        "subtitle": "Direct access to the weaves showcased in our season gallery.",
+        "products_to_show": 8,
+        "columns_desktop": "4"
+      }
+    }
+  },
+  "order": [
+    "lookbook_gallery",
+    "featured"
+  ]
+}

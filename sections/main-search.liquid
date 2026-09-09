@@ -1,0 +1,76 @@
+{%- comment -%}
+  Search Results Section
+{%- endcomment -%}
+
+<section class="main-search-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge badge-gold">Atelier Search</span>
+      <h1 class="editorial-heading">
+        {%- if search.performed -%}
+          Search Results for "{{ search.terms | escape }}"
+        {%- else -%}
+          Search the Atelier
+        {%- endif -%}
+      </h1>
+    </div>
+
+    <!-- Search Form -->
+    <div class="search-page-bar-wrap">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-page-form">
+        <input type="hidden" name="type" value="product">
+        <div class="search-page-input-group">
+          {% render 'icon-search' %}
+          <input 
+            type="search" 
+            name="q" 
+            value="{{ search.terms | escape }}" 
+            placeholder="Search by weave (Waxed, Rope, 3M, Jacquard) or footwear type..." 
+            class="search-page-input"
+          >
+          <button type="submit" class="btn-primary">Search</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results Display -->
+    {%- if search.performed -%}
+      {%- if search.results_count == 0 -%}
+        <div class="search-empty-notice text-center">
+          <p>{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+          <div class="search-suggested-terms">
+            <span>Try searching:</span>
+            <a href="{{ routes.search_url }}?type=product&q=Waxed" class="filter-pill">Waxed Flat</a>
+            <a href="{{ routes.search_url }}?type=product&q=Rope" class="filter-pill">Chunky Rope</a>
+            <a href="{{ routes.search_url }}?type=product&q=Reflective" class="filter-pill">3M Reflective</a>
+            <a href="{{ routes.search_url }}?type=product&q=Aglets" class="filter-pill">Solid Brass Aglets</a>
+          </div>
+        </div>
+      {%- else -%}
+        <div class="search-count-bar">
+          <p>Found <strong>{{ search.results_count }}</strong> results matching "{{ search.terms }}"</p>
+        </div>
+
+        <div class="product-grid-layout grid-cols-4">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <div class="search-generic-result-card">
+                <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+                <p>{{ item.content | strip_html | truncatewords: 25 }}</p>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": []
+}
+{% endschema %}

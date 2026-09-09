@@ -1,0 +1,167 @@
+{%- comment -%}
+  LACEYAAN Luxury Broadcast-Style 4-Column Footer
+{%- endcomment -%}
+
+<footer class="site-footer" {{ section.shopify_attributes }}>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <!-- Column 1: Brand & Instagram Atelier Notice -->
+      <div class="footer-col col-brand">
+        <div class="brand-text-logo footer-logo">
+          <span class="logo-title">LACEYAAN</span>
+          <span class="logo-subtitle">CRAFTED IN INDIA</span>
+        </div>
+        <p class="footer-mission-text">
+          Architectural shoelace hardware &amp; slow shuttle-loom textile weaves engineered to honor footwear design. Headquartered in New Delhi, shipping across India &amp; worldwide.
+        </p>
+
+        <div class="footer-atelier-contact">
+          <span class="contact-lbl">Atelier Support &amp; Concierge:</span>
+          <a href="mailto:{{ section.settings.email | default: 'laceyaan@gmail.com' }}" class="footer-email-link">
+            {{ section.settings.email | default: 'laceyaan@gmail.com' }}
+          </a>
+        </div>
+
+        {%- if settings.social_instagram_link != blank -%}
+          <div class="footer-social-pill-wrap">
+            <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="footer-instagram-pill">
+              {% render 'icon-instagram' %}
+              <span>@laceyaan_ on Instagram</span>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Column 2: Collections Menu -->
+      <div class="footer-col col-nav">
+        <h4 class="footer-heading">{{ section.settings.menu_1_title | default: 'Artisanal Collections' }}</h4>
+        <ul class="footer-links-list">
+          {%- for link in linklists[section.settings.menu_1].links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="{{ routes.all_products_collection_url }}">Heritage Waxed Flat Cotton</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">10mm Chunky Braided Rope</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">3M Nocturnal Reflective</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">Italian Calfskin &amp; Velvet</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">Design Lab Jacquard Capsules</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">The Grand Master Archive Vault</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <!-- Column 3: Customer Care & Sizing -->
+      <div class="footer-col col-nav">
+        <h4 class="footer-heading">{{ section.settings.menu_2_title | default: 'Client Care & Atelier' }}</h4>
+        <ul class="footer-links-list">
+          {%- for link in linklists[section.settings.menu_2].links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="/pages/length-guide">Shoelace Length Calculator</a></li>
+            <li><a href="/pages/before-after">Before &amp; After Studio</a></li>
+            <li><a href="/pages/lookbook">Editorial Lookbook</a></li>
+            <li><a href="/pages/story">The laceyaan Standard</a></li>
+            <li><a href="#faq">Frequently Asked Questions</a></li>
+            <li><a href="mailto:laceyaan@gmail.com">Custom Length Inquiries</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <!-- Column 4: Newsletter Subscription Form -->
+      <div class="footer-col col-newsletter">
+        <h4 class="footer-heading">{{ section.settings.newsletter_title | default: 'Join the Inner Rotation' }}</h4>
+        <p class="newsletter-desc">
+          Receive private notifications for limited-run Design Lab capsule drops, restocks, and bespoke hardware editions.
+        </p>
+
+        {%- form 'customer', class: 'footer-newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {%- if form.posted_successfully? -%}
+            <div class="newsletter-success">
+              {% render 'icon-check' %}
+              <span>Welcome to the LACEYAAN rotation. Check your inbox.</span>
+            </div>
+          {%- else -%}
+            <div class="newsletter-input-wrap">
+              <input 
+                type="email" 
+                name="contact[email]" 
+                id="NewsletterForm-email" 
+                class="newsletter-input" 
+                value="{{ form.email }}" 
+                placeholder="Enter your email address" 
+                autocorrect="off" 
+                autocapitalize="off" 
+                autocomplete="email" 
+                required
+              >
+              <button type="submit" class="btn-gold newsletter-submit-btn" aria-label="Subscribe">
+                <span>Join</span>
+              </button>
+            </div>
+            {%- if form.errors -%}
+              <p class="newsletter-error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endform -%}
+
+        <div class="footer-perks-mini">
+          <span>&check; Complimentary Shipping Over ₹1,499</span>
+          <span>&check; 30-Day Guaranteed Fit Exchanges</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar: Policies & Copyright -->
+    <div class="footer-bottom-bar">
+      <div class="footer-copy">
+        <p>&copy; {{ 'now' | date: '%Y' }} LACEYAAN Atelier. All Rights Reserved. Crafted with pride in New Delhi, India.</p>
+      </div>
+
+      <div class="footer-payment-badges">
+        <span class="payment-note">UPI &bull; CARDS &bull; NET BANKING &bull; COD AVAILABLE</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Support Email",
+      "default": "laceyaan@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_title",
+      "label": "Menu 1 Heading",
+      "default": "Artisanal Collections"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_title",
+      "label": "Menu 2 Heading",
+      "default": "Client Care & Atelier"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter Heading",
+      "default": "Join the Inner Rotation"
+    }
+  ]
+}
+{% endschema %}

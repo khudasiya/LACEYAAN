@@ -1,0 +1,125 @@
+{%- comment -%}
+  Interactive FAQ Accordion Section
+{%- endcomment -%}
+
+<section id="faq" class="faq-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container container-narrow">
+    <div class="section-header text-center">
+      {%- if section.settings.badge != blank -%}
+        <span class="badge badge-gold">{{ section.settings.badge }}</span>
+      {%- endif -%}
+      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <div class="faq-accordion-list">
+      {%- for block in section.blocks -%}
+        <div class="faq-item" {{ block.shopify_attributes }}>
+          <button type="button" class="faq-question-btn" aria-expanded="false" aria-controls="faq-ans-{{ block.id }}">
+            <span class="faq-question-text">{{ block.settings.question }}</span>
+            <span class="faq-toggle-icon">+</span>
+          </button>
+          <div id="faq-ans-{{ block.id }}" class="faq-answer-panel" hidden>
+            <div class="faq-answer-inner">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="faq-support-callout text-center">
+      <p>Have a custom sneaker silhouette or sizing question not answered here?</p>
+      <a href="mailto:{{ section.settings.support_email | default: 'laceyaan@gmail.com' }}" class="btn-secondary btn-sm">
+        <span>Email Atelier Concierge (laceyaan@gmail.com)</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "ATELIER SPECIFICATIONS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Everything you need to know about sizing, eyelet compatibility, materials, and express delivery."
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Support Email",
+      "default": "laceyaan@gmail.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question / Answer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I choose the correct shoelace length for my shoes?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>The simplest way is using our interactive Shoelace Length Calculator! As a rule of thumb: 4-5 eyelet formal & low-tops require 36\"–45\", 6-7 eyelet casual sneakers & trainers require 45\"–54\", and 8-9 eyelet high-tops & boots require 63\"–72\". If you prefer an untied drape, select one size shorter.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I choose the correct shoelace length for my shoes?",
+            "answer": "<p>The simplest way is using our interactive Shoelace Length Calculator! As a rule of thumb: 4-5 eyelet low-tops require 36\"–45\", 6-7 eyelet casual kicks require 45\"–54\", and 8-9 eyelet high-tops require 63\"–72\".</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will solid metal aglets fit through standard footwear eyelets?",
+            "answer": "<p>Yes! All laceyaan metal aglets are precision CNC-milled to an outer diameter of 3.8mm, rigorously tested to glide smoothly through 99.8% of modern sneakers, trainers, dress shoes, and boot lace holes.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What makes Japanese shuttle-loom combed cotton superior to stock laces?",
+            "answer": "<p>Standard factory laces are mass-produced from cheap, slippery polyester that frays, wrinkles, and unties constantly. laceyaan laces are woven on heritage shuttle looms from 100% combed Japanese cotton and infused with organic beeswax for rich structural drape and knot lock.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your shipping and return policy across India?",
+            "answer": "<p>We provide complimentary tracked express courier delivery across India on all orders over ₹1,499. Orders before 2:00 PM IST dispatch same business day. We back every pair with our 30-Day Guaranteed Fit Promise: free exchanges with zero questions asked.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

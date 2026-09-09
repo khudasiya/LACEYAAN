@@ -1,0 +1,20 @@
+{
+  "current": {
+    "logo_width": 170,
+    "color_bg_primary": "#FAF9F5",
+    "color_bg_dark": "#141311",
+    "color_bg_surface": "#1E1D1B",
+    "color_text_main": "#1E1D1B",
+    "color_text_light": "#FAF9F5",
+    "color_accent_gold": "#C5A880",
+    "color_accent_gold_dark": "#A38760",
+    "cart_type": "drawer",
+    "free_shipping_threshold": 1499,
+    "enable_cart_notes": true,
+    "show_secondary_image": true,
+    "show_vendor": true,
+    "show_rating": true,
+    "enable_quick_view": true,
+    "social_instagram_link": "https://www.instagram.com/laceyaan_"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_dynamic_checkout": true
+      }
+    },
+    "related_products": {
+      "type": "featured-collection",
+      "settings": {
+        "badge": "COMPLEMENTARY ROTATION",
+        "heading": "You May Also Admire",
+        "subtitle": "Curated weaves matching similar sneaker silhouettes and hardware finishes.",
+        "products_to_show": 4,
+        "columns_desktop": "4",
+        "show_view_all": false
+      }
+    },
+    "reviews": {
+      "type": "reviews-press",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "verified": true,
+            "title": "Unrivaled drape and metal finish",
+            "comment": "The CNC milled tips give high-end sneakers the premium weight they actually deserve. Super fast delivery and zero hassle.",
+            "author": "Karan M.",
+            "location": "Mumbai, India",
+            "lace_used": "Heritage Waxed Flat"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "verified": true,
+            "title": "Transformed my daily rotation",
+            "comment": "Stock laces come untied constantly. These hold their knot all day and look like a runway bespoke upgrade.",
+            "author": "Sahil P.",
+            "location": "Bangalore, India",
+            "lace_used": "10mm Chunky Rope"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2"
+      ],
+      "settings": {
+        "badge": "COLLECTOR REVIEWS",
+        "heading": "Collector Endorsements",
+        "subtitle": "Real experiences from collectors who upgraded their footwear with LACEYAAN."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related_products",
+    "reviews"
+  ]
+}

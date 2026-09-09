@@ -1,0 +1,128 @@
+{%- comment -%}
+  Interactive Shoelace Length Calculator Section
+{%- endcomment -%}
+
+<section id="length-calculator" class="length-calculator-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container container-narrow">
+    <div class="section-header text-center">
+      <span class="badge badge-gold">PRECISION SIZING TOOL</span>
+      <h1 class="editorial-heading">{{ section.settings.heading | default: 'Shoelace Length Calculator' }}</h1>
+      <p class="section-subtitle">
+        {{ section.settings.subtitle | default: 'Select your footwear silhouette and eyelet count to calculate your exact millimeter-accurate shoelace length.' }}
+      </p>
+    </div>
+
+    <div class="calculator-card-box">
+      <!-- Step 1: Silhouette Category -->
+      <div class="calc-step-group">
+        <label class="calc-step-label">Step 1: Select Your Footwear Silhouette</label>
+        <div class="silhouette-pills-grid" id="silhouette-options">
+          <button type="button" class="silhouette-pill active" data-silhouette="low-top" data-base-eyelets="6">
+            <span class="sil-icon">&bull;</span>
+            <span class="sil-name">Retro Court &amp; Low-Tops</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="high-top" data-base-eyelets="8">
+            <span class="sil-icon">&bull;</span>
+            <span class="sil-name">High-Tops &amp; Mid-Collar</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="running" data-base-eyelets="6">
+            <span class="sil-icon">&bull;</span>
+            <span class="sil-name">Sport &amp; Running Trainers</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="formal" data-base-eyelets="5">
+            <span class="sil-icon">&bull;</span>
+            <span class="sil-name">Office Dress &amp; Oxfords</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="boots" data-base-eyelets="8">
+            <span class="sil-icon">&bull;</span>
+            <span class="sil-name">Workwear &amp; Combat Boots</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="chelsea" data-base-eyelets="0">
+            <span class="sil-icon">&bull;</span>
+            <span class="sil-name">Chelsea Boots (Laceless)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Eyelet Count -->
+      <div class="calc-step-group" id="eyelet-step-container">
+        <label class="calc-step-label">Step 2: How Many Eyelet Pairs on One Shoe?</label>
+        <div class="eyelet-buttons-row" id="eyelet-options">
+          <button type="button" class="eyelet-btn" data-eyelets="4">4 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="5">5 Pairs</button>
+          <button type="button" class="eyelet-btn active" data-eyelets="6">6 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="7">7 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="8">8 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="9">9 Pairs</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Preferred Drape -->
+      <div class="calc-step-group" id="drape-step-container">
+        <label class="calc-step-label">Step 3: Preferred Styling Drape</label>
+        <div class="drape-options-row" id="drape-options">
+          <label class="drape-pill active">
+            <input type="radio" name="drape_pref" value="standard" checked class="visually-hidden">
+            <span>Standard Tied Knot &amp; Loops</span>
+          </label>
+          <label class="drape-pill">
+            <input type="radio" name="drape_pref" value="untied" class="visually-hidden">
+            <span>Loose Untied Hanging Drape</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Calculation Result Panel -->
+      <div class="calc-result-panel" id="calc-result-box">
+        <div class="result-header">
+          <span class="result-sub">YOUR RECOMMENDED ATELIER SPECIFICATION:</span>
+          <div class="result-length-display">
+            <span class="length-inches" id="result-inches">54"</span>
+            <span class="length-metric" id="result-metric">(137 cm)</span>
+          </div>
+        </div>
+
+        <p class="result-reasoning" id="result-reasoning">
+          Ideal for 6-eyelet low-tops. Provides a refined 8-inch loop on standard bow knots without dragging on the ground.
+        </p>
+
+        <div class="result-perks-row">
+          <span>&check; 3.8mm Universal Eyelet Diameter</span>
+          <span>&check; Guaranteed Fit or Free Exchange</span>
+        </div>
+
+        <div class="result-cta-wrap">
+          <a href="{{ routes.all_products_collection_url }}" class="btn-primary" id="result-shop-btn">
+            <span>Shop 54" Laces Collection</span>
+            &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Length Calculator",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shoelace Length Calculator"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Select your footwear silhouette and eyelet count to calculate your exact millimeter-accurate shoelace length."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Length Calculator"
+    }
+  ]
+}
+{% endschema %}
