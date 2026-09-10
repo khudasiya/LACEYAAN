@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -23,7 +32,8 @@
       "settings": {
         "badge": "THE VISUAL PROOF",
         "heading": "Factory Laces vs. laceyaan Craft",
-        "subtitle": "Drag the slider horizontally to reveal how a single lace swap completely transforms standard footwear into an editorial runway custom."
+        "subtitle": "Drag the slider horizontally to reveal how a single lace swap completely transforms standard footwear into an editorial runway custom.",
+        "featured_product": ""
       }
     },
     "featured_collection": {
@@ -32,6 +42,8 @@
         "badge": "CURATED ATELIER FAVORITES",
         "heading": "Best Sellers & Signature Weaves",
         "subtitle": "From our flagship Japanese waxed cotton flats to 10mm chunky rope and nocturnal 3M reflective weaves. Handcrafted with solid brass aglets.",
+        "product_list": [],
+        "collection": "",
         "products_to_show": 8,
         "columns_desktop": "4",
         "show_view_all": true,
@@ -44,36 +56,40 @@
         "silhouette_1": {
           "type": "lace_card",
           "settings": {
+            "product": "",
             "custom_title": "Leopard Weave Jacquard",
-            "custom_price": "₹899",
             "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "₹899",
             "buy_now_label": "BUY NOW"
           }
         },
         "silhouette_2": {
           "type": "lace_card",
           "settings": {
+            "product": "",
             "custom_title": "Vintage Paisley Tapestry",
-            "custom_price": "₹899",
             "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "₹899",
             "buy_now_label": "BUY NOW"
           }
         },
         "silhouette_3": {
           "type": "lace_card",
           "settings": {
+            "product": "",
             "custom_title": "Olive Heritage Shuttle Loom",
-            "custom_price": "₹899",
             "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "₹899",
             "buy_now_label": "BUY NOW"
           }
         },
         "silhouette_4": {
           "type": "lace_card",
           "settings": {
+            "product": "premium-white-laces",
             "custom_title": "Imperial Plum Damier",
-            "custom_price": "₹899",
             "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "149",
             "buy_now_label": "BUY NOW"
           }
         }
@@ -87,7 +103,11 @@
       "settings": {
         "badge": "ALCE DESIGN LAB // S'25 CAPSULE",
         "heading": "Artisanal Jacquard & Tapestry Series",
-        "subtitle": "Beyond standard solids. Four high-density Jacquard loom tapestries featuring custom-coated enamel aglets, presented in our signature textured collector's box."
+        "subtitle": "Beyond standard solids. Four high-density Jacquard loom tapestries featuring custom-coated enamel aglets, presented in our signature textured collector's box.",
+        "box_product": "",
+        "capsule_products": [],
+        "capsule_collection": "",
+        "vault_product": ""
       }
     },
     "portals": {
