@@ -1043,6 +1043,82 @@
   }
 
   /* ==========================================================================
+     10. Easter Egg Secret Modal & "DONT CLICK HERE" Action
+     ========================================================================== */
+  class EasterEggModal {
+    constructor() {
+      this.modal = document.getElementById('EasterEggModal');
+      this.trigger = document.getElementById('DontClickHereBtn');
+      this.codePill = document.getElementById('SecretCodePill');
+      this.copyHint = document.getElementById('SecretCopyHint');
+
+      if (!this.modal || !this.trigger) return;
+      this.init();
+    }
+
+    init() {
+      this.trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.open();
+      });
+
+      this.modal.querySelectorAll('[data-secret-modal-close]').forEach(btn => {
+        btn.addEventListener('click', () => this.close());
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !this.modal.hasAttribute('hidden')) {
+          this.close();
+        }
+      });
+
+      if (this.codePill) {
+        this.codePill.addEventListener('click', () => this.copyCode());
+      }
+    }
+
+    open() {
+      this.modal.removeAttribute('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    close() {
+      this.modal.setAttribute('hidden', '');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    async copyCode() {
+      const code = this.codePill.dataset.code || 'LACEYAAN10';
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(code);
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = code;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+        }
+
+        if (this.copyHint) {
+          const original = this.copyHint.textContent;
+          this.copyHint.textContent = `✓ COPIED ${code} TO CLIPBOARD!`;
+          this.copyHint.style.color = '#10B981';
+          setTimeout(() => {
+            this.copyHint.textContent = original;
+            this.copyHint.style.color = '';
+          }, 3500);
+        }
+
+        Utils.showToast(`Secret code ${code} copied to clipboard! 10% OFF unlocked.`, 'success');
+      } catch (err) {
+        Utils.showToast(`Code: ${code}`, 'info');
+      }
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
@@ -1055,6 +1131,7 @@
     new ProductVariantSelector();
     new QuickViewModal();
     new Accordion();
+    new EasterEggModal();
   }
 
   if (document.readyState === 'loading') {
@@ -1070,6 +1147,7 @@
     new ProductVariantSelector();
     new Accordion();
     new AnnouncementBar();
+    new EasterEggModal();
   });
 
 })();

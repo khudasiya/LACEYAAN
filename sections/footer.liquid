@@ -1,124 +1,206 @@
 {%- comment -%}
-  LACEYAAN Luxury Broadcast-Style 4-Column Footer
+  LACEYAAN Atelier High-Streetwear Statement Footer
+  Exact faithful reproduction of the Spankers India high-streetwear end treatment:
+  - Dark glassmorphic newsletter subscription card
+  - Interactive "DONT CLICK HERE" button with secret Easter egg modal
+  - High-streetwear uppercase navigation columns (SUPPORT & GENERAL)
+  - Centered policy links bar
+  - Social icons row and dynamic copyright line
+  - Colossal full-bleed dark statement brand typography (-LACEYAAN.™)
+  - Seamless continuous infinite bottom marquee ticker ribbon
 {%- endcomment -%}
 
-<footer class="site-footer" {{ section.shopify_attributes }}>
+<footer class="site-footer streetwear-footer" {{ section.shopify_attributes }}>
   <div class="container footer-inner">
-    <div class="footer-grid">
-      <!-- Column 1: Brand & Instagram Atelier Notice -->
-      <div class="footer-col col-brand">
-        <div class="brand-text-logo footer-logo">
-          <span class="logo-title">LACEYAAN</span>
-          <span class="logo-subtitle">CRAFTED IN INDIA</span>
-        </div>
-        <p class="footer-mission-text">
-          Architectural shoelace hardware &amp; slow shuttle-loom textile weaves engineered to honor footwear design. Headquartered in New Delhi, shipping across India &amp; worldwide.
-        </p>
+    <!-- Top Grid: Newsletter Card, "DONT CLICK HERE" capsule, Nav Columns -->
+    <div class="footer-top-grid">
+      <!-- Left: Newsletter Subscription Card -->
+      <div class="footer-newsletter-card">
+        <h3 class="newsletter-card-title">{{ section.settings.newsletter_title | default: 'SUBSCRIBE TO NEVER MISS AN UPDATE' }}</h3>
+        <p class="newsletter-card-subtitle">{{ section.settings.newsletter_desc | default: 'Stay updated with our latest news and offers.' }}</p>
 
-        <div class="footer-atelier-contact">
-          <span class="contact-lbl">Atelier Support &amp; Concierge:</span>
-          <a href="mailto:{{ section.settings.email | default: 'laceyaan@gmail.com' }}" class="footer-email-link">
-            {{ section.settings.email | default: 'laceyaan@gmail.com' }}
-          </a>
-        </div>
-
-        {%- if settings.social_instagram_link != blank -%}
-          <div class="footer-social-pill-wrap">
-            <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="footer-instagram-pill">
-              {% render 'icon-instagram' %}
-              <span>@laceyaan_ on Instagram</span>
-            </a>
-          </div>
-        {%- endif -%}
-      </div>
-
-      <!-- Column 2: Collections Menu -->
-      <div class="footer-col col-nav">
-        <h4 class="footer-heading">{{ section.settings.menu_1_title | default: 'Artisanal Collections' }}</h4>
-        <ul class="footer-links-list">
-          {%- for link in linklists[section.settings.menu_1].links -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {%- else -%}
-            <li><a href="{{ routes.all_products_collection_url }}">Heritage Waxed Flat Cotton</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}">10mm Chunky Braided Rope</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}">3M Nocturnal Reflective</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}">Italian Calfskin &amp; Velvet</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}">Design Lab Jacquard Capsules</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}">The Grand Master Archive Vault</a></li>
-          {%- endfor -%}
-        </ul>
-      </div>
-
-      <!-- Column 3: Customer Care & Sizing -->
-      <div class="footer-col col-nav">
-        <h4 class="footer-heading">{{ section.settings.menu_2_title | default: 'Client Care & Atelier' }}</h4>
-        <ul class="footer-links-list">
-          {%- for link in linklists[section.settings.menu_2].links -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {%- else -%}
-            <li><a href="/pages/length-guide">Shoelace Length Calculator</a></li>
-            <li><a href="/pages/before-after">Before &amp; After Studio</a></li>
-            <li><a href="/pages/lookbook">Editorial Lookbook</a></li>
-            <li><a href="/pages/story">The laceyaan Standard</a></li>
-            <li><a href="#faq">Frequently Asked Questions</a></li>
-            <li><a href="mailto:laceyaan@gmail.com">Custom Length Inquiries</a></li>
-          {%- endfor -%}
-        </ul>
-      </div>
-
-      <!-- Column 4: Newsletter Subscription Form -->
-      <div class="footer-col col-newsletter">
-        <h4 class="footer-heading">{{ section.settings.newsletter_title | default: 'Join the Inner Rotation' }}</h4>
-        <p class="newsletter-desc">
-          Receive private notifications for limited-run Design Lab capsule drops, restocks, and bespoke hardware editions.
-        </p>
-
-        {%- form 'customer', class: 'footer-newsletter-form' -%}
+        {%- form 'customer', id: 'FooterNewsletterForm', class: 'footer-newsletter-form' -%}
           <input type="hidden" name="contact[tags]" value="newsletter">
           {%- if form.posted_successfully? -%}
-            <div class="newsletter-success">
+            <div class="newsletter-alert-success">
               {% render 'icon-check' %}
               <span>Welcome to the LACEYAAN rotation. Check your inbox.</span>
             </div>
           {%- else -%}
-            <div class="newsletter-input-wrap">
-              <input 
-                type="email" 
-                name="contact[email]" 
-                id="NewsletterForm-email" 
-                class="newsletter-input" 
-                value="{{ form.email }}" 
-                placeholder="Enter your email address" 
-                autocorrect="off" 
-                autocapitalize="off" 
-                autocomplete="email" 
+            <div class="footer-input-pill-wrap">
+              <input
+                type="email"
+                name="contact[email]"
+                id="FooterNewsletterEmail"
+                class="footer-pill-input"
+                placeholder="EMAIL"
+                aria-label="Email address"
+                value="{{ form.email }}"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
                 required
               >
-              <button type="submit" class="btn-gold newsletter-submit-btn" aria-label="Subscribe">
-                <span>Join</span>
+              <button type="submit" class="footer-pill-submit-btn" aria-label="Subscribe to newsletter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
               </button>
             </div>
+            <label class="footer-privacy-consent-label" for="FooterPrivacyCheckbox">
+              <input type="checkbox" id="FooterPrivacyCheckbox" name="privacy_consent" checked required>
+              <span>I have read and agree to the Privacy Policy</span>
+            </label>
             {%- if form.errors -%}
-              <p class="newsletter-error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+              <p class="newsletter-alert-error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
             {%- endif -%}
           {%- endif -%}
         {%- endform -%}
+      </div>
 
-        <div class="footer-perks-mini">
-          <span>&check; Complimentary Shipping Over ₹1,499</span>
-          <span>&check; 30-Day Guaranteed Fit Exchanges</span>
+      <!-- Center: DONT CLICK HERE Interactive Button -->
+      <div class="footer-center-action">
+        <button type="button" class="btn-dont-click" id="DontClickHereBtn" data-dont-click-trigger aria-haspopup="dialog" aria-controls="EasterEggModal">
+          <span>{{ section.settings.dont_click_label | default: 'DONT CLICK HERE' }}</span>
+        </button>
+      </div>
+
+      <!-- Right: Navigation Columns (SUPPORT & GENERAL) -->
+      <div class="footer-nav-columns-wrap">
+        <!-- Support Column -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">{{ section.settings.menu_1_title | default: 'SUPPORT' }}</h4>
+          <ul class="footer-nav-links">
+            {%- for link in linklists[section.settings.menu_1].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- else -%}
+              <li><a href="/pages/order-status">TRACK YOUR ORDER</a></li>
+              <li><a href="/pages/returns">RETURN/EXCHANGE</a></li>
+              <li><a href="/policies/refund-policy">RETURN/EXCHANGE POLICY</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="/policies/shipping-policy">SHIPPING POLICY</a></li>
+              <li><a href="/policies/privacy-policy">PRIVACY POLICY</a></li>
+              <li><a href="/policies/terms-of-service">TERMS OF SERVICE</a></li>
+              <li><a href="/pages/contact">CONTACT US</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+
+        <!-- General Column -->
+        <div class="footer-nav-col">
+          <h4 class="footer-col-title">{{ section.settings.menu_2_title | default: 'GENERAL' }}</h4>
+          <ul class="footer-nav-links">
+            {%- for link in linklists[section.settings.menu_2].links -%}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {%- else -%}
+              <li><a href="{{ routes.all_products_collection_url }}">SHOP ALL</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}">CHUNKY ROPE LACES</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}">3M NOCTURNAL REFLECTIVE</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}">HERITAGE WAXED FLAT</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}">CALFSKIN &amp; VELVET</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}">DESIGN LAB CAPSULES</a></li>
+              <li><a href="/pages/policies">POLICIES</a></li>
+              <li><a href="{{ routes.root_url }}">-LACEYAAN-</a></li>
+            {%- endfor -%}
+          </ul>
         </div>
       </div>
     </div>
 
-    <!-- Bottom Bar: Policies & Copyright -->
-    <div class="footer-bottom-bar">
-      <div class="footer-copy">
-        <p>&copy; {{ 'now' | date: '%Y' }} LACEYAAN Atelier. All Rights Reserved. Crafted with pride in New Delhi, India.</p>
+    <!-- Centered Policy Links Row -->
+    <div class="footer-policy-links-row">
+      <a href="/policies/refund-policy">REFUND POLICY</a>
+      <a href="/policies/privacy-policy">PRIVACY POLICY</a>
+      <a href="/policies/terms-of-service">TERMS OF SERVICE</a>
+      <a href="/policies/shipping-policy">SHIPPING POLICY</a>
+      <a href="/pages/contact">CONTACT INFORMATION</a>
+    </div>
+
+    <!-- Social Media Icons Row -->
+    <div class="footer-social-icons-row">
+      <a href="{{ settings.social_facebook_link | default: 'https://facebook.com' }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon-btn" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="{{ settings.social_instagram_link | default: 'https://instagram.com/laceyaan_' }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon-btn" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="{{ settings.social_youtube_link | default: 'https://youtube.com' }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon-btn" aria-label="YouTube">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#000"/></svg>
+      </a>
+      <a href="{{ settings.social_twitter_link | default: 'https://x.com' }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon-btn" aria-label="X (Twitter)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="{{ settings.social_pinterest_link | default: 'https://pinterest.com' }}" target="_blank" rel="noopener noreferrer" class="footer-social-icon-btn" aria-label="Pinterest">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.334 1.373-.057.234-.188.283-.434.17-1.62-.754-2.634-3.12-2.634-5.02 0-4.086 2.97-7.84 8.567-7.84 4.498 0 8 3.206 8 7.494 0 4.47-2.818 8.067-6.728 8.067-1.314 0-2.549-.683-2.972-1.492l-.81 3.088c-.293 1.119-1.085 2.522-1.616 3.38A11.968 11.968 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+    </div>
+
+    <!-- Copyright Line -->
+    <div class="footer-copyright-row">
+      <span>{{ 'now' | date: '%Y' }} &copy; -LACEYAAN-</span>
+    </div>
+  </div>
+
+  <!-- Colossal Full-Bleed Bold Brand Typography (-LACEYAAN.™) -->
+  <div class="footer-colossal-brand-wrap" aria-hidden="true">
+    <div class="footer-colossal-text">{{ section.settings.giant_text | default: '-LACEYAAN.™' }}</div>
+  </div>
+
+  <!-- Seamless Continuous Bottom Marquee Ticker Ribbon -->
+  <div class="footer-marquee-strip" aria-hidden="true">
+    <div class="footer-marquee-track">
+      <div class="footer-marquee-group">
+        {%- for i in (1..8) -%}
+          <span class="footer-marquee-item">{{ section.settings.marquee_text | default: '-LACEYAAN.™' }}</span>
+        {%- endfor -%}
+      </div>
+      <div class="footer-marquee-group" aria-hidden="true">
+        {%- for i in (1..8) -%}
+          <span class="footer-marquee-item">{{ section.settings.marquee_text | default: '-LACEYAAN.™' }}</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Secret Restricted Access Modal -->
+  <div class="footer-secret-modal" id="EasterEggModal" role="dialog" aria-modal="true" aria-labelledby="SecretModalTitle" hidden>
+    <div class="secret-modal-backdrop" data-secret-modal-close></div>
+    <div class="secret-modal-content">
+      <button type="button" class="secret-modal-close-btn" data-secret-modal-close aria-label="Close modal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="secret-modal-badge">
+        <span class="secret-pulse-dot"></span>
+        <span>RESTRICTED ARCHIVE PROTOCOL</span>
       </div>
 
-      <div class="footer-payment-badges">
-        <span class="payment-note">UPI &bull; CARDS &bull; NET BANKING &bull; COD AVAILABLE</span>
+      <h3 id="SecretModalTitle" class="secret-modal-title">WE TOLD YOU NOT TO CLICK.</h3>
+      <p class="secret-modal-desc">
+        Since you breached perimeter protocol, you just unlocked an exclusive secret voucher for your next shoelace rotation order:
+      </p>
+
+      <div class="secret-code-box">
+        <button type="button" class="secret-code-pill" id="SecretCodePill" data-code="{{ section.settings.secret_discount_code | default: 'LACEYAAN10' }}" aria-label="Copy discount code">
+          <span class="secret-code-lbl">SECRET CODE:</span>
+          <strong class="secret-code-string">{{ section.settings.secret_discount_code | default: 'LACEYAAN10' }}</strong>
+          <span class="secret-copy-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </span>
+        </button>
+        <span class="secret-copy-hint" id="SecretCopyHint">Click code to copy (10% OFF your entire order)</span>
+      </div>
+
+      <div class="secret-modal-actions">
+        <a href="{{ routes.all_products_collection_url }}" class="btn-secret-shop">
+          <span>CLAIM DISCOUNT &bull; SHOP THE ROTATION</span>
+        </a>
       </div>
     </div>
   </div>
@@ -130,37 +212,61 @@
   "settings": [
     {
       "type": "text",
-      "id": "email",
-      "label": "Support Email",
-      "default": "laceyaan@gmail.com"
+      "id": "newsletter_title",
+      "label": "Newsletter Title",
+      "default": "SUBSCRIBE TO NEVER MISS AN UPDATE"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_desc",
+      "label": "Newsletter Subtitle",
+      "default": "Stay updated with our latest news and offers."
+    },
+    {
+      "type": "text",
+      "id": "dont_click_label",
+      "label": "Easter Egg Button Label",
+      "default": "DONT CLICK HERE"
+    },
+    {
+      "type": "text",
+      "id": "secret_discount_code",
+      "label": "Secret Discount Code",
+      "default": "LACEYAAN10"
     },
     {
       "type": "text",
       "id": "menu_1_title",
-      "label": "Menu 1 Heading",
-      "default": "Artisanal Collections"
+      "label": "Support Column Title",
+      "default": "SUPPORT"
     },
     {
       "type": "link_list",
       "id": "menu_1",
-      "label": "Menu 1"
+      "label": "Support Menu"
     },
     {
       "type": "text",
       "id": "menu_2_title",
-      "label": "Menu 2 Heading",
-      "default": "Client Care & Atelier"
+      "label": "General Column Title",
+      "default": "GENERAL"
     },
     {
       "type": "link_list",
       "id": "menu_2",
-      "label": "Menu 2"
+      "label": "General Menu"
     },
     {
       "type": "text",
-      "id": "newsletter_title",
-      "label": "Newsletter Heading",
-      "default": "Join the Inner Rotation"
+      "id": "giant_text",
+      "label": "Colossal Brand Typography",
+      "default": "-LACEYAAN.™"
+    },
+    {
+      "type": "text",
+      "id": "marquee_text",
+      "label": "Bottom Marquee Text",
+      "default": "-LACEYAAN.™"
     }
   ]
 }
