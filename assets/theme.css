@@ -3805,3 +3805,70 @@ img {
   .hero-cta-group { flex-direction: column; align-items: stretch; }
   .hero-btn-primary, .hero-btn-secondary { width: 100%; }
 }
+
+/* ==========================================================================
+   Animated Background Shoelace (Scroll Reactive Physics)
+   ========================================================================== */
+.background-lace-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+
+.background-lace-container.is-active {
+  opacity: 0.88;
+}
+
+.background-lace-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Ensure interactive content layers cleanly above background lace */
+.main-content {
+  position: relative;
+  z-index: 2;
+}
+
+.site-header-sticky,
+.header-wrapper,
+.site-header,
+.announcement-bar-section {
+  position: relative;
+  z-index: 100 !important;
+}
+
+.footer-section,
+.site-footer {
+  position: relative;
+  z-index: 3;
+}
+
+.cart-drawer,
+.quick-view-modal,
+.search-modal,
+.toast-container,
+.laceyaan-toast-container,
+.easter-egg-overlay {
+  z-index: 99999 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .background-lace-container {
+    opacity: 0.25;
+  }
+}
+

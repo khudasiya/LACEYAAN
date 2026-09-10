@@ -1119,6 +1119,499 @@
   }
 
   /* ==========================================================================
+     11. Animated Background Shoelace Engine (Scroll Reactive Fluid Physics)
+     ========================================================================== */
+  class BackgroundLace {
+    constructor() {
+      this.container = document.getElementById('laceyaan-background-lace');
+      this.canvas = document.getElementById('background-lace-canvas');
+      if (!this.container || !this.canvas) return;
+
+      this.ctx = this.canvas.getContext('2d', { alpha: true });
+      if (!this.ctx) return;
+
+      // Theme configuration & color tokens
+      this.colorPrimary = this.container.dataset.colorPrimary || '#C5A880';
+      this.colorSecondary = this.container.dataset.colorSecondary || '#FAF9F5';
+      this.colorShadow = this.container.dataset.colorShadow || 'rgba(20, 19, 17, 0.12)';
+
+      // Physics & Motion State
+      this.width = 0;
+      this.height = 0;
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      this.scrollY = window.scrollY || 0;
+      this.targetScrollY = this.scrollY;
+      this.scrollVelocity = 0;
+      this.smoothedVelocity = 0;
+      this.time = 0;
+      this.rafId = null;
+      this.isPaused = false;
+
+      // Mouse Proximity Interaction
+      this.mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000, active: false };
+
+      // Initialize Points System
+      this.numPoints = 12;
+      this.points = [];
+
+      this.init();
+    }
+
+    init() {
+      this.handleResize();
+      this.initNodes();
+
+      // Bind event listeners with passive flags
+      this.onScroll = this.onScroll.bind(this);
+      this.onResize = this.debounce(this.handleResize.bind(this), 120);
+      this.onMouseMove = this.onMouseMove.bind(this);
+      this.onVisibilityChange = this.onVisibilityChange.bind(this);
+
+      window.addEventListener('scroll', this.onScroll, { passive: true });
+      window.addEventListener('resize', this.onResize, { passive: true });
+      window.addEventListener('mousemove', this.onMouseMove, { passive: true });
+      document.addEventListener('visibilitychange', this.onVisibilityChange);
+
+      // Start animation loop
+      this.container.classList.add('is-active');
+      this.animate(0);
+    }
+
+    debounce(fn, delay) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
+
+    handleResize() {
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      this.canvas.width = Math.floor(this.width * this.dpr);
+      this.canvas.height = Math.floor(this.height * this.dpr);
+      this.canvas.style.width = `${this.width}px`;
+      this.canvas.style.height = `${this.height}px`;
+
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.scale(this.dpr, this.dpr);
+
+      this.initNodes();
+    }
+
+    initNodes() {
+      this.points = [];
+      const totalPoints = this.numPoints;
+      const verticalSpan = this.height * 2.6; // Extended span so lace flows seamlessly across sections
+      const stepY = verticalSpan / (totalPoints - 1);
+
+      // S-curve and loop baseline offsets
+      const wavePattern = [0.12, 0.42, 0.85, 0.62, 0.22, 0.52, 0.88, 0.45, 0.18, 0.68, 0.84, 0.35];
+
+      for (let i = 0; i < totalPoints; i++) {
+        const baseFracX = wavePattern[i % wavePattern.length];
+        const baseX = baseFracX * this.width;
+        const baseY = -this.height * 0.4 + i * stepY;
+
+        this.points.push({
+          baseFracX: baseFracX,
+          baseX: baseX,
+          baseY: baseY,
+          x: baseX,
+          y: baseY,
+          vx: 0,
+          vy: 0,
+          offsetY: 0,
+          phase: (i * 0.65),
+          frequency: 0.0018 + (i % 3) * 0.0004,
+          amplitudeX: Math.min(this.width * 0.08, 70),
+          amplitudeY: 25,
+          waveExcitation: 0
+        });
+      }
+    }
+
+    onScroll() {
+      this.targetScrollY = window.scrollY || window.pageYOffset || 0;
+    }
+
+    onMouseMove(e) {
+      this.mouse.targetX = e.clientX;
+      this.mouse.targetY = e.clientY;
+      this.mouse.active = true;
+    }
+
+    onVisibilityChange() {
+      this.isPaused = document.hidden;
+      if (!this.isPaused && !this.rafId) {
+        this.animate(performance.now());
+      }
+    }
+
+    updatePhysics(timestamp) {
+      this.time = timestamp;
+
+      // Smooth scroll interpolation (Lerp with spring drag)
+      const prevScroll = this.scrollY;
+      const scrollDelta = this.targetScrollY - this.scrollY;
+      this.scrollY += scrollDelta * 0.075;
+      this.scrollVelocity = this.targetScrollY - prevScroll;
+      this.smoothedVelocity += (this.scrollVelocity - this.smoothedVelocity) * 0.12;
+
+      // Mouse smooth interpolation
+      this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.1;
+      this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.1;
+
+      const docHeight = Math.max(1, document.documentElement.scrollHeight - this.height);
+      const scrollProgress = Math.min(Math.max(this.scrollY / docHeight, 0), 1);
+
+      // Parallax vertical progression
+      const parallaxFactor = this.height * 1.3;
+      const totalVerticalOffset = -(scrollProgress * parallaxFactor);
+
+      // Update node positions with fluid wave harmonics & velocity ripple
+      for (let i = 0; i < this.points.length; i++) {
+        const p = this.points[i];
+        p.baseX = p.baseFracX * this.width;
+
+        // Wave excitation propagates down the string when scrolling
+        const velocityEffect = (this.smoothedVelocity * 0.18) * Math.sin(i * 0.55 - this.time * 0.004);
+        p.waveExcitation += (velocityEffect - p.waveExcitation) * 0.1;
+
+        // Idle harmonic breathing oscillation
+        let breathingX = 0;
+        let breathingY = 0;
+        if (!this.isReducedMotion) {
+          breathingX = Math.sin(this.time * p.frequency + p.phase) * p.amplitudeX;
+          breathingY = Math.cos(this.time * (p.frequency * 0.8) + p.phase) * p.amplitudeY;
+        }
+
+        // Mouse proximity magnetic deflection
+        let mouseDisplaceX = 0;
+        let mouseDisplaceY = 0;
+        if (this.mouse.active && !this.isReducedMotion) {
+          const dx = p.x - this.mouse.x;
+          const dy = (p.y + totalVerticalOffset) - this.mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const maxDist = 200;
+          if (dist < maxDist && dist > 1) {
+            const force = (1 - dist / maxDist) * 35;
+            mouseDisplaceX = (dx / dist) * force;
+            mouseDisplaceY = (dy / dist) * force;
+          }
+        }
+
+        // Calculate final target coordinates
+        const targetX = p.baseX + breathingX + p.waveExcitation + mouseDisplaceX;
+        const targetY = p.baseY + totalVerticalOffset + breathingY + mouseDisplaceY;
+
+        // Spring dampening
+        p.x += (targetX - p.x) * 0.14;
+        p.y += (targetY - p.y) * 0.14;
+      }
+    }
+
+    getSplinePoints() {
+      const pts = this.points;
+      const len = pts.length;
+      if (len < 3) return [];
+
+      const interpolated = [];
+      for (let i = 0; i < len - 1; i++) {
+        const p0 = i > 0 ? pts[i - 1] : pts[i];
+        const p1 = pts[i];
+        const p2 = pts[i + 1];
+        const p3 = i < len - 2 ? pts[i + 2] : p2;
+
+        // Catmull-Rom to Cubic Bézier control points
+        const cp1x = p1.x + (p2.x - p0.x) / 6;
+        const cp1y = p1.y + (p2.y - p0.y) / 6;
+        const cp2x = p2.x - (p3.x - p1.x) / 6;
+        const cp2y = p2.y - (p3.y - p1.y) / 6;
+
+        interpolated.push({
+          start: { x: p1.x, y: p1.y },
+          cp1: { x: cp1x, y: cp1y },
+          cp2: { x: cp2x, y: cp2y },
+          end: { x: p2.x, y: p2.y }
+        });
+      }
+      return interpolated;
+    }
+
+    drawPath(segments, ctx, offsetX = 0, offsetY = 0) {
+      if (!segments.length) return;
+      ctx.beginPath();
+      ctx.moveTo(segments[0].start.x + offsetX, segments[0].start.y + offsetY);
+      for (let i = 0; i < segments.length; i++) {
+        const s = segments[i];
+        ctx.bezierCurveTo(
+          s.cp1.x + offsetX, s.cp1.y + offsetY,
+          s.cp2.x + offsetX, s.cp2.y + offsetY,
+          s.end.x + offsetX, s.end.y + offsetY
+        );
+      }
+    }
+
+    drawAglet(ctx, x, y, angle, scale = 1, isLeading = true) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+
+      const agletLen = 34 * scale;
+      const agletRadius = 4.8 * scale;
+
+      // Aglet Drop Shadow
+      ctx.save();
+      ctx.fillStyle = 'rgba(20, 19, 17, 0.2)';
+      ctx.beginPath();
+      ctx.ellipse(agletLen / 2 + 3, 5, agletLen / 2, agletRadius * 1.2, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Solid Milled Brass Metallic Cylinder
+      const metalGrad = ctx.createLinearGradient(0, -agletRadius, 0, agletRadius);
+      metalGrad.addColorStop(0.0, '#7A6242');
+      metalGrad.addColorStop(0.2, '#C5A880');
+      metalGrad.addColorStop(0.45, '#FFF6E9');
+      metalGrad.addColorStop(0.75, '#C5A880');
+      metalGrad.addColorStop(1.0, '#5A462E');
+
+      ctx.fillStyle = metalGrad;
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(0, -agletRadius, agletLen, agletRadius * 2, [1, agletRadius, agletRadius, 1]);
+      } else {
+        ctx.rect(0, -agletRadius, agletLen, agletRadius * 2);
+      }
+      ctx.fill();
+
+      // Aglet Milled Rings / Crimp Grooves (Signature LACEYAAN Detail)
+      ctx.strokeStyle = 'rgba(60, 45, 25, 0.55)';
+      ctx.lineWidth = 1.2 * scale;
+      [6, 12, 22].forEach((offset) => {
+        ctx.beginPath();
+        ctx.moveTo(offset * scale, -agletRadius + 0.5);
+        ctx.lineTo(offset * scale, agletRadius - 0.5);
+        ctx.stroke();
+
+        // High specular metallic highlight next to crimp
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.beginPath();
+        ctx.moveTo((offset + 0.8) * scale, -agletRadius + 0.8);
+        ctx.lineTo((offset + 0.8) * scale, agletRadius - 0.8);
+        ctx.stroke();
+      });
+
+      // Hollow Aglet Metal Tip End
+      ctx.fillStyle = '#2B2014';
+      ctx.beginPath();
+      ctx.ellipse(agletLen, 0, 2.2 * scale, agletRadius * 0.9, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Dynamic Shimmer Star Glint on Brass Aglet (Cycles with time)
+      const glintPulse = Math.sin(this.time * 0.003 + (isLeading ? 0 : Math.PI)) * 0.5 + 0.5;
+      if (glintPulse > 0.3) {
+        ctx.save();
+        ctx.translate(agletLen * 0.6, -agletRadius * 0.4);
+        ctx.rotate(this.time * 0.001);
+        ctx.fillStyle = `rgba(255, 250, 235, ${glintPulse * 0.85})`;
+        
+        // 4-point star flare
+        const flareSize = 5 * scale * glintPulse;
+        ctx.beginPath();
+        ctx.moveTo(0, -flareSize);
+        ctx.lineTo(flareSize * 0.2, -flareSize * 0.2);
+        ctx.lineTo(flareSize, 0);
+        ctx.lineTo(flareSize * 0.2, flareSize * 0.2);
+        ctx.lineTo(0, flareSize);
+        ctx.lineTo(-flareSize * 0.2, flareSize * 0.2);
+        ctx.lineTo(-flareSize, 0);
+        ctx.lineTo(-flareSize * 0.2, -flareSize * 0.2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    drawWovenStitches(ctx, segments, laceWidth) {
+      if (!segments.length) return;
+
+      const stitchSpacing = 11;
+      const stitchHalfWidth = laceWidth * 0.38;
+
+      ctx.lineWidth = 1.3;
+      ctx.lineCap = 'round';
+
+      // Traverse bezier segments and draw micro-braided herringbone weave stitches
+      let sampleCounter = 0;
+      for (let sIdx = 0; sIdx < segments.length; sIdx++) {
+        const seg = segments[sIdx];
+        const steps = 14;
+
+        for (let step = 0; step <= steps; step++) {
+          sampleCounter++;
+          if (sampleCounter % 2 !== 0) continue;
+
+          const t = step / steps;
+          const mt = 1 - t;
+
+          // Compute position along Cubic Bézier curve
+          const x = mt * mt * mt * seg.start.x +
+                    3 * mt * mt * t * seg.cp1.x +
+                    3 * mt * t * t * seg.cp2.x +
+                    t * t * t * seg.end.x;
+
+          const y = mt * mt * mt * seg.start.y +
+                    3 * mt * t * t * seg.cp1.y +
+                    3 * mt * t * t * seg.cp2.y +
+                    t * t * t * seg.end.y;
+
+          // Compute Tangent Vector (Derivative)
+          const dx = 3 * mt * mt * (seg.cp1.x - seg.start.x) +
+                     6 * mt * t * (seg.cp2.x - seg.cp1.x) +
+                     3 * t * t * (seg.end.x - seg.cp2.x);
+
+          const dy = 3 * mt * mt * (seg.cp1.y - seg.start.y) +
+                     6 * mt * t * (seg.cp2.y - seg.cp1.y) +
+                     3 * t * t * (seg.end.y - seg.cp2.y);
+
+          const len = Math.sqrt(dx * dx + dy * dy);
+          if (len < 0.001) continue;
+
+          // Normal Vector perpendicular to tangent
+          const nx = -dy / len;
+          const ny = dx / len;
+
+          // Alternating chevron/braided stitch angle
+          const isLeft = (sampleCounter / 2) % 2 === 0;
+          const stitchColor = isLeft ? 'rgba(255, 250, 240, 0.38)' : 'rgba(70, 55, 38, 0.28)';
+          const tiltFactor = isLeft ? 0.6 : -0.6;
+
+          const startX = x - nx * stitchHalfWidth + (dx / len) * (tiltFactor * 2.5);
+          const startY = y - ny * stitchHalfWidth + (dy / len) * (tiltFactor * 2.5);
+          const endX = x + nx * stitchHalfWidth - (dx / len) * (tiltFactor * 2.5);
+          const endY = y + ny * stitchHalfWidth - (dy / len) * (tiltFactor * 2.5);
+
+          ctx.strokeStyle = stitchColor;
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.stroke();
+        }
+      }
+    }
+
+    render() {
+      const ctx = this.ctx;
+      ctx.clearRect(0, 0, this.width, this.height);
+
+      const segments = this.getSplinePoints();
+      if (!segments.length) return;
+
+      const isMobile = this.width < 768;
+      const laceWidth = isMobile ? 6.5 : 9.5;
+      const agletScale = isMobile ? 0.8 : 1.0;
+
+      // -------------------------------------------------------------
+      // Pass 1: Soft Ambient Drop Shadow for Photorealistic Depth
+      // -------------------------------------------------------------
+      ctx.save();
+      ctx.strokeStyle = this.colorShadow;
+      ctx.lineWidth = laceWidth + (isMobile ? 5 : 8);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      this.drawPath(segments, ctx, 6, 12);
+      ctx.stroke();
+      ctx.restore();
+
+      // -------------------------------------------------------------
+      // Pass 2: Warm Gold Ambient Glow / Halo
+      // -------------------------------------------------------------
+      ctx.save();
+      ctx.strokeStyle = 'rgba(197, 168, 128, 0.12)';
+      ctx.lineWidth = laceWidth + (isMobile ? 8 : 14);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      this.drawPath(segments, ctx, 0, 0);
+      ctx.stroke();
+      ctx.restore();
+
+      // -------------------------------------------------------------
+      // Pass 3: Main Shoelace Tubular Woven Core
+      // -------------------------------------------------------------
+      ctx.save();
+      const mainGrad = ctx.createLinearGradient(0, 0, this.width, this.height);
+      mainGrad.addColorStop(0.0, '#C5A880'); // Atelier Gold
+      mainGrad.addColorStop(0.25, '#E4D1B8'); // Japanese Combed Cotton Highlight
+      mainGrad.addColorStop(0.5, '#A38760'); // Dark Gold Weave
+      mainGrad.addColorStop(0.75, '#D8C3A7'); // Champagne Sheen
+      mainGrad.addColorStop(1.0, '#8C704B'); // Rich Bronze Core
+
+      ctx.strokeStyle = mainGrad;
+      ctx.lineWidth = laceWidth;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      this.drawPath(segments, ctx, 0, 0);
+      ctx.stroke();
+
+      // -------------------------------------------------------------
+      // Pass 4: Micro-Braided Stitch Texture
+      // -------------------------------------------------------------
+      this.drawWovenStitches(ctx, segments, laceWidth);
+      ctx.restore();
+
+      // -------------------------------------------------------------
+      // Pass 5: Solid Milled Brass Aglet Caps at Endpoints
+      // -------------------------------------------------------------
+      const firstSeg = segments[0];
+      const lastSeg = segments[segments.length - 1];
+
+      // Leading Aglet (at end of spline)
+      if (lastSeg) {
+        const dx = lastSeg.end.x - lastSeg.cp2.x;
+        const dy = lastSeg.end.y - lastSeg.cp2.y;
+        const angle = Math.atan2(dy, dx);
+        this.drawAglet(ctx, lastSeg.end.x, lastSeg.end.y, angle, agletScale, true);
+      }
+
+      // Trailing Aglet (at start of spline)
+      if (firstSeg) {
+        const dx = firstSeg.start.x - firstSeg.cp1.x;
+        const dy = firstSeg.start.y - firstSeg.cp1.y;
+        const angle = Math.atan2(dy, dx);
+        this.drawAglet(ctx, firstSeg.start.x, firstSeg.start.y, angle, agletScale, false);
+      }
+    }
+
+    animate(timestamp) {
+      if (this.isPaused) return;
+
+      this.updatePhysics(timestamp);
+      this.render();
+
+      this.rafId = requestAnimationFrame(this.animate.bind(this));
+    }
+
+    destroy() {
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+      window.removeEventListener('scroll', this.onScroll);
+      window.removeEventListener('resize', this.onResize);
+      window.removeEventListener('mousemove', this.onMouseMove);
+      document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
@@ -1132,6 +1625,12 @@
     new QuickViewModal();
     new Accordion();
     new EasterEggModal();
+
+    // Initialize Animated Background Shoelace Engine
+    if (window.Laceyaan.backgroundLace) {
+      window.Laceyaan.backgroundLace.destroy();
+    }
+    window.Laceyaan.backgroundLace = new BackgroundLace();
   }
 
   if (document.readyState === 'loading') {
@@ -1148,6 +1647,11 @@
     new Accordion();
     new AnnouncementBar();
     new EasterEggModal();
+
+    if (!window.Laceyaan.backgroundLace) {
+      window.Laceyaan.backgroundLace = new BackgroundLace();
+    }
   });
 
 })();
+

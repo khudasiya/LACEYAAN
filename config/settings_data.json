@@ -15,6 +15,9 @@
     "show_vendor": true,
     "show_rating": true,
     "enable_quick_view": true,
+    "enable_background_lace": true,
+    "lace_color_primary": "#C5A880",
+    "lace_color_secondary": "#FAF9F5",
     "social_instagram_link": "https://www.instagram.com/laceyaan_"
   }
 }
