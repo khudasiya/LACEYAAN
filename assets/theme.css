@@ -513,7 +513,50 @@ img {
 }
 
 .brand-text-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.45rem, 0.75vw, 0.65rem);
+}
+
+.brand-icon-mark {
+  height: clamp(26px, 2.3vw, 34px);
+  width: auto;
+  max-width: 36px;
+  object-fit: contain;
+  display: block;
+  animation: brandIconFloat 4s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  filter: drop-shadow(0 1px 3px rgba(20, 19, 17, 0.12));
+  will-change: transform;
+}
+
+.drawer-logo-img {
+  height: 28px;
+  width: auto;
+  max-width: 30px;
+}
+
+.brand-logo-link:hover .brand-icon-mark {
+  animation-play-state: paused;
+  transform: scale(1.12) rotate(-5deg);
+  filter: drop-shadow(0 3px 10px rgba(197, 168, 128, 0.45));
+}
+
+@keyframes brandIconFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-1.5deg);
+  }
 }
 
 .logo-title {

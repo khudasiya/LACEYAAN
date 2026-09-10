@@ -76,7 +76,17 @@
             }}
           {%- else -%}
             <div class="brand-text-logo">
-              <span class="logo-title">LACEYAAN</span>
+              <div class="brand-lockup">
+                <img 
+                  src="{{ 'logo-icon.png' | asset_url }}" 
+                  alt="LACEYAAN Braided Emblem" 
+                  class="brand-icon-mark"
+                  width="34"
+                  height="38"
+                  loading="eager"
+                >
+                <span class="logo-title">LACEYAAN</span>
+              </div>
               <span class="logo-subtitle">CRAFTED IN INDIA</span>
             </div>
           {%- endif -%}
@@ -141,7 +151,17 @@
 <div id="mobile-drawer" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation" aria-hidden="true">
   <div class="mobile-drawer-header">
     <div class="brand-text-logo">
-      <span class="logo-title">LACEYAAN</span>
+      <div class="brand-lockup">
+        <img 
+          src="{{ 'logo-icon.png' | asset_url }}" 
+          alt="LACEYAAN Braided Emblem" 
+          class="brand-icon-mark drawer-logo-img"
+          width="28"
+          height="32"
+          loading="eager"
+        >
+        <span class="logo-title">LACEYAAN</span>
+      </div>
       <span class="logo-subtitle">CRAFTED IN INDIA</span>
     </div>
     <button type="button" class="drawer-close-btn" id="close-mobile-drawer" aria-label="{{ 'accessibility.close' | t }}">
