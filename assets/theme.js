@@ -1119,7 +1119,7 @@
   }
 
   /* ==========================================================================
-     11. Animated Background Shoelace Engine (Scroll Reactive Fluid Physics)
+     11. Animated Background Shoelace Engine (Dual-Strand Fluid Atelier Physics)
      ========================================================================== */
   class BackgroundLace {
     constructor() {
@@ -1133,7 +1133,7 @@
       // Theme configuration & color tokens
       this.colorPrimary = this.container.dataset.colorPrimary || '#C5A880';
       this.colorSecondary = this.container.dataset.colorSecondary || '#FAF9F5';
-      this.colorShadow = this.container.dataset.colorShadow || 'rgba(20, 19, 17, 0.12)';
+      this.colorShadow = this.container.dataset.colorShadow || 'rgba(20, 19, 17, 0.16)';
 
       // Physics & Motion State
       this.width = 0;
@@ -1152,9 +1152,9 @@
       // Mouse Proximity Interaction
       this.mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000, active: false };
 
-      // Initialize Points System
-      this.numPoints = 12;
-      this.points = [];
+      // Node Systems for Dual Strands
+      this.primaryPoints = [];
+      this.secondaryPoints = [];
 
       this.init();
     }
@@ -1165,7 +1165,7 @@
 
       // Bind event listeners with passive flags
       this.onScroll = this.onScroll.bind(this);
-      this.onResize = this.debounce(this.handleResize.bind(this), 120);
+      this.onResize = this.debounce(this.handleResize.bind(this), 100);
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onVisibilityChange = this.onVisibilityChange.bind(this);
 
@@ -1174,8 +1174,6 @@
       window.addEventListener('mousemove', this.onMouseMove, { passive: true });
       document.addEventListener('visibilitychange', this.onVisibilityChange);
 
-      // Start animation loop
-      this.container.classList.add('is-active');
       this.animate(0);
     }
 
@@ -1204,32 +1202,54 @@
     }
 
     initNodes() {
-      this.points = [];
-      const totalPoints = this.numPoints;
-      const verticalSpan = this.height * 2.6; // Extended span so lace flows seamlessly across sections
-      const stepY = verticalSpan / (totalPoints - 1);
+      // Primary Master Strand Nodes (Grand sweeping diagonal S-curves)
+      this.primaryPoints = [];
+      const primaryCount = 14;
+      const primarySpan = this.height * 2.8;
+      const primaryStepY = primarySpan / (primaryCount - 1);
+      const primaryPattern = [0.06, 0.35, 0.88, 0.65, 0.16, 0.46, 0.94, 0.60, 0.10, 0.70, 0.88, 0.38, 0.14, 0.76];
 
-      // S-curve and loop baseline offsets
-      const wavePattern = [0.12, 0.42, 0.85, 0.62, 0.22, 0.52, 0.88, 0.45, 0.18, 0.68, 0.84, 0.35];
-
-      for (let i = 0; i < totalPoints; i++) {
-        const baseFracX = wavePattern[i % wavePattern.length];
+      for (let i = 0; i < primaryCount; i++) {
+        const baseFracX = primaryPattern[i % primaryPattern.length];
         const baseX = baseFracX * this.width;
-        const baseY = -this.height * 0.4 + i * stepY;
+        const baseY = -this.height * 0.45 + i * primaryStepY;
 
-        this.points.push({
-          baseFracX: baseFracX,
-          baseX: baseX,
-          baseY: baseY,
+        this.primaryPoints.push({
+          baseFracX,
+          baseX,
+          baseY,
           x: baseX,
           y: baseY,
-          vx: 0,
-          vy: 0,
-          offsetY: 0,
-          phase: (i * 0.65),
-          frequency: 0.0018 + (i % 3) * 0.0004,
-          amplitudeX: Math.min(this.width * 0.08, 70),
-          amplitudeY: 25,
+          phase: i * 0.62,
+          frequency: 0.0014 + (i % 3) * 0.0003,
+          amplitudeX: Math.min(this.width * 0.075, 65),
+          amplitudeY: 22,
+          waveExcitation: 0
+        });
+      }
+
+      // Secondary Companion Strand Nodes (Delicate counter-weaving strand)
+      this.secondaryPoints = [];
+      const secondaryCount = 11;
+      const secondarySpan = this.height * 2.8;
+      const secondaryStepY = secondarySpan / (secondaryCount - 1);
+      const secondaryPattern = [0.30, 0.72, 0.40, 0.12, 0.68, 0.90, 0.32, 0.18, 0.58, 0.82, 0.42];
+
+      for (let i = 0; i < secondaryCount; i++) {
+        const baseFracX = secondaryPattern[i % secondaryPattern.length];
+        const baseX = baseFracX * this.width;
+        const baseY = -this.height * 0.4 + i * secondaryStepY;
+
+        this.secondaryPoints.push({
+          baseFracX,
+          baseX,
+          baseY,
+          x: baseX,
+          y: baseY,
+          phase: (i * 0.75) + Math.PI / 3,
+          frequency: 0.0016 + (i % 2) * 0.0004,
+          amplitudeX: Math.min(this.width * 0.06, 50),
+          amplitudeY: 18,
           waveExcitation: 0
         });
       }
@@ -1258,7 +1278,7 @@
       // Smooth scroll interpolation (Lerp with spring drag)
       const prevScroll = this.scrollY;
       const scrollDelta = this.targetScrollY - this.scrollY;
-      this.scrollY += scrollDelta * 0.075;
+      this.scrollY += scrollDelta * 0.065;
       this.scrollVelocity = this.targetScrollY - prevScroll;
       this.smoothedVelocity += (this.scrollVelocity - this.smoothedVelocity) * 0.12;
 
@@ -1270,16 +1290,23 @@
       const scrollProgress = Math.min(Math.max(this.scrollY / docHeight, 0), 1);
 
       // Parallax vertical progression
-      const parallaxFactor = this.height * 1.3;
+      const parallaxFactor = this.height * 1.35;
       const totalVerticalOffset = -(scrollProgress * parallaxFactor);
 
-      // Update node positions with fluid wave harmonics & velocity ripple
-      for (let i = 0; i < this.points.length; i++) {
-        const p = this.points[i];
+      // Update primary strand nodes
+      this.updateNodeList(this.primaryPoints, totalVerticalOffset, 1.0);
+
+      // Update secondary companion strand nodes (slight parallax delay)
+      this.updateNodeList(this.secondaryPoints, totalVerticalOffset * 0.92, 0.75);
+    }
+
+    updateNodeList(points, verticalOffset, influenceMultiplier) {
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
         p.baseX = p.baseFracX * this.width;
 
         // Wave excitation propagates down the string when scrolling
-        const velocityEffect = (this.smoothedVelocity * 0.18) * Math.sin(i * 0.55 - this.time * 0.004);
+        const velocityEffect = (this.smoothedVelocity * 0.16 * influenceMultiplier) * Math.sin(i * 0.52 - this.time * 0.0035);
         p.waveExcitation += (velocityEffect - p.waveExcitation) * 0.1;
 
         // Idle harmonic breathing oscillation
@@ -1287,7 +1314,7 @@
         let breathingY = 0;
         if (!this.isReducedMotion) {
           breathingX = Math.sin(this.time * p.frequency + p.phase) * p.amplitudeX;
-          breathingY = Math.cos(this.time * (p.frequency * 0.8) + p.phase) * p.amplitudeY;
+          breathingY = Math.cos(this.time * (p.frequency * 0.85) + p.phase) * p.amplitudeY;
         }
 
         // Mouse proximity magnetic deflection
@@ -1295,11 +1322,11 @@
         let mouseDisplaceY = 0;
         if (this.mouse.active && !this.isReducedMotion) {
           const dx = p.x - this.mouse.x;
-          const dy = (p.y + totalVerticalOffset) - this.mouse.y;
+          const dy = (p.y + verticalOffset) - this.mouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           const maxDist = 200;
           if (dist < maxDist && dist > 1) {
-            const force = (1 - dist / maxDist) * 35;
+            const force = (1 - dist / maxDist) * (28 * influenceMultiplier);
             mouseDisplaceX = (dx / dist) * force;
             mouseDisplaceY = (dy / dist) * force;
           }
@@ -1307,16 +1334,15 @@
 
         // Calculate final target coordinates
         const targetX = p.baseX + breathingX + p.waveExcitation + mouseDisplaceX;
-        const targetY = p.baseY + totalVerticalOffset + breathingY + mouseDisplaceY;
+        const targetY = p.baseY + verticalOffset + breathingY + mouseDisplaceY;
 
         // Spring dampening
-        p.x += (targetX - p.x) * 0.14;
-        p.y += (targetY - p.y) * 0.14;
+        p.x += (targetX - p.x) * 0.12;
+        p.y += (targetY - p.y) * 0.12;
       }
     }
 
-    getSplinePoints() {
-      const pts = this.points;
+    getSplineSegments(pts) {
       const len = pts.length;
       if (len < 3) return [];
 
@@ -1362,14 +1388,14 @@
       ctx.translate(x, y);
       ctx.rotate(angle);
 
-      const agletLen = 34 * scale;
-      const agletRadius = 4.8 * scale;
+      const agletLen = 32 * scale;
+      const agletRadius = 4.5 * scale;
 
-      // Aglet Drop Shadow
+      // Aglet Soft Drop Shadow
       ctx.save();
-      ctx.fillStyle = 'rgba(20, 19, 17, 0.2)';
+      ctx.fillStyle = 'rgba(20, 19, 17, 0.22)';
       ctx.beginPath();
-      ctx.ellipse(agletLen / 2 + 3, 5, agletLen / 2, agletRadius * 1.2, 0, 0, Math.PI * 2);
+      ctx.ellipse(agletLen / 2 + 2, 4, agletLen / 2, agletRadius * 1.2, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
 
@@ -1377,8 +1403,8 @@
       const metalGrad = ctx.createLinearGradient(0, -agletRadius, 0, agletRadius);
       metalGrad.addColorStop(0.0, '#7A6242');
       metalGrad.addColorStop(0.2, '#C5A880');
-      metalGrad.addColorStop(0.45, '#FFF6E9');
-      metalGrad.addColorStop(0.75, '#C5A880');
+      metalGrad.addColorStop(0.42, '#FFF8EE');
+      metalGrad.addColorStop(0.72, '#C5A880');
       metalGrad.addColorStop(1.0, '#5A462E');
 
       ctx.fillStyle = metalGrad;
@@ -1391,47 +1417,47 @@
       ctx.fill();
 
       // Aglet Milled Rings / Crimp Grooves (Signature LACEYAAN Detail)
-      ctx.strokeStyle = 'rgba(60, 45, 25, 0.55)';
-      ctx.lineWidth = 1.2 * scale;
-      [6, 12, 22].forEach((offset) => {
+      ctx.strokeStyle = 'rgba(55, 42, 24, 0.55)';
+      ctx.lineWidth = 1.1 * scale;
+      [5, 11, 20].forEach((offset) => {
         ctx.beginPath();
         ctx.moveTo(offset * scale, -agletRadius + 0.5);
         ctx.lineTo(offset * scale, agletRadius - 0.5);
         ctx.stroke();
 
         // High specular metallic highlight next to crimp
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
         ctx.beginPath();
-        ctx.moveTo((offset + 0.8) * scale, -agletRadius + 0.8);
-        ctx.lineTo((offset + 0.8) * scale, agletRadius - 0.8);
+        ctx.moveTo((offset + 0.7) * scale, -agletRadius + 0.7);
+        ctx.lineTo((offset + 0.7) * scale, agletRadius - 0.7);
         ctx.stroke();
       });
 
       // Hollow Aglet Metal Tip End
-      ctx.fillStyle = '#2B2014';
+      ctx.fillStyle = '#261C12';
       ctx.beginPath();
-      ctx.ellipse(agletLen, 0, 2.2 * scale, agletRadius * 0.9, 0, 0, Math.PI * 2);
+      ctx.ellipse(agletLen, 0, 2 * scale, agletRadius * 0.9, 0, 0, Math.PI * 2);
       ctx.fill();
 
       // Dynamic Shimmer Star Glint on Brass Aglet (Cycles with time)
-      const glintPulse = Math.sin(this.time * 0.003 + (isLeading ? 0 : Math.PI)) * 0.5 + 0.5;
-      if (glintPulse > 0.3) {
+      const glintPulse = Math.sin(this.time * 0.0032 + (isLeading ? 0 : Math.PI)) * 0.5 + 0.5;
+      if (glintPulse > 0.25) {
         ctx.save();
-        ctx.translate(agletLen * 0.6, -agletRadius * 0.4);
-        ctx.rotate(this.time * 0.001);
-        ctx.fillStyle = `rgba(255, 250, 235, ${glintPulse * 0.85})`;
+        ctx.translate(agletLen * 0.55, -agletRadius * 0.35);
+        ctx.rotate(this.time * 0.0012);
+        ctx.fillStyle = `rgba(255, 250, 235, ${glintPulse * 0.9})`;
         
         // 4-point star flare
-        const flareSize = 5 * scale * glintPulse;
+        const flareSize = 5.2 * scale * glintPulse;
         ctx.beginPath();
         ctx.moveTo(0, -flareSize);
-        ctx.lineTo(flareSize * 0.2, -flareSize * 0.2);
+        ctx.lineTo(flareSize * 0.22, -flareSize * 0.22);
         ctx.lineTo(flareSize, 0);
-        ctx.lineTo(flareSize * 0.2, flareSize * 0.2);
+        ctx.lineTo(flareSize * 0.22, flareSize * 0.22);
         ctx.lineTo(0, flareSize);
-        ctx.lineTo(-flareSize * 0.2, flareSize * 0.2);
+        ctx.lineTo(-flareSize * 0.22, flareSize * 0.22);
         ctx.lineTo(-flareSize, 0);
-        ctx.lineTo(-flareSize * 0.2, -flareSize * 0.2);
+        ctx.lineTo(-flareSize * 0.22, -flareSize * 0.22);
         ctx.closePath();
         ctx.fill();
         ctx.restore();
@@ -1443,13 +1469,10 @@
     drawWovenStitches(ctx, segments, laceWidth) {
       if (!segments.length) return;
 
-      const stitchSpacing = 11;
       const stitchHalfWidth = laceWidth * 0.38;
-
-      ctx.lineWidth = 1.3;
+      ctx.lineWidth = 1.25;
       ctx.lineCap = 'round';
 
-      // Traverse bezier segments and draw micro-braided herringbone weave stitches
       let sampleCounter = 0;
       for (let sIdx = 0; sIdx < segments.length; sIdx++) {
         const seg = segments[sIdx];
@@ -1491,13 +1514,13 @@
 
           // Alternating chevron/braided stitch angle
           const isLeft = (sampleCounter / 2) % 2 === 0;
-          const stitchColor = isLeft ? 'rgba(255, 250, 240, 0.38)' : 'rgba(70, 55, 38, 0.28)';
+          const stitchColor = isLeft ? 'rgba(255, 252, 245, 0.42)' : 'rgba(65, 50, 34, 0.25)';
           const tiltFactor = isLeft ? 0.6 : -0.6;
 
-          const startX = x - nx * stitchHalfWidth + (dx / len) * (tiltFactor * 2.5);
-          const startY = y - ny * stitchHalfWidth + (dy / len) * (tiltFactor * 2.5);
-          const endX = x + nx * stitchHalfWidth - (dx / len) * (tiltFactor * 2.5);
-          const endY = y + ny * stitchHalfWidth - (dy / len) * (tiltFactor * 2.5);
+          const startX = x - nx * stitchHalfWidth + (dx / len) * (tiltFactor * 2.2);
+          const startY = y - ny * stitchHalfWidth + (dy / len) * (tiltFactor * 2.2);
+          const endX = x + nx * stitchHalfWidth - (dx / len) * (tiltFactor * 2.2);
+          const endY = y + ny * stitchHalfWidth - (dy / len) * (tiltFactor * 2.2);
 
           ctx.strokeStyle = stitchColor;
           ctx.beginPath();
@@ -1512,40 +1535,80 @@
       const ctx = this.ctx;
       ctx.clearRect(0, 0, this.width, this.height);
 
-      const segments = this.getSplinePoints();
-      if (!segments.length) return;
-
       const isMobile = this.width < 768;
-      const laceWidth = isMobile ? 8.5 : 13;
-      const agletScale = isMobile ? 1.0 : 1.35;
 
       // -------------------------------------------------------------
+      // 1. Render Secondary Ethereal Ribbon Strand (Background depth)
+      // -------------------------------------------------------------
+      const secondarySegments = this.getSplineSegments(this.secondaryPoints);
+      if (secondarySegments.length) {
+        const secLaceWidth = isMobile ? 3.8 : 5.8;
+
+        // Secondary ambient glow
+        ctx.save();
+        ctx.strokeStyle = 'rgba(197, 168, 128, 0.12)';
+        ctx.lineWidth = secLaceWidth + 8;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        this.drawPath(secondarySegments, ctx, 0, 0);
+        ctx.stroke();
+        ctx.restore();
+
+        // Secondary strand body
+        ctx.save();
+        const secGrad = ctx.createLinearGradient(0, 0, this.width, this.height);
+        secGrad.addColorStop(0.0, 'rgba(197, 168, 128, 0.35)');
+        secGrad.addColorStop(0.5, 'rgba(250, 249, 245, 0.55)');
+        secGrad.addColorStop(1.0, 'rgba(163, 135, 96, 0.35)');
+
+        ctx.strokeStyle = secGrad;
+        ctx.lineWidth = secLaceWidth;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        this.drawPath(secondarySegments, ctx, 0, 0);
+        ctx.stroke();
+        ctx.restore();
+
+        // Secondary aglet cap
+        const lastSec = secondarySegments[secondarySegments.length - 1];
+        if (lastSec) {
+          const dx = lastSec.end.x - lastSec.cp2.x;
+          const dy = lastSec.end.y - lastSec.cp2.y;
+          const angle = Math.atan2(dy, dx);
+          this.drawAglet(ctx, lastSec.end.x, lastSec.end.y, angle, isMobile ? 0.6 : 0.8, true);
+        }
+      }
+
+      // -------------------------------------------------------------
+      // 2. Render Primary Atelier Shoelace Strand
+      // -------------------------------------------------------------
+      const primarySegments = this.getSplineSegments(this.primaryPoints);
+      if (!primarySegments.length) return;
+
+      const laceWidth = isMobile ? 7.5 : 11;
+      const agletScale = isMobile ? 0.95 : 1.25;
+
       // Pass 1: Soft Ambient Drop Shadow for Photorealistic Depth
-      // -------------------------------------------------------------
       ctx.save();
-      ctx.strokeStyle = 'rgba(20, 19, 17, 0.22)';
-      ctx.lineWidth = laceWidth + (isMobile ? 6 : 10);
+      ctx.strokeStyle = this.colorShadow;
+      ctx.lineWidth = laceWidth + (isMobile ? 5 : 8);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      this.drawPath(segments, ctx, 6, 12);
+      this.drawPath(primarySegments, ctx, 4, 10);
       ctx.stroke();
       ctx.restore();
 
-      // -------------------------------------------------------------
       // Pass 2: Warm Gold Ambient Glow / Halo
-      // -------------------------------------------------------------
       ctx.save();
-      ctx.strokeStyle = 'rgba(197, 168, 128, 0.25)';
-      ctx.lineWidth = laceWidth + (isMobile ? 10 : 16);
+      ctx.strokeStyle = 'rgba(197, 168, 128, 0.18)';
+      ctx.lineWidth = laceWidth + (isMobile ? 8 : 14);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      this.drawPath(segments, ctx, 0, 0);
+      this.drawPath(primarySegments, ctx, 0, 0);
       ctx.stroke();
       ctx.restore();
 
-      // -------------------------------------------------------------
       // Pass 3: Main Shoelace Tubular Woven Core
-      // -------------------------------------------------------------
       ctx.save();
       const mainGrad = ctx.createLinearGradient(0, 0, this.width, this.height);
       mainGrad.addColorStop(0.0, '#C5A880'); // Atelier Gold
@@ -1558,20 +1621,16 @@
       ctx.lineWidth = laceWidth;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      this.drawPath(segments, ctx, 0, 0);
+      this.drawPath(primarySegments, ctx, 0, 0);
       ctx.stroke();
 
-      // -------------------------------------------------------------
       // Pass 4: Micro-Braided Stitch Texture
-      // -------------------------------------------------------------
-      this.drawWovenStitches(ctx, segments, laceWidth);
+      this.drawWovenStitches(ctx, primarySegments, laceWidth);
       ctx.restore();
 
-      // -------------------------------------------------------------
       // Pass 5: Solid Milled Brass Aglet Caps at Endpoints
-      // -------------------------------------------------------------
-      const firstSeg = segments[0];
-      const lastSeg = segments[segments.length - 1];
+      const firstSeg = primarySegments[0];
+      const lastSeg = primarySegments[primarySegments.length - 1];
 
       // Leading Aglet (at end of spline)
       if (lastSeg) {

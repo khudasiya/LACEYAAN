@@ -3807,7 +3807,7 @@ img {
 }
 
 /* ==========================================================================
-   Animated Background Shoelace (Scroll Reactive Physics)
+   Animated Background Shoelace (Scroll Reactive Physics) - Layered Behind Content
    ========================================================================== */
 .background-lace-container {
   position: fixed;
@@ -3816,9 +3816,9 @@ img {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 45;
+  z-index: 0;
   overflow: hidden;
-  opacity: 0.95;
+  opacity: 1;
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity;
 }
@@ -3831,6 +3831,57 @@ img {
   height: 100%;
   display: block;
   pointer-events: none;
+}
+
+/* Ensure interactive content layers cleanly above background lace */
+.main-content {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+}
+
+/* Section backdrops made transparent so background lace is visible behind all text and cards */
+.before-after-section,
+.home-portals-section,
+.faq-section,
+.featured-collection-section,
+.length-calculator-section,
+.lookbook-section,
+.main-collection-section,
+.main-product-section,
+.main-cart-section,
+.main-page-section,
+.main-search-section,
+.main-404-section {
+  background-color: transparent !important;
+  position: relative;
+  z-index: 1;
+}
+
+.reviews-section {
+  background: rgba(244, 243, 239, 0.42) !important;
+  backdrop-filter: blur(4px);
+  position: relative;
+  z-index: 1;
+}
+
+.design-lab-section {
+  background: rgba(23, 22, 21, 0.94) !important;
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure cards and interactive widgets retain their crisp solid surfaces */
+.product-card,
+.portal-card,
+.review-card,
+.faq-item,
+.comparison-wrapper,
+.calculator-box,
+.lookbook-frame-wrapper {
+  position: relative;
+  z-index: 2;
 }
 
 .site-header-sticky,
@@ -3852,8 +3903,9 @@ img {
 
 @media (prefers-reduced-motion: reduce) {
   .background-lace-container {
-    opacity: 0.25;
+    opacity: 0.3;
   }
 }
+
 
 
