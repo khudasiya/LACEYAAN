@@ -3816,15 +3816,11 @@ img {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 1;
+  z-index: 45;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.95;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity;
-}
-
-.background-lace-container.is-active {
-  opacity: 0.88;
 }
 
 .background-lace-canvas {
@@ -3837,24 +3833,12 @@ img {
   pointer-events: none;
 }
 
-/* Ensure interactive content layers cleanly above background lace */
-.main-content {
-  position: relative;
-  z-index: 2;
-}
-
 .site-header-sticky,
 .header-wrapper,
 .site-header,
 .announcement-bar-section {
   position: relative;
   z-index: 100 !important;
-}
-
-.footer-section,
-.site-footer {
-  position: relative;
-  z-index: 3;
 }
 
 .cart-drawer,
@@ -3871,4 +3855,5 @@ img {
     opacity: 0.25;
   }
 }
+
 

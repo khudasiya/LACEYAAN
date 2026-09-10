@@ -1516,15 +1516,15 @@
       if (!segments.length) return;
 
       const isMobile = this.width < 768;
-      const laceWidth = isMobile ? 6.5 : 9.5;
-      const agletScale = isMobile ? 0.8 : 1.0;
+      const laceWidth = isMobile ? 8.5 : 13;
+      const agletScale = isMobile ? 1.0 : 1.35;
 
       // -------------------------------------------------------------
       // Pass 1: Soft Ambient Drop Shadow for Photorealistic Depth
       // -------------------------------------------------------------
       ctx.save();
-      ctx.strokeStyle = this.colorShadow;
-      ctx.lineWidth = laceWidth + (isMobile ? 5 : 8);
+      ctx.strokeStyle = 'rgba(20, 19, 17, 0.22)';
+      ctx.lineWidth = laceWidth + (isMobile ? 6 : 10);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       this.drawPath(segments, ctx, 6, 12);
@@ -1535,8 +1535,8 @@
       // Pass 2: Warm Gold Ambient Glow / Halo
       // -------------------------------------------------------------
       ctx.save();
-      ctx.strokeStyle = 'rgba(197, 168, 128, 0.12)';
-      ctx.lineWidth = laceWidth + (isMobile ? 8 : 14);
+      ctx.strokeStyle = 'rgba(197, 168, 128, 0.25)';
+      ctx.lineWidth = laceWidth + (isMobile ? 10 : 16);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       this.drawPath(segments, ctx, 0, 0);
@@ -1549,9 +1549,9 @@
       ctx.save();
       const mainGrad = ctx.createLinearGradient(0, 0, this.width, this.height);
       mainGrad.addColorStop(0.0, '#C5A880'); // Atelier Gold
-      mainGrad.addColorStop(0.25, '#E4D1B8'); // Japanese Combed Cotton Highlight
-      mainGrad.addColorStop(0.5, '#A38760'); // Dark Gold Weave
-      mainGrad.addColorStop(0.75, '#D8C3A7'); // Champagne Sheen
+      mainGrad.addColorStop(0.2, '#FAF9F5'); // Japanese Combed Cotton Specular
+      mainGrad.addColorStop(0.45, '#A38760'); // Dark Gold Weave
+      mainGrad.addColorStop(0.7, '#FFF8EE'); // Champagne Sheen
       mainGrad.addColorStop(1.0, '#8C704B'); // Rich Bronze Core
 
       ctx.strokeStyle = mainGrad;

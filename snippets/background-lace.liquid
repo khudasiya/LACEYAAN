@@ -5,10 +5,13 @@
 {% endcomment %}
 
 {%- liquid
-  assign enable_lace = settings.enable_background_lace | default: true
+  assign enable_lace = true
+  if settings.enable_background_lace == false
+    assign enable_lace = false
+  endif
   assign lace_color_primary = settings.lace_color_primary | default: '#C5A880'
   assign lace_color_secondary = settings.lace_color_secondary | default: '#FAF9F5'
-  assign lace_color_shadow = settings.lace_color_shadow | default: 'rgba(20, 19, 17, 0.12)'
+  assign lace_color_shadow = settings.lace_color_shadow | default: 'rgba(20, 19, 17, 0.25)'
 -%}
 
 {%- if enable_lace -%}
