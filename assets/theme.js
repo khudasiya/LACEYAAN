@@ -244,15 +244,15 @@
       if (!this.drawer) return;
 
       this.overlay = document.getElementById('cart-drawer-overlay');
-      this.closeBtn = this.drawer.querySelector('[data-cart-close]');
-      this.openTriggers = document.querySelectorAll('[data-cart-drawer-trigger], [data-open-cart]');
-      this.itemsContainer = this.drawer.querySelector('#cart-drawer-items');
-      this.countElements = document.querySelectorAll('#cart-drawer-count, .cart-count-bubble, [data-cart-count]');
-      this.subtotalElement = this.drawer.querySelector('#cart-drawer-subtotal');
-      this.freeShippingBar = this.drawer.querySelector('#shipping-progress-fill');
-      this.freeShippingText = this.drawer.querySelector('#shipping-progress-text');
-      this.emptyState = this.drawer.querySelector('#cart-drawer-empty');
-      this.filledState = this.drawer.querySelector('#cart-drawer-filled');
+      this.closeBtn = this.drawer.querySelector('[data-cart-close], #close-cart-drawer');
+      this.openTriggers = document.querySelectorAll('[data-cart-drawer-trigger], [data-open-cart], #open-cart-drawer, .bag-btn');
+      this.itemsContainer = this.drawer.querySelector('#cart-drawer-items, #cart-items-container');
+      this.countElements = document.querySelectorAll('#cart-drawer-count, .cart-count-bubble, [data-cart-count], #header-cart-count, .bag-count-bubble');
+      this.subtotalElement = this.drawer.querySelector('#cart-drawer-subtotal, #drawer-subtotal-amount');
+      this.freeShippingBar = this.drawer.querySelector('#shipping-progress-fill, .shipping-progress-fill');
+      this.freeShippingText = this.drawer.querySelector('#shipping-progress-text, .shipping-progress-text');
+      this.emptyState = this.drawer.querySelector('#cart-drawer-empty, .cart-empty-state');
+      this.filledState = this.drawer.querySelector('#cart-drawer-filled, .drawer-footer');
 
       this.threshold = parseInt(window.Laceyaan.freeShippingThreshold || '149900', 10);
 
@@ -392,15 +392,19 @@
     }
 
     open() {
-      this.drawer.classList.add('is-open');
-      if (this.overlay) this.overlay.classList.add('is-open');
+      this.drawer.classList.add('active', 'is-open');
+      if (this.overlay) this.overlay.classList.add('active', 'is-open');
+      this.drawer.setAttribute('aria-hidden', 'false');
+      if (this.overlay) this.overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('overflow-hidden');
       this.refresh();
     }
 
     close() {
-      this.drawer.classList.remove('is-open');
-      if (this.overlay) this.overlay.classList.remove('is-open');
+      this.drawer.classList.remove('active', 'is-open');
+      if (this.overlay) this.overlay.classList.remove('active', 'is-open');
+      this.drawer.setAttribute('aria-hidden', 'true');
+      if (this.overlay) this.overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('overflow-hidden');
     }
 
@@ -540,11 +544,11 @@
       this.modal = document.getElementById('search-modal');
       if (!this.modal) return;
 
-      this.openTriggers = document.querySelectorAll('[data-open-search]');
-      this.closeBtn = this.modal.querySelector('[data-search-close]');
-      this.input = this.modal.querySelector('#search-modal-input');
-      this.resultsContainer = this.modal.querySelector('#search-modal-results');
-      this.overlay = this.modal.querySelector('.search-modal-backdrop');
+      this.openTriggers = document.querySelectorAll('[data-open-search], #open-search-modal');
+      this.closeBtn = this.modal.querySelector('[data-search-close], #close-search-modal');
+      this.input = this.modal.querySelector('#search-modal-input, #predictive-search-input');
+      this.resultsContainer = this.modal.querySelector('#search-modal-results, #search-results-container');
+      this.overlay = document.getElementById('search-modal-overlay') || this.modal.querySelector('.search-modal-backdrop');
 
       this.bindEvents();
     }
@@ -567,14 +571,17 @@
       }
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && this.modal.classList.contains('is-open')) {
+        if (e.key === 'Escape' && (this.modal.classList.contains('active') || this.modal.classList.contains('is-open'))) {
           this.close();
         }
       });
     }
 
     open() {
-      this.modal.classList.add('is-open');
+      this.modal.classList.add('active', 'is-open');
+      if (this.overlay) this.overlay.classList.add('active', 'is-open');
+      this.modal.setAttribute('aria-hidden', 'false');
+      if (this.overlay) this.overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('overflow-hidden');
       if (this.input) {
         setTimeout(() => this.input.focus(), 150);
@@ -582,7 +589,10 @@
     }
 
     close() {
-      this.modal.classList.remove('is-open');
+      this.modal.classList.remove('active', 'is-open');
+      if (this.overlay) this.overlay.classList.remove('active', 'is-open');
+      this.modal.setAttribute('aria-hidden', 'true');
+      if (this.overlay) this.overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('overflow-hidden');
     }
 
@@ -937,37 +947,87 @@
       this.modal = document.getElementById('quick-view-modal');
       if (!this.modal) return;
 
-      this.closeBtn = this.modal.querySelector('[data-modal-close]');
+      this.overlay = document.getElementById('quick-view-overlay');
+      this.closeBtn = this.modal.querySelector('#close-quick-view, [data-modal-close]');
       this.content = this.modal.querySelector('#quick-view-content');
-      this.backdrop = this.modal.querySelector('.modal-backdrop');
 
       this.bindEvents();
     }
 
     bindEvents() {
       document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-quick-view]');
+        const trigger = e.target.closest('[data-quick-view], [data-quick-view-trigger], .quick-view-btn');
         if (!trigger) return;
         e.preventDefault();
-        const handle = trigger.dataset.productHandle;
+        const handle = trigger.dataset.productHandle || 
+                       trigger.getAttribute('data-quick-view-trigger') || 
+                       trigger.dataset.quickViewTrigger ||
+                       trigger.closest('[data-product-handle]')?.dataset.productHandle;
         if (handle) this.open(handle);
       });
 
       if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
-      if (this.backdrop) this.backdrop.addEventListener('click', () => this.close());
+      if (this.overlay) this.overlay.addEventListener('click', () => this.close());
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && this.modal.classList.contains('is-open')) this.close();
+        if (e.key === 'Escape' && (this.modal.classList.contains('active') || this.modal.classList.contains('is-open'))) {
+          this.close();
+        }
+      });
+
+      // Intercept Quick View add to bag form
+      this.modal.addEventListener('submit', async (e) => {
+        const form = e.target.closest('.quick-view-form');
+        if (!form) return;
+        e.preventDefault();
+
+        const submitBtn = form.querySelector('.quick-view-submit');
+        const originalText = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="spinner"></span> ADDING...';
+        }
+
+        try {
+          const formData = new FormData(form);
+          const res = await fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.description || 'Could not add to bag');
+          }
+
+          const addedItem = await res.json();
+          Utils.showToast(`${addedItem.title} added to your bag`, 'success');
+          this.close();
+          if (window.Laceyaan.cartDrawer) {
+            window.Laceyaan.cartDrawer.open();
+          }
+        } catch (err) {
+          Utils.showToast(err.message, 'error');
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+          }
+        }
       });
     }
 
     async open(handle) {
-      this.modal.classList.add('is-open');
+      this.modal.classList.add('active', 'is-open');
+      if (this.overlay) this.overlay.classList.add('active', 'is-open');
+      this.modal.setAttribute('aria-hidden', 'false');
+      if (this.overlay) this.overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('overflow-hidden');
-      this.content.innerHTML = '<div class="quick-view-loading">Summoning Atelier Details...</div>';
+      this.content.innerHTML = '<div class="quick-view-loading"><span class="spinner"></span><p>Loading details...</p></div>';
 
       try {
         const res = await fetch(`/products/${handle}.js`);
+        if (!res.ok) throw new Error('Product not found');
         const product = await res.json();
         this.renderProduct(product);
       } catch (err) {
@@ -976,40 +1036,49 @@
     }
 
     close() {
-      this.modal.classList.remove('is-open');
+      this.modal.classList.remove('active', 'is-open');
+      if (this.overlay) this.overlay.classList.remove('active', 'is-open');
+      this.modal.setAttribute('aria-hidden', 'true');
+      if (this.overlay) this.overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('overflow-hidden');
     }
 
     renderProduct(product) {
       const firstVariant = product.variants[0];
       const hasVariants = product.variants.length > 1;
+      const comparePrice = firstVariant.compare_at_price > firstVariant.price 
+        ? `<s class="price-was" style="margin-left: 0.5rem; color: #8C8880; font-size: 0.9em; text-decoration: line-through;">${Utils.formatMoney(firstVariant.compare_at_price)}</s>` 
+        : '';
 
       this.content.innerHTML = `
         <div class="quick-view-grid">
           <div class="quick-view-gallery">
-            <img src="${product.featured_image}" alt="${product.title}" class="quick-view-main-image" width="400" height="400">
+            <img src="${product.featured_image}" alt="${product.title}" class="quick-view-main-image" width="450" height="450" loading="eager">
           </div>
           <div class="quick-view-details">
-            <span class="quick-view-eyebrow">LACEYAAN ATELIER</span>
+            <span class="quick-view-eyebrow">LACEYAAN</span>
             <h2 class="quick-view-title">${product.title}</h2>
-            <div class="quick-view-price">${Utils.formatMoney(firstVariant.price)}</div>
-            <div class="quick-view-desc">${product.description ? product.description.substring(0, 160) + '...' : ''}</div>
+            <div class="quick-view-price">
+              <span class="price-now">${Utils.formatMoney(firstVariant.price)}</span>
+              ${comparePrice}
+            </div>
+            <div class="quick-view-desc">${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 180) + '...' : ''}</div>
 
             <form action="/cart/add" method="post" class="quick-view-form">
               <input type="hidden" name="id" value="${firstVariant.id}">
               ${hasVariants ? `
                 <div class="quick-view-variants">
-                  <label class="variant-label">Select Variant</label>
+                  <label class="variant-label">Select Option</label>
                   <select class="variant-select" onchange="this.form.id.value = this.value">
                     ${product.variants.map(v => `<option value="${v.id}">${v.title} - ${Utils.formatMoney(v.price)}</option>`).join('')}
                   </select>
                 </div>
               ` : ''}
               <button type="submit" class="btn btn-primary btn-block quick-view-submit">
-                <span>ACQUIRE PAIR &bull; ADD TO BAG</span>
+                <span>ADD TO BAG</span>
               </button>
             </form>
-            <a href="${product.url}" class="quick-view-full-link">View Full Editorial Dossier &rarr;</a>
+            <a href="${product.url}" class="quick-view-full-link">View Full Product Details &rarr;</a>
           </div>
         </div>
       `;
@@ -1681,7 +1750,7 @@
     new BeforeAfterSlider();
     new LengthCalculator();
     new ProductVariantSelector();
-    new QuickViewModal();
+    window.Laceyaan.quickViewModal = new QuickViewModal();
     new Accordion();
     new EasterEggModal();
 

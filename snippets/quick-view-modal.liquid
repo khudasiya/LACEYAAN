@@ -2,10 +2,10 @@
   Ajax Quick View Modal with dynamic variant selection and gallery
 {% endcomment %}
 
-<div id="quick-view-overlay" class="quick-view-overlay" aria-hidden="true"></div>
+<div id="quick-view-overlay" class="quick-view-overlay" data-modal-close aria-hidden="true"></div>
 
 <div id="quick-view-modal" class="quick-view-modal" role="dialog" aria-modal="true" aria-labelledby="quick-view-title" aria-hidden="true">
-  <button type="button" class="modal-close-btn" id="close-quick-view" aria-label="{{ 'accessibility.close' | t }}">
+  <button type="button" class="modal-close-btn" id="close-quick-view" data-modal-close aria-label="{{ 'accessibility.close' | t }}">
     {% render 'icon-close' %}
   </button>
 

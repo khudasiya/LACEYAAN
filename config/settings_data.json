@@ -12,7 +12,7 @@
     "free_shipping_threshold": 1499,
     "enable_cart_notes": true,
     "show_secondary_image": true,
-    "show_vendor": true,
+    "show_vendor": false,
     "show_rating": true,
     "enable_quick_view": true,
     "enable_background_lace": true,

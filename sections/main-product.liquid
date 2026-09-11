@@ -63,8 +63,13 @@
 
       <!-- Right: Product Information & Native Variant Form -->
       <div class="product-info-column">
-        {%- if product.vendor != blank -%}
-          <span class="product-vendor-badge">{{ product.vendor }}</span>
+        {%- assign vendor_clean = product.vendor | default: '' | strip -%}
+        {%- assign vendor_lower = vendor_clean | downcase -%}
+        {%- assign shop_lower = shop.name | downcase -%}
+        {%- if settings.show_vendor and vendor_clean != blank and vendor_lower != 'my store' and vendor_lower != shop_lower -%}
+          <span class="product-vendor-badge">{{ vendor_clean }}</span>
+        {%- elsif product.type != blank -%}
+          <span class="product-vendor-badge">{{ product.type }}</span>
         {%- endif -%}
 
         <h1 class="product-page-title">{{ product.title }}</h1>

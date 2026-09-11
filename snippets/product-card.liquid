@@ -12,9 +12,6 @@
 
 <div class="product-card" data-product-id="{{ product.id }}">
   <div class="card-media">
-    <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
-    <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
-    
     <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
         {{ featured_media | image_url: width: 750 | image_tag: 
@@ -38,46 +35,49 @@
       {%- endif -%}
     </a>
 
-    <!-- Streetwear Technical Badges -->
+    <!-- Luxury Status Badges (Genuine only) -->
     <div class="card-badges">
       {%- if current_variant.available == false -%}
-        <span class="badge badge-sold-out">[ SOLD OUT ]</span>
+        <span class="badge badge-sold-out">SOLD OUT</span>
       {%- elsif product.compare_at_price > product.price -%}
         {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-        <span class="badge badge-sale">[ -{{ savings }}% OFF ]</span>
+        <span class="badge badge-sale">-{{ savings }}% OFF</span>
       {%- elsif product.tags contains 'bestseller' -%}
-        <span class="badge badge-gold">[ BESTSELLER ]</span>
+        <span class="badge badge-gold">BESTSELLER</span>
       {%- elsif product.tags contains 'new' -%}
-        <span class="badge badge-new">[ NEW DROP ]</span>
+        <span class="badge badge-new">NEW DROP</span>
       {%- elsif product.tags contains 'vault' -%}
-        <span class="badge badge-dark">[ VAULT ARCHIVE ]</span>
-      {%- else -%}
-        <span class="badge badge-spec">[ MIL-SPEC ]</span>
+        <span class="badge badge-dark">VAULT ARCHIVE</span>
       {%- endif -%}
     </div>
 
-    <!-- Quick View Trigger -->
+    <!-- Quick View Trigger (Icon Only - Function Intact Without Text) -->
     {%- if settings.enable_quick_view -%}
       <button 
         type="button" 
         class="quick-view-btn" 
+        data-quick-view
+        data-product-handle="{{ product.handle }}"
         data-quick-view-trigger="{{ product.handle }}" 
         aria-label="Quick View {{ product.title | escape }}"
+        title="Quick View"
       >
         {% render 'icon-eye' %}
-        <span>[ QUICK VIEW ]</span>
       </button>
     {%- endif -%}
   </div>
 
   <div class="card-content">
-    {%- if settings.show_vendor and product.vendor != blank -%}
+    {%- assign vendor_clean = product.vendor | default: '' | strip -%}
+    {%- assign vendor_lower = vendor_clean | downcase -%}
+    {%- assign shop_lower = shop.name | downcase -%}
+    {%- if settings.show_vendor and vendor_clean != blank and vendor_lower != 'my store' and vendor_lower != shop_lower -%}
       <div class="card-category">
-        <span class="spec-prefix">// SPEC:</span> {{ product.vendor }}
+        {{ vendor_clean }}
       </div>
-    {%- else -%}
+    {%- elsif product.type != blank -%}
       <div class="card-category">
-        <span class="spec-prefix">// SPEC:</span> 3.8MM CNC BRASS AGLETS
+        {{ product.type }}
       </div>
     {%- endif -%}
 
@@ -96,7 +96,7 @@
       {%- if opt_name contains 'length' -%}
         <div class="card-lengths-preview">
           {%- for val in option.values limit: 4 -%}
-            <span class="length-pill-preview">[ {{ val }} ]</span>
+            <span class="length-pill-preview">{{ val }}</span>
           {%- endfor -%}
         </div>
       {%- endif -%}
@@ -113,7 +113,7 @@
           data-product-handle="{{ product.handle }}"
           aria-label="Buy {{ product.title | escape }} now"
         >
-          <span>BUY NOW [ &rarr; ]</span>
+          <span>BUY NOW</span>
         </button>
         <button 
           type="button" 
@@ -127,7 +127,7 @@
         </button>
       {%- else -%}
         <button type="button" class="btn-buy-now btn-sold-out" disabled>
-          <span>[ ARCHIVE OUT OF STOCK ]</span>
+          <span>SOLD OUT</span>
         </button>
       {%- endif -%}
     </div>

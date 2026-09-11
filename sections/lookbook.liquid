@@ -46,12 +46,21 @@
                   {%- endif -%}
                 </div>
                 <div class="popover-meta">
-                  <span class="popover-cat">{{ hot_product.vendor | default: 'Atelier Weave' }}</span>
+                  {%- assign hp_vendor = hot_product.vendor | default: '' | strip -%}
+                  {%- assign hp_vendor_lower = hp_vendor | downcase -%}
+                  {%- assign shop_lower = shop.name | downcase -%}
+                  {%- if hp_vendor != blank and hp_vendor_lower != 'my store' and hp_vendor_lower != shop_lower -%}
+                    <span class="popover-cat">{{ hp_vendor }}</span>
+                  {%- elsif hot_product.type != blank -%}
+                    <span class="popover-cat">{{ hot_product.type }}</span>
+                  {%- endif -%}
                   <h4 class="popover-title"><a href="{{ hot_product.url }}">{{ hot_product.title }}</a></h4>
                   <span class="popover-price">{{ hot_product.price | money }}</span>
                   <button 
                     type="button" 
                     class="btn-primary btn-xs" 
+                    data-quick-view
+                    data-product-handle="{{ hot_product.handle }}"
                     data-quick-view-trigger="{{ hot_product.handle }}"
                   >
                     Quick View
