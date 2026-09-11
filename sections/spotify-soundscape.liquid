@@ -1,0 +1,168 @@
+{%- comment -%}
+  LACEYAAN - Spotify Atelier Soundscape / Night Drift Player Section
+  Embedded streetwear soundtrack player with live animated audio visualizer and drift specs.
+{%- endcomment -%}
+
+<section id="spotify-soundscape" class="spotify-soundscape-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    
+    <div class="section-header text-center">
+      <div class="soundscape-badge">
+        <span class="live-pulse-dot" aria-hidden="true"></span>
+        <span>{{ section.settings.badge | default: '[ LACEYAAN RADIO // NIGHT DRIFT VOL. 01 ]' }}</span>
+      </div>
+      <h2 class="editorial-heading">{{ section.settings.heading | default: 'Underground Sounds for <em>Night Runners</em>' }}</h2>
+      <p class="section-subtitle">
+        {{ section.settings.subtitle | default: 'Stream our curated atelier night-drift soundscape while elevating your footwear. Heavyweight 808s, Tokyo midnight tapes, and nocturnal streetwear frequency.' }}
+      </p>
+    </div>
+
+    <div class="soundscape-grid">
+      <!-- Left Column: Embedded Spotify Player -->
+      <div class="spotify-embed-card">
+        <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+        <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+        <span class="card-corner-crosshair crosshair-bl" aria-hidden="true">+</span>
+        <span class="card-corner-crosshair crosshair-br" aria-hidden="true">+</span>
+
+        <div class="spotify-player-wrapper">
+          {%- assign spotify_url = section.settings.spotify_embed_url | default: 'https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0' -%}
+          <iframe 
+            style="border-radius: 4px;" 
+            src="{{ spotify_url }}" 
+            width="100%" 
+            height="352" 
+            frameBorder="0" 
+            allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy"
+            title="LACEYAAN Night Drift Spotify Player"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Right Column: Drift Telemetry & Equalizer Card -->
+      <div class="soundscape-info-card">
+        <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+        <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+
+        <div class="info-card-header">
+          <div class="live-status-wrap">
+            <span class="on-air-badge">ON AIR</span>
+            <span class="telemetry-stat">// FREQUENCY: 138 BPM &bull; NOCTURNAL</span>
+          </div>
+
+          <!-- Animated Audio Equalizer Bars -->
+          <div class="audio-equalizer" aria-hidden="true">
+            <span class="eq-bar bar-1"></span>
+            <span class="eq-bar bar-2"></span>
+            <span class="eq-bar bar-3"></span>
+            <span class="eq-bar bar-4"></span>
+            <span class="eq-bar bar-5"></span>
+            <span class="eq-bar bar-6"></span>
+            <span class="eq-bar bar-7"></span>
+            <span class="eq-bar bar-8"></span>
+          </div>
+        </div>
+
+        <div class="soundscape-body">
+          <h3 class="soundscape-title">{{ section.settings.playlist_title | default: 'TOKYO DRIFT &amp; SNEAKER CUSTOM TAPES' }}</h3>
+          <p class="soundscape-desc">
+            {{ section.settings.playlist_desc | default: 'Curated by LACEYAAN Sound Atelier. A blend of atmospheric phonk, underground hip-hop, and dark synth engineered for night drives and sneaker customs.' }}
+          </p>
+
+          <!-- Drift Culture Badges -->
+          <div class="soundscape-tags-grid">
+            <span class="drift-tag">[ DRIFT SPEC ]</span>
+            <span class="drift-tag">[ TOKYO 808s ]</span>
+            <span class="drift-tag">[ 3M REFLECTIVE ]</span>
+            <span class="drift-tag">[ CHROME DRIP ]</span>
+          </div>
+
+          <!-- Aglet Pairing Callout -->
+          <div class="soundscape-pairing-box">
+            <div class="pairing-icon">⚡</div>
+            <div class="pairing-content">
+              <span class="pairing-label">// RECOMMENDED ATELIER SWAP</span>
+              <span class="pairing-value">Pair with 3M Nocturnal Reflective or 10mm Chunky Rope Laces</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="soundscape-footer">
+          <a 
+            href="{{ section.settings.spotify_link | default: 'https://open.spotify.com' }}" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn-spotify"
+          >
+            {% render 'icon-spotify' %}
+            <span>OPEN IN SPOTIFY [ &rarr; ]</span>
+          </a>
+
+          <a href="/collections/all" class="btn-soundscape-secondary">
+            <span>SHOP DRIP COLLECTION</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spotify Soundscape",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "LACEYAAN RADIO // NIGHT DRIFT VOL. 01"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Underground Sounds for <em>Night Runners</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Stream our curated atelier night-drift soundscape while elevating your footwear. Heavyweight 808s, Tokyo midnight tapes, and nocturnal streetwear frequency."
+    },
+    {
+      "type": "text",
+      "id": "spotify_embed_url",
+      "label": "Spotify Embed URL",
+      "default": "https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0",
+      "info": "Paste Spotify Embed URL (Share -> Embed playlist)"
+    },
+    {
+      "type": "text",
+      "id": "playlist_title",
+      "label": "Playlist Title",
+      "default": "TOKYO DRIFT & SNEAKER CUSTOM TAPES"
+    },
+    {
+      "type": "textarea",
+      "id": "playlist_desc",
+      "label": "Playlist Description",
+      "default": "Curated by LACEYAAN Sound Atelier. A blend of atmospheric phonk, underground hip-hop, and dark synth engineered for night drives and sneaker customs."
+    },
+    {
+      "type": "url",
+      "id": "spotify_link",
+      "label": "Direct Spotify Link",
+      "default": "https://open.spotify.com"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spotify Soundscape",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}

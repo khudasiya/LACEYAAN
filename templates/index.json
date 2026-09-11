@@ -110,6 +110,18 @@
         "vault_product": ""
       }
     },
+    "spotify_soundscape": {
+      "type": "spotify-soundscape",
+      "settings": {
+        "badge": "LACEYAAN RADIO // NIGHT DRIFT VOL. 01",
+        "heading": "Underground Sounds for <em>Night Runners</em>",
+        "subtitle": "Stream our curated atelier night-drift soundscape while elevating your footwear. Heavyweight 808s, Tokyo midnight tapes, and nocturnal streetwear frequency.",
+        "spotify_embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0",
+        "playlist_title": "TOKYO DRIFT & SNEAKER CUSTOM TAPES",
+        "playlist_desc": "Curated by LACEYAAN Sound Atelier. A blend of atmospheric phonk, underground hip-hop, and dark synth engineered for night drives and sneaker customs.",
+        "spotify_link": "https://open.spotify.com"
+      }
+    },
     "portals": {
       "type": "home-portals",
       "blocks": {
@@ -268,6 +280,7 @@
     "before_after",
     "featured_collection",
     "design_lab",
+    "spotify_soundscape",
     "portals",
     "reviews",
     "faq"
