@@ -16,6 +16,8 @@
       {%- for block in section.blocks -%}
         <div class="portal-card" {{ block.shopify_attributes }}>
           <div class="portal-media">
+            <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+            <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 800 | image_tag: 
                 class: 'portal-img', 
@@ -29,7 +31,7 @@
             {%- endif -%}
             <div class="portal-overlay"></div>
             {%- if block.settings.tag != blank -%}
-              <span class="portal-tag">{{ block.settings.tag }}</span>
+              <span class="portal-tag">[ {{ block.settings.tag }} ]</span>
             {%- endif -%}
           </div>
 
@@ -39,7 +41,7 @@
             {%- if block.settings.button_link != blank -%}
               <a href="{{ block.settings.button_link }}" class="portal-btn-link">
                 <span>{{ block.settings.button_label | default: 'Explore Studio' }}</span>
-                &rarr;
+                <span class="btn-arrow">[ &rarr; ]</span>
               </a>
             {%- endif -%}
           </div>

@@ -20,8 +20,8 @@
     <div class="hero-inner">
       {%- if section.settings.badge != blank -%}
         <div class="hero-badge">
-          {% render 'icon-sparkles' %}
-          <span>{{ section.settings.badge }}</span>
+          <span class="spec-dot" aria-hidden="true">●</span>
+          <span>[ {{ section.settings.badge }} ]</span>
         </div>
       {%- endif -%}
 
@@ -37,19 +37,22 @@
         {%- if section.settings.button_1_label != blank -%}
           <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="btn-primary hero-btn-primary">
             <span>{{ section.settings.button_1_label }}</span>
-            &rarr;
+            <span class="btn-arrow">[ &rarr; ]</span>
           </a>
         {%- endif -%}
 
         {%- if section.settings.button_2_label != blank -%}
           <a href="{{ section.settings.button_2_link | default: '/pages/length-guide' }}" class="btn-secondary hero-btn-secondary">
             <span>{{ section.settings.button_2_label }}</span>
+            <span class="btn-arrow">[ + ]</span>
           </a>
         {%- endif -%}
       </div>
 
-      <!-- Key Metrics Counter Grid -->
+      <!-- Key Metrics Counter Grid with Streetwear Corner Crosshairs -->
       <div class="hero-metrics-grid">
+        <span class="metric-crosshair crosshair-tl" aria-hidden="true">+</span>
+        <span class="metric-crosshair crosshair-tr" aria-hidden="true">+</span>
         <div class="metric-item">
           <span class="metric-val">{{ section.settings.metric_1_val }}</span>
           <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
@@ -73,16 +76,16 @@
     <div class="marquee-track">
       {%- for i in (1..2) -%}
         <div class="marquee-content">
-          <span class="marquee-bullet">&bull;</span>
-          <span>SOLID CNC-MILLED BRASS AGLETS</span>
-          <span class="marquee-bullet">&bull;</span>
-          <span>JAPANESE SHUTTLE-LOOM COTTON</span>
-          <span class="marquee-bullet">&bull;</span>
+          <span class="marquee-bullet">✦</span>
+          <span>SOLID CNC-MILLED BRASS AGLETS [ 3.8MM ]</span>
+          <span class="marquee-bullet">✦</span>
+          <span>JAPANESE SHUTTLE-LOOM COMBED COTTON</span>
+          <span class="marquee-bullet">✦</span>
           <span>30-DAY GUARANTEED FIT PROMISE</span>
-          <span class="marquee-bullet">&bull;</span>
+          <span class="marquee-bullet">✦</span>
           <span>ORGANIC NATURAL BEESWAX INFUSION</span>
-          <span class="marquee-bullet">&bull;</span>
-          <span>ENGINEERED FOR SNEAKERHEADS &amp; FOOTWEAR CONNOISSEURS</span>
+          <span class="marquee-bullet">✦</span>
+          <span>ENGINEERED FOR SNEAKERHEADS &amp; BESPOKE FOOTWEAR</span>
         </div>
       {%- endfor -%}
     </div>

@@ -7,8 +7,8 @@
     <div class="section-header text-center">
       {%- if section.settings.badge != blank -%}
         <div class="design-lab-badge">
-          {% render 'icon-sparkles' %}
-          <span>{{ section.settings.badge }}</span>
+          <span class="spec-dot" aria-hidden="true">●</span>
+          <span>[ {{ section.settings.badge }} ]</span>
         </div>
       {%- endif -%}
       <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
@@ -18,6 +18,9 @@
     <div class="lab-showcase-grid">
       <!-- Sticky Media Presentation Card -->
       <div class="lab-media-card">
+        <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+        <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+        
         <div class="lab-image-container">
           {%- if section.settings.box_image != blank -%}
             {{ section.settings.box_image | image_url: width: 1000 | image_tag: 
@@ -30,8 +33,8 @@
           {%- endif -%}
 
           <div class="lab-overlay-tag">
-            <span class="vault-tag">ALCE DESIGN LAB &bull; S'25 ARCHIVE</span>
-            <span class="vault-edition">Limited to 500 Numbered Sets</span>
+            <span class="vault-tag">[ ALCE DESIGN LAB // S'25 ARCHIVE ]</span>
+            <span class="vault-edition">[ LIMITED: 500 NUMBERED SETS ]</span>
           </div>
         </div>
 
@@ -82,6 +85,7 @@
       <!-- Symmetrical 2x2 Individual Laces Column -->
       <div class="lab-details-col">
         <div class="lab-intro-box">
+          <span class="spec-label-small">// CAPSULE SILHOUETTES [ 01/04 ]</span>
           <h3>The 4 Jacquard Silhouettes</h3>
           <p>
             Each lace in this capsule is woven on high-tension Jacquard shuttle looms rather than 
@@ -124,6 +128,8 @@
               -%}
               <div class="product-card" {{ block.shopify_attributes }}>
                 <div class="card-media">
+                  <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+                  <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
                   <a href="{{ b_url }}" class="media-link" aria-label="{{ b_title | escape }}">
                     {%- if block.settings.custom_image != blank -%}
                       {{ block.settings.custom_image | image_url: width: 600 | image_tag: 
@@ -151,7 +157,7 @@
                   </a>
                 </div>
                 <div class="card-content">
-                  <span class="card-vendor">{{ b_vendor }}</span>
+                  <span class="card-category"><span class="spec-prefix">// SPEC:</span> {{ b_vendor }}</span>
                   <h3 class="card-title"><a href="{{ b_url }}">{{ b_title }}</a></h3>
                   <div class="card-price-row">
                     <span class="price-now">{{ b_price }}</span>
@@ -165,7 +171,7 @@
                       {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
                       aria-label="Buy {{ b_title | escape }} now"
                     >
-                      <span>{{ block.settings.buy_now_label | default: 'BUY NOW' }}</span>
+                      <span>BUY NOW [ &rarr; ]</span>
                     </button>
                     <button 
                       type="button" 

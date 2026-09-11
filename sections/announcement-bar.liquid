@@ -25,7 +25,7 @@
               {{ block.shopify_attributes }}
             >
               {%- if block.settings.badge != blank -%}
-                <span class="announcement-badge">{{ block.settings.badge }}</span>
+                <span class="announcement-badge">[ {{ block.settings.badge }} ]</span>
               {%- endif -%}
               <p class="announcement-text">
                 {%- if block.settings.link != blank -%}
@@ -48,7 +48,7 @@
       <div class="announcement-right">
         {%- if section.settings.fit_guide_link != blank and section.settings.fit_guide_text != blank -%}
           <a href="{{ section.settings.fit_guide_link }}" class="announcement-link">
-            {{ section.settings.fit_guide_text }}
+            [ {{ section.settings.fit_guide_text }} ]
           </a>
         {%- endif -%}
 

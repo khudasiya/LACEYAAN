@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <!-- Google Typography for Luxury Streetwear Aesthetic -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -53,7 +53,9 @@
         --font-serif: 'Playfair Display', Georgia, serif;
         --font-editorial: 'Cormorant Garamond', Georgia, serif;
         --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-heading: 'Outfit', sans-serif;
+        --font-heading: 'Outfit', 'Space Grotesk', sans-serif;
+        --font-grotesk: 'Space Grotesk', sans-serif;
+        --font-mono: 'Space Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         --radius-xs: 2px;
         --radius-sm: 4px;
         --radius-full: 9999px;
