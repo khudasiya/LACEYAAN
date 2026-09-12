@@ -1,0 +1,285 @@
+<section class="ly-laces-section" id="SpecimenVault">
+  <div class="ly-section-header">
+    <div class="ly-section-eyebrow">
+      <span class="ly-eyebrow-accent">// ARCHIVE SPECIMENS</span>
+      <span class="ly-eyebrow-count">08 SIGNATURE WEAVES</span>
+    </div>
+
+    <h2 class="ly-section-title">{{ section.settings.heading | default: 'THE SPECIMEN VAULT' }}</h2>
+    <p class="ly-section-desc">
+      {{ section.settings.subheading | default: 'A non-purchasable launch exhibition. Engineered weaves, high-tensile braided cores, and CNC-machined metal aglets laser-etched with LACEYAAN.' }}
+    </p>
+
+    <!-- Interactive Glow Mode Banner / Switch -->
+    <div class="ly-glow-switch-bar">
+      <div class="ly-glow-switch-info">
+        <span class="ly-glow-dot"></span>
+        <span class="ly-glow-switch-text">TEST THE ELECTROLUMINESCENT WEAVE</span>
+      </div>
+      <button type="button" class="ly-glow-interactive-btn" id="lySectionGlowBtn">
+        <span class="ly-glow-sparkle">✦</span>
+        <span class="ly-glow-btn-label">SWITCH TO NIGHT GLOW</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- The 8 Specimens Grid -->
+  <div class="ly-specimens-grid" id="lySpecimensGrid">
+
+    <!-- 01. Jaguar Lace -->
+    <div class="ly-specimen-card" data-specimen="01" data-title="Jaguar Pattern Jacquard">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #01</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="LACEYAAN Jaguar Pattern Lace" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">CNC 18K GOLD PVD AGLET</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">JACQUARD FLAT WEAVE</span>
+          <h3 class="ly-specimen-name">JAGUAR ARCHIVE</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Custom High-Density Leopard Jacquard</li>
+          <li><strong>Aglet:</strong> 18K Gold PVD Stainless Steel (Laser-Etched)</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="01">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02. Pink Plain Lace -->
+    <div class="ly-specimen-card" data-specimen="02" data-title="Blush Pink Cotton Braid">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #02</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="LACEYAAN Pink Plain Lace" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">ROSE GOLD ENGRAVED AGLET</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">100% COMBED COTTON</span>
+          <h3 class="ly-specimen-name">BLUSH PLAIN PINK</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Heavyweight Fine Flat Cotton Herringbone</li>
+          <li><strong>Aglet:</strong> Polished Rose Gold Brass (Laser-Etched)</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="02">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03. Black Lace -->
+    <div class="ly-specimen-card" data-specimen="03" data-title="Obsidian Waxed Black">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #03</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-black.jpg' | asset_url }}" alt="LACEYAAN Black Lace" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">MATTE OBSIDIAN GUNMETAL</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">PARAFFIN WAXED WEAVE</span>
+          <h3 class="ly-specimen-name">PURE MATTE BLACK</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Triple-Black Japanese Waxed Finish</li>
+          <li><strong>Aglet:</strong> Matte Gunmetal Steel with Knurled Collar</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="03">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04. White Lace -->
+    <div class="ly-specimen-card" data-specimen="04" data-title="Heritage Optic White">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #04</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-white.jpg' | asset_url }}" alt="LACEYAAN White Lace" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">MIRROR CHROME AGLET</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">HERITAGE SNEAKER WEAVE</span>
+          <h3 class="ly-specimen-name">CRISP OPTIC WHITE</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Heavy Gauge Unbleached Organic Cotton</li>
+          <li><strong>Aglet:</strong> Mirror Polished Chrome with Micro-Emboss</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="04">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05. Brown Plain Lace -->
+    <div class="ly-specimen-card" data-specimen="05" data-title="Espresso Waxed Brown">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #05</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-brown.jpg' | asset_url }}" alt="LACEYAAN Brown Plain Lace" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">VINTAGE PATINA BRASS</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">HERITAGE LEATHERETTE BRAID</span>
+          <h3 class="ly-specimen-name">ESPRESSO PLAIN BROWN</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Artisan Hand-Burnished Waxed Finish</li>
+          <li><strong>Aglet:</strong> Antiqued Brushed Brass with Serial Mark</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="05">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06. Green Lace -->
+    <div class="ly-specimen-card" data-specimen="06" data-title="Tactical Forest Olive">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #06</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-green.jpg' | asset_url }}" alt="LACEYAAN Green Lace" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">CERAKOTE MATTE OLIVE</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">TACTICAL NYLON WEAVE</span>
+          <h3 class="ly-specimen-name">MIL-SPEC FOREST GREEN</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Ultra High-Tensile Weatherproof Jacquard</li>
+          <li><strong>Aglet:</strong> Matte Forest Cerakote (Laser-Etched)</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="06">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07. Yellow Laces -->
+    <div class="ly-specimen-card" data-specimen="07" data-title="Canary Streetwear Yellow">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id">SPECIMEN #07</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media">
+        <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="LACEYAAN Yellow Laces" class="ly-specimen-img" loading="lazy" width="600" height="600">
+        <div class="ly-media-overlay"></div>
+        <div class="ly-aglet-tag">JET BLACK CNC AGLET</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type">HIGH-CONTRAST STREETWEAR</span>
+          <h3 class="ly-specimen-name">CANARY STREETWEAR YELLOW</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Textured Double-Braid High Visibility Core</li>
+          <li><strong>Aglet:</strong> Hard Anodized Jet Black Aluminum</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill">PREVIEW ONLY &bull; ZERO RESTOCK</span>
+          <button type="button" class="ly-btn-inspect" data-target="07">EXAMINE WEAVE ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08. Glow in the Dark Lace (Phosphor Reactive) -->
+    <div class="ly-specimen-card ly-glow-specimen" data-specimen="08" data-title="Electroluminescent Phosphor Glow">
+      <div class="ly-card-header">
+        <span class="ly-specimen-id ly-glow-badge">SPECIMEN #08 ✦ ACTIVE GLOW</span>
+        <span class="ly-specimen-status">EXHIBITION ONLY</span>
+      </div>
+      <div class="ly-card-media ly-glow-media-container">
+        <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="LACEYAAN Glow in the Dark Lace" class="ly-specimen-img ly-glow-pulse-img" loading="lazy" width="600" height="600">
+        <div class="ly-glow-halo-effect"></div>
+        <div class="ly-aglet-tag ly-glow-tag">PHOSPHOR STRONTIUM FIBER</div>
+      </div>
+      <div class="ly-card-content">
+        <div class="ly-specimen-meta">
+          <span class="ly-specimen-type ly-glow-text">PHOTOLUMINESCENT TECH</span>
+          <h3 class="ly-specimen-name">GLOW IN THE DARK</h3>
+        </div>
+        <ul class="ly-spec-list">
+          <li><strong>Weave:</strong> Strontium Aluminate Night-Illuminated Core</li>
+          <li><strong>Aglet:</strong> Stealth Black Gunmetal (Laser-Etched)</li>
+          <li><strong>Lengths:</strong> 120cm / 140cm Standard Eyelet Fit</li>
+        </ul>
+        <div class="ly-card-footer">
+          <span class="ly-status-pill ly-glow-pill">CHARGES IN LIGHT &bull; GLOWS IN DARK</span>
+          <button type="button" class="ly-btn-inspect ly-btn-glow-inspect" data-target="08">EXAMINE GLOW ✦</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Specimen Detail Inspection Modal -->
+  <div class="ly-inspect-modal" id="lyInspectModal" role="dialog" aria-hidden="true">
+    <div class="ly-inspect-overlay" id="lyInspectOverlay"></div>
+    <div class="ly-inspect-panel">
+      <button type="button" class="ly-inspect-close" id="lyInspectClose" aria-label="Close Inspector">&times;</button>
+      <div class="ly-inspect-content" id="lyInspectContent">
+        <!-- Injected via JavaScript based on chosen lace -->
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Laces Specimen Vault",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "THE SPECIMEN VAULT"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Section Subheading",
+      "default": "8 signature weaves. A non-purchasable launch exhibition. Engineered weaves, high-tensile cores, and CNC metal aglets."
+    }
+  ]
+}
+{% endschema %}

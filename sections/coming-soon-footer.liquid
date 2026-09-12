@@ -1,0 +1,67 @@
+<footer class="ly-footer-section">
+  <div class="ly-footer-container">
+    <div class="ly-footer-top-row">
+      <div class="ly-footer-brand-col">
+        <div class="ly-footer-emblem-wrap">
+          <img src="{{ 'logo-icon-white.png' | asset_url }}" alt="LACEYAAN Logo" class="ly-footer-logo" width="36" height="36">
+          <span class="ly-footer-brand-title">LACEYAAN</span>
+        </div>
+        <p class="ly-footer-bio">
+          Elevate the everyday. Hand-selected fibers, bespoke weave architectures, and laser-etched metal hardware designed to redefine the footwear experience.
+        </p>
+      </div>
+
+      <div class="ly-footer-links-col">
+        <h4 class="ly-footer-heading">NAVIGATION</h4>
+        <ul class="ly-footer-menu">
+          <li><a href="#HeroSection">Overview</a></li>
+          <li><a href="#NotifySection">VIP Launch Access</a></li>
+          <li><a href="#SpecimenVault">The 8 Specimens</a></li>
+          <li><a href="#CampaignStory">Editorial Story</a></li>
+        </ul>
+      </div>
+
+      <div class="ly-footer-links-col">
+        <h4 class="ly-footer-heading">SPECIFICATIONS</h4>
+        <ul class="ly-footer-menu">
+          <li><span>120cm / 140cm Standard Lengths</span></li>
+          <li><span>Universal 4.2mm Eyelet Compatibility</span></li>
+          <li><span>Precision CNC Metal Aglets</span></li>
+          <li><span>Drop 01 Zero Restocks</span></li>
+        </ul>
+      </div>
+
+      <div class="ly-footer-social-col">
+        <h4 class="ly-footer-heading">CONNECT</h4>
+        <div class="ly-social-pills">
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="ly-social-pill">INSTAGRAM ↗</a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="ly-social-pill">TIKTOK ↗</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="ly-social-pill">X / TWITTER ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ly-footer-bottom-bar">
+      <div class="ly-footer-copy">
+        {{ section.settings.copyright_text | default: '© 2026 LACEYAAN DESIGN LAB. ALL RIGHTS RESERVED.' }}
+      </div>
+      <div class="ly-footer-statement">
+        <span>SAME SHOES. DIFFERENT STORY.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Coming Soon Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "© 2026 LACEYAAN DESIGN LAB. ALL RIGHTS RESERVED."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,118 @@
+<section class="ly-notify-section" id="NotifySection">
+  <div class="ly-notify-glow-orb"></div>
+  
+  <div class="ly-notify-container">
+    <div class="ly-notify-branding">
+      <div class="ly-emblem-frame">
+        <img src="{{ 'logo-icon-white.png' | asset_url }}" alt="LACEYAAN Icon" class="ly-emblem-small" width="48" height="48">
+      </div>
+      <h2 class="ly-notify-brand-name">LACEYAAN</h2>
+      <div class="ly-notify-status-badge">COMING SOON</div>
+    </div>
+
+    <div class="ly-notify-editorial">
+      <h3 class="ly-notify-heading">{{ section.settings.title | default: 'THE DIFFERENCE IS COMING.' }}</h3>
+      <p class="ly-notify-subtext">
+        {{ section.settings.description | default: 'A limited drop of custom-engineered sneaker laces. Get private VIP access 2 hours before the public launch.' }}
+      </p>
+    </div>
+
+    <!-- Inline Morphing Email Capture Container -->
+    <div class="ly-notify-interactive-box" id="lyNotifyBox">
+      {% form 'customer', id: 'lyCustomerForm', class: 'ly-customer-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter, launch_waitlist, coming_soon, vip_waitlist, drop_01">
+        
+        {% if form.posted_successfully? %}
+          <div class="ly-notify-success-state" id="lyNotifySuccess">
+            <div class="ly-success-icon">✦</div>
+            <h4>YOU'RE ON THE VIP LIST</h4>
+            <p>Your early-access pass is secured. We will notify you directly when the vault unlocks.</p>
+          </div>
+        {% else %}
+          {% if form.errors %}
+            <div class="ly-form-error-banner">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <!-- State 1: Trigger Button -->
+          <div class="ly-trigger-wrapper" id="lyTriggerWrapper">
+            <button type="button" class="ly-btn-notify-trigger" id="lyNotifyTriggerBtn">
+              <span class="ly-aglet-sparkle">✦</span>
+              <span class="ly-btn-text">NOTIFY ME WHEN WE LAUNCH</span>
+              <span class="ly-btn-arrow">→</span>
+            </button>
+            <div class="ly-trigger-subhint">Click to register for private VIP priority drop</div>
+          </div>
+
+          <!-- State 2: Morphing Email Form (Expands Smoothly In Place) -->
+          <div class="ly-form-expanded-wrapper" id="lyFormExpandedWrapper" style="display: none;">
+            <div class="ly-form-inner-row">
+              <div class="ly-input-container">
+                <input 
+                  type="email" 
+                  name="contact[email]" 
+                  id="lyEmailInput" 
+                  class="ly-notify-input" 
+                  placeholder="Enter your email address" 
+                  autocomplete="email" 
+                  autocapitalize="off"
+                  spellcheck="false"
+                  required
+                >
+                <label for="lyEmailInput" class="visually-hidden">Email Address</label>
+              </div>
+
+              <button type="submit" class="ly-btn-notify-submit" id="lySubmitBtn">
+                <span>GET ACCESS</span>
+                <span class="ly-submit-arrow">↗</span>
+              </button>
+            </div>
+
+            <div class="ly-form-footer-meta">
+              <span class="ly-meta-tag">🔒 ZERO SPAM. ONLY LAUNCH NOTIFICATIONS.</span>
+              <button type="button" class="ly-form-cancel-btn" id="lyFormCancelBtn">Close</button>
+            </div>
+          </div>
+        {% endif %}
+      {% endform %}
+    </div>
+
+    <div class="ly-notify-perks">
+      <div class="ly-perk-item">
+        <span class="ly-perk-bullet">01</span>
+        <span class="ly-perk-text">Private 2-Hour Headstart</span>
+      </div>
+      <div class="ly-perk-divider">/</div>
+      <div class="ly-perk-item">
+        <span class="ly-perk-bullet">02</span>
+        <span class="ly-perk-text">Exclusive Aglet Engraving</span>
+      </div>
+      <div class="ly-perk-divider">/</div>
+      <div class="ly-perk-item">
+        <span class="ly-perk-bullet">03</span>
+        <span class="ly-perk-text">Zero Restocks Guarantee</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Notify Me Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "THE DIFFERENCE IS COMING."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "A limited drop of custom-engineered sneaker laces. Get private VIP access 2 hours before the public launch."
+    }
+  ]
+}
+{% endschema %}
