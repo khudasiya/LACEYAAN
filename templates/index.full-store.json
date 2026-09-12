@@ -1,0 +1,288 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "badge": "THE NEW STANDARD IN FOOTWEAR CRAFT",
+        "heading": "Elevate Every Step. <em>Precision Laces</em> for Every Style.",
+        "subtitle": "Factory laces were made to save margins. laceyaan laces are engineered to honor design. Hand-finished in solid brass and Japanese combed cotton to elevate your sneakers, sport shoes, formal wear, and boots.",
+        "button_1_label": "Shop All Laces",
+        "button_1_link": "/collections/all",
+        "button_2_label": "Find Your Length",
+        "button_2_link": "/pages/length-guide",
+        "metric_1_val": "3.8mm",
+        "metric_1_lbl": "Universal Eyelet Fit",
+        "metric_2_val": "20,000",
+        "metric_2_lbl": "Tension Cycle Durability",
+        "metric_3_val": "100%",
+        "metric_3_lbl": "Solid Milled Metal Aglets"
+      }
+    },
+    "before_after": {
+      "type": "before-after-slider",
+      "settings": {
+        "badge": "THE VISUAL PROOF",
+        "heading": "Factory Laces vs. laceyaan Craft",
+        "subtitle": "Drag the slider horizontally to reveal how a single lace swap completely transforms standard footwear into an editorial runway custom.",
+        "featured_product": ""
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "badge": "CURATED ATELIER FAVORITES",
+        "heading": "Best Sellers & Signature Weaves",
+        "subtitle": "From our flagship Japanese waxed cotton flats to 10mm chunky rope and nocturnal 3M reflective weaves. Handcrafted with solid brass aglets.",
+        "product_list": [],
+        "collection": "",
+        "products_to_show": 8,
+        "columns_desktop": "4",
+        "show_view_all": true,
+        "view_all_label": "Explore All Atelier Weaves"
+      }
+    },
+    "design_lab": {
+      "type": "design-lab-showcase",
+      "blocks": {
+        "silhouette_1": {
+          "type": "lace_card",
+          "settings": {
+            "product": "",
+            "custom_title": "Leopard Weave Jacquard",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "₹899",
+            "buy_now_label": "BUY NOW"
+          }
+        },
+        "silhouette_2": {
+          "type": "lace_card",
+          "settings": {
+            "product": "",
+            "custom_title": "Vintage Paisley Tapestry",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "₹899",
+            "buy_now_label": "BUY NOW"
+          }
+        },
+        "silhouette_3": {
+          "type": "lace_card",
+          "settings": {
+            "product": "",
+            "custom_title": "Olive Heritage Shuttle Loom",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "₹899",
+            "buy_now_label": "BUY NOW"
+          }
+        },
+        "silhouette_4": {
+          "type": "lace_card",
+          "settings": {
+            "product": "premium-white-laces",
+            "custom_title": "Imperial Plum Damier",
+            "custom_vendor": "Jacquard Shuttle Loom",
+            "custom_price": "149",
+            "buy_now_label": "BUY NOW"
+          }
+        }
+      },
+      "block_order": [
+        "silhouette_1",
+        "silhouette_2",
+        "silhouette_3",
+        "silhouette_4"
+      ],
+      "settings": {
+        "badge": "LACEYAAN DESIGN LAB // S'25 CAPSULE",
+        "heading": "Artisanal Jacquard & Tapestry Series",
+        "subtitle": "Beyond standard solids. Four high-density Jacquard loom tapestries featuring custom-coated enamel aglets, presented in our signature textured collector's box.",
+        "box_product": "",
+        "capsule_products": [],
+        "capsule_collection": "",
+        "vault_product": ""
+      }
+    },
+    "spotify_soundscape": {
+      "type": "spotify-soundscape",
+      "settings": {
+        "badge": "LACEYAAN RADIO // NIGHT DRIFT VOL. 01",
+        "heading": "Underground Sounds for <em>Night Runners</em>",
+        "subtitle": "Stream our curated atelier night-drift soundscape while elevating your footwear. Heavyweight 808s, Tokyo midnight tapes, and nocturnal streetwear frequency.",
+        "spotify_embed_url": "https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0",
+        "playlist_title": "TOKYO DRIFT & SNEAKER CUSTOM TAPES",
+        "playlist_desc": "Curated by LACEYAAN Sound Atelier. A blend of atmospheric phonk, underground hip-hop, and dark synth engineered for night drives and sneaker customs.",
+        "spotify_link": "https://open.spotify.com"
+      }
+    },
+    "portals": {
+      "type": "home-portals",
+      "blocks": {
+        "portal_1": {
+          "type": "portal",
+          "settings": {
+            "tag": "INTERACTIVE TOOL",
+            "title": "Shoelace Length Calculator",
+            "description": "Never guess your length. Select your footwear silhouette and eyelet count for a guaranteed precision fit.",
+            "button_label": "Launch Calculator",
+            "button_link": "/pages/length-guide"
+          }
+        },
+        "portal_2": {
+          "type": "portal",
+          "settings": {
+            "tag": "EDITORIAL GALLERY",
+            "title": "Editorial Lookbook",
+            "description": "Discover how leading stylists, sneakerheads, and collectors pair bespoke weaves with high-heat rotations.",
+            "button_label": "View Lookbook",
+            "button_link": "/pages/lookbook"
+          }
+        },
+        "portal_3": {
+          "type": "portal",
+          "settings": {
+            "tag": "BEFORE & AFTER",
+            "title": "The Transformation Studio",
+            "description": "Interactive split comparison demonstrating why 10mm rope and waxed flat cotton outperform stock factory laces.",
+            "button_label": "Test Split Slider",
+            "button_link": "/pages/before-after"
+          }
+        },
+        "portal_4": {
+          "type": "portal",
+          "settings": {
+            "tag": "OUR PHILOSOPHY",
+            "title": "The LACEYAAN Standard",
+            "description": "Slow Japanese shuttle looms, solid CNC naval brass hardware, and organic micro-beeswax infusion.",
+            "button_label": "Read Brand Story",
+            "button_link": "/pages/story"
+          }
+        }
+      },
+      "block_order": [
+        "portal_1",
+        "portal_2",
+        "portal_3",
+        "portal_4"
+      ],
+      "settings": {
+        "badge": "DISCOVER THE ATELIER",
+        "heading": "Studio Tools & Editorial Experiences",
+        "subtitle": "Everything engineered to ensure an immaculate, precision lace swap for your entire footwear rotation."
+      }
+    },
+    "reviews": {
+      "type": "reviews-press",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "verified": true,
+            "title": "Elevated my kicks to another stratosphere",
+            "comment": "The 72\" Vintage Sail flat waxed laces with solid brass tips took my high-top sneakers from off-the-shelf to looking like an archival bespoke pair. Substantial drape that never slips.",
+            "author": "Marcus T.",
+            "location": "Los Angeles, CA • High-Top Sneakers",
+            "lace_used": "Heritage Waxed Flat (Vintage Sail, 72\")"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "verified": true,
+            "title": "The chunky ecru rope is unreal on low-tops",
+            "comment": "Swapped out thin standard polyester for the 10mm chunky rope with gunmetal aglets. Compliments on the street are non-stop. Quality of the combed cotton is ridiculously soft yet holds shape.",
+            "author": "Chloe V.",
+            "location": "London, UK • Retro Court Low-Tops",
+            "lace_used": "Chunky Braided Rope (Natural Ecru, 45\")"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "verified": true,
+            "title": "3M reflective pops like crazy on evening runs",
+            "comment": "Took flash photos at night and the micro-glass reflections look incredible. Hardware is heavy solid CNC metal. Fast courier delivery across India too. Ordered 3 more sets immediately.",
+            "author": "Julian K.",
+            "location": "New Delhi, India • Sport Running Trainers",
+            "lace_used": "3M Nocturnal Reflective (Diamond Grid, 45\")"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "badge": "12,000+ SNEAKERHEADS UPGRADED",
+        "heading": "Validated by the Culture",
+        "subtitle": "Read authentic reactions from sneaker collectors, stylists, and footwear enthusiasts who made the switch to bespoke weaves."
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I choose the correct shoelace length for my shoes?",
+            "answer": "<p>The simplest way is using our interactive Shoelace Length Calculator! As a rule of thumb: 4-5 eyelet low-tops require 36\"–45\", 6-7 eyelet casual kicks require 45\"–54\", and 8-9 eyelet high-tops require 63\"–72\".</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will solid metal aglets fit through standard footwear eyelets?",
+            "answer": "<p>Yes! All laceyaan metal aglets are precision CNC-milled to an outer diameter of 3.8mm, rigorously tested to glide smoothly through 99.8% of modern sneakers, trainers, dress shoes, and boot lace holes.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What makes Japanese shuttle-loom combed cotton superior to stock laces?",
+            "answer": "<p>Standard factory laces are mass-produced from cheap, slippery polyester that frays, wrinkles, and unties constantly. laceyaan laces are woven on heritage shuttle looms from 100% combed Japanese cotton and infused with organic beeswax for rich structural drape and knot lock.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your shipping and return policy across India?",
+            "answer": "<p>We provide complimentary tracked express courier delivery across India on all orders over ₹1,499. Orders before 2:00 PM IST dispatch same business day. We back every pair with our 30-Day Guaranteed Fit Promise: free exchanges with zero questions asked.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "badge": "ATELIER SPECIFICATIONS",
+        "heading": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know about sizing, eyelet compatibility, materials, and express delivery.",
+        "support_email": "laceyaan@gmail.com"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "before_after",
+    "featured_collection",
+    "design_lab",
+    "spotify_soundscape",
+    "portals",
+    "reviews",
+    "faq"
+  ]
+}
