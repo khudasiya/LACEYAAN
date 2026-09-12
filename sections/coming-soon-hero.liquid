@@ -1,0 +1,94 @@
+<section class="ly-hero-section" id="HeroSection">
+  <div class="ly-hero-backdrop">
+    <div class="ly-hero-img-layer" style="background-image: url('{{ 'campaign-tangle.jpg' | asset_url }}');"></div>
+    <div class="ly-hero-gradient-overlay"></div>
+    <div class="ly-noise-overlay"></div>
+  </div>
+
+  <div class="ly-hero-content">
+    <div class="ly-hero-eyebrow animate-fade-up">
+      <span class="ly-eyebrow-line"></span>
+      <span class="ly-eyebrow-text">{{ section.settings.launch_badge | default: 'LAUNCHING WORLDWIDE // S25 ARCHIVE' }}</span>
+      <span class="ly-eyebrow-line"></span>
+    </div>
+
+    <div class="ly-brand-emblem-wrap animate-float">
+      <img src="{{ 'logo-icon-white.png' | asset_url }}" alt="LACEYAAN Monogram" class="ly-hero-monogram" width="70" height="70">
+      <div class="ly-emblem-glow"></div>
+    </div>
+
+    <h1 class="ly-hero-title animate-fade-up delay-1">
+      <span class="ly-hero-name">LACEYAAN</span>
+      <span class="ly-hero-status">COMING SOON.</span>
+    </h1>
+
+    <div class="ly-hero-manifesto animate-fade-up delay-2">
+      <p class="ly-quote-primary">"{{ section.settings.tagline | default: 'SAME SHOES. DIFFERENT STORY.' }}"</p>
+      <p class="ly-quote-secondary">{{ section.settings.subheading | default: 'ELEVATE THE EVERYDAY.' }}</p>
+    </div>
+
+    <div class="ly-hero-anchors animate-fade-up delay-3">
+      <a href="#NotifySection" class="ly-hero-cta-scroll">
+        <span>VIP LAUNCH NOTIFICATION</span>
+        <span class="ly-scroll-arrow">↓</span>
+      </a>
+      <a href="#SpecimenVault" class="ly-hero-cta-secondary">
+        <span>EXAMINE 8 SPECIMENS</span>
+        <span class="ly-arrow-diag">↗</span>
+      </a>
+    </div>
+
+    <div class="ly-hero-editorial-badge">
+      <span class="ly-badge-sub">ALCE DESIGN LAB</span>
+      <span class="ly-badge-main">CNC ENGRAVED AGLETS // JAPANESE WEAVES</span>
+    </div>
+  </div>
+
+  <div class="ly-hero-bottom-ticker">
+    <div class="ly-ticker-track">
+      <span>LACEYAAN // THE DIFFERENCE IS COMING</span>
+      <span>•</span>
+      <span>GOOD SHOES TAKE YOU PLACES</span>
+      <span>•</span>
+      <span>SOMETHING'S MISSING</span>
+      <span>•</span>
+      <span>A SMALL CHANGE. A BIGGER YOU.</span>
+      <span>•</span>
+      <span>PREMIUM DETAILS AHEAD</span>
+      <span>•</span>
+      <span>LACEYAAN // THE DIFFERENCE IS COMING</span>
+      <span>•</span>
+      <span>GOOD SHOES TAKE YOU PLACES</span>
+      <span>•</span>
+      <span>SOMETHING'S MISSING</span>
+      <span>•</span>
+      <span>A SMALL CHANGE. A BIGGER YOU.</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "launch_badge",
+      "label": "Launch Badge",
+      "default": "LAUNCHING WORLDWIDE // S25 ARCHIVE"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Primary Tagline",
+      "default": "SAME SHOES. DIFFERENT STORY."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "ELEVATE THE EVERYDAY."
+    }
+  ]
+}
+{% endschema %}

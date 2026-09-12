@@ -1,0 +1,119 @@
+<section class="ly-story-section" id="CampaignStory">
+  <div class="ly-story-container">
+
+    <!-- Block 1: "SOMETHING'S MISSING" & "GOOD SHOES TAKE YOU PLACES" -->
+    <div class="ly-story-grid-two">
+      <div class="ly-story-card ly-story-terrace">
+        <div class="ly-story-media-frame">
+          <img src="{{ 'campaign-terrace.jpg' | asset_url }}" alt="LACEYAAN Urban Rooftop Campaign" class="ly-story-img" loading="lazy" width="800" height="800">
+          <div class="ly-story-gradient"></div>
+        </div>
+        <div class="ly-story-caption">
+          <span class="ly-caption-tag">// ARCHITECTURAL SERIES</span>
+          <h3 class="ly-caption-title">GOOD SHOES TAKE YOU PLACES.</h3>
+          <p class="ly-caption-text">"A small change. A bigger you. Your sneakers hold the silhouette; the laces hold your identity."</p>
+          <div class="ly-caption-sub">SAME SHOES. DIFFERENT ENERGY.</div>
+        </div>
+      </div>
+
+      <div class="ly-story-card ly-story-missing">
+        <div class="ly-story-media-frame">
+          <img src="{{ 'campaign-missing.jpg' | asset_url }}" alt="LACEYAAN Sneaker Detail - Something is Missing" class="ly-story-img" loading="lazy" width="800" height="800">
+          <div class="ly-story-gradient"></div>
+        </div>
+        <div class="ly-story-caption">
+          <span class="ly-caption-tag">// SNEAKER CULTURE</span>
+          <h3 class="ly-caption-title">SOMETHING'S MISSING.</h3>
+          <p class="ly-caption-text">Stock laces are an afterthought. LACEYAAN turns the forgotten detail into the centerpiece of your footwear.</p>
+          <div class="ly-caption-sub">IT'S IN THE DETAILS.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 2: Full-width Editorial Banner "THE DIFFERENCE IS COMING" (Box Parchment Shot) -->
+    <div class="ly-story-banner-box">
+      <div class="ly-banner-img-wrap">
+        <img src="{{ 'campaign-box.jpg' | asset_url }}" alt="The Difference Is Coming - LACEYAAN Luxury Collector Box" class="ly-banner-img" loading="lazy" width="1200" height="800">
+        <div class="ly-banner-overlay"></div>
+      </div>
+      <div class="ly-banner-content">
+        <div class="ly-banner-kicker">PREMIUM DETAILS AHEAD</div>
+        <h2 class="ly-banner-headline">THE DIFFERENCE IS COMING.</h2>
+        <div class="ly-banner-details">
+          <div class="ly-banner-stat">
+            <span class="ly-stat-number">CNC</span>
+            <span class="ly-stat-label">Machined Aglets</span>
+          </div>
+          <div class="ly-banner-stat-divider"></div>
+          <div class="ly-banner-stat">
+            <span class="ly-stat-number">100%</span>
+            <span class="ly-stat-label">Custom Weaves</span>
+          </div>
+          <div class="ly-banner-stat-divider"></div>
+          <div class="ly-banner-stat">
+            <span class="ly-stat-number">ZERO</span>
+            <span class="ly-stat-label">Restock Drops</span>
+          </div>
+        </div>
+        <div class="ly-banner-manifesto">
+          <span>SAME SHOES. DIFFERENT STORY.</span>
+          <span class="ly-dot-separator">•</span>
+          <span>ELEVATE THE EVERYDAY.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 3: Design Lab & Artisanal Aglet Engineering (Photo 5) -->
+    <div class="ly-story-lab-row">
+      <div class="ly-lab-visual">
+        <img src="{{ 'campaign-box-laces.jpg' | asset_url }}" alt="LACEYAAN Design Lab Artisanal Laces and Aglets" class="ly-lab-img" loading="lazy" width="900" height="700">
+      </div>
+      <div class="ly-lab-text-col">
+        <span class="ly-lab-sub">LACEYAAN DESIGN LAB &mdash; S'25</span>
+        <h3 class="ly-lab-heading">PRECISION ENGINEERED HARDWARE</h3>
+        <p class="ly-lab-paragraph">
+          Standard plastic aglets crack, fray, and peel. Every single pair of LACEYAAN laces terminates in solid surgical-grade stainless steel or aerospace aluminum, micro-engraved with the LACEYAAN laser insignia.
+        </p>
+        <div class="ly-lab-specs-grid">
+          <div class="ly-lab-spec-box">
+            <span class="ly-spec-code">AGLET SPEC</span>
+            <span class="ly-spec-val">Laser Etched CNC</span>
+          </div>
+          <div class="ly-lab-spec-box">
+            <span class="ly-spec-code">WEAVE DENSITY</span>
+            <span class="ly-spec-val">Heavyweight 16-Strand</span>
+          </div>
+          <div class="ly-lab-spec-box">
+            <span class="ly-spec-code">EYELET FIT</span>
+            <span class="ly-spec-val">Universal 4.2mm Fit</span>
+          </div>
+          <div class="ly-lab-spec-box">
+            <span class="ly-spec-code">PACKAGING</span>
+            <span class="ly-spec-val">Rigid Textured Vault</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign Story Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE DIFFERENCE IS COMING"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "SOMETHING'S MISSING"
+    }
+  ]
+}
+{% endschema %}

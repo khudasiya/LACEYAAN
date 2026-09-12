@@ -1,0 +1,49 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "LACEYAAN Coming Soon",
+    "theme_author": "LACEYAAN Design Lab",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://laceyaan.in",
+    "theme_support_url": "https://laceyaan.in"
+  },
+  {
+    "name": "Brand Assets",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Custom Brand Logo"
+      }
+    ]
+  },
+  {
+    "name": "Colors & Mode",
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Background Base Color",
+        "default": "#070707"
+      },
+      {
+        "type": "color",
+        "id": "accent_gold",
+        "label": "Accent Metallic Gold",
+        "default": "#c9a96e"
+      },
+      {
+        "type": "color",
+        "id": "accent_phosphor",
+        "label": "Phosphor Glow Color",
+        "default": "#00ffaa"
+      }
+    ]
+  }
+]

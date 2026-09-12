@@ -1,0 +1,47 @@
+{
+  "name": "Coming Soon Home",
+  "sections": {
+    "hero": {
+      "type": "coming-soon-hero",
+      "settings": {
+        "tagline": "SAME SHOES. DIFFERENT STORY.",
+        "subheading": "ELEVATE THE EVERYDAY.",
+        "launch_badge": "LAUNCHING WORLDWIDE // ARCHIVE 2026"
+      }
+    },
+    "notify": {
+      "type": "coming-soon-notify",
+      "settings": {
+        "title": "BE FIRST IN LINE",
+        "description": "Secure private VIP access 2 hours before the public drop. Limited specimen quantities, zero restocks."
+      }
+    },
+    "story": {
+      "type": "coming-soon-story",
+      "settings": {
+        "heading": "THE DIFFERENCE IS COMING",
+        "subheading": "SOMETHING'S MISSING"
+      }
+    },
+    "laces": {
+      "type": "coming-soon-laces",
+      "settings": {
+        "heading": "THE SPECIMEN VAULT",
+        "subheading": "8 SIGNATURE WEAVES. NON-PURCHASABLE EXHIBITION UNTIL LAUNCH."
+      }
+    },
+    "footer": {
+      "type": "coming-soon-footer",
+      "settings": {
+        "copyright_text": "© 2026 LACEYAAN DESIGN LAB. ALL RIGHTS RESERVED."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "notify",
+    "story",
+    "laces",
+    "footer"
+  ]
+}
