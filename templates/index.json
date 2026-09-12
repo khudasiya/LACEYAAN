@@ -9,13 +9,6 @@
         "subheading": "ELEVATE THE EVERYDAY."
       }
     },
-    "notify": {
-      "type": "coming-soon-notify",
-      "settings": {
-        "title": "THE DIFFERENCE IS COMING.",
-        "description": "A limited drop of custom-engineered sneaker laces. Get private VIP access 2 hours before the public launch."
-      }
-    },
     "laces": {
       "type": "coming-soon-laces",
       "settings": {
@@ -39,7 +32,6 @@
   },
   "order": [
     "hero",
-    "notify",
     "laces",
     "story",
     "footer"

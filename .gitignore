@@ -10,3 +10,4 @@ video_frames/
 *.zip
 scripts/
 .env*
+preview*.html

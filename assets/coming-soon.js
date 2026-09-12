@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const notifyTriggerBtn = document.getElementById('lyNotifyTriggerBtn');
   const triggerWrapper = document.getElementById('lyTriggerWrapper');
   const formExpandedWrapper = document.getElementById('lyFormExpandedWrapper');
-  const notifyBox = document.getElementById('lyNotifyBox');
+  const notifyBox = document.getElementById('NotifyBox') || document.getElementById('lyNotifyBox');
   const emailInput = document.getElementById('lyEmailInput');
   const cancelBtn = document.getElementById('lyFormCancelBtn');
 
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (topGlowBtn) {
       topGlowBtn.classList.toggle('is-active', isNowActive);
       const label = topGlowBtn.querySelector('.ly-glow-toggle-label');
-      if (label) label.textContent = isNowActive ? 'GLOW ACTIVE' : 'GLOW MODE';
+      if (label) label.textContent = isNowActive ? 'ACTIVE' : 'GLOW';
     }
 
     if (sectionGlowBtn) {
@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     item.addEventListener('click', activateItem);
     item.addEventListener('mouseenter', activateItem);
+    item.addEventListener('touchstart', activateItem, { passive: true });
   });
 
 

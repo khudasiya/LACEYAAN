@@ -6,76 +6,118 @@
   </div>
 
   <div class="ly-hero-content">
-    <div class="ly-hero-eyebrow animate-fade-up">
-      <span class="ly-eyebrow-line"></span>
-      <span class="ly-eyebrow-text">{{ section.settings.launch_badge | default: 'LAUNCHING WORLDWIDE // S25 ARCHIVE' }}</span>
-      <span class="ly-eyebrow-line"></span>
-    </div>
-
+    <!-- Emblem -->
     <div class="ly-brand-emblem-wrap animate-float">
-      <img src="{{ 'logo-icon-white.png' | asset_url }}" alt="LACEYAAN Monogram" class="ly-hero-monogram" width="70" height="70">
+      <img src="{{ 'logo-icon-white.png' | asset_url }}" alt="LACEYAAN Monogram" class="ly-hero-monogram" width="52" height="52">
       <div class="ly-emblem-glow"></div>
     </div>
 
-    <h1 class="ly-hero-title animate-fade-up delay-1">
+    <!-- Drop Eyebrow Badge -->
+    <div class="ly-hero-eyebrow">
+      <span class="ly-eyebrow-line"></span>
+      <span class="ly-eyebrow-text">{{ section.settings.launch_badge | default: 'DROP 01 // ARCHIVE S25' }}</span>
+      <span class="ly-eyebrow-line"></span>
+    </div>
+
+    <!-- Title & Brand Identity -->
+    <h1 class="ly-hero-title">
       <span class="ly-hero-name">LACEYAAN</span>
-      <span class="ly-hero-status">COMING SOON.</span>
+      <span class="ly-hero-status">The Difference Is Coming.</span>
     </h1>
 
-    <div class="ly-hero-manifesto animate-fade-up delay-2">
+    <!-- Manifesto / Core Proposition -->
+    <div class="ly-hero-manifesto">
       <p class="ly-quote-primary">"{{ section.settings.tagline | default: 'SAME SHOES. DIFFERENT STORY.' }}"</p>
       <p class="ly-quote-secondary">{{ section.settings.subheading | default: 'ELEVATE THE EVERYDAY.' }}</p>
     </div>
 
-    <div class="ly-hero-anchors animate-fade-up delay-3">
-      <a href="#NotifySection" class="ly-hero-cta-scroll">
-        <span>VIP LAUNCH NOTIFICATION</span>
-        <span class="ly-scroll-arrow">↓</span>
-      </a>
-      <a href="#SpecimenVault" class="ly-hero-cta-secondary">
-        <span>EXAMINE 8 SPECIMENS</span>
-        <span class="ly-arrow-diag">↗</span>
-      </a>
+    <!-- Direct VIP Early Access Email Bar (Frictionless, Mobile-First) -->
+    <div class="ly-hero-signup" id="NotifyBox">
+      {% form 'customer', id: 'lyCustomerForm', class: 'ly-customer-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter, launch_waitlist, coming_soon, vip_waitlist, drop_01">
+
+        {% if form.posted_successfully? %}
+          <div class="ly-notify-success-state">
+            <div class="ly-success-icon">✦</div>
+            <h4>YOU'RE ON THE VIP LIST</h4>
+            <p>Your early-access pass is secured. Your private link arrives 2 hours before the public drop.</p>
+          </div>
+        {% else %}
+          {% if form.errors %}
+            <div class="ly-form-error-banner">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <div class="ly-vip-input-row">
+            <div class="ly-vip-input-wrap">
+              <input 
+                type="email" 
+                name="contact[email]" 
+                id="lyEmailInput" 
+                class="ly-vip-email-field" 
+                placeholder="Enter email for VIP drop access" 
+                autocomplete="email" 
+                autocapitalize="off"
+                spellcheck="false"
+                required
+              >
+              <label for="lyEmailInput" class="visually-hidden">Email Address</label>
+            </div>
+
+            <button type="submit" class="ly-vip-submit-btn" id="lySubmitBtn">
+              <span>GET VIP ACCESS</span>
+              <span class="ly-btn-arrow">&rarr;</span>
+            </button>
+          </div>
+
+          <div class="ly-vip-trust-meta">
+            <span>🔒 2-Hr Priority Access &bull; Zero Restocks &bull; Private Link Only</span>
+          </div>
+        {% endif %}
+      {% endform %}
     </div>
 
-    <div class="ly-hero-editorial-badge">
-      <span class="ly-badge-sub">ALCE DESIGN LAB</span>
-      <span class="ly-badge-main">CNC ENGRAVED AGLETS // JAPANESE WEAVES</span>
-    </div>
-  </div>
-
-  <div class="ly-hero-bottom-ticker">
-    <div class="ly-ticker-track">
-      <span>LACEYAAN // THE DIFFERENCE IS COMING</span>
-      <span>•</span>
-      <span>GOOD SHOES TAKE YOU PLACES</span>
-      <span>•</span>
-      <span>SOMETHING'S MISSING</span>
-      <span>•</span>
-      <span>A SMALL CHANGE. A BIGGER YOU.</span>
-      <span>•</span>
-      <span>PREMIUM DETAILS AHEAD</span>
-      <span>•</span>
-      <span>LACEYAAN // THE DIFFERENCE IS COMING</span>
-      <span>•</span>
-      <span>GOOD SHOES TAKE YOU PLACES</span>
-      <span>•</span>
-      <span>SOMETHING'S MISSING</span>
-      <span>•</span>
-      <span>A SMALL CHANGE. A BIGGER YOU.</span>
-    </div>
+    <!-- Scroll Prompt to Sneak Peek -->
+    <a href="#SpecimenVault" class="ly-hero-scroll-cue" aria-label="Explore 8 launch weaves">
+      <span class="ly-cue-text">SNEAK PEEK &bull; 8 SIGNATURE WEAVES</span>
+      <span class="ly-cue-arrow">&darr;</span>
+    </a>
   </div>
 </section>
 
+<!-- Continuous Editorial Ticker (In Flow - Never Collides with Hero) -->
+<div class="ly-hero-bottom-ticker" aria-hidden="true">
+  <div class="ly-ticker-track">
+    <span>LACEYAAN // THE DIFFERENCE IS COMING</span>
+    <span>•</span>
+    <span>GOOD SHOES TAKE YOU PLACES</span>
+    <span>•</span>
+    <span>SOMETHING'S MISSING</span>
+    <span>•</span>
+    <span>A SMALL CHANGE. A BIGGER YOU.</span>
+    <span>•</span>
+    <span>PREMIUM HARDWARE AHEAD</span>
+    <span>•</span>
+    <span>LACEYAAN // THE DIFFERENCE IS COMING</span>
+    <span>•</span>
+    <span>GOOD SHOES TAKE YOU PLACES</span>
+    <span>•</span>
+    <span>SOMETHING'S MISSING</span>
+    <span>•</span>
+    <span>A SMALL CHANGE. A BIGGER YOU.</span>
+  </div>
+</div>
+
 {% schema %}
 {
-  "name": "Hero Section",
+  "name": "Coming Soon Hero",
   "settings": [
     {
       "type": "text",
       "id": "launch_badge",
       "label": "Launch Badge",
-      "default": "LAUNCHING WORLDWIDE // S25 ARCHIVE"
+      "default": "DROP 01 // ARCHIVE S25"
     },
     {
       "type": "text",
