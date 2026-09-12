@@ -1,0 +1,241 @@
+{%- comment -%}
+  LACEYAAN Luxury Header with Mega Menu, Live Cart Count, and Mobile Drawer
+{%- endcomment -%}
+
+<header id="site-header" class="site-header{% if section.settings.enable_sticky_header %} sticky-header{% endif %}">
+  <div class="navbar">
+    <div class="container navbar-inner">
+      <!-- Left: Mobile Menu Toggle & Desktop Navigation -->
+      <div class="navbar-left">
+        <button 
+          type="button" 
+          class="mobile-menu-toggle" 
+          id="mobile-menu-toggle" 
+          aria-label="{{ 'sections.header.menu' | t }}"
+          aria-controls="mobile-drawer"
+          aria-expanded="false"
+        >
+          {% render 'icon-menu' %}
+        </button>
+
+        <nav class="desktop-nav" role="navigation" aria-label="Main Navigation">
+          <ul class="nav-links-list">
+            {%- for link in linklists[section.settings.menu].links -%}
+              <li class="nav-item{% if link.links != blank %} has-dropdown{% endif %}">
+                <a href="{{ link.url }}" class="nav-link{% if link.current %} active{% endif %}">
+                  <span>{{ link.title }}</span>
+                  {%- if link.links != blank -%}
+                    {% render 'icon-chevron-down' %}
+                  {%- endif -%}
+                </a>
+
+                {%- if link.links != blank -%}
+                  <div class="mega-menu-dropdown">
+                    <div class="mega-menu-container">
+                      <div class="mega-menu-columns">
+                        <div class="mega-column">
+                          <h4 class="mega-column-title">{{ link.title }} Collections</h4>
+                          <ul class="mega-sublinks">
+                            {%- for child_link in link.links -%}
+                              <li>
+                                <a href="{{ child_link.url }}" class="mega-link{% if child_link.current %} active{% endif %}">
+                                  {{ child_link.title }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+
+                        <!-- Atelier Feature Panel inside dropdown -->
+                        <div class="mega-feature-card">
+                          <span class="badge badge-gold">Slow-Crafted Weaves</span>
+                          <h4>Solid CNC Naval Brass Aglets</h4>
+                          <p>100% Japanese long-staple cotton shuttle-loomed with natural micro-beeswax infusion.</p>
+                          <a href="{{ routes.all_products_collection_url }}" class="mega-cta-link">
+                            <span>Explore Atelier Catalog &rarr;</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Center: Brand Logo -->
+      <div class="navbar-center">
+        <a href="{{ routes.root_url }}" class="brand-logo-link" aria-label="{{ shop.name }}">
+          {%- if section.settings.logo != blank -%}
+            {{ section.settings.logo | image_url: width: 340 | image_tag: 
+              class: 'brand-logo-img', 
+              widths: '170, 340',
+              alt: shop.name | escape 
+            }}
+          {%- else -%}
+            <div class="brand-text-logo">
+              <div class="brand-lockup">
+                <img 
+                  src="{{ 'logo-icon.png' | asset_url }}" 
+                  alt="LACEYAAN Braided Emblem" 
+                  class="brand-icon-mark"
+                  width="34"
+                  height="38"
+                  loading="eager"
+                >
+                <span class="logo-title">LACEYAAN</span>
+              </div>
+              <span class="logo-subtitle">CRAFTED IN INDIA</span>
+            </div>
+          {%- endif -%}
+        </a>
+      </div>
+
+      <!-- Right: Utility Icons -->
+      <div class="navbar-right">
+        <div class="navbar-utilities">
+          {%- if settings.social_instagram_link != blank -%}
+            <a 
+              href="{{ settings.social_instagram_link }}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="nav-util-btn util-instagram" 
+              aria-label="Instagram @laceyaan_"
+              title="Follow @laceyaan_ on Instagram"
+            >
+              {% render 'icon-instagram' %}
+            </a>
+          {%- endif -%}
+
+          <button 
+            type="button" 
+            class="nav-util-btn" 
+            id="open-search-modal" 
+            aria-label="{{ 'sections.header.search' | t }}"
+          >
+            {% render 'icon-search' %}
+            <span class="util-label">Search</span>
+          </button>
+
+          {%- if shop.customer_accounts_enabled -%}
+            <a 
+              href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
+              class="nav-util-btn" 
+              aria-label="{{ 'sections.header.account' | t }}"
+            >
+              {% render 'icon-user' %}
+              <span class="util-label">{% if customer %}Account{% else %}Sign In{% endif %}</span>
+            </a>
+          {%- endif -%}
+
+          <button 
+            type="button" 
+            class="nav-util-btn bag-btn" 
+            id="open-cart-drawer" 
+            aria-label="{{ 'sections.header.bag' | t }}"
+          >
+            {% render 'icon-shopping-bag' %}
+            <span class="util-label">Bag</span>
+            <span class="bag-count-bubble" id="header-cart-count">{{ cart.item_count }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-drawer-overlay" class="mobile-drawer-overlay" aria-hidden="true"></div>
+<div id="mobile-drawer" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation" aria-hidden="true">
+  <div class="mobile-drawer-header">
+    <div class="brand-text-logo">
+      <div class="brand-lockup">
+        <img 
+          src="{{ 'logo-icon.png' | asset_url }}" 
+          alt="LACEYAAN Braided Emblem" 
+          class="brand-icon-mark drawer-logo-img"
+          width="28"
+          height="32"
+          loading="eager"
+        >
+        <span class="logo-title">LACEYAAN</span>
+      </div>
+      <span class="logo-subtitle">CRAFTED IN INDIA</span>
+    </div>
+    <button type="button" class="drawer-close-btn" id="close-mobile-drawer" aria-label="{{ 'accessibility.close' | t }}">
+      {% render 'icon-close' %}
+    </button>
+  </div>
+
+  <div class="mobile-drawer-content">
+    <nav class="mobile-nav-list" role="navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <div class="mobile-nav-group">
+          {%- if link.links != blank -%}
+            <button type="button" class="mobile-nav-accordion-btn">
+              <span>{{ link.title }}</span>
+              {% render 'icon-chevron-down' %}
+            </button>
+            <div class="mobile-subnav-panel">
+              {%- for child_link in link.links -%}
+                <a href="{{ child_link.url }}" class="mobile-sublink{% if child_link.current %} active{% endif %}">
+                  {{ child_link.title }}
+                </a>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <a href="{{ link.url }}" class="mobile-nav-link{% if link.current %} active{% endif %}">
+              {{ link.title }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </nav>
+
+    <!-- Mobile Drawer Footer Contact & Social -->
+    <div class="mobile-drawer-footer">
+      <p class="mobile-shipping-note">Free standard domestic express courier across India over ₹1,499.</p>
+      
+      <div class="mobile-contact-row">
+        <span>Atelier Support:</span>
+        <a href="mailto:laceyaan@gmail.com" class="mobile-email-link">laceyaan@gmail.com</a>
+      </div>
+
+      {%- if settings.social_instagram_link != blank -%}
+        <div class="mobile-social-row">
+          <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="mobile-insta-btn">
+            {% render 'icon-instagram' %}
+            <span>Follow @laceyaan_ on Instagram</span>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom Logo Image"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header on scroll",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

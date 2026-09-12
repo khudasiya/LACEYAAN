@@ -1,0 +1,135 @@
+{% comment %}
+  Renders a luxury product card matching LACEYAAN Broadcast theme aesthetic
+  Usage:
+  {% render 'product-card', product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_media = product.featured_media
+  assign secondary_media = product.media[1]
+-%}
+
+<div class="product-card" data-product-id="{{ product.id }}">
+  <div class="card-media">
+    <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
+      {%- if featured_media -%}
+        {{ featured_media | image_url: width: 750 | image_tag: 
+          loading: 'lazy', 
+          widths: '375, 550, 750',
+          class: 'primary-img',
+          alt: featured_media.alt | default: product.title | escape 
+        }}
+        {%- if secondary_media and settings.show_secondary_image -%}
+          {{ secondary_media | image_url: width: 750 | image_tag: 
+            loading: 'lazy', 
+            widths: '375, 550, 750',
+            class: 'hover-img',
+            alt: secondary_media.alt | default: product.title | escape 
+          }}
+        {%- endif -%}
+      {%- else -%}
+        <div class="placeholder-image">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </a>
+
+    <!-- Luxury Status Badges (Genuine only) -->
+    <div class="card-badges">
+      {%- if current_variant.available == false -%}
+        <span class="badge badge-sold-out">SOLD OUT</span>
+      {%- elsif product.compare_at_price > product.price -%}
+        {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+        <span class="badge badge-sale">-{{ savings }}% OFF</span>
+      {%- elsif product.tags contains 'bestseller' -%}
+        <span class="badge badge-gold">BESTSELLER</span>
+      {%- elsif product.tags contains 'new' -%}
+        <span class="badge badge-new">NEW DROP</span>
+      {%- elsif product.tags contains 'vault' -%}
+        <span class="badge badge-dark">VAULT ARCHIVE</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Quick View Trigger (Icon Only - Function Intact Without Text) -->
+    {%- if settings.enable_quick_view -%}
+      <button 
+        type="button" 
+        class="quick-view-btn" 
+        data-quick-view
+        data-product-handle="{{ product.handle }}"
+        data-quick-view-trigger="{{ product.handle }}" 
+        aria-label="Quick View {{ product.title | escape }}"
+        title="Quick View"
+      >
+        {% render 'icon-eye' %}
+      </button>
+    {%- endif -%}
+  </div>
+
+  <div class="card-content">
+    {%- assign vendor_clean = product.vendor | default: '' | strip -%}
+    {%- assign vendor_lower = vendor_clean | downcase -%}
+    {%- assign shop_lower = shop.name | downcase -%}
+    {%- if settings.show_vendor and vendor_clean != blank and vendor_lower != 'my store' and vendor_lower != shop_lower -%}
+      <div class="card-category">
+        {{ vendor_clean }}
+      </div>
+    {%- elsif product.type != blank -%}
+      <div class="card-category">
+        {{ product.type }}
+      </div>
+    {%- endif -%}
+
+    <h3 class="card-title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    <!-- Price -->
+    <div class="card-price-row">
+      {% render 'price', product: product, use_variant: true %}
+    </div>
+
+    <!-- Options Previews (Lengths or Colors) -->
+    {%- for option in product.options_with_values -%}
+      {%- assign opt_name = option.name | downcase -%}
+      {%- if opt_name contains 'length' -%}
+        <div class="card-lengths-preview">
+          {%- for val in option.values limit: 4 -%}
+            <span class="length-pill-preview">{{ val }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <!-- Action Buttons with Direct BUY NOW -->
+    <div class="card-actions">
+      {%- if current_variant.available -%}
+        <button 
+          type="button" 
+          class="btn-buy-now" 
+          data-buy-now 
+          data-variant-id="{{ current_variant.id }}"
+          data-product-handle="{{ product.handle }}"
+          aria-label="Buy {{ product.title | escape }} now"
+        >
+          <span>BUY NOW</span>
+        </button>
+        <button 
+          type="button" 
+          class="btn-add-bag" 
+          data-add-to-cart 
+          data-variant-id="{{ current_variant.id }}"
+          data-product-handle="{{ product.handle }}"
+          aria-label="Add {{ product.title | escape }} to bag"
+        >
+          {% render 'icon-shopping-bag' %}
+        </button>
+      {%- else -%}
+        <button type="button" class="btn-buy-now btn-sold-out" disabled>
+          <span>SOLD OUT</span>
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

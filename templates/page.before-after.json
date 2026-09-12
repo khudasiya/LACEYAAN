@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "slider": {
+      "type": "before-after-slider",
+      "settings": {
+        "badge": "THE TRANSFORMATION STUDIO",
+        "heading": "Factory Standard vs. LACEYAAN Atelier Upgrade",
+        "subtitle": "Drag the interactive split slider to see how substantial 10mm chunky rope and Japanese waxed cotton elevate ordinary footwear."
+      }
+    },
+    "reviews": {
+      "type": "reviews-press",
+      "settings": {
+        "badge": "BEFORE & AFTER VALIDATION",
+        "heading": "Collector Transformations",
+        "subtitle": "Hear directly from footwear collectors who made the switch to bespoke weaves."
+      }
+    }
+  },
+  "order": [
+    "slider",
+    "reviews"
+  ]
+}

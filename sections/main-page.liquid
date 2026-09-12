@@ -1,0 +1,22 @@
+{%- comment -%}
+  Standard Page Section
+{%- endcomment -%}
+
+<section class="main-page-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container container-narrow">
+    <div class="section-header text-center">
+      <h1 class="editorial-heading">{{ page.title }}</h1>
+    </div>
+
+    <div class="page-content-body rte">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "settings": []
+}
+{% endschema %}

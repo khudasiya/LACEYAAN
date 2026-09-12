@@ -1,0 +1,167 @@
+{%- comment -%}
+  Studio Exploration Portals Section
+{%- endcomment -%}
+
+<section class="home-portals-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <div class="section-header text-center">
+      {%- if section.settings.badge != blank -%}
+        <span class="badge badge-gold">{{ section.settings.badge }}</span>
+      {%- endif -%}
+      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <div class="portals-grid">
+      {%- for block in section.blocks -%}
+        <div class="portal-card" {{ block.shopify_attributes }}>
+          <div class="portal-media">
+            <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+            <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag: 
+                class: 'portal-img', 
+                widths: '400, 600, 800',
+                alt: block.settings.title | escape 
+              }}
+            {%- else -%}
+              <div class="portal-placeholder">
+                {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- endif -%}
+            <div class="portal-overlay"></div>
+            {%- if block.settings.tag != blank -%}
+              <span class="portal-tag">[ {{ block.settings.tag }} ]</span>
+            {%- endif -%}
+          </div>
+
+          <div class="portal-content">
+            <h3 class="portal-title">{{ block.settings.title }}</h3>
+            <p class="portal-desc">{{ block.settings.description }}</p>
+            {%- if block.settings.button_link != blank -%}
+              <a href="{{ block.settings.button_link }}" class="portal-btn-link">
+                <span>{{ block.settings.button_label | default: 'Explore Studio' }}</span>
+                <span class="btn-arrow">[ &rarr; ]</span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Exploration Portals",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "DISCOVER THE ATELIER"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Studio Tools & Editorial Experiences"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Everything engineered to ensure an immaculate, precision lace swap for your entire footwear rotation."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "portal",
+      "name": "Portal Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Top Tag",
+          "default": "INTERACTIVE TOOL"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "Shoelace Length Calculator"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Never guess your length. Select your footwear silhouette and eyelet count for a guaranteed fit."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Launch Calculator"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Exploration Portals",
+      "blocks": [
+        {
+          "type": "portal",
+          "settings": {
+            "tag": "INTERACTIVE TOOL",
+            "title": "Shoelace Length Calculator",
+            "description": "Never guess your length. Select your footwear silhouette and eyelet count for a guaranteed precision fit.",
+            "button_label": "Launch Calculator",
+            "button_link": "/pages/length-guide"
+          }
+        },
+        {
+          "type": "portal",
+          "settings": {
+            "tag": "EDITORIAL GALLERY",
+            "title": "Editorial Lookbook",
+            "description": "Discover how leading stylists, sneakerheads, and collectors pair bespoke weaves with high-heat rotations.",
+            "button_label": "View Lookbook",
+            "button_link": "/pages/lookbook"
+          }
+        },
+        {
+          "type": "portal",
+          "settings": {
+            "tag": "BEFORE & AFTER",
+            "title": "The Transformation Studio",
+            "description": "Interactive split comparison demonstrating why 10mm rope and waxed flat cotton outperform stock factory laces.",
+            "button_label": "Test Split Slider",
+            "button_link": "/pages/before-after"
+          }
+        },
+        {
+          "type": "portal",
+          "settings": {
+            "tag": "OUR PHILOSOPHY",
+            "title": "The LACEYAAN Standard",
+            "description": "Slow Japanese shuttle looms, solid CNC naval brass hardware, and organic micro-beeswax infusion.",
+            "button_label": "Read Brand Story",
+            "button_link": "/pages/story"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

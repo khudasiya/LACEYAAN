@@ -1,57 +1,124 @@
 <!doctype html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
-  <meta name="theme-color" content="#0a0a0a">
-  <link rel="canonical" href="{{ canonical_url }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_bg_dark | default: '#141311' }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Typography for Luxury Streetwear Aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <title>LACEYAAN &mdash; The Difference Is Coming | Official Drop</title>
-  <meta name="description" content="LACEYAAN &mdash; Same Shoes. Different Story. Premium sneaker laces crafted with engineered weaves and laser-etched metal aglets. Launching soon.">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" sizes="32x32" href="{{ 'favicon-32x32.png' | asset_url }}">
+      <link rel="icon" type="image/png" sizes="192x192" href="{{ 'favicon.png' | asset_url }}">
+      <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
+    {%- endif -%}
 
-  {% if settings.favicon != blank %}
-    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-  {% else %}
-    <link rel="icon" type="image/png" href="{{ 'favicon.png' | asset_url }}">
-  {% endif %}
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
 
-  {{ content_for_header }}
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
 
-  {{ 'coming-soon.css' | asset_url | stylesheet_tag }}
-  <script src="{{ 'coming-soon.js' | asset_url }}" defer="defer"></script>
-</head>
-<body class="laceyaan-coming-soon-body">
-  <a class="skip-to-content-link visually-hidden" href="#MainContent">Skip to content</a>
+    <!-- Social Meta Tags -->
+    {%- render 'social-meta-tags' -%}
 
-  <header class="ly-topbar">
-    <div class="ly-topbar-inner">
-      <div class="ly-topbar-brand">
-        <img src="{{ 'logo-icon-white.png' | asset_url }}" alt="LACEYAAN Arch Emblem" class="ly-topbar-emblem" width="26" height="26">
-        <span class="ly-topbar-title">LACEYAAN</span>
-      </div>
+    <!-- Design Tokens / CSS Custom Properties -->
+    <style>
+      :root {
+        --bg-primary: {{ settings.color_bg_primary | default: '#FAF9F5' }};
+        --bg-dark: {{ settings.color_bg_dark | default: '#141311' }};
+        --bg-dark-surface: {{ settings.color_bg_surface | default: '#1E1D1B' }};
+        --text-main: {{ settings.color_text_main | default: '#1E1D1B' }};
+        --text-light: {{ settings.color_text_light | default: '#FAF9F5' }};
+        --text-sub: #6A675F;
+        --accent-gold: {{ settings.color_accent_gold | default: '#C5A880' }};
+        --accent-gold-dark: {{ settings.color_accent_gold_dark | default: '#A38760' }};
+        --accent-gold-light: #E0C7A6;
+        --border-light: rgba(0, 0, 0, 0.08);
+        --border-dark: rgba(255, 255, 255, 0.1);
+        --font-serif: 'Playfair Display', Georgia, serif;
+        --font-editorial: 'Cormorant Garamond', Georgia, serif;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-heading: 'Outfit', 'Space Grotesk', sans-serif;
+        --font-grotesk: 'Space Grotesk', sans-serif;
+        --font-mono: 'Space Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        --radius-xs: 2px;
+        --radius-sm: 4px;
+        --radius-full: 9999px;
+        --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --shadow-sm: 0 2px 8px rgba(20, 19, 17, 0.04);
+        --shadow-md: 0 8px 24px rgba(20, 19, 17, 0.08);
+        --shadow-lg: 0 16px 40px rgba(20, 19, 17, 0.12);
+      }
+    </style>
 
-      <div class="ly-topbar-badge">
-        <span class="ly-status-dot"></span>
-        <span class="ly-status-text">DROP 01 // COMING SOON</span>
-      </div>
+    <!-- Theme Stylesheet -->
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
 
-      <div class="ly-topbar-actions">
-        <button type="button" class="ly-glow-toggle-btn" id="lyGlowToggle" aria-label="Toggle Phosphor Glow Night Mode">
-          <span class="ly-glow-icon">✦</span>
-          <span class="ly-glow-toggle-label">GLOW MODE</span>
-        </button>
-      </div>
-    </div>
-  </header>
+    {{ content_for_header }}
 
-  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-    {{ content_for_layout }}
-  </main>
-</body>
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | default: 'Error updating bag' }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | default: 'You can only add [quantity] of this item' }}`
+      };
+    </script>
+  </head>
+
+  <body class="template-{{ template.name | default: 'index' | handle }}">
+    <a class="skip-to-content-link visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    <!-- Animated Background Shoelace Streamer -->
+    {% render 'background-lace' %}
+
+    <!-- Sticky Announcement Bar & Header -->
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    <!-- Footer Group -->
+    {% sections 'footer-group' %}
+
+    <!-- Global Cart Drawer -->
+    {% render 'cart-drawer' %}
+
+    <!-- Global Quick View Modal -->
+    {% render 'quick-view-modal' %}
+
+    <!-- Global Live Search Modal -->
+    {% render 'search-modal' %}
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- Theme JavaScript -->
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  </body>
 </html>

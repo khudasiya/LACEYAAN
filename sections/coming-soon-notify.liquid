@@ -20,7 +20,7 @@
     <!-- Inline Morphing Email Capture Container -->
     <div class="ly-notify-interactive-box" id="lyNotifyBox">
       {% form 'customer', id: 'lyCustomerForm', class: 'ly-customer-form' %}
-        <input type="hidden" name="contact[tags]" value="coming_soon, vip_waitlist, drop_01">
+        <input type="hidden" name="contact[tags]" value="newsletter, launch_waitlist, coming_soon, vip_waitlist, drop_01">
         
         {% if form.posted_successfully? %}
           <div class="ly-notify-success-state" id="lyNotifySuccess">

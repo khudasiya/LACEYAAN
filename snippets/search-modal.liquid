@@ -1,0 +1,51 @@
+{% comment %}
+  Predictive Live Search Modal
+{% endcomment %}
+
+<div id="search-modal-overlay" class="search-modal-overlay search-modal-backdrop" data-search-close aria-hidden="true"></div>
+
+<div id="search-modal" class="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title" aria-hidden="true">
+  <div class="search-modal-inner container">
+    <div class="search-modal-header">
+      <h2 id="search-modal-title" class="visually-hidden">{{ 'general.search.search' | t }}</h2>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+        <input type="hidden" name="type" value="product">
+        <div class="search-input-wrap">
+          {% render 'icon-search' %}
+          <input 
+            type="search" 
+            name="q" 
+            id="search-modal-input" 
+            class="search-input" 
+            placeholder="{{ 'general.search.placeholder' | t }}" 
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <button type="button" class="search-clear-btn" id="search-clear-btn" aria-label="Clear search">
+            {% render 'icon-close' %}
+          </button>
+        </div>
+      </form>
+      <button type="button" class="search-close-btn" id="close-search-modal" data-search-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon-close' %}
+      </button>
+    </div>
+
+    <!-- Live Results / Recommendations -->
+    <div class="search-results-area" id="search-results-area">
+      <div class="search-default-suggestions">
+        <span class="suggestions-label">Trending Searches:</span>
+        <div class="suggestion-pills">
+          <button type="button" class="suggestion-pill" data-query="Waxed Flat">Vintage Sail Waxed Flat</button>
+          <button type="button" class="suggestion-pill" data-query="Chunky Rope">10mm Chunky Ecru Rope</button>
+          <button type="button" class="suggestion-pill" data-query="3M Reflective">3M Reflective Weave</button>
+          <button type="button" class="suggestion-pill" data-query="Design Lab">Jacquard Tapestry</button>
+          <button type="button" class="suggestion-pill" data-query="Brass Aglets">Solid CNC Brass Aglets</button>
+        </div>
+      </div>
+      <div class="search-results-container" id="search-modal-results"></div>
+    </div>
+  </div>
+</div>

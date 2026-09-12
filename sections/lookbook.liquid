@@ -1,0 +1,161 @@
+{%- comment -%}
+  Editorial Lookbook Section with Interactive Product Hotspots
+{%- endcomment -%}
+
+<section id="lookbook" class="lookbook-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <div class="section-header text-center">
+      {%- if section.settings.badge != blank -%}
+        <span class="badge badge-gold">{{ section.settings.badge }}</span>
+      {%- endif -%}
+      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <!-- Lookbook Interactive Photo Frame -->
+    <div class="lookbook-frame-wrapper">
+      <div class="lookbook-image-container">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1800 | image_tag: 
+            class: 'lookbook-hero-img', 
+            widths: '800, 1200, 1600, 1800',
+            alt: section.settings.heading | escape 
+          }}
+        {%- else -%}
+          <img src="{{ 'lookbook.jpg' | asset_url }}" alt="LACEYAAN Streetwear Editorial Lookbook" class="lookbook-hero-img" width="1200" height="750" loading="lazy">
+        {%- endif -%}
+
+        <!-- Interactive Hotspot Pins -->
+        {%- for block in section.blocks -%}
+          {%- assign hot_product = block.settings.product -%}
+          <div 
+            class="lookbook-hotspot" 
+            style="top: {{ block.settings.top_position }}%; left: {{ block.settings.left_position }}%;"
+            {{ block.shopify_attributes }}
+          >
+            <button type="button" class="hotspot-pin" aria-label="View product: {{ hot_product.title | default: 'Lookbook Item' | escape }}">
+              <span class="pin-pulse"></span>
+              <span class="pin-dot">{{ forloop.index }}</span>
+            </button>
+
+            {%- if hot_product != blank -%}
+              <div class="hotspot-card-popover">
+                <div class="popover-thumb">
+                  {%- if hot_product.featured_media -%}
+                    <img src="{{ hot_product.featured_media | image_url: width: 150 }}" alt="{{ hot_product.title | escape }}" width="150" height="150" loading="lazy">
+                  {%- endif -%}
+                </div>
+                <div class="popover-meta">
+                  {%- assign hp_vendor = hot_product.vendor | default: '' | strip -%}
+                  {%- assign hp_vendor_lower = hp_vendor | downcase -%}
+                  {%- assign shop_lower = shop.name | downcase -%}
+                  {%- if hp_vendor != blank and hp_vendor_lower != 'my store' and hp_vendor_lower != shop_lower -%}
+                    <span class="popover-cat">{{ hp_vendor }}</span>
+                  {%- elsif hot_product.type != blank -%}
+                    <span class="popover-cat">{{ hot_product.type }}</span>
+                  {%- endif -%}
+                  <h4 class="popover-title"><a href="{{ hot_product.url }}">{{ hot_product.title }}</a></h4>
+                  <span class="popover-price">{{ hot_product.price | money }}</span>
+                  <button 
+                    type="button" 
+                    class="btn-primary btn-xs" 
+                    data-quick-view
+                    data-product-handle="{{ hot_product.handle }}"
+                    data-quick-view-trigger="{{ hot_product.handle }}"
+                  >
+                    Quick View
+                  </button>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial Lookbook",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "STREETWEAR EDITORIAL"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gallery Rotation"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Click or hover on the interactive atelier pins to inspect the exact weaves, aglet finishes, and styling drapes worn on the runway."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Lookbook Main Photograph"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot Pin",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Tagged Product"
+        },
+        {
+          "type": "range",
+          "id": "top_position",
+          "min": 10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical Position (from top)",
+          "default": 45
+        },
+        {
+          "type": "range",
+          "id": "left_position",
+          "min": 10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal Position (from left)",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Lookbook",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "top_position": 48,
+            "left_position": 32
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "top_position": 62,
+            "left_position": 68
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

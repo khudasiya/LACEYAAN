@@ -1,0 +1,28 @@
+{% comment %}
+  LACEYAAN - Animated Background Shoelace Module
+  Renders the GPU-accelerated canvas background element for dynamic scroll-driven lace physics,
+  woven texture, and solid brass aglet tips.
+{% endcomment %}
+
+{%- liquid
+  assign enable_lace = true
+  if settings.enable_background_lace == false
+    assign enable_lace = false
+  endif
+  assign lace_color_primary = settings.lace_color_primary | default: '#C5A880'
+  assign lace_color_secondary = settings.lace_color_secondary | default: '#FAF9F5'
+  assign lace_color_shadow = settings.lace_color_shadow | default: 'rgba(20, 19, 17, 0.25)'
+-%}
+
+{%- if enable_lace -%}
+  <div 
+    id="laceyaan-background-lace" 
+    class="background-lace-container" 
+    aria-hidden="true"
+    data-color-primary="{{ lace_color_primary }}"
+    data-color-secondary="{{ lace_color_secondary }}"
+    data-color-shadow="{{ lace_color_shadow }}"
+  >
+    <canvas id="background-lace-canvas" class="background-lace-canvas"></canvas>
+  </div>
+{%- endif -%}

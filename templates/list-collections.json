@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "featured-collection",
+      "settings": {
+        "badge": "ATELIER DIRECTORY",
+        "heading": "All Collections & Weaves",
+        "subtitle": "Discover our signature textures, high-density jacquards, and limited collector chests.",
+        "products_to_show": 16,
+        "columns_desktop": "4"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

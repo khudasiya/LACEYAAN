@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "calculator": {
+      "type": "length-calculator",
+      "settings": {
+        "heading": "Shoelace Length Calculator",
+        "subtitle": "Select your footwear silhouette and eyelet count to calculate your exact millimeter-accurate shoelace length."
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "badge": "SIZING ASSISTANCE",
+        "heading": "Sizing & Compatibility Questions"
+      }
+    }
+  },
+  "order": [
+    "calculator",
+    "faq"
+  ]
+}

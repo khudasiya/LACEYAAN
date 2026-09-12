@@ -1,0 +1,25 @@
+{%- comment -%}
+  404 Not Found Section
+{%- endcomment -%}
+
+<section class="main-404-section section-padding text-center" {{ section.shopify_attributes }}>
+  <div class="container container-narrow">
+    <span class="badge badge-gold">404</span>
+    <h1 class="editorial-heading">{{ 'templates.404.title' | t }}</h1>
+    <p class="section-subtitle">{{ 'templates.404.subtext' | t }}</p>
+
+    <div class="cta-wrap" style="margin-top: 2rem;">
+      <a href="{{ routes.root_url }}" class="btn-primary">
+        <span>{{ 'templates.404.link' | t }}</span>
+        &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404 Error",
+  "settings": []
+}
+{% endschema %}

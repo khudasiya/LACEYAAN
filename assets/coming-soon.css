@@ -149,13 +149,19 @@ body {
   color: var(--ly-text-secondary);
 }
 
+.ly-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .ly-glow-toggle-btn {
   background: transparent;
   border: 1px solid var(--ly-border-medium);
   color: var(--ly-text-primary);
   padding: 7px 16px;
   border-radius: 100px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--ly-font-mono);
@@ -177,6 +183,28 @@ body {
   border-color: var(--ly-phosphor);
   color: #000;
   box-shadow: 0 0 20px var(--ly-phosphor-intense);
+}
+
+.ly-password-trigger-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ly-border-medium);
+  color: var(--ly-text-secondary);
+  padding: 7px 16px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-password-trigger-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--ly-text-primary);
+  color: #fff;
 }
 
 /* ==========================================================================
@@ -333,91 +361,138 @@ body {
   color: var(--ly-text-muted);
 }
 
-.ly-hero-anchors {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 44px;
+/* Direct Hero VIP Early Access Form */
+.ly-hero-signup {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 20;
 }
 
-.ly-hero-cta-scroll {
-  display: inline-flex;
+.ly-vip-input-row {
+  display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  background: rgba(16, 16, 16, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ly-border-medium);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.7);
+  transition: border-color var(--ly-transition-fast), box-shadow var(--ly-transition-fast);
+}
+
+.ly-vip-input-row:focus-within {
+  border-color: var(--ly-border-highlight);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+.ly-vip-input-wrap {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.ly-vip-email-field {
+  width: 100%;
+  height: 48px;
+  background: transparent;
+  border: none;
+  padding: 0 16px;
+  color: var(--ly-text-primary);
+  font-family: var(--ly-font-mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  outline: none;
+}
+
+.ly-vip-email-field::placeholder {
+  color: var(--ly-text-dim);
+  font-size: 0.8rem;
+}
+
+.ly-vip-submit-btn {
+  height: 48px;
+  padding: 0 24px;
   background: var(--ly-text-primary);
   color: #000;
-  padding: 14px 28px;
-  border-radius: 4px;
+  border: none;
+  border-radius: 6px;
   font-family: var(--ly-font-mono);
-  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  text-decoration: none;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-hero-cta-scroll:hover {
-  background: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
-}
-
-.ly-hero-cta-secondary {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--ly-border-medium);
-  color: var(--ly-text-primary);
-  padding: 14px 28px;
-  border-radius: 4px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
-  text-decoration: none;
+  gap: 8px;
+  white-space: nowrap;
   transition: all var(--ly-transition-fast);
 }
 
-.ly-hero-cta-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--ly-text-primary);
+.ly-vip-submit-btn:hover {
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
 }
 
-.ly-hero-editorial-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-top: 1px solid var(--ly-border-light);
-  padding-top: 20px;
-}
-
-.ly-badge-sub {
-  font-family: var(--ly-font-serif);
-  font-size: 0.95rem;
-  font-style: italic;
-  color: var(--ly-gold);
-}
-
-.ly-badge-main {
+.ly-vip-trust-meta {
   font-family: var(--ly-font-mono);
   font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   color: var(--ly-text-muted);
+  margin-top: 10px;
+  text-align: center;
 }
 
-/* Hero Bottom Ticker */
+/* Scroll Cue down to Sneak Peek */
+.ly-hero-scroll-cue {
+  font-family: var(--ly-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--ly-text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--ly-border-light);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all var(--ly-transition-fast);
+  margin-top: 8px;
+}
+
+.ly-hero-scroll-cue:hover {
+  color: #fff;
+  border-color: var(--ly-border-highlight);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(2px);
+}
+
+.ly-cue-arrow {
+  animation: bounceDown 1.8s infinite;
+  display: inline-block;
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* Continuous Editorial Ticker (In-flow layout) */
 .ly-hero-bottom-ticker {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  background: rgba(14, 14, 14, 0.95);
+  background: #090909;
   border-top: 1px solid var(--ly-border-light);
-  padding: 12px 0;
+  border-bottom: 1px solid var(--ly-border-light);
+  padding: 13px 0;
   overflow: hidden;
   white-space: nowrap;
+  z-index: 5;
 }
 
 .ly-ticker-track {
@@ -1712,144 +1787,187 @@ body.ly-glow-active .ly-glow-peek {
 @media (max-width: 768px) {
   /* Topbar */
   .ly-topbar-inner {
-    padding: 10px 16px;
+    padding: 10px 14px;
   }
   .ly-topbar-title {
-    font-size: 0.85rem;
-    letter-spacing: 0.22em;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
   }
   .ly-topbar-badge {
     display: none; /* Keep topbar clean and uncluttered on phone */
   }
+  .ly-topbar-actions {
+    gap: 6px;
+  }
   .ly-glow-toggle-btn {
-    padding: 6px 12px;
+    padding: 5px 10px;
     font-size: 0.65rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
+  }
+  .ly-password-trigger-btn {
+    padding: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    justify-content: center;
+  }
+  .ly-password-label {
+    display: none;
   }
 
-  /* Hero Section */
+  /* Hero Section Mobile (Fits within 100svh cleanly) */
   .ly-hero-section {
-    padding: 95px 16px 50px;
-    min-height: auto;
+    padding: 72px 14px 28px;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .ly-hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+  .ly-brand-emblem-wrap {
+    margin-bottom: 10px;
+  }
+  .ly-hero-monogram {
+    width: 44px;
+    height: 44px;
   }
   .ly-hero-eyebrow {
     gap: 8px;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
   }
   .ly-eyebrow-line {
-    width: 24px;
+    width: 20px;
   }
   .ly-eyebrow-text {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-  }
-  .ly-hero-monogram {
-    width: 52px;
-    height: 52px;
-  }
-  .ly-hero-name {
-    font-size: clamp(2.2rem, 11vw, 3.8rem);
-    letter-spacing: 0.24em;
-    text-indent: 0.24em;
-  }
-  .ly-hero-status {
-    font-size: clamp(1.4rem, 6.5vw, 2.2rem);
-  }
-  .ly-hero-manifesto {
-    margin-bottom: 28px;
-  }
-  .ly-quote-primary {
-    font-size: 0.96rem;
-    letter-spacing: 0.14em;
-  }
-  .ly-quote-secondary {
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     letter-spacing: 0.16em;
   }
-  .ly-hero-anchors {
-    flex-direction: column;
-    width: 100%;
-    gap: 12px;
-    margin-bottom: 32px;
+  .ly-hero-title {
+    margin-bottom: 12px;
+    gap: 2px;
   }
-  .ly-hero-cta-scroll,
-  .ly-hero-cta-secondary {
-    width: 100%;
-    justify-content: center;
-    padding: 15px 20px;
-    font-size: 0.78rem;
+  .ly-hero-name {
+    font-size: clamp(2rem, 9.5vw, 2.9rem);
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+  }
+  .ly-hero-status {
+    font-size: clamp(1.15rem, 5.2vw, 1.65rem);
+    letter-spacing: 0.06em;
+  }
+  .ly-hero-manifesto {
+    margin-bottom: 18px;
+    max-width: 100%;
+  }
+  .ly-quote-primary {
+    font-size: 0.86rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .ly-quote-secondary {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
   }
 
-  /* Notify Section */
-  .ly-notify-section {
-    padding: 70px 16px;
+  /* Direct VIP Early Access Form on Mobile */
+  .ly-hero-signup {
+    max-width: 100%;
+    margin: 0 auto 14px;
   }
-  .ly-notify-heading {
-    font-size: 1.85rem;
+  .ly-vip-input-row {
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 8px;
   }
-  .ly-notify-subtext {
-    font-size: 0.88rem;
-  }
-  .ly-notify-interactive-box {
-    padding: 24px 16px;
-  }
-  .ly-btn-notify-trigger {
+  .ly-vip-input-wrap {
     width: 100%;
+  }
+  .ly-vip-email-field {
+    height: 44px;
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 0 12px;
+  }
+  .ly-vip-submit-btn {
+    width: 100%;
+    height: 46px;
     justify-content: center;
-    padding: 16px 18px;
     font-size: 0.8rem;
     letter-spacing: 0.14em;
   }
-  .ly-form-inner-row {
-    flex-direction: column;
-    gap: 10px;
+  .ly-vip-trust-meta {
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
   }
-  .ly-btn-notify-submit {
-    width: 100%;
-    justify-content: center;
-    height: 50px;
+
+  /* Scroll Cue on Mobile */
+  .ly-hero-scroll-cue {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    padding: 6px 14px;
+    margin-top: 4px;
   }
-  .ly-notify-input {
-    height: 50px;
-    font-size: 0.84rem;
+
+  /* Bottom Ticker Mobile */
+  .ly-hero-bottom-ticker {
+    padding: 10px 0;
   }
-  .ly-notify-perks {
-    gap: 10px;
-    margin-top: 24px;
-  }
-  .ly-perk-divider {
-    display: none;
-  }
-  .ly-perk-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--ly-border-light);
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.72rem;
+  .ly-ticker-track {
+    font-size: 0.66rem;
+    gap: 20px;
   }
 
   /* Sneak Peek Section on Mobile */
   .ly-sneakpeek-section {
-    padding: 60px 14px 45px;
+    padding: 45px 12px 35px;
+  }
+  .ly-sneakpeek-header {
+    margin-bottom: 24px;
   }
   .ly-sneakpeek-title {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
+    letter-spacing: 0.12em;
+  }
+  .ly-sneakpeek-desc {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .ly-sneakpeek-shelf {
+    border-radius: 10px;
+  }
+  .ly-shelf-edge {
+    padding: 8px 14px;
+  }
+  .ly-shelf-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
   }
   .ly-sneakpeek-reel {
-    gap: 12px;
-    padding: 14px 14px 8px;
+    gap: 10px;
+    padding: 14px 12px 8px;
+    scroll-padding: 0 12px;
   }
   .ly-peek-item {
-    flex: 0 0 135px;
-    min-width: 135px;
+    flex: 0 0 125px;
+    min-width: 125px;
+    border-radius: 6px;
   }
   .ly-peek-spotlight-bar {
-    padding: 12px 14px;
+    padding: 10px 12px;
+    margin-top: 12px;
+    border-radius: 6px;
   }
   .ly-spotlight-inner {
     flex-direction: column;
-    gap: 5px;
-    font-size: 0.7rem;
+    gap: 4px;
+    font-size: 0.68rem;
   }
   .ly-spotlight-sep {
     display: none;
@@ -1857,52 +1975,82 @@ body.ly-glow-active .ly-glow-peek {
 
   /* Story Section */
   .ly-story-section {
-    padding: 60px 16px;
+    padding: 45px 14px;
   }
   .ly-story-container {
-    gap: 40px;
+    gap: 30px;
+  }
+  .ly-story-card {
+    border-radius: 10px;
   }
   .ly-story-caption {
-    padding: 20px 16px;
+    padding: 18px 14px;
   }
   .ly-caption-title {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+  }
+  .ly-caption-text {
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+  .ly-story-banner-box {
+    min-height: 340px;
+    padding: 32px 14px;
+    border-radius: 10px;
   }
   .ly-banner-headline {
-    font-size: 2.1rem;
+    font-size: clamp(1.75rem, 7.5vw, 2.5rem);
+    margin-bottom: 20px;
   }
   .ly-banner-details {
-    gap: 18px;
+    gap: 14px;
+    margin-bottom: 20px;
   }
   .ly-stat-number {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
   .ly-banner-stat-divider {
     display: none;
   }
+  .ly-banner-manifesto {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
   .ly-story-lab-row {
-    padding: 20px 16px;
-    gap: 24px;
+    padding: 18px 14px;
+    gap: 20px;
+    border-radius: 10px;
   }
   .ly-lab-heading {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
+    letter-spacing: 0.1em;
+  }
+  .ly-lab-paragraph {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
   }
   .ly-lab-specs-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .ly-lab-spec-box {
+    padding: 10px 12px;
   }
 
   /* Footer */
   .ly-footer-section {
-    padding: 50px 16px 30px;
+    padding: 40px 16px 24px;
   }
   .ly-footer-top-row {
-    gap: 28px;
+    gap: 24px;
   }
   .ly-footer-bottom-bar {
     flex-direction: column;
     text-align: center;
-    gap: 12px;
+    gap: 10px;
+    padding-top: 20px;
   }
 }
 

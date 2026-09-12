@@ -1,0 +1,428 @@
+{%- comment -%}
+  LACEYAAN Design Lab Seasonal Capsule Spotlight with Sticky Presentation Card and 2x2 Grid
+{%- endcomment -%}
+
+<section id="design-lab" class="design-lab-section section-padding" {{ section.shopify_attributes }}>
+  <div class="container">
+    <div class="section-header text-center">
+      {%- if section.settings.badge != blank -%}
+        <div class="design-lab-badge">
+          <span class="spec-dot" aria-hidden="true">●</span>
+          <span>[ {{ section.settings.badge }} ]</span>
+        </div>
+      {%- endif -%}
+      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+
+    <div class="lab-showcase-grid">
+      <!-- Sticky Media Presentation Card -->
+      <div class="lab-media-card">
+        <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+        <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+        
+        <div class="lab-image-container">
+          {%- if section.settings.box_image != blank -%}
+            {{ section.settings.box_image | image_url: width: 1000 | image_tag: 
+              class: 'lab-hero-photo', 
+              widths: '500, 750, 1000',
+              alt: section.settings.heading | escape 
+            }}
+          {%- else -%}
+            <img src="{{ 'design-lab-collection.jpg' | asset_url }}" alt="LACEYAAN Design Lab S'25 Capsule Presentation Box" class="lab-hero-photo" width="600" height="700" loading="lazy">
+          {%- endif -%}
+
+          <div class="lab-overlay-tag">
+            <span class="vault-tag">[ LACEYAAN DESIGN LAB // S'25 ARCHIVE ]</span>
+            <span class="vault-edition">[ LIMITED: 500 NUMBERED SETS ]</span>
+          </div>
+        </div>
+
+        {%- if section.settings.box_product != blank -%}
+          {%- assign box_item = section.settings.box_product -%}
+          <div class="vault-quick-bar">
+            <div class="vault-info">
+              <h4>{{ box_item.title }}</h4>
+              <span class="vault-save">Includes all 4 designer laces &bull; Save ₹900</span>
+            </div>
+            <div class="vault-cta-group">
+              <div class="vault-price">
+                <span class="price-now">{{ box_item.price | money }}</span>
+                {%- if box_item.compare_at_price > box_item.price -%}
+                  <span class="price-was">{{ box_item.compare_at_price | money }}</span>
+                {%- endif -%}
+              </div>
+              <button 
+                type="button" 
+                class="btn-gold btn-sm" 
+                data-add-to-cart 
+                data-variant-id="{{ box_item.selected_or_first_available_variant.id }}"
+              >
+                {% render 'icon-shopping-bag' %}
+                <span>Get 4-Pack Vault</span>
+              </button>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Capsule Craft Perks -->
+        <div class="vault-perks-list">
+          <div class="vault-perk-item">
+            {% render 'icon-check' %}
+            <span>4 High-Density Shuttle Looms: Leopard, Baroque, Damier &amp; Plum</span>
+          </div>
+          <div class="vault-perk-item">
+            {% render 'icon-check' %}
+            <span>Individually coated aglets: Ceramic White, Matte Black, Olive &amp; Plum</span>
+          </div>
+          <div class="vault-perk-item">
+            {% render 'icon-check' %}
+            <span>Embossed matte black archival collector magnetic box</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Symmetrical 2x2 Individual Laces Column -->
+      <div class="lab-details-col">
+        <div class="lab-intro-box">
+          <span class="spec-label-small">// CAPSULE SILHOUETTES [ 01/04 ]</span>
+          <h3>The 4 Jacquard Silhouettes</h3>
+          <p>
+            Each lace in this capsule is woven on high-tension Jacquard shuttle looms rather than 
+            printed, ensuring three-dimensional texture that never fades or wrinkles.
+          </p>
+        </div>
+
+        <div class="individual-laces-grid">
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign b_product = block.settings.product
+                assign b_title = block.settings.custom_title
+                if b_title == blank and b_product != blank
+                  assign b_title = b_product.title
+                elsif b_title == blank
+                  assign b_title = 'Jacquard Loom Lace'
+                endif
+
+                assign b_price = block.settings.custom_price
+                if b_price == blank and b_product != blank
+                  assign b_price = b_product.price | money
+                elsif b_price == blank
+                  assign b_price = '₹899'
+                endif
+
+                assign b_vendor = block.settings.custom_vendor
+                if b_vendor == blank and b_product != blank
+                  assign b_vendor = b_product.vendor
+                elsif b_vendor == blank
+                  assign b_vendor = 'Jacquard Shuttle Loom'
+                endif
+
+                assign b_url = routes.all_products_collection_url
+                if b_product != blank
+                  assign b_url = b_product.url
+                endif
+
+                assign b_variant = b_product.selected_or_first_available_variant
+              -%}
+              <div class="product-card" {{ block.shopify_attributes }}>
+                <div class="card-media">
+                  <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+                  <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+                  <a href="{{ b_url }}" class="media-link" aria-label="{{ b_title | escape }}">
+                    {%- if block.settings.custom_image != blank -%}
+                      {{ block.settings.custom_image | image_url: width: 600 | image_tag: 
+                        class: 'card-img-primary',
+                        widths: '300, 450, 600',
+                        loading: 'lazy',
+                        alt: b_title | escape 
+                      }}
+                    {%- elsif b_product.featured_media != blank -%}
+                      {{ b_product.featured_media | image_url: width: 600 | image_tag: 
+                        class: 'card-img-primary',
+                        widths: '300, 450, 600',
+                        loading: 'lazy',
+                        alt: b_title | escape 
+                      }}
+                    {%- else -%}
+                      {%- assign default_img = 'product-leopard.jpg' -%}
+                      {%- case forloop.index -%}
+                        {%- when 2 -%}{%- assign default_img = 'product-paisley.jpg' -%}
+                        {%- when 3 -%}{%- assign default_img = 'product-olive.jpg' -%}
+                        {%- when 4 -%}{%- assign default_img = 'product-plum.jpg' -%}
+                      {%- endcase -%}
+                      <img src="{{ default_img | asset_url }}" alt="{{ b_title | escape }}" class="card-img-primary" width="400" height="400" loading="lazy">
+                    {%- endif -%}
+                  </a>
+                </div>
+                <div class="card-content">
+                  <span class="card-category">{{ b_vendor }}</span>
+                  <h3 class="card-title"><a href="{{ b_url }}">{{ b_title }}</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-now">{{ b_price }}</span>
+                  </div>
+                  <div class="card-actions">
+                    <button 
+                      type="button" 
+                      class="btn-buy-now" 
+                      data-buy-now 
+                      {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
+                      {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
+                      aria-label="Buy {{ b_title | escape }} now"
+                    >
+                      <span>BUY NOW [ &rarr; ]</span>
+                    </button>
+                    <button 
+                      type="button" 
+                      class="btn-add-bag" 
+                      data-add-to-cart 
+                      {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
+                      {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
+                      aria-label="Add {{ b_title | escape }} to bag"
+                    >
+                      {% render 'icon-shopping-bag' %}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- elsif section.settings.capsule_products != blank and section.settings.capsule_products.count > 0 -%}
+            {%- for product in section.settings.capsule_products -%}
+              {% render 'product-card', product: product %}
+            {%- endfor -%}
+          {%- elsif section.settings.capsule_collection != blank and collections[section.settings.capsule_collection].products_count > 0 -%}
+            {%- for product in collections[section.settings.capsule_collection].products limit: 4 -%}
+              {% render 'product-card', product: product %}
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign default_capsule = 'product-leopard.jpg|Leopard Weave Jacquard|₹899,product-paisley.jpg|Vintage Paisley Tapestry|₹899,product-olive.jpg|Olive Heritage Shuttle Loom|₹899,product-plum.jpg|Imperial Plum Damier|₹899' | split: ',' -%}
+            {%- for item in default_capsule -%}
+              {%- assign item_parts = item | split: '|' -%}
+              <div class="product-card">
+                <div class="card-media">
+                  <a href="{{ routes.all_products_collection_url }}" class="media-link">
+                    <img src="{{ item_parts[0] | asset_url }}" alt="{{ item_parts[1] }}" class="card-img-primary" width="400" height="400" loading="lazy">
+                  </a>
+                </div>
+                <div class="card-content">
+                  <span class="card-vendor">Jacquard Loom</span>
+                  <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">{{ item_parts[1] }}</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-now">{{ item_parts[2] }}</span>
+                  </div>
+                  <div class="card-actions">
+                    <button type="button" class="btn-buy-now" data-buy-now aria-label="Buy {{ item_parts[1] }} now">
+                      <span>BUY NOW</span>
+                    </button>
+                    <button type="button" class="btn-add-bag" data-add-to-cart aria-label="Add to bag">
+                      {% render 'icon-shopping-bag' %}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Grand Master Vault Collector Banner -->
+    {%- if section.settings.vault_product != blank -%}
+      {%- assign grand_vault = section.settings.vault_product -%}
+      <div class="vault-master-banner">
+        <div class="vault-master-thumb">
+          {%- if grand_vault.featured_media -%}
+            {{ grand_vault.featured_media | image_url: width: 800 | image_tag: 
+              class: 'vault-master-img', 
+              alt: grand_vault.title | escape 
+            }}
+          {%- else -%}
+            <img src="{{ 'product-master-box.jpg' | asset_url }}" alt="{{ grand_vault.title | escape }}" class="vault-master-img" width="400" height="300" loading="lazy">
+          {%- endif -%}
+          <span class="vault-master-badge">Ultimate 8-Piece Vault</span>
+        </div>
+
+        <div class="vault-master-content">
+          <div class="vault-master-header">
+            <div>
+              <span class="vault-tag">ATELIER MASTER COLLECTION // 8 ARCHIVAL WEAVES</span>
+              <h3><a href="{{ grand_vault.url }}">{{ grand_vault.title }}</a></h3>
+            </div>
+            <div class="vault-master-pricing">
+              <span class="price-now">{{ grand_vault.price | money }}</span>
+              {%- if grand_vault.compare_at_price > grand_vault.price -%}
+                <span class="price-was">{{ grand_vault.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <p class="vault-master-desc">{{ grand_vault.description | strip_html | truncatewords: 40 }}</p>
+
+          <div class="vault-master-perks">
+            <div class="master-perk-pill">
+              {% render 'icon-shield-check' %}
+              <span>8 Complete Pairs (Silk, Waxed, Rope, 3M, Velvet, Jacquard)</span>
+            </div>
+            <div class="master-perk-pill">
+              {% render 'icon-check' %}
+              <span>16 CNC Solid Metal Aglet Kit (Gold, Silver, Gunmetal)</span>
+            </div>
+            <div class="master-perk-pill">
+              {% render 'icon-sparkles' %}
+              <span>Steel Threading Key &amp; 80g Organic Beeswax Puck</span>
+            </div>
+          </div>
+
+          <div class="vault-master-actions">
+            <button 
+              type="button" 
+              class="btn-gold" 
+              data-add-to-cart 
+              data-variant-id="{{ grand_vault.selected_or_first_available_variant.id }}"
+            >
+              {% render 'icon-shopping-bag' %}
+              <span>Secure The 8-Piece Archive Chest</span>
+            </button>
+            <a href="{{ grand_vault.url }}" class="btn-secondary">
+              {% render 'icon-eye' %}
+              <span>Inspect Vault Details</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Design Lab Capsule",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text",
+      "default": "LACEYAAN DESIGN LAB // S'25 CAPSULE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Artisanal Jacquard & Tapestry Series"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Beyond standard solids. Four high-density Jacquard loom tapestries featuring custom-coated enamel aglets, presented in our signature textured collector's box."
+    },
+    {
+      "type": "image_picker",
+      "id": "box_image",
+      "label": "Capsule Presentation Box Image"
+    },
+    {
+      "type": "product",
+      "id": "box_product",
+      "label": "4-Pack Capsule Box Product"
+    },
+    {
+      "type": "product_list",
+      "id": "capsule_products",
+      "label": "Select 4 Specific Laces (Recommended)",
+      "limit": 4
+    },
+    {
+      "type": "collection",
+      "id": "capsule_collection",
+      "label": "Or Select a Collection (Shows first 4 items)"
+    },
+    {
+      "type": "product",
+      "id": "vault_product",
+      "label": "Grand Master Archive Vault Product (8-Piece Chest)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lace_card",
+      "name": "Lace Card / Silhouette",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Shopify Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Photo (Optional override)"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title (Optional override)"
+        },
+        {
+          "type": "text",
+          "id": "custom_vendor",
+          "label": "Loom / Category Tag",
+          "default": "Jacquard Shuttle Loom"
+        },
+        {
+          "type": "text",
+          "id": "custom_price",
+          "label": "Custom Price Display (e.g. ₹899)"
+        },
+        {
+          "type": "text",
+          "id": "buy_now_label",
+          "label": "Buy Button Label",
+          "default": "BUY NOW"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Design Lab Capsule",
+      "blocks": [
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Leopard Weave Jacquard",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        },
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Vintage Paisley Tapestry",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        },
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Olive Heritage Shuttle Loom",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        },
+        {
+          "type": "lace_card",
+          "settings": {
+            "custom_title": "Imperial Plum Damier",
+            "custom_price": "₹899",
+            "custom_vendor": "Jacquard Shuttle Loom"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

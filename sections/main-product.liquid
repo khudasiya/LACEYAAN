@@ -1,0 +1,275 @@
+{%- comment -%}
+  LACEYAAN Atelier Native Product Detail Section with Dynamic Variants & Accordion Tabs
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="main-product-section section-padding" data-section-id="{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="container">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span class="bc-sep">/</span>
+      {%- if collection -%}
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+        <span class="bc-sep">/</span>
+      {%- else -%}
+        <a href="{{ routes.all_products_collection_url }}">Atelier Laces</a>
+        <span class="bc-sep">/</span>
+      {%- endif -%}
+      <span class="bc-current" aria-current="page">{{ product.title }}</span>
+    </nav>
+
+    <div class="product-layout-grid">
+      <!-- Left: Media Gallery -->
+      <div class="product-gallery">
+        <div class="main-gallery-viewport">
+          {%- if product.featured_media != blank -%}
+            {{ product.featured_media | image_url: width: 1200 | image_tag: 
+              class: 'main-product-img', 
+              id: 'ProductMainImage',
+              widths: '600, 800, 1000, 1200',
+              alt: product.featured_media.alt | default: product.title | escape 
+            }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+
+          <div class="gallery-badges">
+            {%- if current_variant.available == false -%}
+              <span class="badge badge-sold-out">{{ 'products.product.sold_out' | t }}</span>
+            {%- elsif product.compare_at_price > product.price -%}
+              {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+              <span class="badge badge-sale">Save {{ savings }}%</span>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if product.media.size > 1 -%}
+          <div class="gallery-thumbs-rail">
+            {%- for media in product.media -%}
+              <button 
+                type="button" 
+                class="gallery-thumb-btn{% if forloop.first %} active{% endif %}" 
+                data-media-url="{{ media | image_url: width: 1200 }}"
+                aria-label="View image {{ forloop.index }}"
+              >
+                {{ media | image_url: width: 160 | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Right: Product Information & Native Variant Form -->
+      <div class="product-info-column">
+        {%- assign vendor_clean = product.vendor | default: '' | strip -%}
+        {%- assign vendor_lower = vendor_clean | downcase -%}
+        {%- assign shop_lower = shop.name | downcase -%}
+        {%- if settings.show_vendor and vendor_clean != blank and vendor_lower != 'my store' and vendor_lower != shop_lower -%}
+          <span class="product-vendor-badge">{{ vendor_clean }}</span>
+        {%- elsif product.type != blank -%}
+          <span class="product-vendor-badge">{{ product.type }}</span>
+        {%- endif -%}
+
+        <h1 class="product-page-title">{{ product.title }}</h1>
+
+        <!-- Price -->
+        <div class="product-price-container" id="product-price-{{ section.id }}">
+          {% render 'price', product: product, use_variant: true %}
+        </div>
+
+        <!-- Stock indicator -->
+        <div class="product-stock-status">
+          {%- if current_variant.available -%}
+            <span class="stock-pill stock-in">
+              <span class="stock-dot"></span>
+              <span>{{ 'products.product.in_stock' | t }}</span>
+            </span>
+          {%- else -%}
+            <span class="stock-pill stock-out">
+              <span class="stock-dot"></span>
+              <span>{{ 'products.product.sold_out' | t }}</span>
+            </span>
+          {%- endif -%}
+        </div>
+
+        <!-- Short Subtitle or Summary -->
+        {%- if product.metafields.descriptors.subtitle != blank -%}
+          <p class="product-teaser">{{ product.metafields.descriptors.subtitle }}</p>
+        {%- endif -%}
+
+        <!-- Native Shopify Product Form -->
+        {%- form 'product', product, id: 'product-form-installment', class: 'native-product-form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="selected-variant-id">
+
+          <!-- Dynamic Option Selectors (Length, Color, Aglet Finish) -->
+          {%- unless product.has_only_default_variant -%}
+            <div class="product-options-wrapper">
+              {%- for option in product.options_with_values -%}
+                <div class="option-group" data-option-index="{{ forloop.index0 }}">
+                  <div class="option-header">
+                    <label class="option-label">
+                      {{ option.name }}: <strong class="selected-option-value">{{ option.selected_value }}</strong>
+                    </label>
+                    {%- assign opt_down = option.name | downcase -%}
+                    {%- if opt_down contains 'length' -%}
+                      <a href="/pages/length-guide" class="length-calculator-link" target="_blank">
+                        <span>Calculate Length &rarr;</span>
+                      </a>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="option-values-row">
+                    {%- for value in option.values -%}
+                      <label class="option-value-chip{% if option.selected_value == value %} active{% endif %}">
+                        <input 
+                          type="radio" 
+                          name="options[{{ option.name | escape }}]" 
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}checked="checked"{% endif %}
+                          class="visually-hidden option-radio-input"
+                          data-option-position="{{ option.position }}"
+                        >
+                        <span class="chip-label">{{ value }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endunless -%}
+
+          <!-- Quantity Picker & Add to Bag Button -->
+          <div class="product-purchase-row">
+            <div class="quantity-input-wrap">
+              <label for="Quantity-{{ section.id }}" class="visually-hidden">{{ 'products.product.quantity' | t }}</label>
+              <button type="button" class="qty-btn" data-qty-action="minus" aria-label="Decrease quantity">-</button>
+              <input 
+                type="number" 
+                name="quantity" 
+                id="Quantity-{{ section.id }}" 
+                min="1" 
+                value="1" 
+                class="quantity-input"
+                aria-label="{{ 'products.product.quantity' | t }}"
+              >
+              <button type="button" class="qty-btn" data-qty-action="plus" aria-label="Increase quantity">+</button>
+            </div>
+
+            <button 
+              type="submit" 
+              name="add" 
+              class="btn-primary btn-add-main" 
+              id="AddToCart-{{ section.id }}"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {% render 'icon-shopping-bag' %}
+              <span id="AddToCartText-{{ section.id }}">
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }} &bull; <span class="btn-price">{{ current_variant.price | money }}</span>
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+            </button>
+          </div>
+
+          <!-- Dynamic Shopify Payment Buttons (Apple Pay, Google Pay, Buy It Now) -->
+          {%- if section.settings.show_dynamic_checkout -%}
+            <div class="dynamic-payment-buttons">
+              {{ form | payment_button }}
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+
+        <!-- Atelier Craft Trust Badges -->
+        <div class="product-trust-matrix">
+          <div class="trust-cell">
+            {% render 'icon-check' %}
+            <div>
+              <strong>3.8mm CNC Precision Milled</strong>
+              <span>Glides smoothly through all standard footwear eyelets</span>
+            </div>
+          </div>
+          <div class="trust-cell">
+            {% render 'icon-shield-check' %}
+            <div>
+              <strong>30-Day Guaranteed Fit Promise</strong>
+              <span>Wrong length? Free exchange with zero questions asked</span>
+            </div>
+          </div>
+          <div class="trust-cell">
+            {% render 'icon-sparkles' %}
+            <div>
+              <strong>Complimentary Express Delivery</strong>
+              <span>Tracked domestic courier on orders above ₹1,499</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion Information Tabs -->
+        <div class="product-accordions">
+          <div class="accordion-item active">
+            <button type="button" class="accordion-trigger" aria-expanded="true">
+              <span>Textile Weave &amp; Craft Details</span>
+              <span class="acc-icon">&minus;</span>
+            </button>
+            <div class="accordion-panel">
+              <div class="rte product-description-body">
+                {{ product.description }}
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>Shoelace Sizing &amp; Length Guide</span>
+              <span class="acc-icon">+</span>
+            </button>
+            <div class="accordion-panel" hidden>
+              <p>Count the pairs of eyelets on your shoes to choose your ideal length:</p>
+              <ul class="sizing-bullets">
+                <li><strong>36" (90cm)</strong> &mdash; 4 Eyelets (Casual low-tops, dress oxfords)</li>
+                <li><strong>45" (114cm)</strong> &mdash; 5–6 Eyelets (Retro court low-tops, running trainers, untied drape)</li>
+                <li><strong>54" (137cm)</strong> &mdash; 6–7 Eyelets (Standard sneakers, lifestyle kicks, trainers)</li>
+                <li><strong>63" (160cm)</strong> &mdash; 7–8 Eyelets (Mid-tops, high-tops tied to collar)</li>
+                <li><strong>72" (182cm)</strong> &mdash; 8–9 Eyelets (High-top basketball sneakers, workwear boots)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger" aria-expanded="false">
+              <span>Shipping, Exchanges &amp; Warranty</span>
+              <span class="acc-icon">+</span>
+            </button>
+            <div class="accordion-panel" hidden>
+              <p>Every pair is hand-checked in our New Delhi atelier. Orders placed before 2:00 PM IST dispatch the same business day via Bluedart / Delhivery express courier.</p>
+              <p>Backed by our 30-Day Guaranteed Fit Policy: if the length or hue isn't immaculate on your rotation, we exchange it for free.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product JSON data for script variant switching -->
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Product Details",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button (Buy It Now)",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
