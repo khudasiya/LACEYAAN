@@ -1753,30 +1753,49 @@ body {
 }
 
 /* ==========================================================================
-   MOBILE PHONE AMPLIFICATION (< 768px and < 480px)
+   MOBILE PHONE & SMARTPHONE OPTIMIZATIONS (< 768px, < 480px, < 380px)
    ========================================================================== */
 @media (max-width: 768px) {
-  /* Topbar */
+  /* Prevent horizontal scrolling and zoom glitches on touch devices */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Topbar with Safe Area Inset */
+  .ly-topbar {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
   .ly-topbar-inner {
     padding: 12px 16px;
     justify-content: center;
+  }
+  .ly-topbar-brand {
+    gap: 10px;
+  }
+  .ly-topbar-emblem {
+    width: 22px;
+    height: 22px;
   }
   .ly-topbar-title {
     font-size: 0.88rem;
     letter-spacing: 0.24em;
   }
   .ly-topbar-badge {
-    display: none; /* Keep topbar clean and uncluttered on phone */
+    display: none; /* Keep header clean on phone */
   }
 
-  /* Hero Section Mobile (Fits within 100svh cleanly) */
+  /* Hero Section Mobile (Adaptive viewport height with safe area) */
   .ly-hero-section {
-    padding: 72px 14px 28px;
+    padding: calc(64px + env(safe-area-inset-top, 0px)) 16px 28px;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
+    overflow: hidden;
   }
   .ly-hero-content {
     width: 100%;
@@ -1789,91 +1808,121 @@ body {
     margin-bottom: 12px;
   }
   .ly-hero-monogram-box {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
   }
   .ly-hero-monogram {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
   .ly-hero-brand-name {
-    font-size: 0.82rem;
-    letter-spacing: 0.28em;
-    text-indent: 0.28em;
+    font-size: 0.84rem;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
   }
   .ly-hero-eyebrow {
     gap: 8px;
     margin-bottom: 12px;
   }
   .ly-eyebrow-line {
-    width: 20px;
+    width: 24px;
   }
   .ly-eyebrow-text {
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
   }
   .ly-hero-title {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     gap: 2px;
   }
   .ly-hero-name {
-    font-size: clamp(1.75rem, 8vw, 2.5rem);
-    letter-spacing: 0.16em;
-    text-indent: 0.16em;
+    font-size: clamp(1.85rem, 8.5vw, 2.75rem);
+    letter-spacing: 0.18em;
+    text-indent: 0.18em;
+    line-height: 1.15;
   }
   .ly-hero-manifesto {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     max-width: 100%;
   }
   .ly-quote-primary {
-    font-size: 0.86rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 3px;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+    line-height: 1.4;
   }
   .ly-quote-secondary {
-    font-size: 0.65rem;
-    letter-spacing: 0.14em;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    opacity: 0.88;
   }
 
-  /* Direct VIP Early Access Form on Mobile */
+  /* Direct VIP Early Access Form on Mobile (iOS 16px Auto-Zoom Protected) */
   .ly-hero-signup {
     max-width: 100%;
-    margin: 0 auto 14px;
+    width: 100%;
+    margin: 0 auto 16px;
   }
   .ly-vip-input-row {
     flex-direction: column;
     padding: 8px;
     gap: 8px;
-    border-radius: 8px;
+    border-radius: 10px;
+    background: rgba(20, 20, 20, 0.75);
+    border: 1px solid var(--ly-border-light);
   }
   .ly-vip-input-wrap {
     width: 100%;
   }
   .ly-vip-email-field {
-    height: 44px;
-    font-size: 0.82rem;
+    height: 48px;
+    /* CRITICAL FOR IPHONE: font-size MUST be >= 16px to prevent iOS Safari auto-zoom distortion */
+    font-size: 16px !important;
     text-align: center;
-    padding: 0 12px;
+    padding: 0 16px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--ly-border-light);
+    color: var(--ly-text-primary);
+  }
+  .ly-vip-email-field:focus {
+    border-color: var(--ly-gold);
+    outline: none;
+    box-shadow: 0 0 12px var(--ly-gold-glow);
   }
   .ly-vip-submit-btn {
     width: 100%;
-    height: 46px;
+    height: 48px;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 700;
     letter-spacing: 0.14em;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #070707;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ly-vip-submit-btn:active {
+    transform: scale(0.98);
   }
   .ly-vip-trust-meta {
-    font-size: 0.64rem;
+    font-size: 0.66rem;
     letter-spacing: 0.08em;
-    margin-top: 6px;
+    margin-top: 8px;
+    color: var(--ly-text-muted);
   }
 
   /* Scroll Cue on Mobile */
   .ly-hero-scroll-cue {
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     letter-spacing: 0.14em;
-    padding: 6px 14px;
-    margin-top: 4px;
+    padding: 8px 16px;
+    margin-top: 6px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    touch-action: manipulation;
   }
 
   /* Bottom Ticker Mobile */
@@ -1885,23 +1934,30 @@ body {
     gap: 20px;
   }
 
-  /* Staggered Laces on Mobile */
+  /* Staggered Laces on Mobile (Pronounced 1-2-3-4 Zig-Zag) */
   .ly-staggered-laces-section {
-    padding: 60px 16px;
+    padding: 56px 16px;
+    overflow: hidden;
   }
   .ly-staggered-header {
-    margin-bottom: 45px;
+    margin-bottom: 40px;
+  }
+  .ly-staggered-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
   }
   .ly-staggered-title {
-    font-size: 1.85rem;
-    letter-spacing: 0.16em;
+    font-size: clamp(1.65rem, 7vw, 2.2rem);
+    letter-spacing: 0.14em;
   }
   .ly-staggered-track {
-    gap: 52px;
+    gap: 46px;
   }
   .ly-stagger-item {
+    display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
+    width: 100%;
     padding: 0 !important;
   }
   .ly-stagger-left {
@@ -1919,81 +1975,150 @@ body {
     order: 1;
   }
   .ly-lace-circle-frame {
-    width: clamp(200px, 60vw, 260px);
-    height: clamp(200px, 60vw, 260px);
+    width: clamp(155px, 48vw, 210px);
+    height: clamp(155px, 48vw, 210px);
+    border-radius: 50%;
+    border: 1px solid var(--ly-border-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
   }
   .ly-lace-index {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    font-family: var(--ly-font-serif);
+    font-style: italic;
+    line-height: 1;
   }
   .ly-lace-title {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  .ly-lace-glow-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    margin-top: 6px;
   }
   .ly-lace-glow-btn {
-    padding: 8px 18px;
-    font-size: 0.72rem;
+    min-height: 44px;
+    padding: 10px 20px;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .ly-glow-subhint {
     font-size: 0.62rem;
   }
 
-  /* Story Section */
+  /* Story Section Mobile */
   .ly-story-section {
     padding: 45px 14px;
+    overflow: hidden;
   }
   .ly-story-container {
-    gap: 30px;
+    gap: 28px;
   }
   .ly-story-card {
     border-radius: 10px;
+    background: var(--ly-bg-card);
+    border: 1px solid var(--ly-border-light);
+  }
+  .ly-story-media-frame {
+    aspect-ratio: 16 / 10;
   }
   .ly-story-caption {
     padding: 18px 14px;
   }
+  .ly-caption-tag {
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+  }
   .ly-caption-title {
-    font-size: 1.25rem;
-    letter-spacing: 0.1em;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
   }
   .ly-caption-text {
     font-size: 0.84rem;
-    line-height: 1.6;
+    line-height: 1.55;
+    color: var(--ly-text-secondary);
   }
+  .ly-caption-sub {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    margin-top: 10px;
+  }
+
+  /* Full-width Editorial Banner */
   .ly-story-banner-box {
-    min-height: 340px;
-    padding: 32px 14px;
+    min-height: 320px;
+    padding: 28px 14px;
     border-radius: 10px;
   }
   .ly-banner-headline {
-    font-size: clamp(1.75rem, 7.5vw, 2.5rem);
-    margin-bottom: 20px;
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+    letter-spacing: 0.14em;
+    margin-bottom: 18px;
   }
   .ly-banner-details {
-    gap: 14px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
     margin-bottom: 20px;
   }
+  .ly-banner-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
   .ly-stat-number {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+  }
+  .ly-stat-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    white-space: normal;
   }
   .ly-banner-stat-divider {
     display: none;
   }
   .ly-banner-manifesto {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
+    justify-content: center;
   }
+
+  /* Design Lab Hardware Row */
   .ly-story-lab-row {
     padding: 18px 14px;
-    gap: 20px;
+    gap: 16px;
     border-radius: 10px;
+    flex-direction: column;
+  }
+  .ly-lab-visual {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .ly-lab-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 11;
+    object-fit: cover;
   }
   .ly-lab-heading {
-    font-size: 1.35rem;
-    letter-spacing: 0.1em;
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
   }
   .ly-lab-paragraph {
     font-size: 0.84rem;
-    line-height: 1.6;
-    margin-bottom: 18px;
+    line-height: 1.55;
+    margin-bottom: 16px;
   }
   .ly-lab-specs-grid {
     grid-template-columns: 1fr 1fr;
@@ -2002,19 +2127,84 @@ body {
   .ly-lab-spec-box {
     padding: 10px 12px;
   }
+  .ly-spec-value {
+    font-size: 0.82rem;
+  }
+  .ly-spec-label {
+    font-size: 0.6rem;
+  }
 
-  /* Footer */
+  /* Footer on Mobile */
   .ly-footer-section {
-    padding: 40px 16px 24px;
+    padding: 36px 16px calc(28px + env(safe-area-inset-bottom, 0px));
   }
   .ly-footer-top-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 24px;
+  }
+  .ly-footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ly-footer-nav-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ly-footer-social-pill {
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 0.78rem;
+    border-radius: 9999px;
+    touch-action: manipulation;
   }
   .ly-footer-bottom-bar {
     flex-direction: column;
     text-align: center;
     gap: 10px;
     padding-top: 20px;
+  }
+  .ly-footer-legal-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+/* Extra Compact Phones (< 380px, e.g. iPhone SE, Galaxy Fold external) */
+@media (max-width: 380px) {
+  .ly-hero-name {
+    font-size: 1.65rem;
+    letter-spacing: 0.12em;
+    text-indent: 0.12em;
+  }
+  .ly-quote-primary {
+    font-size: 0.82rem;
+  }
+  .ly-quote-secondary {
+    font-size: 0.62rem;
+  }
+  .ly-lace-circle-frame {
+    width: 140px;
+    height: 140px;
+  }
+  .ly-lace-index {
+    font-size: 1.7rem;
+  }
+  .ly-lace-title {
+    font-size: 0.85rem;
+  }
+  .ly-stat-number {
+    font-size: 1rem;
+  }
+  .ly-stat-label {
+    font-size: 0.56rem;
+  }
+  .ly-vip-submit-btn {
+    font-size: 0.76rem;
   }
 }
 
