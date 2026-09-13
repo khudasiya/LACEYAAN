@@ -53,4 +53,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ==========================================================================
+     3. INTERACTIVE UNCOILED LACES (SMARTPHONE TAP & CLICK-OUTSIDE DISMISS)
+     ========================================================================== */
+  const staggerItems = document.querySelectorAll('.ly-stagger-item');
+
+  staggerItems.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      // If user clicked the Glow button, allow dedicated glow action without interfering
+      if (e.target.closest('#lyLaceGlowBtn')) return;
+
+      const isCurrentlyExtended = item.classList.contains('is-extended');
+
+      // Close all other laces so only one unfolds at a time
+      staggerItems.forEach((other) => {
+        if (other !== item) other.classList.remove('is-extended');
+      });
+
+      // Toggle current lace
+      if (isCurrentlyExtended) {
+        item.classList.remove('is-extended');
+      } else {
+        item.classList.add('is-extended');
+      }
+    });
+
+    // Keyboard accessibility (Enter or Space)
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (e.target.closest('#lyLaceGlowBtn')) return;
+        e.preventDefault();
+        item.click();
+      }
+    });
+  });
+
+  // Tapping/clicking anywhere else on the screen retracts any extended lace back to normal
+  const dismissLaces = (e) => {
+    if (!e.target.closest('.ly-stagger-item')) {
+      staggerItems.forEach((item) => item.classList.remove('is-extended'));
+    }
+  };
+
+  document.addEventListener('click', dismissLaces);
+  document.addEventListener('touchend', dismissLaces, { passive: true });
+
 });

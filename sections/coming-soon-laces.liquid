@@ -10,10 +10,54 @@
     <!-- Alternating Staggered Layout: 1 (Left) -> 2 (Right) -> 3 (Left) -> 4 (Right) -->
     <div class="ly-staggered-track">
 
-      <!-- 01 Leopard / Jaguar (Aligned Left) -->
-      <div class="ly-stagger-item ly-stagger-left" data-index="1">
-        <div class="ly-lace-circle-frame">
-          <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="Leopard Jacquard Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+      <!-- 01 Leopard / Jaguar (Aligned Left -> Extends Right) -->
+      <div class="ly-stagger-item ly-stagger-left" data-index="1" id="lyLaceItem1" tabindex="0" role="button" aria-label="Leopard Jacquard lace - hover or tap to extend">
+        <div class="ly-lace-anchor-wrap">
+          <div class="ly-lace-circle-frame">
+            <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="Leopard Jacquard Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+          </div>
+          <!-- Uncoiled Extending Lace Ribbon (Rightwards) -->
+          <div class="ly-uncoiled-lace ly-uncoiled-right ly-uncoiled-leopard" aria-hidden="true">
+            <svg class="ly-uncoiled-svg" viewBox="0 0 540 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="lyGradAgletLeopard" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#555048"/>
+                  <stop offset="30%" stop-color="#24211e"/>
+                  <stop offset="55%" stop-color="#6e665c"/>
+                  <stop offset="100%" stop-color="#161412"/>
+                </linearGradient>
+                <pattern id="lyPatternLeopard" width="40" height="20" patternUnits="userSpaceOnUse">
+                  <rect width="40" height="20" fill="#bf9359"/>
+                  <line x1="0" y1="5" x2="40" y2="5" stroke="#a37943" stroke-width="0.8" stroke-dasharray="2,2"/>
+                  <line x1="0" y1="10" x2="40" y2="10" stroke="#b3874e" stroke-width="0.8" stroke-dasharray="2,2"/>
+                  <line x1="0" y1="15" x2="40" y2="15" stroke="#a37943" stroke-width="0.8" stroke-dasharray="2,2"/>
+                  <path d="M 6,6 C 5,4 8,3 10,5 C 11,7 9,9 7,8 Z" fill="#1c1611"/>
+                  <circle cx="8" cy="6" r="1.5" fill="#855224"/>
+                  <path d="M 22,12 C 20,10 24,9 26,11 C 27,13 25,15 23,14 Z" fill="#1c1611"/>
+                  <circle cx="24" cy="12" r="1.5" fill="#855224"/>
+                  <path d="M 34,5 C 33,3 37,4 38,6 C 37,8 35,7 34,5 Z" fill="#1c1611"/>
+                  <circle cx="36" cy="5" r="1.2" fill="#855224"/>
+                </pattern>
+              </defs>
+              <!-- Cast Shadow -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" opacity="0.65" transform="translate(2, 10)"/>
+              <!-- Base Border -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="#26190e" stroke-width="16" stroke-linecap="round"/>
+              <!-- Woven Jacquard Ribbon -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="url(#lyPatternLeopard)" stroke-width="13" stroke-linecap="round"/>
+              <!-- Top Highlight -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round" transform="translate(0, -2)"/>
+              <!-- CNC Gunmetal Aglet -->
+              <g transform="translate(490, 48) rotate(-10, 20, 8)">
+                <rect x="0" y="0" width="46" height="14" rx="3" fill="url(#lyGradAgletLeopard)"/>
+                <line x1="10" y1="0" x2="10" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+                <line x1="13" y1="0" x2="13" y2="14" stroke="rgba(0,0,0,0.6)" stroke-width="1"/>
+                <line x1="34" y1="0" x2="34" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+                <text x="24" y="9.2" font-family="'Space Grotesk', sans-serif" font-size="4.5" font-weight="700" letter-spacing="0.22em" fill="rgba(255,255,255,0.9)" text-anchor="middle">LACEYAAN</text>
+                <path d="M 46,2 C 49,2 49,12 46,12 Z" fill="#1a1715"/>
+              </g>
+            </svg>
+          </div>
         </div>
         <div class="ly-lace-caption">
           <span class="ly-lace-index">1.</span>
@@ -21,21 +65,95 @@
         </div>
       </div>
 
-      <!-- 02 Blush Pink (Staggered Right) -->
-      <div class="ly-stagger-item ly-stagger-right" data-index="2">
+      <!-- 02 Blush Pink (Staggered Right -> Extends Left) -->
+      <div class="ly-stagger-item ly-stagger-right" data-index="2" id="lyLaceItem2" tabindex="0" role="button" aria-label="Blush Combed Cotton lace - hover or tap to extend">
         <div class="ly-lace-caption">
           <span class="ly-lace-index">2.</span>
           <h3 class="ly-lace-title">BLUSH COMBED COTTON</h3>
         </div>
-        <div class="ly-lace-circle-frame">
-          <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="Blush Pink Combed Cotton Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+        <div class="ly-lace-anchor-wrap">
+          <div class="ly-lace-circle-frame">
+            <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="Blush Pink Combed Cotton Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+          </div>
+          <!-- Uncoiled Extending Lace Ribbon (Leftwards) -->
+          <div class="ly-uncoiled-lace ly-uncoiled-left ly-uncoiled-pink" aria-hidden="true">
+            <svg class="ly-uncoiled-svg" viewBox="0 0 540 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="lyGradAgletRoseGold" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f2cfd5"/>
+                  <stop offset="30%" stop-color="#be8791"/>
+                  <stop offset="55%" stop-color="#ffd9df"/>
+                  <stop offset="100%" stop-color="#915a64"/>
+                </linearGradient>
+                <pattern id="lyPatternPink" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <rect width="20" height="20" fill="#e5b1b9"/>
+                  <path d="M 0,0 L 10,10 L 20,0 M 0,10 L 10,20 L 20,10" fill="none" stroke="#cf969f" stroke-width="1.2"/>
+                  <path d="M 0,5 L 10,15 L 20,5 M 0,15 L 10,25 L 20,15" fill="none" stroke="#f6ced3" stroke-width="0.8"/>
+                </pattern>
+              </defs>
+              <!-- Cast Shadow -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" opacity="0.65" transform="translate(-2, 10)"/>
+              <!-- Base Border -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="#7a424b" stroke-width="16" stroke-linecap="round"/>
+              <!-- Woven Twill Ribbon -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="url(#lyPatternPink)" stroke-width="13" stroke-linecap="round"/>
+              <!-- Top Highlight -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round" transform="translate(0, -2)"/>
+              <!-- Rose Gold CNC Aglet -->
+              <g transform="translate(5, 48) rotate(10, 20, 8)">
+                <path d="M 2,2 C -1,2 -1,12 2,12 Z" fill="#915a64"/>
+                <rect x="2" y="0" width="46" height="14" rx="3" fill="url(#lyGradAgletRoseGold)"/>
+                <line x1="12" y1="0" x2="12" y2="14" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                <line x1="33" y1="0" x2="33" y2="14" stroke="rgba(0,0,0,0.5)" stroke-width="1"/>
+                <line x1="36" y1="0" x2="36" y2="14" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                <text x="24" y="9.2" font-family="'Space Grotesk', sans-serif" font-size="4.5" font-weight="700" letter-spacing="0.22em" fill="rgba(255,255,255,0.92)" text-anchor="middle">LACEYAAN</text>
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
 
-      <!-- 03 Canary Streetwear Yellow (Aligned Left) -->
-      <div class="ly-stagger-item ly-stagger-left" data-index="3">
-        <div class="ly-lace-circle-frame">
-          <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="Canary Yellow Flat Braid Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+      <!-- 03 Canary Streetwear Yellow (Aligned Left -> Extends Right) -->
+      <div class="ly-stagger-item ly-stagger-left" data-index="3" id="lyLaceItem3" tabindex="0" role="button" aria-label="Canary Streetwear lace - hover or tap to extend">
+        <div class="ly-lace-anchor-wrap">
+          <div class="ly-lace-circle-frame">
+            <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="Canary Yellow Flat Braid Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+          </div>
+          <!-- Uncoiled Extending Lace Ribbon (Rightwards) -->
+          <div class="ly-uncoiled-lace ly-uncoiled-right ly-uncoiled-yellow" aria-hidden="true">
+            <svg class="ly-uncoiled-svg" viewBox="0 0 540 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="lyGradAgletMatteBlack" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3c3c3a"/>
+                  <stop offset="30%" stop-color="#191918"/>
+                  <stop offset="55%" stop-color="#4d4d4a"/>
+                  <stop offset="100%" stop-color="#0f0f0e"/>
+                </linearGradient>
+                <pattern id="lyPatternYellow" width="24" height="20" patternUnits="userSpaceOnUse">
+                  <rect width="24" height="20" fill="#fabc14"/>
+                  <path d="M 0,2 L 12,18 M 12,2 L 24,18" fill="none" stroke="#d99806" stroke-width="2"/>
+                  <path d="M 12,2 L 0,18 M 24,2 L 12,18" fill="none" stroke="#ffe066" stroke-width="1.2"/>
+                </pattern>
+              </defs>
+              <!-- Cast Shadow -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" opacity="0.65" transform="translate(2, 10)"/>
+              <!-- Base Border -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="#664600" stroke-width="16" stroke-linecap="round"/>
+              <!-- Chunky Flat Braid Ribbon -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="url(#lyPatternYellow)" stroke-width="13" stroke-linecap="round"/>
+              <!-- Top Highlight -->
+              <path d="M 10,65 C 60,65 110,25 180,35 C 270,48 330,115 410,100 C 460,90 490,65 515,57" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round" transform="translate(0, -2)"/>
+              <!-- Stealth Matte Black CNC Aglet -->
+              <g transform="translate(490, 48) rotate(-10, 20, 8)">
+                <rect x="0" y="0" width="46" height="14" rx="3" fill="url(#lyGradAgletMatteBlack)"/>
+                <line x1="10" y1="0" x2="10" y2="14" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                <line x1="13" y1="0" x2="13" y2="14" stroke="rgba(0,0,0,0.7)" stroke-width="1"/>
+                <line x1="34" y1="0" x2="34" y2="14" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                <text x="24" y="9.2" font-family="'Space Grotesk', sans-serif" font-size="4.5" font-weight="700" letter-spacing="0.22em" fill="rgba(255,255,255,0.9)" text-anchor="middle">LACEYAAN</text>
+                <path d="M 46,2 C 49,2 49,12 46,12 Z" fill="#0f0f0e"/>
+              </g>
+            </svg>
+          </div>
         </div>
         <div class="ly-lace-caption">
           <span class="ly-lace-index">3.</span>
@@ -43,8 +161,8 @@
         </div>
       </div>
 
-      <!-- 04 Strontium Glow in the Dark (Staggered Right with Dedicated Glow Option) -->
-      <div class="ly-stagger-item ly-stagger-right ly-stagger-glow" data-index="4" id="lyGlowNode">
+      <!-- 04 Strontium Glow in the Dark (Staggered Right -> Extends Left) -->
+      <div class="ly-stagger-item ly-stagger-right ly-stagger-glow" data-index="4" id="lyGlowNode" tabindex="0" role="button" aria-label="Strontium Phosphor Glow lace - hover or tap to extend">
         <div class="ly-lace-caption">
           <span class="ly-lace-index">4.</span>
           <h3 class="ly-lace-title">STRONTIUM PHOSPHOR</h3>
@@ -59,9 +177,46 @@
           </div>
         </div>
 
-        <div class="ly-lace-circle-frame ly-glow-circle-frame" id="lyGlowCircleFrame">
-          <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="Strontium Phosphor Glow in the Dark Lace" class="ly-lace-round-img ly-glow-round-img" id="lyGlowRoundImg" loading="lazy" width="500" height="500">
-          <div class="ly-glow-aura" id="lyGlowAura"></div>
+        <div class="ly-lace-anchor-wrap">
+          <div class="ly-lace-circle-frame ly-glow-circle-frame" id="lyGlowCircleFrame">
+            <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="Strontium Phosphor Glow in the Dark Lace" class="ly-lace-round-img ly-glow-round-img" id="lyGlowRoundImg" loading="lazy" width="500" height="500">
+            <div class="ly-glow-aura" id="lyGlowAura"></div>
+          </div>
+          <!-- Uncoiled Extending Lace Ribbon (Leftwards, with dynamic phosphor glow) -->
+          <div class="ly-uncoiled-lace ly-uncoiled-left ly-uncoiled-glow" aria-hidden="true">
+            <svg class="ly-uncoiled-svg" viewBox="0 0 540 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="lyGradAgletSilver" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e8f2ee"/>
+                  <stop offset="30%" stop-color="#9fb3aa"/>
+                  <stop offset="55%" stop-color="#ffffff"/>
+                  <stop offset="100%" stop-color="#6e827a"/>
+                </linearGradient>
+                <pattern id="lyPatternGlow" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <rect width="20" height="20" fill="#e4f4ec"/>
+                  <path d="M 0,0 L 20,20 M 20,0 L 0,20" fill="none" stroke="#b2e4ce" stroke-width="1.2"/>
+                  <line x1="0" y1="10" x2="20" y2="10" stroke="#7dd6b2" stroke-width="0.8" stroke-dasharray="2,2"/>
+                </pattern>
+              </defs>
+              <!-- Cast Shadow -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" opacity="0.65" transform="translate(-2, 10)"/>
+              <!-- Base Border / Dynamic Glowing Stroke -->
+              <path class="ly-glow-stroke-dynamic" d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="#3d6352" stroke-width="16" stroke-linecap="round"/>
+              <!-- Photoluminescent Woven Ribbon -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="url(#lyPatternGlow)" stroke-width="13" stroke-linecap="round"/>
+              <!-- Top Highlight -->
+              <path d="M 530,65 C 480,65 430,25 360,35 C 270,48 210,115 130,100 C 80,90 50,65 25,57" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round" transform="translate(0, -2)"/>
+              <!-- CNC Surgical Steel Aglet -->
+              <g transform="translate(5, 48) rotate(10, 20, 8)">
+                <path d="M 2,2 C -1,2 -1,12 2,12 Z" fill="#6e827a"/>
+                <rect x="2" y="0" width="46" height="14" rx="3" fill="url(#lyGradAgletSilver)"/>
+                <line x1="12" y1="0" x2="12" y2="14" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+                <line x1="33" y1="0" x2="33" y2="14" stroke="rgba(0,0,0,0.5)" stroke-width="1"/>
+                <line x1="36" y1="0" x2="36" y2="14" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+                <text x="24" y="9.2" font-family="'Space Grotesk', sans-serif" font-size="4.5" font-weight="700" letter-spacing="0.22em" fill="rgba(255,255,255,0.92)" text-anchor="middle">LACEYAAN</text>
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
 
