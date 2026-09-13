@@ -1,119 +1,34 @@
 /**
  * LACEYAAN — Coming Soon Theme JavaScript
- * Handles inline notify expansion, 3D card tilt, phosphor glow mode, and specimen modal inspection.
+ * Handles VIP early access validation, dedicated glow lace toggle, and storefront password modal.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================================================
-     1. INLINE NOTIFY MORPHING EXPANSION
+     1. DEDICATED GLOW LACE TOGGLE (Lace only, not website)
      ========================================================================== */
-  const notifyTriggerBtn = document.getElementById('lyNotifyTriggerBtn');
-  const triggerWrapper = document.getElementById('lyTriggerWrapper');
-  const formExpandedWrapper = document.getElementById('lyFormExpandedWrapper');
-  const notifyBox = document.getElementById('NotifyBox') || document.getElementById('lyNotifyBox');
-  const emailInput = document.getElementById('lyEmailInput');
-  const cancelBtn = document.getElementById('lyFormCancelBtn');
+  const laceGlowBtn = document.getElementById('lyLaceGlowBtn');
+  const glowCircleFrame = document.getElementById('lyGlowCircleFrame');
+  const glowNode = document.getElementById('lyGlowNode');
 
-  if (notifyTriggerBtn && formExpandedWrapper && triggerWrapper) {
-    notifyTriggerBtn.addEventListener('click', (e) => {
+  if (laceGlowBtn && glowCircleFrame) {
+    laceGlowBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      // Animate out trigger wrapper
-      triggerWrapper.style.opacity = '0';
-      triggerWrapper.style.transform = 'translateY(-8px)';
-      
-      setTimeout(() => {
-        triggerWrapper.style.display = 'none';
-        formExpandedWrapper.style.display = 'block';
-        if (notifyBox) notifyBox.classList.add('is-expanded');
-        
-        // Auto-focus email input for seamless user experience
-        if (emailInput) {
-          emailInput.focus();
-        }
-      }, 180);
+      const isGlowing = glowCircleFrame.classList.toggle('is-glowing');
+      if (glowNode) glowNode.classList.toggle('is-glowing', isGlowing);
+      laceGlowBtn.classList.toggle('is-active', isGlowing);
+      laceGlowBtn.setAttribute('aria-pressed', isGlowing ? 'true' : 'false');
+
+      const label = laceGlowBtn.querySelector('.ly-glow-btn-label');
+      if (label) {
+        label.textContent = isGlowing ? 'GLOWING (TAP TO DIM)' : 'ACTIVATE GLOW';
+      }
     });
-
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        formExpandedWrapper.style.display = 'none';
-        triggerWrapper.style.display = 'flex';
-        triggerWrapper.style.opacity = '1';
-        triggerWrapper.style.transform = 'translateY(0)';
-        if (notifyBox) notifyBox.classList.remove('is-expanded');
-      });
-    }
   }
 
   /* ==========================================================================
-     2. NIGHT MODE / PHOSPHOR GLOW TOGGLE
-     ========================================================================== */
-  const topGlowBtn = document.getElementById('lyGlowToggle');
-  const sectionGlowBtn = document.getElementById('lySectionGlowBtn');
-  const glowSpecimen = document.querySelector('.ly-glow-specimen');
-
-  function toggleGlowMode() {
-    const isNowActive = document.body.classList.toggle('ly-glow-active');
-    
-    if (topGlowBtn) {
-      topGlowBtn.classList.toggle('is-active', isNowActive);
-      const label = topGlowBtn.querySelector('.ly-glow-toggle-label');
-      if (label) label.textContent = isNowActive ? 'ACTIVE' : 'GLOW';
-    }
-
-    if (sectionGlowBtn) {
-      const label = sectionGlowBtn.querySelector('.ly-glow-btn-label');
-      if (label) label.textContent = isNowActive ? 'DEACTIVATE GLOW' : 'SWITCH TO NIGHT GLOW';
-    }
-
-    // Scroll to the glow specimen if clicked from section button
-    if (isNowActive && glowSpecimen) {
-      glowSpecimen.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
-  if (topGlowBtn) {
-    topGlowBtn.addEventListener('click', toggleGlowMode);
-  }
-  if (sectionGlowBtn) {
-    sectionGlowBtn.addEventListener('click', toggleGlowMode);
-  }
-
-  /* ==========================================================================
-     3. SNEAK PEEK REEL INTERACTIVE SELECTION
-     ========================================================================== */
-  const peekItems = document.querySelectorAll('.ly-peek-item');
-  const spotlightTitle = document.getElementById('lySpotlightTitle');
-  const spotlightMeta = document.getElementById('lySpotlightMeta');
-
-  peekItems.forEach(item => {
-    function activateItem() {
-      peekItems.forEach(i => i.classList.remove('is-active'));
-      item.classList.add('is-active');
-
-      const idx = item.getAttribute('data-index');
-      const name = item.getAttribute('data-name');
-      const aglet = item.getAttribute('data-aglet');
-      const weave = item.getAttribute('data-weave');
-
-      if (spotlightTitle) {
-        spotlightTitle.textContent = `0${idx} // ${name}`;
-      }
-      if (spotlightMeta) {
-        spotlightMeta.textContent = `${weave} Weave • ${aglet} Laser Aglet`;
-      }
-    }
-
-    item.addEventListener('click', activateItem);
-    item.addEventListener('mouseenter', activateItem);
-    item.addEventListener('touchstart', activateItem, { passive: true });
-  });
-
-
-  /* ==========================================================================
-     5. STORE ACCESS PASSWORD MODAL
+     2. STORE ACCESS PASSWORD MODAL
      ========================================================================== */
   const passTrigger = document.getElementById('lyPasswordTrigger');
   const passModal = document.getElementById('lyPasswordModal');
@@ -139,4 +54,3 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
-

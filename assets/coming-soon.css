@@ -858,80 +858,150 @@ body {
 }
 
 /* ==========================================================================
-   THE SNEAK PEEK REEL (MINIMALIST 8-LACE TEASER)
+   STAGGERED SIGNATURE LACES (ROUNDED, NO CARDS, NO TILES)
    ========================================================================== */
-.ly-sneakpeek-section {
-  padding: 90px 24px 70px;
+.ly-staggered-laces-section {
+  padding: 120px 24px;
   background: var(--ly-bg-base);
-  max-width: 1440px;
+  max-width: 1320px;
   margin: 0 auto;
   position: relative;
 }
 
-.ly-sneakpeek-header {
+.ly-staggered-header {
   text-align: center;
-  max-width: 720px;
-  margin: 0 auto 40px;
+  margin-bottom: 80px;
 }
 
-.ly-sneakpeek-eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.ly-eyebrow-accent {
+.ly-staggered-eyebrow {
   font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
+  font-size: 0.74rem;
+  letter-spacing: 0.28em;
   color: var(--ly-gold);
-}
-
-.ly-eyebrow-dot {
-  color: var(--ly-border-medium);
-}
-
-.ly-eyebrow-count {
-  font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  color: var(--ly-text-muted);
-}
-
-.ly-sneakpeek-title {
-  font-family: var(--ly-font-display);
-  font-size: clamp(2rem, 4.5vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--ly-text-primary);
+  display: block;
   margin-bottom: 12px;
 }
 
-.ly-sneakpeek-desc {
-  font-size: 0.92rem;
-  color: var(--ly-text-secondary);
-  line-height: 1.6;
-  margin-bottom: 24px;
+.ly-staggered-title {
+  font-family: var(--ly-font-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--ly-text-primary);
+  text-transform: uppercase;
 }
 
-.ly-sneakpeek-controls {
+/* Staggered Track (Alternating Flow) */
+.ly-staggered-track {
+  display: flex;
+  flex-direction: column;
+  gap: 90px;
+  width: 100%;
+  position: relative;
+}
+
+/* Individual Stagger Item */
+.ly-stagger-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
+  gap: 48px;
+  width: 100%;
+  position: relative;
 }
 
-.ly-peek-glow-btn {
-  background: rgba(0, 255, 170, 0.1);
+/* 1 & 3: Aligned Left */
+.ly-stagger-left {
+  justify-content: flex-start;
+  padding-left: clamp(20px, 10vw, 160px);
+}
+
+/* 2 & 4: Staggered toward the Right */
+.ly-stagger-right {
+  justify-content: flex-end;
+  padding-right: clamp(20px, 10vw, 160px);
+  text-align: right;
+}
+
+/* Pure Rounded Lace - NO CARD, NO TILE */
+.ly-lace-circle-frame {
+  width: clamp(240px, 26vw, 360px);
+  height: clamp(240px, 26vw, 360px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+  flex-shrink: 0;
+  transition: transform 0.6s var(--ly-ease-out), border-color 0.4s var(--ly-ease-out), box-shadow 0.6s var(--ly-ease-out);
+}
+
+.ly-lace-circle-frame:hover {
+  transform: scale(1.04);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+}
+
+.ly-lace-round-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--ly-ease-out);
+}
+
+.ly-lace-circle-frame:hover .ly-lace-round-img {
+  transform: scale(1.08);
+}
+
+/* Minimalist Caption (Only Lace & Pattern) */
+.ly-lace-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 320px;
+}
+
+.ly-lace-index {
+  font-family: var(--ly-font-mono);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  color: var(--ly-gold);
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.ly-lace-title {
+  font-family: var(--ly-font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--ly-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Dedicated Option to Glow (In front of the glow lace ONLY, not on website) */
+.ly-lace-glow-action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ly-stagger-right .ly-lace-glow-action {
+  align-items: flex-end;
+}
+
+.ly-lace-glow-btn {
+  background: rgba(0, 255, 170, 0.08);
   border: 1px solid var(--ly-phosphor);
   color: var(--ly-phosphor);
-  padding: 7px 18px;
+  padding: 9px 20px;
   border-radius: 100px;
   font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   cursor: pointer;
@@ -939,195 +1009,69 @@ body {
   align-items: center;
   gap: 8px;
   transition: all var(--ly-transition-fast);
+  box-shadow: 0 0 16px rgba(0, 255, 170, 0.2);
 }
 
-.ly-peek-glow-btn:hover {
+.ly-lace-glow-btn:hover {
   background: var(--ly-phosphor);
   color: #000;
-  box-shadow: 0 0 20px var(--ly-phosphor-intense);
+  box-shadow: 0 0 28px var(--ly-phosphor-intense);
+  transform: translateY(-2px);
 }
 
-.ly-swipe-hint {
-  font-family: var(--ly-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  color: var(--ly-text-muted);
-  display: none;
-}
-
-@media (max-width: 900px) {
-  .ly-swipe-hint {
-    display: inline-block;
-  }
-}
-
-/* Collector Box Draped Shelf */
-.ly-sneakpeek-shelf {
-  background: #0d0d0d;
-  border: 1px solid var(--ly-border-light);
-  border-radius: 14px;
-  padding: 0 0 16px;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-}
-
-.ly-shelf-edge {
-  background: #151515;
-  border-bottom: 1px solid var(--ly-border-medium);
-  padding: 10px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.ly-shelf-label {
-  font-family: var(--ly-font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  color: var(--ly-gold);
-}
-
-/* Horizontal Swatch Reel */
-.ly-sneakpeek-reel {
-  display: flex;
-  gap: 14px;
-  padding: 20px 20px 8px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.ly-sneakpeek-reel::-webkit-scrollbar {
-  height: 4px;
-}
-
-.ly-sneakpeek-reel::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.ly-sneakpeek-reel::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.ly-peek-item {
-  flex: 1 1 0;
-  min-width: 120px;
-  background: #111111;
-  border: 1px solid var(--ly-border-light);
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  scroll-snap-align: start;
-  transition: all var(--ly-transition-fast);
-  display: flex;
-  flex-direction: column;
-}
-
-.ly-peek-item:hover,
-.ly-peek-item.is-active,
-.ly-peek-item:focus {
-  border-color: var(--ly-text-primary);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 255, 255, 0.1);
-  outline: none;
-}
-
-.ly-peek-media {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 9 / 14;
-  overflow: hidden;
-  background: #080808;
-}
-
-.ly-peek-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s var(--ly-ease-out);
-}
-
-.ly-peek-item:hover .ly-peek-img {
-  transform: scale(1.08);
-}
-
-.ly-peek-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(10, 10, 10, 0.85) 100%);
-}
-
-.ly-peek-num {
-  position: absolute;
-  top: 8px;
-  left: 8px;
+.ly-glow-subhint {
   font-family: var(--ly-font-mono);
   font-size: 0.65rem;
-  color: var(--ly-gold);
-  background: rgba(0, 0, 0, 0.6);
-  padding: 2px 6px;
-  border-radius: 3px;
-}
-
-.ly-peek-info {
-  padding: 10px 8px;
-  text-align: center;
-  background: #131313;
-  border-top: 1px solid var(--ly-border-light);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.ly-peek-name {
-  font-family: var(--ly-font-display);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ly-peek-aglet {
-  font-family: var(--ly-font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   color: var(--ly-text-muted);
 }
 
-/* Glow Peek Item */
-.ly-glow-peek {
-  border-color: rgba(0, 255, 170, 0.35);
+/* Glow Lace Visual Active State */
+.ly-glow-circle-frame {
+  position: relative;
+  transition: all 0.5s var(--ly-ease-out);
 }
 
-.ly-glow-num, .ly-glow-name, .ly-glow-aglet {
-  color: var(--ly-phosphor) !important;
+.ly-glow-circle-frame.is-glowing {
+  border-color: var(--ly-phosphor) !important;
+  box-shadow: 0 0 60px var(--ly-phosphor-intense), 0 0 120px rgba(0, 255, 170, 0.45) !important;
+  transform: scale(1.05);
 }
 
-.ly-peek-glow-halo {
+.ly-glow-circle-frame .ly-glow-round-img {
+  transition: filter 0.6s var(--ly-ease-out), transform 0.8s var(--ly-ease-out);
+  filter: brightness(0.9) contrast(1.05);
+}
+
+.ly-glow-circle-frame.is-glowing .ly-glow-round-img {
+  filter: brightness(1.25) saturate(1.4) contrast(1.15) drop-shadow(0 0 20px rgba(0, 255, 170, 0.6));
+}
+
+.ly-glow-circle-frame .ly-glow-aura {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(0, 255, 170, 0.3) 0%, transparent 70%);
-  opacity: 0.7;
-  animation: glowBreathe 3s infinite;
+  inset: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 170, 0.35) 0%, transparent 70%);
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
-body.ly-glow-active .ly-glow-peek {
-  border-color: var(--ly-phosphor);
-  box-shadow: 0 0 35px var(--ly-phosphor-intense);
-  transform: scale(1.04);
+.ly-glow-circle-frame.is-glowing .ly-glow-aura {
+  opacity: 1;
+  animation: glowAuraPulse 3s infinite ease-in-out;
 }
 
-/* Spotlight Bar (Clean 1-line Info) */
-.ly-peek-spotlight-bar {
-  margin-top: 16px;
-  background: var(--ly-bg-surface);
-  border: 1px solid var(--ly-border-light);
-  border-radius: 8px;
+@keyframes glowAuraPulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.ly-lace-glow-btn.is-active {
+  background: var(--ly-phosphor) !important;
+  color: #000 !important;
+  box-shadow: 0 0 30px var(--ly-phosphor-intense) !important;
+}
   padding: 14px 20px;
   text-align: center;
 }
@@ -1923,54 +1867,56 @@ body.ly-glow-active .ly-glow-peek {
     gap: 20px;
   }
 
-  /* Sneak Peek Section on Mobile */
-  .ly-sneakpeek-section {
-    padding: 45px 12px 35px;
+  /* Staggered Laces on Mobile */
+  .ly-staggered-laces-section {
+    padding: 60px 16px;
   }
-  .ly-sneakpeek-header {
-    margin-bottom: 24px;
+  .ly-staggered-header {
+    margin-bottom: 45px;
   }
-  .ly-sneakpeek-title {
-    font-size: 1.75rem;
-    letter-spacing: 0.12em;
-  }
-  .ly-sneakpeek-desc {
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin-bottom: 18px;
-  }
-  .ly-sneakpeek-shelf {
-    border-radius: 10px;
-  }
-  .ly-shelf-edge {
-    padding: 8px 14px;
-  }
-  .ly-shelf-label {
-    font-size: 0.62rem;
+  .ly-staggered-title {
+    font-size: 1.85rem;
     letter-spacing: 0.16em;
   }
-  .ly-sneakpeek-reel {
-    gap: 10px;
-    padding: 14px 12px 8px;
-    scroll-padding: 0 12px;
+  .ly-staggered-track {
+    gap: 52px;
   }
-  .ly-peek-item {
-    flex: 0 0 125px;
-    min-width: 125px;
-    border-radius: 6px;
-  }
-  .ly-peek-spotlight-bar {
-    padding: 10px 12px;
-    margin-top: 12px;
-    border-radius: 6px;
-  }
-  .ly-spotlight-inner {
+  .ly-stagger-item {
     flex-direction: column;
-    gap: 4px;
-    font-size: 0.68rem;
+    gap: 16px;
+    padding: 0 !important;
   }
-  .ly-spotlight-sep {
-    display: none;
+  .ly-stagger-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .ly-stagger-right {
+    align-items: flex-end;
+    text-align: right;
+  }
+  .ly-stagger-right .ly-lace-caption {
+    order: 2;
+  }
+  .ly-stagger-right .ly-lace-circle-frame {
+    order: 1;
+  }
+  .ly-lace-circle-frame {
+    width: clamp(200px, 60vw, 260px);
+    height: clamp(200px, 60vw, 260px);
+  }
+  .ly-lace-index {
+    font-size: 2.2rem;
+  }
+  .ly-lace-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+  }
+  .ly-lace-glow-btn {
+    padding: 8px 18px;
+    font-size: 0.72rem;
+  }
+  .ly-glow-subhint {
+    font-size: 0.62rem;
   }
 
   /* Story Section */
