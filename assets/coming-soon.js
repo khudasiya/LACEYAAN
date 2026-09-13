@@ -59,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const staggerItems = document.querySelectorAll('.ly-stagger-item');
   let activeLaceId = null;
   let mouseLeaveTimeout = null;
+  let lastTouchTimestamp = 0;
+
+  // Track physical touch events to completely suppress simulated mouseenter/mouseleave on mobile
+  window.addEventListener('touchstart', () => {
+    lastTouchTimestamp = Date.now();
+  }, { passive: true });
 
   function setActiveLace(laceId) {
     if (mouseLeaveTimeout) {
@@ -90,8 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
   staggerItems.forEach((item) => {
     const laceId = item.dataset.laceId;
 
-    // Desktop hover: mouseenter unrolls the lace horizontally
-    item.addEventListener('mouseenter', () => {
+    // Desktop hover: only execute if real mouse pointer (never on phone tap emulation)
+    item.addEventListener('mouseenter', (e) => {
+      // If a physical touch occurred within the last 700ms, ignore simulated hover
+      if (Date.now() - lastTouchTimestamp < 700) return;
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+
       if (mouseLeaveTimeout) {
         clearTimeout(mouseLeaveTimeout);
         mouseLeaveTimeout = null;
@@ -99,21 +109,23 @@ document.addEventListener('DOMContentLoaded', () => {
       setActiveLace(laceId);
     });
 
-    // Desktop hover leave: with a gentle 100ms grace period to avoid flicker
-    item.addEventListener('mouseleave', () => {
+    // Desktop hover leave: only execute for genuine mouse pointer
+    item.addEventListener('mouseleave', (e) => {
+      if (Date.now() - lastTouchTimestamp < 700) return;
+      if (e.pointerType && e.pointerType !== 'mouse') return;
       clearActiveLace(100);
     });
 
-    // Keyboard & Mobile Tap Interaction
+    // Smartphone Tap & Desktop Click: guaranteed 1-click expansion
     item.addEventListener('click', (e) => {
-      // Ignore click if originating from dedicated glow button
+      // Ignore clicks originating on the dedicated glow button
       if (e.target.closest('#lyLaceGlowBtn')) return;
 
       if (activeLaceId === laceId) {
-        // Tapping the currently open lace collapses it
+        // Tapping the already expanded lace collapses it back to compact
         clearActiveLace(0);
       } else {
-        // Tapping a closed lace expands it and closes any other
+        // Tapping a lace immediately expands it in ONE click and closes any other
         setActiveLace(laceId);
       }
     });
@@ -134,20 +146,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Focus state (keyboard tab navigation)
+    // Focus state (keyboard tab navigation ONLY)
     item.addEventListener('focus', () => {
+      if (Date.now() - lastTouchTimestamp < 700) return;
       setActiveLace(laceId);
     });
   });
 
   // Tapping or clicking anywhere outside collapses back to compact circular state
-  const dismissLaces = (e) => {
+  document.addEventListener('click', (e) => {
     if (!e.target.closest('.ly-stagger-item')) {
       clearActiveLace(0);
     }
-  };
+  });
 
-  document.addEventListener('click', dismissLaces);
-  document.addEventListener('touchend', dismissLaces, { passive: true });
+  // Preload full studio photographs so they render instantaneously on first mobile tap
+  const fullStageImages = document.querySelectorAll('.ly-stage-full');
+  fullStageImages.forEach((img) => {
+    if (img.src) {
+      const pImg = new Image();
+      pImg.src = img.src;
+    }
+  });
 
 });
