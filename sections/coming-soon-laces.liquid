@@ -1,155 +1,70 @@
-<section class="ly-sneakpeek-section" id="SpecimenVault">
-  <div class="ly-sneakpeek-container">
-    <div class="ly-sneakpeek-header">
-      <div class="ly-sneakpeek-eyebrow">
-        <span class="ly-eyebrow-accent">// DROP 01 TEASER</span>
-        <span class="ly-eyebrow-dot">•</span>
-        <span class="ly-eyebrow-count">8 SIGNATURE WEAVES</span>
-      </div>
-
-      <h2 class="ly-sneakpeek-title">{{ section.settings.heading | default: 'THE PALETTE PREVIEW' }}</h2>
-      <p class="ly-sneakpeek-desc">
-        {{ section.settings.subheading | default: 'A raw sneak peek at the launch lineup. Custom-milled aglets and bespoke weaves. Untied until September 24.' }}
-      </p>
-
-      <!-- Glow Mode Quick Switch -->
-      <div class="ly-sneakpeek-controls">
-        <button type="button" class="ly-peek-glow-btn" id="lySectionGlowBtn" aria-label="Toggle Phosphor Glow">
-          <span class="ly-glow-sparkle">✦</span>
-          <span class="ly-glow-btn-label">SWITCH TO NIGHT GLOW</span>
-        </button>
-        <div class="ly-swipe-hint">
-          <span>Swipe to explore swatches &rarr;</span>
-        </div>
-      </div>
+<section class="ly-staggered-laces-section" id="SpecimenVault">
+  <div class="ly-staggered-container">
+    
+    <!-- Minimalist Section Header -->
+    <div class="ly-staggered-header">
+      <span class="ly-staggered-eyebrow">// DROP 01 ARCHIVE</span>
+      <h2 class="ly-staggered-title">{{ section.settings.heading | default: 'SIGNATURE WEAVES' }}</h2>
     </div>
 
-    <!-- Horizontal Sneak Peek Reel (Touch-friendly & Responsive) -->
-    <div class="ly-sneakpeek-shelf">
-      <div class="ly-shelf-edge">
-        <span class="ly-shelf-label">LACEYAAN DESIGN LAB &mdash; ARCHIVE S'25</span>
+    <!-- Alternating Staggered Layout: 1 (Left) -> 2 (Right) -> 3 (Left) -> 4 (Right) -->
+    <div class="ly-staggered-track">
+
+      <!-- 01 Leopard / Jaguar (Aligned Left) -->
+      <div class="ly-stagger-item ly-stagger-left" data-index="1">
+        <div class="ly-lace-circle-frame">
+          <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="Leopard Jacquard Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="ly-lace-caption">
+          <span class="ly-lace-index">1.</span>
+          <h3 class="ly-lace-title">LEOPARD JACQUARD</h3>
+        </div>
       </div>
 
-      <div class="ly-sneakpeek-reel" id="lySneakPeekReel" role="region" aria-label="Lace swatches carousel">
-
-        <!-- 01 Jaguar -->
-        <div class="ly-peek-item is-active" data-index="1" data-name="JAGUAR ARCHIVE" data-aglet="18K Gold PVD" data-weave="Jacquard Animalier" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="Jaguar Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">01</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">JAGUAR</span>
-            <span class="ly-peek-aglet">Gold Aglet</span>
-          </div>
+      <!-- 02 Blush Pink (Staggered Right) -->
+      <div class="ly-stagger-item ly-stagger-right" data-index="2">
+        <div class="ly-lace-caption">
+          <span class="ly-lace-index">2.</span>
+          <h3 class="ly-lace-title">BLUSH COMBED COTTON</h3>
         </div>
-
-        <!-- 02 Pink -->
-        <div class="ly-peek-item" data-index="2" data-name="BLUSH PLAIN PINK" data-aglet="Rose Gold Brass" data-weave="Combed Cotton Braid" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="Pink Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">02</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">BLUSH PINK</span>
-            <span class="ly-peek-aglet">Rose Gold</span>
-          </div>
+        <div class="ly-lace-circle-frame">
+          <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="Blush Pink Combed Cotton Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
         </div>
-
-        <!-- 03 Black -->
-        <div class="ly-peek-item" data-index="3" data-name="PURE MATTE BLACK" data-aglet="Gunmetal Obsidian" data-weave="Paraffin Waxed" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-black.jpg' | asset_url }}" alt="Black Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">03</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">MATTE BLACK</span>
-            <span class="ly-peek-aglet">Gunmetal</span>
-          </div>
-        </div>
-
-        <!-- 04 White -->
-        <div class="ly-peek-item" data-index="4" data-name="CRISP OPTIC WHITE" data-aglet="Mirror Chrome" data-weave="Heritage Flat Braid" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-white.jpg' | asset_url }}" alt="White Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">04</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">OPTIC WHITE</span>
-            <span class="ly-peek-aglet">Chrome</span>
-          </div>
-        </div>
-
-        <!-- 05 Brown -->
-        <div class="ly-peek-item" data-index="5" data-name="ESPRESSO PLAIN BROWN" data-aglet="Antiqued Brass" data-weave="Burnished Leatherette" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-brown.jpg' | asset_url }}" alt="Brown Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">05</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">ESPRESSO</span>
-            <span class="ly-peek-aglet">Vintage Brass</span>
-          </div>
-        </div>
-
-        <!-- 06 Green -->
-        <div class="ly-peek-item" data-index="6" data-name="MIL-SPEC FOREST GREEN" data-aglet="Olive Cerakote" data-weave="Tactical Ripstop" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-green.jpg' | asset_url }}" alt="Green Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">06</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">FOREST GREEN</span>
-            <span class="ly-peek-aglet">Cerakote</span>
-          </div>
-        </div>
-
-        <!-- 07 Yellow -->
-        <div class="ly-peek-item" data-index="7" data-name="CANARY STREETWEAR YELLOW" data-aglet="Jet Black CNC" data-weave="High-Vis Double Braid" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="Yellow Lace Sneak Peek" class="ly-peek-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <span class="ly-peek-num">07</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name">CANARY YELLOW</span>
-            <span class="ly-peek-aglet">Black CNC</span>
-          </div>
-        </div>
-
-        <!-- 08 Glow in the Dark (Phosphor Reactive) -->
-        <div class="ly-peek-item ly-glow-peek" data-index="8" data-name="GLOW IN THE DARK" data-aglet="Stealth Gunmetal" data-weave="Strontium Phosphor" tabindex="0">
-          <div class="ly-peek-media">
-            <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="Glow in the Dark Sneak Peek" class="ly-peek-img ly-glow-pulse-img" loading="lazy" width="400" height="600">
-            <div class="ly-peek-gradient"></div>
-            <div class="ly-peek-glow-halo"></div>
-            <span class="ly-peek-num ly-glow-num">08 ✦</span>
-          </div>
-          <div class="ly-peek-info">
-            <span class="ly-peek-name ly-glow-name">GLOW IN DARK</span>
-            <span class="ly-peek-aglet ly-glow-aglet">Phosphor ✦</span>
-          </div>
-        </div>
-
       </div>
-    </div>
 
-    <!-- Active Sneak Peek Detail Strip (Minimalist & Compact) -->
-    <div class="ly-peek-spotlight-bar" id="lyPeekSpotlight">
-      <div class="ly-spotlight-inner">
-        <span class="ly-spotlight-badge">PREVIEW SPECIMEN</span>
-        <span class="ly-spotlight-title" id="lySpotlightTitle">01 // JAGUAR ARCHIVE</span>
-        <span class="ly-spotlight-sep">&bull;</span>
-        <span class="ly-spotlight-meta" id="lySpotlightMeta">Jacquard Animalier Weave &bull; 18K Gold PVD Laser Aglet</span>
-        <span class="ly-spotlight-sep">&bull;</span>
-        <span class="ly-spotlight-lock">NON-PURCHASABLE &bull; LAUNCH DROP ONLY</span>
+      <!-- 03 Canary Streetwear Yellow (Aligned Left) -->
+      <div class="ly-stagger-item ly-stagger-left" data-index="3">
+        <div class="ly-lace-circle-frame">
+          <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="Canary Yellow Flat Braid Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="ly-lace-caption">
+          <span class="ly-lace-index">3.</span>
+          <h3 class="ly-lace-title">CANARY STREETWEAR</h3>
+        </div>
       </div>
+
+      <!-- 04 Strontium Glow in the Dark (Staggered Right with Dedicated Glow Option) -->
+      <div class="ly-stagger-item ly-stagger-right ly-stagger-glow" data-index="4" id="lyGlowNode">
+        <div class="ly-lace-caption">
+          <span class="ly-lace-index">4.</span>
+          <h3 class="ly-lace-title">STRONTIUM PHOSPHOR</h3>
+          
+          <!-- In front of the glow lace: Dedicated option to glow (Lace only, not website) -->
+          <div class="ly-lace-glow-action">
+            <button type="button" class="ly-lace-glow-btn" id="lyLaceGlowBtn" aria-label="Toggle Glow on this lace" aria-pressed="false">
+              <span class="ly-glow-sparkle">✦</span>
+              <span class="ly-glow-btn-label">ACTIVATE GLOW</span>
+            </button>
+            <span class="ly-glow-subhint">Photoluminescent test &bull; Tap to illuminate</span>
+          </div>
+        </div>
+
+        <div class="ly-lace-circle-frame ly-glow-circle-frame" id="lyGlowCircleFrame">
+          <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="Strontium Phosphor Glow in the Dark Lace" class="ly-lace-round-img ly-glow-round-img" id="lyGlowRoundImg" loading="lazy" width="500" height="500">
+          <div class="ly-glow-aura" id="lyGlowAura"></div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -157,19 +72,13 @@
 
 {% schema %}
 {
-  "name": "Laces Sneak Peek",
+  "name": "Signature Laces",
   "settings": [
     {
       "type": "text",
       "id": "heading",
       "label": "Section Heading",
-      "default": "THE PALETTE PREVIEW"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Section Subheading",
-      "default": "A raw sneak peek at the launch lineup. Custom-milled aglets and bespoke weaves. Untied until September 24."
+      "default": "SIGNATURE WEAVES"
     }
   ]
 }
