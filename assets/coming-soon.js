@@ -54,44 +54,96 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     3. INTERACTIVE UNCOILED LACES (SMARTPHONE TAP & CLICK-OUTSIDE DISMISS)
+     3. SINGLE-ACTIVE INTERACTIVE LACE PALETTE (DESKTOP HOVER & MOBILE TAP)
      ========================================================================== */
   const staggerItems = document.querySelectorAll('.ly-stagger-item');
+  let activeLaceId = null;
+  let mouseLeaveTimeout = null;
+
+  function setActiveLace(laceId) {
+    if (mouseLeaveTimeout) {
+      clearTimeout(mouseLeaveTimeout);
+      mouseLeaveTimeout = null;
+    }
+    activeLaceId = laceId;
+    staggerItems.forEach((item) => {
+      const isMatch = laceId !== null && item.dataset.laceId === laceId;
+      item.classList.toggle('is-expanded', isMatch);
+      item.setAttribute('aria-expanded', isMatch ? 'true' : 'false');
+    });
+  }
+
+  function clearActiveLace(delayMs = 0) {
+    if (mouseLeaveTimeout) {
+      clearTimeout(mouseLeaveTimeout);
+      mouseLeaveTimeout = null;
+    }
+    if (delayMs > 0) {
+      mouseLeaveTimeout = setTimeout(() => {
+        setActiveLace(null);
+      }, delayMs);
+    } else {
+      setActiveLace(null);
+    }
+  }
 
   staggerItems.forEach((item) => {
+    const laceId = item.dataset.laceId;
+
+    // Desktop hover: mouseenter unrolls the lace horizontally
+    item.addEventListener('mouseenter', () => {
+      if (mouseLeaveTimeout) {
+        clearTimeout(mouseLeaveTimeout);
+        mouseLeaveTimeout = null;
+      }
+      setActiveLace(laceId);
+    });
+
+    // Desktop hover leave: with a gentle 100ms grace period to avoid flicker
+    item.addEventListener('mouseleave', () => {
+      clearActiveLace(100);
+    });
+
+    // Keyboard & Mobile Tap Interaction
     item.addEventListener('click', (e) => {
-      // If user clicked the Glow button, allow dedicated glow action without interfering
+      // Ignore click if originating from dedicated glow button
       if (e.target.closest('#lyLaceGlowBtn')) return;
 
-      const isCurrentlyExtended = item.classList.contains('is-extended');
-
-      // Close all other laces so only one unfolds at a time
-      staggerItems.forEach((other) => {
-        if (other !== item) other.classList.remove('is-extended');
-      });
-
-      // Toggle current lace
-      if (isCurrentlyExtended) {
-        item.classList.remove('is-extended');
+      if (activeLaceId === laceId) {
+        // Tapping the currently open lace collapses it
+        clearActiveLace(0);
       } else {
-        item.classList.add('is-extended');
+        // Tapping a closed lace expands it and closes any other
+        setActiveLace(laceId);
       }
     });
 
-    // Keyboard accessibility (Enter or Space)
+    // Keyboard Accessibility (Enter/Space to toggle, Escape to close)
     item.addEventListener('keydown', (e) => {
+      if (e.target.closest('#lyLaceGlowBtn')) return;
+
       if (e.key === 'Enter' || e.key === ' ') {
-        if (e.target.closest('#lyLaceGlowBtn')) return;
         e.preventDefault();
-        item.click();
+        if (activeLaceId === laceId) {
+          clearActiveLace(0);
+        } else {
+          setActiveLace(laceId);
+        }
+      } else if (e.key === 'Escape') {
+        clearActiveLace(0);
       }
+    });
+
+    // Focus state (keyboard tab navigation)
+    item.addEventListener('focus', () => {
+      setActiveLace(laceId);
     });
   });
 
-  // Tapping/clicking anywhere else on the screen retracts any extended lace back to normal
+  // Tapping or clicking anywhere outside collapses back to compact circular state
   const dismissLaces = (e) => {
     if (!e.target.closest('.ly-stagger-item')) {
-      staggerItems.forEach((item) => item.classList.remove('is-extended'));
+      clearActiveLace(0);
     }
   };
 
