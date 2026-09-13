@@ -1016,9 +1016,9 @@ body {
   opacity: 0;
   pointer-events: none;
   transform: scale(1.05);
-  transition: opacity 0.5s 0.08s ease,
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.6s ease;
+  transition: opacity 0.38s ease,
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.5s ease;
   will-change: opacity, transform;
 }
 
@@ -2049,31 +2049,50 @@ body {
   .ly-stagger-right .ly-lace-stage {
     order: 1;
   }
+  .ly-stagger-item {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
   .ly-lace-stage-wrap {
     position: relative;
     width: clamp(160px, 48vw, 210px);
     height: clamp(160px, 48vw, 210px);
     max-width: 100%;
-    transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .ly-lace-stage {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     border-radius: 9999px;
     border: 1px solid var(--ly-border-light);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   /* Mobile Expanded State: smoothly unfolds into full-width panoramic card with zero overflow */
   .ly-stagger-item.is-expanded .ly-lace-stage-wrap {
-    width: 100%;
-    height: clamp(140px, 38vw, 195px);
+    width: 100% !important;
+    height: clamp(140px, 38vw, 195px) !important;
   }
   .ly-stagger-item.is-expanded .ly-lace-stage {
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 20px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9) !important;
+  }
+  .ly-stagger-item.is-expanded .ly-stage-full {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: scale(1) !important;
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .ly-stagger-item.is-expanded .ly-stage-coil {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease !important;
   }
   .ly-lace-index {
     font-size: 2rem;
