@@ -1654,10 +1654,36 @@ body {
 }
 
 .ly-footer-statement {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
   font-family: var(--ly-font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   color: var(--ly-text-muted);
+}
+
+.ly-footer-password-trigger {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--ly-text-dim);
+  font-family: var(--ly-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-footer-password-trigger:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ==========================================================================
@@ -1883,7 +1909,15 @@ body {
   .ly-topbar-badge {
     display: none; /* Keep header clean on phone */
   }
+  .ly-topbar-actions {
+    gap: 8px;
+  }
   .ly-topbar-insta {
+    padding: 5px 10px;
+    font-size: 0.68rem;
+    gap: 5px;
+  }
+  .ly-password-trigger-btn {
     padding: 5px 10px;
     font-size: 0.68rem;
     gap: 5px;
