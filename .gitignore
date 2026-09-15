@@ -8,6 +8,4 @@ node_modules/
 video_frames/
 *.mp4
 *.zip
-scripts/
-.env*
 preview*.html

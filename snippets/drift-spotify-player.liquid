@@ -1,0 +1,83 @@
+{% comment %}
+  LACEYAAN - Floating Tokyo Drift x Spotify Atelier Sound System
+  Underground midnight radio console with live soundwave visualizer & Spotify playlist embed
+{% endcomment %}
+
+<div id="laceyaan-drift-player" class="drift-spotify-widget" aria-label="LACEYAAN Drift Radio Sound System">
+  <!-- Minimized Floating Pill -->
+  <button type="button" class="drift-pill-btn" id="drift-pill-toggle" aria-expanded="false" aria-controls="drift-console-drawer">
+    <span class="drift-live-pulse"></span>
+    <span class="drift-spotify-icon-wrap">
+      {% render 'icon-spotify' %}
+    </span>
+    <span class="drift-pill-title">[ DRIFT RADIO &bull; 88.5 FM ]</span>
+    <span class="drift-mini-equalizer" aria-hidden="true">
+      <span class="eq-bar bar-1"></span>
+      <span class="eq-bar bar-2"></span>
+      <span class="eq-bar bar-3"></span>
+      <span class="eq-bar bar-4"></span>
+    </span>
+    <span class="drift-pill-chevron">&uarr;</span>
+  </button>
+
+  <!-- Expanded High-Octane Console Drawer -->
+  <div id="drift-console-drawer" class="drift-console-drawer" hidden>
+    <div class="drift-console-header">
+      <div class="drift-station-meta">
+        <span class="drift-badge-live">● ON AIR</span>
+        <span class="drift-freq">[ 88.5 FM // TOKYO MIDNIGHT ]</span>
+      </div>
+      <button type="button" class="drift-console-close-btn" id="drift-console-close" aria-label="Minimize Drift Radio">
+        &times;
+      </button>
+    </div>
+
+    <div class="drift-track-info">
+      <div class="drift-cover-art">
+        <div class="drift-spinning-vinyl">
+          <div class="vinyl-groove"></div>
+          <div class="vinyl-center">
+            {% render 'icon-spotify' %}
+          </div>
+        </div>
+      </div>
+      <div class="drift-track-details">
+        <span class="drift-tape-label">OFFICIAL SOUNDTRACK</span>
+        <h4 class="drift-track-title">LACEYAAN DRIFT RADIO // VOL. 01</h4>
+        <p class="drift-track-sub">Nightrunner &bull; Tokyo Expressway &bull; High-Octane Weaves</p>
+      </div>
+    </div>
+
+    <!-- Live Animated Audio Soundwave Spectrum -->
+    <div class="drift-visualizer-wrap" aria-hidden="true">
+      <div class="drift-visualizer-bars">
+        {%- for i in (1..28) -%}
+          <span class="drift-spectrum-bar" style="--i: {{ i }};"></span>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Official Spotify Playlist Embed Stream -->
+    <div class="drift-embed-container">
+      <iframe 
+        style="border-radius: 4px;" 
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM?utm_source=generator&theme=0" 
+        width="100%" 
+        height="152" 
+        frameBorder="0" 
+        allowfullscreen="" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+        loading="lazy"
+        title="LACEYAAN Midnight Drift Playlist on Spotify"
+      ></iframe>
+    </div>
+
+    <div class="drift-console-footer">
+      <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="btn-spotify-external">
+        {% render 'icon-spotify' %}
+        <span>OPEN IN SPOTIFY [ &nearr; ]</span>
+      </a>
+      <span class="drift-telemetry-tag">[ 0-100 IN 3.8MM ]</span>
+    </div>
+  </div>
+</div>

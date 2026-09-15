@@ -1374,9 +1374,11 @@
         const p = points[i];
         p.baseX = p.baseFracX * this.width;
 
-        // Wave excitation propagates down the string when scrolling
-        const velocityEffect = (this.smoothedVelocity * 0.16 * influenceMultiplier) * Math.sin(i * 0.52 - this.time * 0.0035);
-        p.waveExcitation += (velocityEffect - p.waveExcitation) * 0.1;
+        // Wave excitation & Tokyo drift lateral ribbon physics when scrolling
+        const driftVelocity = this.smoothedVelocity * 0.22 * influenceMultiplier;
+        const driftWave = Math.sin(i * 0.48 - this.time * 0.0042 + (driftVelocity * 0.02));
+        const velocityEffect = driftVelocity * driftWave;
+        p.waveExcitation += (velocityEffect - p.waveExcitation) * 0.14;
 
         // Idle harmonic breathing oscillation
         let breathingX = 0;
@@ -1740,6 +1742,77 @@
   }
 
   /* ==========================================================================
+     Tokyo Drift x Spotify Atelier Sound System Player
+     ========================================================================== */
+  class DriftSpotifyPlayer {
+    constructor() {
+      this.widget = document.getElementById('laceyaan-drift-player');
+      if (!this.widget) return;
+
+      this.toggleBtn = document.getElementById('drift-pill-toggle');
+      this.drawer = document.getElementById('drift-console-drawer');
+      this.closeBtn = document.getElementById('drift-console-close');
+      this.isOpen = false;
+
+      this.init();
+    }
+
+    init() {
+      if (this.toggleBtn && this.drawer) {
+        this.toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggle();
+        });
+      }
+
+      if (this.closeBtn) {
+        this.closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.close();
+        });
+      }
+
+      // Close on click outside
+      document.addEventListener('click', (e) => {
+        if (this.isOpen && !this.widget.contains(e.target)) {
+          this.close();
+        }
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen) {
+          this.close();
+        }
+      });
+    }
+
+    open() {
+      if (!this.drawer || !this.toggleBtn) return;
+      this.isOpen = true;
+      this.drawer.removeAttribute('hidden');
+      this.toggleBtn.classList.add('is-active');
+      this.toggleBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    close() {
+      if (!this.drawer || !this.toggleBtn) return;
+      this.isOpen = false;
+      this.drawer.setAttribute('hidden', '');
+      this.toggleBtn.classList.remove('is-active');
+      this.toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle() {
+      if (this.isOpen) {
+        this.close();
+      } else {
+        this.open();
+      }
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
@@ -1753,6 +1826,7 @@
     window.Laceyaan.quickViewModal = new QuickViewModal();
     new Accordion();
     new EasterEggModal();
+    window.Laceyaan.driftSpotifyPlayer = new DriftSpotifyPlayer();
 
     // Initialize Animated Background Shoelace Engine
     if (window.Laceyaan.backgroundLace) {
@@ -1775,6 +1849,7 @@
     new Accordion();
     new AnnouncementBar();
     new EasterEggModal();
+    window.Laceyaan.driftSpotifyPlayer = new DriftSpotifyPlayer();
 
     if (!window.Laceyaan.backgroundLace) {
       window.Laceyaan.backgroundLace = new BackgroundLace();

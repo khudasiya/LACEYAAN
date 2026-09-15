@@ -18,12 +18,18 @@
 
   <div class="container hero-content-wrap">
     <div class="hero-inner">
-      {%- if section.settings.badge != blank -%}
-        <div class="hero-badge">
-          <span class="spec-dot" aria-hidden="true">●</span>
-          <span>[ {{ section.settings.badge }} ]</span>
+      <div class="hero-badge-group">
+        {%- if section.settings.badge != blank -%}
+          <div class="hero-badge">
+            <span class="spec-dot" aria-hidden="true">●</span>
+            <span>[ {{ section.settings.badge }} ]</span>
+          </div>
+        {%- endif -%}
+        <div class="hero-drift-badge">
+          <span class="drift-neon-dot" aria-hidden="true">⚡</span>
+          <span>[ TOKYO DRIFT SPEC // 88.5 FM ]</span>
         </div>
-      {%- endif -%}
+      </div>
 
       <h1 class="hero-title">
         {{ section.settings.heading }}
