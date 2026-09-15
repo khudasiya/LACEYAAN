@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (passTrigger && passModal) {
     passTrigger.addEventListener('click', () => {
       passModal.classList.add('is-open');
+      passModal.setAttribute('aria-hidden', 'false');
       const passInput = passModal.querySelector('input[type="password"]');
       if (passInput) setTimeout(() => passInput.focus(), 100);
     });
@@ -45,13 +46,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (passClose && passModal) {
     passClose.addEventListener('click', () => {
       passModal.classList.remove('is-open');
+      passModal.setAttribute('aria-hidden', 'true');
     });
   }
   if (passOverlay && passModal) {
     passOverlay.addEventListener('click', () => {
       passModal.classList.remove('is-open');
+      passModal.setAttribute('aria-hidden', 'true');
     });
   }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && passModal && passModal.classList.contains('is-open')) {
+      passModal.classList.remove('is-open');
+      passModal.setAttribute('aria-hidden', 'true');
+    }
+  });
 
   /* ==========================================================================
      3. SINGLE-ACTIVE INTERACTIVE LACE PALETTE (DESKTOP HOVER & MOBILE TAP)
