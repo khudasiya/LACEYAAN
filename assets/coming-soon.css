@@ -149,13 +149,19 @@ body {
   color: var(--ly-text-secondary);
 }
 
+.ly-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .ly-glow-toggle-btn {
   background: transparent;
   border: 1px solid var(--ly-border-medium);
   color: var(--ly-text-primary);
   padding: 7px 16px;
   border-radius: 100px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--ly-font-mono);
@@ -177,6 +183,58 @@ body {
   border-color: var(--ly-phosphor);
   color: #000;
   box-shadow: 0 0 20px var(--ly-phosphor-intense);
+}
+
+.ly-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ly-topbar-insta {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ly-border-medium);
+  color: var(--ly-text-primary);
+  padding: 6px 14px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-topbar-insta:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--ly-border-highlight);
+  color: #fff;
+}
+
+.ly-password-trigger-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ly-border-medium);
+  color: var(--ly-text-primary);
+  padding: 6px 16px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-password-trigger-btn:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
 }
 
 /* ==========================================================================
@@ -260,22 +318,49 @@ body {
 
 .ly-brand-emblem-wrap {
   position: relative;
-  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.ly-hero-monogram-box {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ly-hero-monogram {
-  width: 68px;
-  height: 68px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.25));
+  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.3));
+  position: relative;
+  z-index: 1;
 }
 
 .ly-emblem-glow {
   position: absolute;
-  inset: -10px;
+  inset: -6px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
   animation: floatPulse 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+.ly-hero-brand-name {
+  font-family: var(--ly-font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+  text-transform: uppercase;
+  color: var(--ly-text-primary);
+  opacity: 0.92;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
 @keyframes floatPulse {
@@ -292,11 +377,11 @@ body {
 
 .ly-hero-name {
   font-family: var(--ly-font-display);
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-size: clamp(2.2rem, 6vw, 4.6rem);
   font-weight: 800;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.22em;
   color: var(--ly-text-primary);
-  text-indent: 0.32em;
+  text-indent: 0.22em;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
 }
 
@@ -333,91 +418,138 @@ body {
   color: var(--ly-text-muted);
 }
 
-.ly-hero-anchors {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 44px;
+/* Direct Hero VIP Early Access Form */
+.ly-hero-signup {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 20;
 }
 
-.ly-hero-cta-scroll {
-  display: inline-flex;
+.ly-vip-input-row {
+  display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  background: rgba(16, 16, 16, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ly-border-medium);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.7);
+  transition: border-color var(--ly-transition-fast), box-shadow var(--ly-transition-fast);
+}
+
+.ly-vip-input-row:focus-within {
+  border-color: var(--ly-border-highlight);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+.ly-vip-input-wrap {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.ly-vip-email-field {
+  width: 100%;
+  height: 48px;
+  background: transparent;
+  border: none;
+  padding: 0 16px;
+  color: var(--ly-text-primary);
+  font-family: var(--ly-font-mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  outline: none;
+}
+
+.ly-vip-email-field::placeholder {
+  color: var(--ly-text-dim);
+  font-size: 0.8rem;
+}
+
+.ly-vip-submit-btn {
+  height: 48px;
+  padding: 0 24px;
   background: var(--ly-text-primary);
   color: #000;
-  padding: 14px 28px;
-  border-radius: 4px;
+  border: none;
+  border-radius: 6px;
   font-family: var(--ly-font-mono);
-  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  text-decoration: none;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-hero-cta-scroll:hover {
-  background: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
-}
-
-.ly-hero-cta-secondary {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--ly-border-medium);
-  color: var(--ly-text-primary);
-  padding: 14px 28px;
-  border-radius: 4px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.16em;
-  text-decoration: none;
+  gap: 8px;
+  white-space: nowrap;
   transition: all var(--ly-transition-fast);
 }
 
-.ly-hero-cta-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--ly-text-primary);
+.ly-vip-submit-btn:hover {
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
 }
 
-.ly-hero-editorial-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-top: 1px solid var(--ly-border-light);
-  padding-top: 20px;
-}
-
-.ly-badge-sub {
-  font-family: var(--ly-font-serif);
-  font-size: 0.95rem;
-  font-style: italic;
-  color: var(--ly-gold);
-}
-
-.ly-badge-main {
+.ly-vip-trust-meta {
   font-family: var(--ly-font-mono);
   font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   color: var(--ly-text-muted);
+  margin-top: 10px;
+  text-align: center;
 }
 
-/* Hero Bottom Ticker */
+/* Scroll Cue down to Sneak Peek */
+.ly-hero-scroll-cue {
+  font-family: var(--ly-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--ly-text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--ly-border-light);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all var(--ly-transition-fast);
+  margin-top: 8px;
+}
+
+.ly-hero-scroll-cue:hover {
+  color: #fff;
+  border-color: var(--ly-border-highlight);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(2px);
+}
+
+.ly-cue-arrow {
+  animation: bounceDown 1.8s infinite;
+  display: inline-block;
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* Continuous Editorial Ticker (In-flow layout) */
 .ly-hero-bottom-ticker {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  background: rgba(14, 14, 14, 0.95);
+  background: #090909;
   border-top: 1px solid var(--ly-border-light);
-  padding: 12px 0;
+  border-bottom: 1px solid var(--ly-border-light);
+  padding: 13px 0;
   overflow: hidden;
   white-space: nowrap;
+  z-index: 5;
 }
 
 .ly-ticker-track {
@@ -783,367 +915,259 @@ body {
 }
 
 /* ==========================================================================
-   THE SPECIMEN VAULT (8 LACES SHOWCASE)
+   STAGGERED SIGNATURE LACES (ROUNDED, NO CARDS, NO TILES)
    ========================================================================== */
-.ly-laces-section {
-  padding: 120px 28px;
+.ly-staggered-laces-section {
+  padding: 120px 24px;
   background: var(--ly-bg-base);
-  max-width: 1440px;
+  max-width: 1320px;
   margin: 0 auto;
+  position: relative;
 }
 
-.ly-section-header {
+.ly-staggered-header {
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 60px;
+  margin-bottom: 80px;
 }
 
-.ly-section-eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
+.ly-staggered-eyebrow {
+  font-family: var(--ly-font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.28em;
+  color: var(--ly-gold);
+  display: block;
   margin-bottom: 12px;
 }
 
-.ly-eyebrow-accent {
-  font-family: var(--ly-font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
-  color: var(--ly-gold);
-}
-
-.ly-eyebrow-count {
-  font-family: var(--ly-font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
-  color: var(--ly-text-muted);
-}
-
-.ly-section-title {
+.ly-staggered-title {
   font-family: var(--ly-font-display);
   font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 800;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   color: var(--ly-text-primary);
-  margin-bottom: 16px;
-}
-
-.ly-section-desc {
-  font-size: 0.95rem;
-  color: var(--ly-text-secondary);
-  line-height: 1.7;
-  margin-bottom: 32px;
-}
-
-/* Glow Switch Bar */
-.ly-glow-switch-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 20px;
-  background: var(--ly-bg-card);
-  border: 1px solid var(--ly-border-medium);
-  padding: 10px 24px;
-  border-radius: 100px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.ly-glow-switch-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.ly-glow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--ly-phosphor);
-  box-shadow: 0 0 10px var(--ly-phosphor);
-}
-
-.ly-glow-switch-text {
-  font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  color: var(--ly-text-secondary);
-}
-
-.ly-glow-interactive-btn {
-  background: rgba(0, 255, 170, 0.12);
-  border: 1px solid var(--ly-phosphor);
-  color: var(--ly-phosphor);
-  padding: 6px 16px;
-  border-radius: 100px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-glow-interactive-btn:hover {
-  background: var(--ly-phosphor);
-  color: #000;
-  box-shadow: 0 0 20px var(--ly-phosphor-intense);
-}
-
-/* 8 Specimens Grid */
-.ly-specimens-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-}
-
-@media (max-width: 1200px) {
-  .ly-specimens-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .ly-specimens-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Specimen Card */
-.ly-specimen-card {
-  background: var(--ly-bg-card);
-  border: 1px solid var(--ly-border-light);
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all var(--ly-transition-smooth);
-  position: relative;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.ly-specimen-card:hover {
-  border-color: var(--ly-border-highlight);
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.05);
-}
-
-.ly-card-header {
-  padding: 14px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--ly-border-light);
-  background: rgba(14, 14, 14, 0.6);
-}
-
-.ly-specimen-id {
-  font-family: var(--ly-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
-  color: var(--ly-gold);
-  font-weight: 700;
-}
-
-.ly-specimen-status {
-  font-family: var(--ly-font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  color: var(--ly-text-muted);
-}
-
-.ly-card-media {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: #0b0b0b;
-}
-
-.ly-specimen-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ly-ease-out);
-}
-
-.ly-specimen-card:hover .ly-specimen-img {
-  transform: scale(1.06);
-}
-
-.ly-media-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 10, 0.8) 100%);
-}
-
-.ly-aglet-tag {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--ly-border-light);
-  font-family: var(--ly-font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  color: var(--ly-text-secondary);
-  padding: 4px 10px;
-  border-radius: 4px;
-}
-
-.ly-card-content {
-  padding: 20px 18px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.ly-specimen-meta {
-  margin-bottom: 14px;
-}
-
-.ly-specimen-type {
-  font-family: var(--ly-font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  color: var(--ly-text-muted);
   text-transform: uppercase;
 }
 
-.ly-specimen-name {
-  font-family: var(--ly-font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--ly-text-primary);
-  margin-top: 4px;
+/* Staggered Track (Alternating Flow) */
+.ly-staggered-track {
+  display: flex;
+  flex-direction: column;
+  gap: 90px;
+  width: 100%;
+  position: relative;
 }
 
-.ly-spec-list {
-  list-style: none;
-  font-size: 0.78rem;
-  color: var(--ly-text-secondary);
-  line-height: 1.6;
-  margin-bottom: 20px;
+/* Individual Stagger Item */
+.ly-stagger-item {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  position: relative;
+}
+
+/* 1 & 3: Aligned Left */
+.ly-stagger-left {
+  justify-content: flex-start;
+  padding-left: clamp(20px, 10vw, 160px);
+}
+
+/* 2 & 4: Staggered toward the Right */
+.ly-stagger-right {
+  justify-content: flex-end;
+  padding-right: clamp(20px, 10vw, 160px);
+  text-align: right;
+}
+
+/* Pure Rounded Lace - NO CARD, NO TILE */
+.ly-lace-circle-frame {
+  width: clamp(240px, 26vw, 360px);
+  height: clamp(240px, 26vw, 360px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+  flex-shrink: 0;
+  transition: transform 0.6s var(--ly-ease-out), border-color 0.4s var(--ly-ease-out), box-shadow 0.6s var(--ly-ease-out);
+}
+
+.ly-lace-circle-frame:hover {
+  transform: scale(1.04);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
+}
+
+.ly-lace-round-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--ly-ease-out);
+}
+
+.ly-lace-circle-frame:hover .ly-lace-round-img {
+  transform: scale(1.08);
+}
+
+/* Minimalist Caption (Only Lace & Pattern) */
+.ly-lace-caption {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  max-width: 320px;
 }
 
-.ly-spec-list strong {
+.ly-lace-index {
   font-family: var(--ly-font-mono);
-  font-size: 0.7rem;
-  color: var(--ly-text-muted);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  color: var(--ly-gold);
   letter-spacing: 0.08em;
+  line-height: 1;
 }
 
-.ly-card-footer {
-  margin-top: auto;
-  border-top: 1px solid var(--ly-border-light);
-  padding-top: 14px;
+.ly-lace-title {
+  font-family: var(--ly-font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--ly-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Dedicated Option to Glow (In front of the glow lace ONLY, not on website) */
+.ly-lace-glow-action {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 14px;
 }
 
-.ly-status-pill {
-  font-family: var(--ly-font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  color: var(--ly-text-dim);
-  text-align: center;
+.ly-stagger-right .ly-lace-glow-action {
+  align-items: flex-end;
 }
 
-.ly-btn-inspect {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--ly-border-light);
-  color: var(--ly-text-secondary);
-  padding: 9px 14px;
-  border-radius: 4px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  text-align: center;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-btn-inspect:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--ly-text-primary);
-  color: #fff;
-}
-
-/* ==========================================================================
-   GLOW-IN-THE-DARK SPECIAL SPECIMEN
-   ========================================================================== */
-.ly-glow-specimen {
-  border-color: rgba(0, 255, 170, 0.35);
-  box-shadow: 0 0 24px rgba(0, 255, 170, 0.15);
-}
-
-.ly-glow-badge {
-  color: var(--ly-phosphor) !important;
-  text-shadow: 0 0 8px var(--ly-phosphor);
-}
-
-.ly-glow-tag {
-  border-color: var(--ly-phosphor) !important;
-  color: var(--ly-phosphor) !important;
-}
-
-.ly-glow-text {
-  color: var(--ly-phosphor) !important;
-}
-
-.ly-glow-pill {
-  color: var(--ly-phosphor) !important;
-}
-
-.ly-btn-glow-inspect {
+.ly-lace-glow-btn {
   background: rgba(0, 255, 170, 0.08);
-  border-color: var(--ly-phosphor);
+  border: 1px solid var(--ly-phosphor);
   color: var(--ly-phosphor);
+  padding: 9px 20px;
+  border-radius: 100px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--ly-transition-fast);
+  box-shadow: 0 0 16px rgba(0, 255, 170, 0.2);
 }
 
-.ly-btn-glow-inspect:hover {
+.ly-lace-glow-btn:hover {
   background: var(--ly-phosphor);
   color: #000;
-  box-shadow: 0 0 20px var(--ly-phosphor-intense);
+  box-shadow: 0 0 28px var(--ly-phosphor-intense);
+  transform: translateY(-2px);
 }
 
-.ly-glow-halo-effect {
+.ly-glow-subhint {
+  font-family: var(--ly-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--ly-text-muted);
+}
+
+/* Glow Lace Visual Active State */
+.ly-glow-circle-frame {
+  position: relative;
+  transition: all 0.5s var(--ly-ease-out);
+}
+
+.ly-glow-circle-frame.is-glowing {
+  border-color: var(--ly-phosphor) !important;
+  box-shadow: 0 0 60px var(--ly-phosphor-intense), 0 0 120px rgba(0, 255, 170, 0.45) !important;
+  transform: scale(1.05);
+}
+
+.ly-glow-circle-frame .ly-glow-round-img {
+  transition: filter 0.6s var(--ly-ease-out), transform 0.8s var(--ly-ease-out);
+  filter: brightness(0.9) contrast(1.05);
+}
+
+.ly-glow-circle-frame.is-glowing .ly-glow-round-img {
+  filter: brightness(1.25) saturate(1.4) contrast(1.15) drop-shadow(0 0 20px rgba(0, 255, 170, 0.6));
+}
+
+.ly-glow-circle-frame .ly-glow-aura {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(0, 255, 170, 0.25) 0%, transparent 70%);
-  opacity: 0.8;
-  animation: glowBreathe 3s ease-in-out infinite;
+  inset: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 170, 0.35) 0%, transparent 70%);
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
-@keyframes glowBreathe {
-  0%, 100% { opacity: 0.5; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.08); }
+.ly-glow-circle-frame.is-glowing .ly-glow-aura {
+  opacity: 1;
+  animation: glowAuraPulse 3s infinite ease-in-out;
 }
 
-/* Night Mode Phosphor Activation */
-body.ly-glow-active {
-  background-color: #020202;
+@keyframes glowAuraPulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
 }
 
-body.ly-glow-active .ly-glow-specimen {
-  border-color: var(--ly-phosphor);
-  box-shadow: 0 0 50px var(--ly-phosphor-intense), inset 0 0 20px var(--ly-phosphor-glow);
-  transform: scale(1.03);
+.ly-lace-glow-btn.is-active {
+  background: var(--ly-phosphor) !important;
+  color: #000 !important;
+  box-shadow: 0 0 30px var(--ly-phosphor-intense) !important;
+}
+  padding: 14px 20px;
+  text-align: center;
 }
 
-body.ly-glow-active .ly-glow-pulse-img {
-  filter: brightness(1.25) drop-shadow(0 0 30px #00ffaa);
+.ly-spotlight-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--ly-font-mono);
+  font-size: 0.74rem;
 }
+
+.ly-spotlight-badge {
+  color: var(--ly-gold);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+}
+
+.ly-spotlight-title {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.ly-spotlight-sep {
+  color: var(--ly-text-dim);
+}
+
+.ly-spotlight-meta {
+  color: var(--ly-text-secondary);
+}
+
+.ly-spotlight-lock {
+  color: var(--ly-text-muted);
+  letter-spacing: 0.12em;
+}
+
 
 /* ==========================================================================
    CAMPAIGN EDITORIAL STORY
@@ -1633,3 +1657,422 @@ body.ly-glow-active .ly-glow-pulse-img {
   background: #fff;
   color: #000;
 }
+
+/* ==========================================================================
+   STORE ACCESS PASSWORD MODAL
+   ========================================================================== */
+.ly-password-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.ly-password-modal.is-open {
+  display: flex;
+}
+
+.ly-password-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(14px);
+}
+
+.ly-password-box {
+  position: relative;
+  z-index: 10;
+  background: #111111;
+  border: 1px solid var(--ly-border-highlight);
+  border-radius: 12px;
+  max-width: 440px;
+  width: 100%;
+  padding: 36px 30px;
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.95);
+  animation: modalScaleIn 0.3s var(--ly-ease-out);
+}
+
+.ly-password-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: 1px solid var(--ly-border-light);
+  color: var(--ly-text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-password-close:hover {
+  background: #fff;
+  color: #000;
+}
+
+.ly-password-header {
+  margin-bottom: 24px;
+}
+
+.ly-password-header img {
+  margin-bottom: 12px;
+}
+
+.ly-password-header h3 {
+  font-family: var(--ly-font-display);
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.ly-password-header p {
+  font-size: 0.8rem;
+  color: var(--ly-text-muted);
+}
+
+.ly-input-wrap {
+  display: flex;
+  gap: 10px;
+}
+
+.ly-input-field {
+  flex: 1;
+  height: 48px;
+  background: #000;
+  border: 1px solid var(--ly-border-medium);
+  border-radius: 6px;
+  padding: 0 16px;
+  color: #fff;
+  font-family: var(--ly-font-mono);
+  font-size: 0.85rem;
+}
+
+.ly-input-field:focus {
+  outline: none;
+  border-color: #fff;
+}
+
+.ly-btn-submit {
+  height: 48px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 0 20px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.ly-form-error {
+  color: #ff5555;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   MOBILE PHONE AMPLIFICATION (< 768px and < 480px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Topbar */
+  .ly-topbar-inner {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .ly-topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ly-topbar-emblem {
+    width: 20px;
+    height: 20px;
+  }
+  .ly-topbar-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+  }
+  .ly-topbar-badge {
+    display: none !important; /* Keep topbar clean and uncluttered on phone */
+  }
+  .ly-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ly-topbar-insta,
+  .ly-password-trigger-btn {
+    padding: 5px 12px;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Hero Section Mobile (Fits within 100svh cleanly) */
+  .ly-hero-section {
+    padding: 72px 14px 28px;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .ly-hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+  .ly-brand-emblem-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .ly-hero-monogram-box {
+    width: 32px;
+    height: 32px;
+  }
+  .ly-hero-monogram {
+    width: 26px;
+    height: 26px;
+  }
+  .ly-hero-brand-name {
+    font-size: 0.86rem;
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+  }
+  .ly-hero-eyebrow {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ly-eyebrow-line {
+    width: 24px;
+  }
+  .ly-eyebrow-text {
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+  }
+  .ly-hero-title {
+    margin-bottom: 16px;
+    gap: 0px;
+  }
+  .ly-hero-name {
+    font-family: var(--ly-font-display);
+    font-size: clamp(2.3rem, 10vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 0.95;
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+  .ly-hero-manifesto {
+    margin-bottom: 18px;
+    max-width: 100%;
+  }
+  .ly-quote-primary {
+    font-size: 0.86rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .ly-quote-secondary {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+  }
+
+  /* Direct VIP Early Access Form on Mobile */
+  .ly-hero-signup {
+    max-width: 100%;
+    margin: 0 auto 14px;
+  }
+  .ly-vip-input-row {
+    flex-direction: column;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 8px;
+  }
+  .ly-vip-input-wrap {
+    width: 100%;
+  }
+  .ly-vip-email-field {
+    height: 44px;
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 0 12px;
+  }
+  .ly-vip-submit-btn {
+    width: 100%;
+    height: 46px;
+    justify-content: center;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+  }
+  .ly-vip-trust-meta {
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+  }
+
+  /* Scroll Cue on Mobile */
+  .ly-hero-scroll-cue {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    padding: 6px 14px;
+    margin-top: 4px;
+  }
+
+  /* Bottom Ticker Mobile */
+  .ly-hero-bottom-ticker {
+    padding: 10px 0;
+  }
+  .ly-ticker-track {
+    font-size: 0.66rem;
+    gap: 20px;
+  }
+
+  /* Staggered Laces on Mobile */
+  .ly-staggered-laces-section {
+    padding: 60px 16px;
+  }
+  .ly-staggered-header {
+    margin-bottom: 45px;
+  }
+  .ly-staggered-title {
+    font-size: 1.85rem;
+    letter-spacing: 0.16em;
+  }
+  .ly-staggered-track {
+    gap: 52px;
+  }
+  .ly-stagger-item {
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 !important;
+  }
+  .ly-stagger-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .ly-stagger-right {
+    align-items: flex-end;
+    text-align: right;
+  }
+  .ly-stagger-right .ly-lace-caption {
+    order: 2;
+  }
+  .ly-stagger-right .ly-lace-circle-frame {
+    order: 1;
+  }
+  .ly-lace-circle-frame {
+    width: clamp(200px, 60vw, 260px);
+    height: clamp(200px, 60vw, 260px);
+  }
+  .ly-lace-index {
+    font-size: 2.2rem;
+  }
+  .ly-lace-title {
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+  }
+  .ly-lace-glow-btn {
+    padding: 8px 18px;
+    font-size: 0.72rem;
+  }
+  .ly-glow-subhint {
+    font-size: 0.62rem;
+  }
+
+  /* Story Section */
+  .ly-story-section {
+    padding: 45px 14px;
+  }
+  .ly-story-container {
+    gap: 30px;
+  }
+  .ly-story-card {
+    border-radius: 10px;
+  }
+  .ly-story-caption {
+    padding: 18px 14px;
+  }
+  .ly-caption-title {
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+  }
+  .ly-caption-text {
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+  .ly-story-banner-box {
+    min-height: 340px;
+    padding: 32px 14px;
+    border-radius: 10px;
+  }
+  .ly-banner-headline {
+    font-size: clamp(1.75rem, 7.5vw, 2.5rem);
+    margin-bottom: 20px;
+  }
+  .ly-banner-details {
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .ly-stat-number {
+    font-size: 1.35rem;
+  }
+  .ly-banner-stat-divider {
+    display: none;
+  }
+  .ly-banner-manifesto {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+  .ly-story-lab-row {
+    padding: 18px 14px;
+    gap: 20px;
+    border-radius: 10px;
+  }
+  .ly-lab-heading {
+    font-size: 1.35rem;
+    letter-spacing: 0.1em;
+  }
+  .ly-lab-paragraph {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .ly-lab-specs-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .ly-lab-spec-box {
+    padding: 10px 12px;
+  }
+
+  /* Footer */
+  .ly-footer-section {
+    padding: 40px 16px 24px;
+  }
+  .ly-footer-top-row {
+    gap: 24px;
+  }
+  .ly-footer-bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding-top: 20px;
+  }
+}
+
+
