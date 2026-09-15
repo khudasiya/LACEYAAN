@@ -149,42 +149,13 @@ body {
   color: var(--ly-text-secondary);
 }
 
-.ly-topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.ly-topbar-insta {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--ly-text-secondary);
-  font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  border: 1px solid var(--ly-border-light);
-  padding: 6px 14px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.03);
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-topbar-insta:hover {
-  color: #fff;
-  border-color: var(--ly-gold);
-  background: rgba(200, 169, 106, 0.1);
-  box-shadow: 0 0 14px rgba(200, 169, 106, 0.2);
-}
-
 .ly-glow-toggle-btn {
   background: transparent;
   border: 1px solid var(--ly-border-medium);
   color: var(--ly-text-primary);
   padding: 7px 16px;
   border-radius: 100px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   font-family: var(--ly-font-mono);
@@ -206,28 +177,6 @@ body {
   border-color: var(--ly-phosphor);
   color: #000;
   box-shadow: 0 0 20px var(--ly-phosphor-intense);
-}
-
-.ly-password-trigger-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--ly-border-medium);
-  color: var(--ly-text-secondary);
-  padding: 7px 16px;
-  border-radius: 100px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-password-trigger-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--ly-text-primary);
-  color: #fff;
 }
 
 /* ==========================================================================
@@ -311,49 +260,22 @@ body {
 
 .ly-brand-emblem-wrap {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 22px;
-}
-
-.ly-hero-monogram-box {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 24px;
 }
 
 .ly-hero-monogram {
-  width: 40px;
-  height: 40px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
-  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.3));
-  position: relative;
-  z-index: 1;
+  filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.25));
 }
 
 .ly-emblem-glow {
   position: absolute;
-  inset: -6px;
+  inset: -10px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
   animation: floatPulse 4s ease-in-out infinite;
-  z-index: 0;
-}
-
-.ly-hero-brand-name {
-  font-family: var(--ly-font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-indent: 0.35em;
-  text-transform: uppercase;
-  color: var(--ly-text-primary);
-  opacity: 0.92;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
 @keyframes floatPulse {
@@ -370,11 +292,11 @@ body {
 
 .ly-hero-name {
   font-family: var(--ly-font-display);
-  font-size: clamp(2.2rem, 6vw, 4.6rem);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
   font-weight: 800;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.32em;
   color: var(--ly-text-primary);
-  text-indent: 0.22em;
+  text-indent: 0.32em;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
 }
 
@@ -411,138 +333,91 @@ body {
   color: var(--ly-text-muted);
 }
 
-/* Direct Hero VIP Early Access Form */
-.ly-hero-signup {
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto 20px;
-  position: relative;
-  z-index: 20;
-}
-
-.ly-vip-input-row {
+.ly-hero-anchors {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  background: rgba(16, 16, 16, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--ly-border-medium);
-  border-radius: 10px;
-  padding: 6px;
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.7);
-  transition: border-color var(--ly-transition-fast), box-shadow var(--ly-transition-fast);
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 44px;
 }
 
-.ly-vip-input-row:focus-within {
-  border-color: var(--ly-border-highlight);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.08);
-}
-
-.ly-vip-input-wrap {
-  flex: 1;
-  min-width: 0;
-  position: relative;
-}
-
-.ly-vip-email-field {
-  width: 100%;
-  height: 48px;
-  background: transparent;
-  border: none;
-  padding: 0 16px;
-  color: var(--ly-text-primary);
-  font-family: var(--ly-font-mono);
-  font-size: 0.86rem;
-  letter-spacing: 0.08em;
-  outline: none;
-}
-
-.ly-vip-email-field::placeholder {
-  color: var(--ly-text-dim);
-  font-size: 0.8rem;
-}
-
-.ly-vip-submit-btn {
-  height: 48px;
-  padding: 0 24px;
+.ly-hero-cta-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   background: var(--ly-text-primary);
   color: #000;
-  border: none;
-  border-radius: 6px;
+  padding: 14px 28px;
+  border-radius: 4px;
   font-family: var(--ly-font-mono);
-  font-weight: 700;
   font-size: 0.8rem;
-  letter-spacing: 0.14em;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-decoration: none;
   transition: all var(--ly-transition-fast);
 }
 
-.ly-vip-submit-btn:hover {
-  background: #fff;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.35);
-  transform: translateY(-1px);
+.ly-hero-cta-scroll:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
 }
 
-.ly-vip-trust-meta {
+.ly-hero-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ly-border-medium);
+  color: var(--ly-text-primary);
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-hero-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--ly-text-primary);
+}
+
+.ly-hero-editorial-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--ly-border-light);
+  padding-top: 20px;
+}
+
+.ly-badge-sub {
+  font-family: var(--ly-font-serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--ly-gold);
+}
+
+.ly-badge-main {
   font-family: var(--ly-font-mono);
   font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  color: var(--ly-text-muted);
-  margin-top: 10px;
-  text-align: center;
-}
-
-/* Scroll Cue down to Sneak Peek */
-.ly-hero-scroll-cue {
-  font-family: var(--ly-font-mono);
-  font-size: 0.72rem;
   letter-spacing: 0.2em;
   color: var(--ly-text-muted);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 100px;
-  border: 1px solid var(--ly-border-light);
-  background: rgba(255, 255, 255, 0.02);
-  transition: all var(--ly-transition-fast);
-  margin-top: 8px;
 }
 
-.ly-hero-scroll-cue:hover {
-  color: #fff;
-  border-color: var(--ly-border-highlight);
-  background: rgba(255, 255, 255, 0.06);
-  transform: translateY(2px);
-}
-
-.ly-cue-arrow {
-  animation: bounceDown 1.8s infinite;
-  display: inline-block;
-}
-
-@keyframes bounceDown {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
-}
-
-/* Continuous Editorial Ticker (In-flow layout) */
+/* Hero Bottom Ticker */
 .ly-hero-bottom-ticker {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  background: #090909;
+  background: rgba(14, 14, 14, 0.95);
   border-top: 1px solid var(--ly-border-light);
-  border-bottom: 1px solid var(--ly-border-light);
-  padding: 13px 0;
+  padding: 12px 0;
   overflow: hidden;
   white-space: nowrap;
-  z-index: 5;
 }
 
 .ly-ticker-track {
@@ -908,333 +783,367 @@ body {
 }
 
 /* ==========================================================================
-   STAGGERED SIGNATURE LACES (ROUNDED, NO CARDS, NO TILES)
+   THE SPECIMEN VAULT (8 LACES SHOWCASE)
    ========================================================================== */
-.ly-staggered-laces-section {
-  padding: 120px 24px;
+.ly-laces-section {
+  padding: 120px 28px;
   background: var(--ly-bg-base);
-  max-width: 1320px;
+  max-width: 1440px;
   margin: 0 auto;
-  position: relative;
 }
 
-.ly-staggered-header {
+.ly-section-header {
   text-align: center;
-  margin-bottom: 80px;
+  max-width: 800px;
+  margin: 0 auto 60px;
 }
 
-.ly-staggered-eyebrow {
-  font-family: var(--ly-font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.28em;
-  color: var(--ly-gold);
-  display: block;
+.ly-section-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   margin-bottom: 12px;
 }
 
-.ly-staggered-title {
+.ly-eyebrow-accent {
+  font-family: var(--ly-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: var(--ly-gold);
+}
+
+.ly-eyebrow-count {
+  font-family: var(--ly-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: var(--ly-text-muted);
+}
+
+.ly-section-title {
   font-family: var(--ly-font-display);
   font-size: clamp(2.2rem, 5vw, 3.8rem);
   font-weight: 800;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   color: var(--ly-text-primary);
-  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
-/* Staggered Track (Alternating Flow) */
-.ly-staggered-track {
-  display: flex;
-  flex-direction: column;
-  gap: 90px;
-  width: 100%;
-  position: relative;
+.ly-section-desc {
+  font-size: 0.95rem;
+  color: var(--ly-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32px;
 }
 
-/* Individual Stagger Item */
-.ly-stagger-item {
-  display: flex;
-  align-items: center;
-  gap: 48px;
-  width: 100%;
-  position: relative;
-}
-
-/* 1 & 3: Aligned Left */
-.ly-stagger-left {
-  justify-content: flex-start;
-  padding-left: clamp(20px, 10vw, 160px);
-}
-
-/* 2 & 4: Staggered toward the Right */
-.ly-stagger-right {
-  justify-content: flex-end;
-  padding-right: clamp(20px, 10vw, 160px);
-  text-align: right;
-}
-
-/* ==========================================================================
-   INTERACTIVE UNROLLING LACE STAGE (COMPACT COILED -> FULL HORIZONTAL PHOTO)
-   ========================================================================== */
-.ly-lace-stage-wrap {
-  position: relative;
+/* Glow Switch Bar */
+.ly-glow-switch-bar {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* Base Lace Visual Stage: Compact Circle in Default State */
-.ly-lace-stage {
-  position: relative;
-  width: clamp(240px, 24vw, 320px);
-  height: clamp(240px, 24vw, 320px);
-  border-radius: 9999px;
-  overflow: hidden;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
-  flex-shrink: 0;
-  cursor: pointer;
-  /* Smooth luxury physical unrolling transitions (700ms elegant easing) */
-  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.45s ease,
-              box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              outline 0.2s ease;
-  will-change: width, box-shadow;
-}
-
-.ly-stagger-item:focus-visible .ly-lace-stage {
-  outline: 2px solid var(--ly-gold);
-  outline-offset: 4px;
-}
-
-/* Compact Coiled Visual */
-.ly-stage-coil {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
-  transition: opacity 0.45s ease,
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.5s ease;
-  will-change: opacity, transform;
-}
-
-/* Full Horizontal Photo of Unrolled Lace */
-.ly-stage-full {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(1.05);
-  transition: opacity 0.38s ease,
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.5s ease;
-  will-change: opacity, transform;
-}
-
-/* EXPANDED ACTIVE STATE (Desktop Hover / Mobile Tap) */
-.ly-stagger-item.is-expanded .ly-lace-stage {
-  width: clamp(520px, 54vw, 840px);
-  border-color: rgba(255, 255, 255, 0.38);
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(255, 255, 255, 0.06);
-}
-
-/* Dissolve coiled photo smoothly */
-.ly-stagger-item.is-expanded .ly-stage-coil {
-  opacity: 0;
-  transform: scale(1.08) rotate(-4deg);
-  pointer-events: none;
-}
-
-/* Unroll full horizontal lace photo prominently */
-.ly-stagger-item.is-expanded .ly-stage-full {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1);
-}
-
-/* Glowing Phosphor Lace Unrolled & Coiled State */
-.ly-stagger-glow.is-glowing .ly-stage-full {
-  filter: brightness(1.28) saturate(1.45) contrast(1.18) drop-shadow(0 0 30px rgba(0, 255, 170, 0.75));
-}
-
-.ly-stagger-glow.is-glowing .ly-stage-coil {
-  filter: brightness(1.25) saturate(1.4) contrast(1.15) drop-shadow(0 0 20px rgba(0, 255, 170, 0.6));
-}
-
-/* Minimalist Caption (Only Lace & Pattern) */
-.ly-lace-caption {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-  will-change: transform;
-  max-width: 320px;
-}
-
-.ly-lace-index {
-  font-family: var(--ly-font-mono);
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 700;
-  color: var(--ly-gold);
-  letter-spacing: 0.08em;
-  line-height: 1;
-}
-
-.ly-lace-title {
-  font-family: var(--ly-font-display);
-  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--ly-text-primary);
-  margin: 0;
-  line-height: 1.3;
-}
-
-/* Dedicated Option to Glow (In front of the glow lace ONLY, not on website) */
-.ly-lace-glow-action {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.ly-stagger-right .ly-lace-glow-action {
-  align-items: flex-end;
-}
-
-.ly-lace-glow-btn {
-  background: rgba(0, 255, 170, 0.08);
-  border: 1px solid var(--ly-phosphor);
-  color: var(--ly-phosphor);
-  padding: 9px 20px;
+  gap: 20px;
+  background: var(--ly-bg-card);
+  border: 1px solid var(--ly-border-medium);
+  padding: 10px 24px;
   border-radius: 100px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all var(--ly-transition-fast);
-  box-shadow: 0 0 16px rgba(0, 255, 170, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.ly-lace-glow-btn:hover {
-  background: var(--ly-phosphor);
-  color: #000;
-  box-shadow: 0 0 28px var(--ly-phosphor-intense);
-  transform: translateY(-2px);
-}
-
-.ly-glow-subhint {
-  font-family: var(--ly-font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  color: var(--ly-text-muted);
-}
-
-/* Glow Lace Visual Active State */
-.ly-glow-circle-frame {
-  position: relative;
-  transition: all 0.5s var(--ly-ease-out);
-}
-
-.ly-glow-circle-frame.is-glowing {
-  border-color: var(--ly-phosphor) !important;
-  box-shadow: 0 0 60px var(--ly-phosphor-intense), 0 0 120px rgba(0, 255, 170, 0.45) !important;
-  transform: scale(1.05);
-}
-
-.ly-glow-circle-frame .ly-glow-round-img {
-  transition: filter 0.6s var(--ly-ease-out), transform 0.8s var(--ly-ease-out);
-  filter: brightness(0.9) contrast(1.05);
-}
-
-.ly-glow-circle-frame.is-glowing .ly-glow-round-img {
-  filter: brightness(1.25) saturate(1.4) contrast(1.15) drop-shadow(0 0 20px rgba(0, 255, 170, 0.6));
-}
-
-.ly-glow-circle-frame .ly-glow-aura {
-  position: absolute;
-  inset: -15px;
-  border-radius: 9999px;
-  background: radial-gradient(ellipse at center, rgba(0, 255, 170, 0.35) 0%, transparent 70%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-}
-
-.ly-glow-circle-frame.is-glowing .ly-glow-aura {
-  opacity: 1;
-  animation: glowAuraPulse 3s infinite ease-in-out;
-}
-
-@keyframes glowAuraPulse {
-  0%, 100% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.15); opacity: 1; }
-}
-
-.ly-lace-glow-btn.is-active {
-  background: var(--ly-phosphor) !important;
-  color: #000 !important;
-  box-shadow: 0 0 30px var(--ly-phosphor-intense) !important;
-}
-
-.ly-spotlight-bar {
-  padding: 14px 20px;
-  text-align: center;
-}
-
-.ly-spotlight-inner {
+.ly-glow-switch-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ly-glow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--ly-phosphor);
+  box-shadow: 0 0 10px var(--ly-phosphor);
+}
+
+.ly-glow-switch-text {
   font-family: var(--ly-font-mono);
-  font-size: 0.74rem;
-}
-
-.ly-spotlight-badge {
-  color: var(--ly-gold);
-  letter-spacing: 0.18em;
-  font-weight: 700;
-}
-
-.ly-spotlight-title {
-  color: #fff;
-  font-weight: 700;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
-}
-
-.ly-spotlight-sep {
-  color: var(--ly-text-dim);
-}
-
-.ly-spotlight-meta {
   color: var(--ly-text-secondary);
 }
 
-.ly-spotlight-lock {
-  color: var(--ly-text-muted);
-  letter-spacing: 0.12em;
+.ly-glow-interactive-btn {
+  background: rgba(0, 255, 170, 0.12);
+  border: 1px solid var(--ly-phosphor);
+  color: var(--ly-phosphor);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--ly-transition-fast);
 }
 
+.ly-glow-interactive-btn:hover {
+  background: var(--ly-phosphor);
+  color: #000;
+  box-shadow: 0 0 20px var(--ly-phosphor-intense);
+}
+
+/* 8 Specimens Grid */
+.ly-specimens-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 1200px) {
+  .ly-specimens-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ly-specimens-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Specimen Card */
+.ly-specimen-card {
+  background: var(--ly-bg-card);
+  border: 1px solid var(--ly-border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--ly-transition-smooth);
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.ly-specimen-card:hover {
+  border-color: var(--ly-border-highlight);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.ly-card-header {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--ly-border-light);
+  background: rgba(14, 14, 14, 0.6);
+}
+
+.ly-specimen-id {
+  font-family: var(--ly-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--ly-gold);
+  font-weight: 700;
+}
+
+.ly-specimen-status {
+  font-family: var(--ly-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--ly-text-muted);
+}
+
+.ly-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #0b0b0b;
+}
+
+.ly-specimen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ly-ease-out);
+}
+
+.ly-specimen-card:hover .ly-specimen-img {
+  transform: scale(1.06);
+}
+
+.ly-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 10, 0.8) 100%);
+}
+
+.ly-aglet-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--ly-border-light);
+  font-family: var(--ly-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--ly-text-secondary);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.ly-card-content {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ly-specimen-meta {
+  margin-bottom: 14px;
+}
+
+.ly-specimen-type {
+  font-family: var(--ly-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--ly-text-muted);
+  text-transform: uppercase;
+}
+
+.ly-specimen-name {
+  font-family: var(--ly-font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ly-text-primary);
+  margin-top: 4px;
+}
+
+.ly-spec-list {
+  list-style: none;
+  font-size: 0.78rem;
+  color: var(--ly-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ly-spec-list strong {
+  font-family: var(--ly-font-mono);
+  font-size: 0.7rem;
+  color: var(--ly-text-muted);
+  letter-spacing: 0.08em;
+}
+
+.ly-card-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--ly-border-light);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ly-status-pill {
+  font-family: var(--ly-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--ly-text-dim);
+  text-align: center;
+}
+
+.ly-btn-inspect {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ly-border-light);
+  color: var(--ly-text-secondary);
+  padding: 9px 14px;
+  border-radius: 4px;
+  font-family: var(--ly-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--ly-transition-fast);
+}
+
+.ly-btn-inspect:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--ly-text-primary);
+  color: #fff;
+}
+
+/* ==========================================================================
+   GLOW-IN-THE-DARK SPECIAL SPECIMEN
+   ========================================================================== */
+.ly-glow-specimen {
+  border-color: rgba(0, 255, 170, 0.35);
+  box-shadow: 0 0 24px rgba(0, 255, 170, 0.15);
+}
+
+.ly-glow-badge {
+  color: var(--ly-phosphor) !important;
+  text-shadow: 0 0 8px var(--ly-phosphor);
+}
+
+.ly-glow-tag {
+  border-color: var(--ly-phosphor) !important;
+  color: var(--ly-phosphor) !important;
+}
+
+.ly-glow-text {
+  color: var(--ly-phosphor) !important;
+}
+
+.ly-glow-pill {
+  color: var(--ly-phosphor) !important;
+}
+
+.ly-btn-glow-inspect {
+  background: rgba(0, 255, 170, 0.08);
+  border-color: var(--ly-phosphor);
+  color: var(--ly-phosphor);
+}
+
+.ly-btn-glow-inspect:hover {
+  background: var(--ly-phosphor);
+  color: #000;
+  box-shadow: 0 0 20px var(--ly-phosphor-intense);
+}
+
+.ly-glow-halo-effect {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 255, 170, 0.25) 0%, transparent 70%);
+  opacity: 0.8;
+  animation: glowBreathe 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glowBreathe {
+  0%, 100% { opacity: 0.5; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+/* Night Mode Phosphor Activation */
+body.ly-glow-active {
+  background-color: #020202;
+}
+
+body.ly-glow-active .ly-glow-specimen {
+  border-color: var(--ly-phosphor);
+  box-shadow: 0 0 50px var(--ly-phosphor-intense), inset 0 0 20px var(--ly-phosphor-glow);
+  transform: scale(1.03);
+}
+
+body.ly-glow-active .ly-glow-pulse-img {
+  filter: brightness(1.25) drop-shadow(0 0 30px #00ffaa);
+}
 
 /* ==========================================================================
    CAMPAIGN EDITORIAL STORY
@@ -1654,36 +1563,10 @@ body {
 }
 
 .ly-footer-statement {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
   font-family: var(--ly-font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   color: var(--ly-text-muted);
-}
-
-.ly-footer-password-trigger {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--ly-text-dim);
-  font-family: var(--ly-font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-footer-password-trigger:hover {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ==========================================================================
@@ -1750,655 +1633,3 @@ body {
   background: #fff;
   color: #000;
 }
-
-/* ==========================================================================
-   STORE ACCESS PASSWORD MODAL
-   ========================================================================== */
-.ly-password-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 2100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.ly-password-modal.is-open {
-  display: flex;
-}
-
-.ly-password-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(14px);
-}
-
-.ly-password-box {
-  position: relative;
-  z-index: 10;
-  background: #111111;
-  border: 1px solid var(--ly-border-highlight);
-  border-radius: 12px;
-  max-width: 440px;
-  width: 100%;
-  padding: 36px 30px;
-  text-align: center;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.95);
-  animation: modalScaleIn 0.3s var(--ly-ease-out);
-}
-
-.ly-password-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: transparent;
-  border: 1px solid var(--ly-border-light);
-  color: var(--ly-text-secondary);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--ly-transition-fast);
-}
-
-.ly-password-close:hover {
-  background: #fff;
-  color: #000;
-}
-
-.ly-password-header {
-  margin-bottom: 24px;
-}
-
-.ly-password-header img {
-  margin-bottom: 12px;
-}
-
-.ly-password-header h3 {
-  font-family: var(--ly-font-display);
-  font-size: 1.2rem;
-  letter-spacing: 0.2em;
-  color: #fff;
-  margin-bottom: 6px;
-}
-
-.ly-password-header p {
-  font-size: 0.8rem;
-  color: var(--ly-text-muted);
-}
-
-.ly-input-wrap {
-  display: flex;
-  gap: 10px;
-}
-
-.ly-input-field {
-  flex: 1;
-  height: 48px;
-  background: #000;
-  border: 1px solid var(--ly-border-medium);
-  border-radius: 6px;
-  padding: 0 16px;
-  color: #fff;
-  font-family: var(--ly-font-mono);
-  font-size: 0.85rem;
-}
-
-.ly-input-field:focus {
-  outline: none;
-  border-color: #fff;
-}
-
-.ly-btn-submit {
-  height: 48px;
-  background: #fff;
-  color: #000;
-  border: none;
-  border-radius: 6px;
-  padding: 0 20px;
-  font-family: var(--ly-font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-}
-
-.ly-form-error {
-  color: #ff5555;
-  font-size: 0.8rem;
-  margin-bottom: 12px;
-}
-
-/* ==========================================================================
-   MOBILE PHONE & SMARTPHONE OPTIMIZATIONS (< 768px, < 480px, < 380px)
-   ========================================================================== */
-@media (max-width: 768px) {
-  /* Prevent horizontal scrolling and zoom glitches on touch devices */
-  html, body {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Topbar with Safe Area Inset */
-  .ly-topbar {
-    padding-top: env(safe-area-inset-top, 0px);
-  }
-  .ly-topbar-inner {
-    padding: 12px 16px;
-    justify-content: space-between;
-  }
-  .ly-topbar-brand {
-    gap: 10px;
-  }
-  .ly-topbar-emblem {
-    width: 22px;
-    height: 22px;
-  }
-  .ly-topbar-title {
-    font-size: 0.88rem;
-    letter-spacing: 0.24em;
-  }
-  .ly-topbar-badge {
-    display: none; /* Keep header clean on phone */
-  }
-  .ly-topbar-actions {
-    gap: 8px;
-  }
-  .ly-topbar-insta {
-    padding: 5px 10px;
-    font-size: 0.68rem;
-    gap: 5px;
-  }
-  .ly-password-trigger-btn {
-    padding: 5px 10px;
-    font-size: 0.68rem;
-    gap: 5px;
-  }
-
-  /* Hero Section Mobile (Adaptive viewport height with safe area) */
-  .ly-hero-section {
-    padding: calc(64px + env(safe-area-inset-top, 0px)) 16px 28px;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-  .ly-hero-content {
-    width: 100%;
-    max-width: 100%;
-  }
-  .ly-brand-emblem-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .ly-hero-monogram-box {
-    width: 34px;
-    height: 34px;
-  }
-  .ly-hero-monogram {
-    width: 30px;
-    height: 30px;
-  }
-  .ly-hero-brand-name {
-    font-size: 0.84rem;
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
-  }
-  .ly-hero-eyebrow {
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .ly-eyebrow-line {
-    width: 24px;
-  }
-  .ly-eyebrow-text {
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
-  }
-  .ly-hero-title {
-    margin-bottom: 14px;
-    gap: 2px;
-  }
-  .ly-hero-name {
-    font-size: clamp(1.85rem, 8.5vw, 2.75rem);
-    letter-spacing: 0.18em;
-    text-indent: 0.18em;
-    line-height: 1.15;
-  }
-  .ly-hero-manifesto {
-    margin-bottom: 20px;
-    max-width: 100%;
-  }
-  .ly-quote-primary {
-    font-size: 0.9rem;
-    letter-spacing: 0.12em;
-    margin-bottom: 4px;
-    line-height: 1.4;
-  }
-  .ly-quote-secondary {
-    font-size: 0.68rem;
-    letter-spacing: 0.15em;
-    opacity: 0.88;
-  }
-
-  /* Direct VIP Early Access Form on Mobile (iOS 16px Auto-Zoom Protected) */
-  .ly-hero-signup {
-    max-width: 100%;
-    width: 100%;
-    margin: 0 auto 16px;
-  }
-  .ly-vip-input-row {
-    flex-direction: column;
-    padding: 8px;
-    gap: 8px;
-    border-radius: 10px;
-    background: rgba(20, 20, 20, 0.75);
-    border: 1px solid var(--ly-border-light);
-  }
-  .ly-vip-input-wrap {
-    width: 100%;
-  }
-  .ly-vip-email-field {
-    height: 48px;
-    /* CRITICAL FOR IPHONE: font-size MUST be >= 16px to prevent iOS Safari auto-zoom distortion */
-    font-size: 16px !important;
-    text-align: center;
-    padding: 0 16px;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--ly-border-light);
-    color: var(--ly-text-primary);
-  }
-  .ly-vip-email-field:focus {
-    border-color: var(--ly-gold);
-    outline: none;
-    box-shadow: 0 0 12px var(--ly-gold-glow);
-  }
-  .ly-vip-submit-btn {
-    width: 100%;
-    height: 48px;
-    justify-content: center;
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #070707;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .ly-vip-submit-btn:active {
-    transform: scale(0.98);
-  }
-  .ly-vip-trust-meta {
-    font-size: 0.66rem;
-    letter-spacing: 0.08em;
-    margin-top: 8px;
-    color: var(--ly-text-muted);
-  }
-
-  /* Scroll Cue on Mobile */
-  .ly-hero-scroll-cue {
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    padding: 8px 16px;
-    margin-top: 6px;
-    min-height: 40px;
-    display: inline-flex;
-    align-items: center;
-    touch-action: manipulation;
-  }
-
-  /* Bottom Ticker Mobile */
-  .ly-hero-bottom-ticker {
-    padding: 10px 0;
-  }
-  .ly-ticker-track {
-    font-size: 0.66rem;
-    gap: 20px;
-  }
-
-  /* Staggered Laces on Mobile (Pronounced 1-2-3-4 Zig-Zag) */
-  .ly-staggered-laces-section {
-    padding: 56px 16px;
-    overflow: hidden;
-  }
-  .ly-staggered-header {
-    margin-bottom: 40px;
-  }
-  .ly-staggered-eyebrow {
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-  }
-  .ly-staggered-title {
-    font-size: clamp(1.65rem, 7vw, 2.2rem);
-    letter-spacing: 0.14em;
-  }
-  .ly-staggered-track {
-    gap: 46px;
-  }
-  .ly-stagger-item {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    width: 100%;
-    padding: 0 !important;
-  }
-  .ly-stagger-left {
-    align-items: flex-start;
-    text-align: left;
-  }
-  .ly-stagger-right {
-    align-items: flex-end;
-    text-align: right;
-  }
-  .ly-stagger-right .ly-lace-caption {
-    order: 2;
-  }
-  .ly-stagger-right .ly-lace-stage-wrap,
-  .ly-stagger-right .ly-lace-stage {
-    order: 1;
-  }
-  .ly-stagger-item {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .ly-lace-stage-wrap {
-    position: relative;
-    width: clamp(160px, 48vw, 210px);
-    height: clamp(160px, 48vw, 210px);
-    max-width: 100%;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .ly-lace-stage {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 9999px;
-    border: 1px solid var(--ly-border-light);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  /* Mobile Expanded State: smoothly unfolds into full-width panoramic card with zero overflow */
-  .ly-stagger-item.is-expanded .ly-lace-stage-wrap {
-    width: 100% !important;
-    height: clamp(140px, 38vw, 195px) !important;
-  }
-  .ly-stagger-item.is-expanded .ly-lace-stage {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 20px !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9) !important;
-  }
-  .ly-stagger-item.is-expanded .ly-stage-full {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    transform: scale(1) !important;
-    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
-  .ly-stagger-item.is-expanded .ly-stage-coil {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transition: opacity 0.25s ease !important;
-  }
-  .ly-lace-index {
-    font-size: 2rem;
-    font-family: var(--ly-font-serif);
-    font-style: italic;
-    line-height: 1;
-  }
-  .ly-lace-title {
-    font-size: 0.95rem;
-    letter-spacing: 0.12em;
-    font-weight: 600;
-  }
-  .ly-lace-glow-action {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    margin-top: 6px;
-  }
-  .ly-lace-glow-btn {
-    min-height: 44px;
-    padding: 10px 20px;
-    font-size: 0.74rem;
-    letter-spacing: 0.12em;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .ly-glow-subhint {
-    font-size: 0.62rem;
-  }
-
-  /* Story Section Mobile */
-  .ly-story-section {
-    padding: 45px 14px;
-    overflow: hidden;
-  }
-  .ly-story-container {
-    gap: 28px;
-  }
-  .ly-story-card {
-    border-radius: 10px;
-    background: var(--ly-bg-card);
-    border: 1px solid var(--ly-border-light);
-  }
-  .ly-story-media-frame {
-    aspect-ratio: 16 / 10;
-  }
-  .ly-story-caption {
-    padding: 18px 14px;
-  }
-  .ly-caption-tag {
-    font-size: 0.64rem;
-    letter-spacing: 0.16em;
-  }
-  .ly-caption-title {
-    font-size: 1.15rem;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-  .ly-caption-text {
-    font-size: 0.84rem;
-    line-height: 1.55;
-    color: var(--ly-text-secondary);
-  }
-  .ly-caption-sub {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    margin-top: 10px;
-  }
-
-  /* Full-width Editorial Banner */
-  .ly-story-banner-box {
-    min-height: 320px;
-    padding: 28px 14px;
-    border-radius: 10px;
-  }
-  .ly-banner-headline {
-    font-size: clamp(1.5rem, 7vw, 2.2rem);
-    letter-spacing: 0.14em;
-    margin-bottom: 18px;
-  }
-  .ly-banner-details {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  .ly-banner-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .ly-stat-number {
-    font-size: 1.15rem;
-    letter-spacing: 0.06em;
-  }
-  .ly-stat-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.06em;
-    white-space: normal;
-  }
-  .ly-banner-stat-divider {
-    display: none;
-  }
-  .ly-banner-manifesto {
-    font-size: 0.64rem;
-    letter-spacing: 0.1em;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  /* Design Lab Hardware Row */
-  .ly-story-lab-row {
-    padding: 18px 14px;
-    gap: 16px;
-    border-radius: 10px;
-    flex-direction: column;
-  }
-  .ly-lab-visual {
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .ly-lab-img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 11;
-    object-fit: cover;
-  }
-  .ly-lab-heading {
-    font-size: 1.25rem;
-    letter-spacing: 0.08em;
-  }
-  .ly-lab-paragraph {
-    font-size: 0.84rem;
-    line-height: 1.55;
-    margin-bottom: 16px;
-  }
-  .ly-lab-specs-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .ly-lab-spec-box {
-    padding: 10px 12px;
-  }
-  .ly-spec-value {
-    font-size: 0.82rem;
-  }
-  .ly-spec-label {
-    font-size: 0.6rem;
-  }
-
-  /* Footer on Mobile */
-  .ly-footer-section {
-    padding: 36px 16px calc(28px + env(safe-area-inset-bottom, 0px));
-  }
-  .ly-footer-top-row {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 24px;
-  }
-  .ly-footer-brand-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .ly-footer-nav-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .ly-footer-social-pill {
-    min-height: 48px;
-    padding: 12px 24px;
-    font-size: 0.78rem;
-    border-radius: 9999px;
-    touch-action: manipulation;
-  }
-  .ly-footer-bottom-bar {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
-    padding-top: 20px;
-  }
-  .ly-footer-legal-links {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-}
-
-/* Extra Compact Phones (< 380px, e.g. iPhone SE, Galaxy Fold external) */
-@media (max-width: 380px) {
-  .ly-hero-name {
-    font-size: 1.65rem;
-    letter-spacing: 0.12em;
-    text-indent: 0.12em;
-  }
-  .ly-quote-primary {
-    font-size: 0.82rem;
-  }
-  .ly-quote-secondary {
-    font-size: 0.62rem;
-  }
-  .ly-lace-stage-wrap {
-    width: 140px;
-    height: 140px;
-  }
-  .ly-stagger-item.is-expanded .ly-lace-stage-wrap {
-    width: 100%;
-    height: 130px;
-  }
-  .ly-lace-index {
-    font-size: 1.7rem;
-  }
-  .ly-lace-title {
-    font-size: 0.85rem;
-  }
-  .ly-stat-number {
-    font-size: 1rem;
-  }
-  .ly-stat-label {
-    font-size: 0.56rem;
-  }
-  .ly-vip-submit-btn {
-    font-size: 0.76rem;
-  }
-}
-
-/* ==========================================================================
-   ACCESSIBILITY & PREFERS-REDUCED-MOTION
-   ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  .ly-lace-stage,
-  .ly-stage-coil,
-  .ly-stage-full,
-  .ly-lace-caption,
-  .ly-lace-stage-wrap {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
-
-
