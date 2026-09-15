@@ -1,12 +1,16 @@
 /**
  * LACEYAAN — Coming Soon Theme JavaScript
- * Handles VIP early access validation, dedicated glow lace toggle, and storefront password modal.
+ * Dedicated functionality for private Coming Soon page:
+ * - VIP early access validation & smooth UX
+ * - Dedicated glow lace toggle (Strontium Phosphor)
+ * - Storefront password modal trigger & auto-focus
+ * - Interactive stretched full lace photo reveal on hover & tap
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================================================
-     1. DEDICATED GLOW LACE TOGGLE (Lace only, not website)
+     1. DEDICATED GLOW LACE TOGGLE (Lace only, matching Screenshot 5)
      ========================================================================== */
   const laceGlowBtn = document.getElementById('lyLaceGlowBtn');
   const glowCircleFrame = document.getElementById('lyGlowCircleFrame');
@@ -22,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const label = laceGlowBtn.querySelector('.ly-glow-btn-label');
       if (label) {
-        label.textContent = isGlowing ? 'GLOWING (TAP TO DIM)' : 'ACTIVATE GLOW';
+        label.textContent = isGlowing ? 'GLOW ACTIVE' : 'ACTIVATE GLOW';
       }
     });
   }
@@ -40,45 +44,58 @@ document.addEventListener('DOMContentLoaded', () => {
       passModal.classList.add('is-open');
       passModal.setAttribute('aria-hidden', 'false');
       const passInput = passModal.querySelector('input[type="password"]');
-      if (passInput) setTimeout(() => passInput.focus(), 100);
+      if (passInput) setTimeout(() => passInput.focus(), 150);
     });
   }
-  if (passClose && passModal) {
-    passClose.addEventListener('click', () => {
+
+  function closeModal() {
+    if (passModal) {
       passModal.classList.remove('is-open');
       passModal.setAttribute('aria-hidden', 'true');
-    });
+    }
   }
-  if (passOverlay && passModal) {
-    passOverlay.addEventListener('click', () => {
-      passModal.classList.remove('is-open');
-      passModal.setAttribute('aria-hidden', 'true');
-    });
-  }
+
+  if (passClose) passClose.addEventListener('click', closeModal);
+  if (passOverlay) passOverlay.addEventListener('click', closeModal);
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && passModal && passModal.classList.contains('is-open')) {
-      passModal.classList.remove('is-open');
-      passModal.setAttribute('aria-hidden', 'true');
+      closeModal();
     }
   });
 
   /* ==========================================================================
-     3. SINGLE-ACTIVE INTERACTIVE LACE PALETTE (DESKTOP HOVER & MOBILE TAP)
+     3. SMOOTH ANCHOR SCROLL
+     ========================================================================== */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  /* ==========================================================================
+     4. STRETCHED LACE PHOTO REVEAL (HOVER & CLICK/TAP INTERACTION)
      ========================================================================== */
   const staggerItems = document.querySelectorAll('.ly-stagger-item');
   let activeLaceId = null;
-  let mouseLeaveTimeout = null;
-  let lastTouchTimestamp = 0;
+  let mouseLeaveTimer = null;
+  let lastTouchTime = 0;
 
-  // Track physical touch events to completely suppress simulated mouseenter/mouseleave on mobile
   window.addEventListener('touchstart', () => {
-    lastTouchTimestamp = Date.now();
+    lastTouchTime = Date.now();
   }, { passive: true });
 
-  function setActiveLace(laceId) {
-    if (mouseLeaveTimeout) {
-      clearTimeout(mouseLeaveTimeout);
-      mouseLeaveTimeout = null;
+  function setExpandedLace(laceId) {
+    if (mouseLeaveTimer) {
+      clearTimeout(mouseLeaveTimer);
+      mouseLeaveTimer = null;
     }
     activeLaceId = laceId;
     staggerItems.forEach((item) => {
@@ -88,93 +105,73 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function clearActiveLace(delayMs = 0) {
-    if (mouseLeaveTimeout) {
-      clearTimeout(mouseLeaveTimeout);
-      mouseLeaveTimeout = null;
+  function clearExpandedLace(delayMs = 0) {
+    if (mouseLeaveTimer) {
+      clearTimeout(mouseLeaveTimer);
+      mouseLeaveTimer = null;
     }
     if (delayMs > 0) {
-      mouseLeaveTimeout = setTimeout(() => {
-        setActiveLace(null);
+      mouseLeaveTimer = setTimeout(() => {
+        setExpandedLace(null);
       }, delayMs);
     } else {
-      setActiveLace(null);
+      setExpandedLace(null);
     }
   }
 
   staggerItems.forEach((item) => {
     const laceId = item.dataset.laceId;
 
-    // Desktop hover: only execute if real mouse pointer (never on phone tap emulation)
+    // Desktop hover
     item.addEventListener('mouseenter', (e) => {
-      // If a physical touch occurred within the last 700ms, ignore simulated hover
-      if (Date.now() - lastTouchTimestamp < 700) return;
+      if (Date.now() - lastTouchTime < 600) return;
       if (e.pointerType && e.pointerType !== 'mouse') return;
-
-      if (mouseLeaveTimeout) {
-        clearTimeout(mouseLeaveTimeout);
-        mouseLeaveTimeout = null;
-      }
-      setActiveLace(laceId);
+      setExpandedLace(laceId);
     });
 
-    // Desktop hover leave: only execute for genuine mouse pointer
     item.addEventListener('mouseleave', (e) => {
-      if (Date.now() - lastTouchTimestamp < 700) return;
+      if (Date.now() - lastTouchTime < 600) return;
       if (e.pointerType && e.pointerType !== 'mouse') return;
-      clearActiveLace(100);
+      clearExpandedLace(120);
     });
 
-    // Smartphone Tap & Desktop Click: guaranteed 1-click expansion
+    // Tap or Click
     item.addEventListener('click', (e) => {
-      // Ignore clicks originating on the dedicated glow button
       if (e.target.closest('#lyLaceGlowBtn')) return;
-
       if (activeLaceId === laceId) {
-        // Tapping the already expanded lace collapses it back to compact
-        clearActiveLace(0);
+        clearExpandedLace(0);
       } else {
-        // Tapping a lace immediately expands it in ONE click and closes any other
-        setActiveLace(laceId);
+        setExpandedLace(laceId);
       }
     });
 
-    // Keyboard Accessibility (Enter/Space to toggle, Escape to close)
+    // Keyboard accessibility
     item.addEventListener('keydown', (e) => {
       if (e.target.closest('#lyLaceGlowBtn')) return;
-
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         if (activeLaceId === laceId) {
-          clearActiveLace(0);
+          clearExpandedLace(0);
         } else {
-          setActiveLace(laceId);
+          setExpandedLace(laceId);
         }
       } else if (e.key === 'Escape') {
-        clearActiveLace(0);
+        clearExpandedLace(0);
       }
-    });
-
-    // Focus state (keyboard tab navigation ONLY)
-    item.addEventListener('focus', () => {
-      if (Date.now() - lastTouchTimestamp < 700) return;
-      setActiveLace(laceId);
     });
   });
 
-  // Tapping or clicking anywhere outside collapses back to compact circular state
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.ly-stagger-item')) {
-      clearActiveLace(0);
+      clearExpandedLace(0);
     }
   });
 
-  // Preload full studio photographs so they render instantaneously on first mobile tap
-  const fullStageImages = document.querySelectorAll('.ly-stage-full');
-  fullStageImages.forEach((img) => {
+  // Preload stretched photos for instant rendering
+  document.querySelectorAll('.ly-stage-full').forEach((img) => {
     if (img.src) {
-      const pImg = new Image();
-      pImg.src = img.src;
+      const p = new Image();
+      p.src = img.src;
     }
   });
 

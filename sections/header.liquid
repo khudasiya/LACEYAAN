@@ -96,16 +96,18 @@
       <!-- Right: Utility Icons -->
       <div class="navbar-right">
         <div class="navbar-utilities">
-          <a 
-            href="{{ settings.social_instagram_link | default: 'https://www.instagram.com/laceyaan_/' }}" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="nav-util-btn util-instagram" 
-            aria-label="Instagram @laceyaan_"
-            title="Follow @laceyaan_ on Instagram"
-          >
-            {% render 'icon-instagram' %}
-          </a>
+          {%- if settings.social_instagram_link != blank -%}
+            <a 
+              href="{{ settings.social_instagram_link }}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="nav-util-btn util-instagram" 
+              aria-label="Instagram @laceyaan_"
+              title="Follow @laceyaan_ on Instagram"
+            >
+              {% render 'icon-instagram' %}
+            </a>
+          {%- endif -%}
 
           <button 
             type="button" 
@@ -201,12 +203,14 @@
         <a href="mailto:laceyaan@gmail.com" class="mobile-email-link">laceyaan@gmail.com</a>
       </div>
 
-      <div class="mobile-social-row">
-        <a href="{{ settings.social_instagram_link | default: 'https://www.instagram.com/laceyaan_/' }}" target="_blank" rel="noopener noreferrer" class="mobile-insta-btn">
-          {% render 'icon-instagram' %}
-          <span>Follow @laceyaan_ on Instagram</span>
-        </a>
-      </div>
+      {%- if settings.social_instagram_link != blank -%}
+        <div class="mobile-social-row">
+          <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="mobile-insta-btn">
+            {% render 'icon-instagram' %}
+            <span>Follow @laceyaan_ on Instagram</span>
+          </a>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </div>
