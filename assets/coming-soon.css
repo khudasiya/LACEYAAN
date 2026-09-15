@@ -979,37 +979,89 @@ body {
   text-align: right;
 }
 
-/* Pure Rounded Lace - NO CARD, NO TILE */
-.ly-lace-circle-frame {
+/* Pure Rounded Lace with Smooth Expansion to Stretched Photo */
+.ly-lace-stage-wrap {
+  position: relative;
   width: clamp(240px, 26vw, 360px);
   height: clamp(240px, 26vw, 360px);
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  overflow: hidden;
+  flex-shrink: 0;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ly-lace-stage {
   position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
   background: #000;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
-  flex-shrink: 0;
-  transition: transform 0.6s var(--ly-ease-out), border-color 0.4s var(--ly-ease-out), box-shadow 0.6s var(--ly-ease-out);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.ly-lace-circle-frame:hover {
-  transform: scale(1.04);
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
-}
-
-.ly-lace-round-img {
+.ly-stage-coil {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.8s var(--ly-ease-out);
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
 }
 
-.ly-lace-circle-frame:hover .ly-lace-round-img {
-  transform: scale(1.08);
+.ly-stage-full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Hover & Active Expanded Stretched View (Desktop) */
+@media (hover: hover) and (min-width: 769px) {
+  .ly-stagger-item:hover .ly-lace-stage-wrap,
+  .ly-stagger-item.is-expanded .ly-lace-stage-wrap {
+    width: clamp(380px, 44vw, 560px);
+    height: clamp(200px, 24vw, 300px);
+    border-radius: 20px;
+    aspect-ratio: auto;
+  }
+
+  .ly-stagger-item:hover .ly-lace-stage,
+  .ly-stagger-item.is-expanded .ly-lace-stage {
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 255, 255, 0.08);
+  }
+
+  .ly-stagger-item:hover .ly-stage-coil,
+  .ly-stagger-item.is-expanded .ly-stage-coil {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  .ly-stagger-item:hover .ly-stage-full,
+  .ly-stagger-item.is-expanded .ly-stage-full {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
 }
 
 /* Minimalist Caption (Only Lace & Pattern) */
@@ -1972,12 +2024,31 @@ body {
   .ly-stagger-right .ly-lace-caption {
     order: 2;
   }
-  .ly-stagger-right .ly-lace-circle-frame {
+  .ly-stagger-right .ly-lace-stage-wrap {
     order: 1;
   }
-  .ly-lace-circle-frame {
+  .ly-lace-stage-wrap {
     width: clamp(200px, 60vw, 260px);
     height: clamp(200px, 60vw, 260px);
+    border-radius: 50%;
+    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                border-radius 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* On Mobile Tap: Smoothly unfolds into wide full unrolled stretched lace */
+  .ly-stagger-item.is-expanded .ly-lace-stage-wrap {
+    width: 100% !important;
+    height: clamp(140px, 38vw, 195px) !important;
+    border-radius: 18px !important;
+  }
+  .ly-stagger-item.is-expanded .ly-stage-coil {
+    opacity: 0 !important;
+    transform: scale(1.1) !important;
+  }
+  .ly-stagger-item.is-expanded .ly-stage-full {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important;
   }
   .ly-lace-index {
     font-size: 2.2rem;

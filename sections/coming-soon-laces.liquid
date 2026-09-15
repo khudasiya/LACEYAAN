@@ -8,12 +8,17 @@
     </div>
 
     <!-- Alternating Staggered Layout Matching Screenshots 2, 3, 5: 1 (Left) -> 2 (Right) -> 3 (Left) -> 4 (Right) -->
-    <div class="ly-staggered-track">
+    <div class="ly-staggered-track" id="lyLaceTrack">
 
-      <!-- 01 Leopard Jacquard (Aligned Left) -->
-      <div class="ly-stagger-item ly-stagger-left" data-index="1">
-        <div class="ly-lace-circle-frame">
-          <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="Leopard Jacquard Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+      <!-- 01 Leopard Jacquard (Aligned Left -> Reveals Full Stretched Lace on Hover / Click) -->
+      <div class="ly-stagger-item ly-stagger-left" data-lace-id="leopard" id="lyLaceItem1" tabindex="0" role="button" aria-expanded="false" aria-label="Leopard Jacquard lace - hover or tap to reveal full stretched lace">
+        <div class="ly-lace-stage-wrap">
+          <div class="ly-lace-stage" id="lyStage1">
+            <!-- Compact Coiled Visual -->
+            <img src="{{ 'lace-jaguar.jpg' | asset_url }}" alt="Leopard Jacquard Coiled Lace" class="ly-stage-coil ly-lace-round-img" loading="eager" decoding="async" width="500" height="500">
+            <!-- Full Horizontal Photo of Unrolled Stretched Lace -->
+            <img src="{{ 'lace-jaguar-full.jpg' | asset_url }}" alt="Leopard Jacquard Stretched Lace" class="ly-stage-full" loading="eager" decoding="async" width="1376" height="768">
+          </div>
         </div>
         <div class="ly-lace-caption">
           <span class="ly-lace-index">1.</span>
@@ -21,10 +26,15 @@
         </div>
       </div>
 
-      <!-- 02 Blush Combed Cotton (Staggered Right) -->
-      <div class="ly-stagger-item ly-stagger-right" data-index="2">
-        <div class="ly-lace-circle-frame">
-          <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="Blush Pink Combed Cotton Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+      <!-- 02 Blush Combed Cotton (Staggered Right -> Reveals Full Stretched Lace on Hover / Click) -->
+      <div class="ly-stagger-item ly-stagger-right" data-lace-id="blush" id="lyLaceItem2" tabindex="0" role="button" aria-expanded="false" aria-label="Blush Combed Cotton lace - hover or tap to reveal full stretched lace">
+        <div class="ly-lace-stage-wrap">
+          <div class="ly-lace-stage" id="lyStage2">
+            <!-- Compact Coiled Visual -->
+            <img src="{{ 'lace-pink.jpg' | asset_url }}" alt="Blush Combed Cotton Coiled Lace" class="ly-stage-coil ly-lace-round-img" loading="eager" decoding="async" width="500" height="500">
+            <!-- Full Horizontal Photo of Unrolled Stretched Lace -->
+            <img src="{{ 'lace-pink-full.jpg' | asset_url }}" alt="Blush Combed Cotton Stretched Lace" class="ly-stage-full" loading="eager" decoding="async" width="1376" height="768">
+          </div>
         </div>
         <div class="ly-lace-caption">
           <span class="ly-lace-index">2.</span>
@@ -32,10 +42,15 @@
         </div>
       </div>
 
-      <!-- 03 Canary Streetwear (Aligned Left) -->
-      <div class="ly-stagger-item ly-stagger-left" data-index="3">
-        <div class="ly-lace-circle-frame">
-          <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="Canary Yellow Flat Braid Lace" class="ly-lace-round-img" loading="lazy" width="500" height="500">
+      <!-- 03 Canary Streetwear Yellow (Aligned Left -> Reveals Full Stretched Lace on Hover / Click) -->
+      <div class="ly-stagger-item ly-stagger-left" data-lace-id="canary" id="lyLaceItem3" tabindex="0" role="button" aria-expanded="false" aria-label="Canary Streetwear lace - hover or tap to reveal full stretched lace">
+        <div class="ly-lace-stage-wrap">
+          <div class="ly-lace-stage" id="lyStage3">
+            <!-- Compact Coiled Visual -->
+            <img src="{{ 'lace-yellow.jpg' | asset_url }}" alt="Canary Streetwear Coiled Lace" class="ly-stage-coil ly-lace-round-img" loading="eager" decoding="async" width="500" height="500">
+            <!-- Full Horizontal Photo of Unrolled Stretched Lace -->
+            <img src="{{ 'lace-yellow-full.jpg' | asset_url }}" alt="Canary Streetwear Stretched Lace" class="ly-stage-full" loading="eager" decoding="async" width="1376" height="768">
+          </div>
         </div>
         <div class="ly-lace-caption">
           <span class="ly-lace-index">3.</span>
@@ -43,13 +58,17 @@
         </div>
       </div>
 
-      <!-- 04 Strontium Phosphor (Staggered Right with Dedicated Glow Option) -->
-      <div class="ly-stagger-item ly-stagger-right ly-stagger-glow" data-index="4" id="lyGlowNode">
-        <div class="ly-lace-circle-frame ly-glow-circle-frame" id="lyGlowCircleFrame">
-          <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="Strontium Phosphor Glow in the Dark Lace" class="ly-lace-round-img ly-glow-round-img" id="lyGlowRoundImg" loading="lazy" width="500" height="500">
-          <div class="ly-glow-aura" id="lyGlowAura"></div>
+      <!-- 04 Strontium Glow in the Dark (Staggered Right -> Reveals Full Stretched Lace on Hover / Click) -->
+      <div class="ly-stagger-item ly-stagger-right ly-stagger-glow" data-lace-id="strontium" id="lyGlowNode" tabindex="0" role="button" aria-expanded="false" aria-label="Strontium Phosphor Glow lace - hover or tap to reveal full stretched lace">
+        <div class="ly-lace-stage-wrap">
+          <div class="ly-lace-stage ly-glow-circle-frame" id="lyGlowCircleFrame">
+            <!-- Compact Coiled Visual -->
+            <img src="{{ 'lace-glow.jpg' | asset_url }}" alt="Strontium Phosphor Glow Coiled Lace" class="ly-stage-coil ly-glow-round-img" id="lyGlowRoundImg" loading="eager" decoding="async" width="500" height="500">
+            <!-- Full Horizontal Photo of Unrolled Stretched Lace -->
+            <img src="{{ 'lace-glow-full.jpg' | asset_url }}" alt="Strontium Phosphor Stretched Lace" class="ly-stage-full ly-glow-full-img" id="lyGlowFullImg" loading="eager" decoding="async" width="1376" height="768">
+            <div class="ly-glow-aura" id="lyGlowAura"></div>
+          </div>
         </div>
-
         <div class="ly-lace-caption">
           <span class="ly-lace-index">4.</span>
           <h3 class="ly-lace-title">STRONTIUM PHOSPHOR</h3>
