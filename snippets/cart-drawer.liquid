@@ -14,9 +14,15 @@
         <span class="drawer-count" id="cart-drawer-count" data-cart-count>({{ cart.item_count }})</span>
       </h2>
     </div>
-    <button type="button" class="drawer-close-btn" id="close-cart-drawer" data-cart-close aria-label="{{ 'accessibility.close' | t }}">
-      {% render 'icon-close' %}
-    </button>
+    <div class="drawer-header-actions">
+      <a href="{{ routes.cart_url }}" class="drawer-header-cart-link" title="Go to Cart Page">
+        <span>Go to Cart</span>
+        <span class="btn-arrow">[ &rarr; ]</span>
+      </a>
+      <button type="button" class="drawer-close-btn" id="close-cart-drawer" data-cart-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon-close' %}
+      </button>
+    </div>
   </div>
 
   <!-- Free Shipping Progress Bar -->
@@ -111,11 +117,33 @@
     </div>
     <p class="drawer-shipping-notice">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
 
-    <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form">
-      <button type="submit" name="checkout" class="btn-primary btn-checkout">
-        {% render 'icon-shield-check' %}
-        <span>{{ 'sections.cart.checkout' | t }}</span>
-      </button>
-    </form>
+    <div class="drawer-actions-group">
+      <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form" class="cart-drawer-form-action">
+        <button type="submit" name="checkout" class="btn-primary btn-checkout">
+          {% render 'icon-shield-check' %}
+          <span>{{ 'sections.cart.checkout' | t | default: 'PROCEED TO CHECKOUT' }}</span>
+        </button>
+      </form>
+      <a href="{{ routes.cart_url }}" class="btn-secondary btn-view-cart" id="drawer-go-to-cart-btn">
+        <span>Go to Cart Page</span>
+        <span class="btn-arrow">[ &rarr; ]</span>
+      </a>
+    </div>
+
+    <!-- Atelier Checkout Trust Blocks -->
+    <div class="drawer-checkout-blocks">
+      <div class="checkout-block-pill">
+        <span class="block-icon">🔒</span>
+        <span class="block-text">256-Bit SSL Encrypted Checkout</span>
+      </div>
+      <div class="checkout-block-pill">
+        <span class="block-icon">⚡</span>
+        <span class="block-text">Free Express Shipping Over ₹1,499</span>
+      </div>
+      <div class="checkout-block-pill">
+        <span class="block-icon">↺</span>
+        <span class="block-text">30-Day Guaranteed Fit & Free Exchange</span>
+      </div>
+    </div>
   </div>
 </div>

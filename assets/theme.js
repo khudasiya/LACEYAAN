@@ -67,20 +67,27 @@
       };
     },
 
-    showToast(message, type = 'info') {
-      let toastContainer = document.getElementById('laceyaan-toast');
+    showToast(message, type = 'info', action = null) {
+      let toastContainer = document.getElementById('toast-container') || document.getElementById('laceyaan-toast');
       if (!toastContainer) {
         toastContainer = document.createElement('div');
-        toastContainer.id = 'laceyaan-toast';
-        toastContainer.className = 'laceyaan-toast-container';
+        toastContainer.id = 'toast-container';
+        toastContainer.className = 'toast-container';
         document.body.appendChild(toastContainer);
       }
 
       const toast = document.createElement('div');
-      toast.className = `laceyaan-toast laceyaan-toast--${type}`;
+      toast.className = `toast toast--${type}`;
+      
+      let actionHtml = '';
+      if (action && action.url) {
+        actionHtml = `<a href="${action.url}" class="toast-action-link">${action.text || 'View Cart &rarr;'}</a>`;
+      }
+
       toast.innerHTML = `
         <span class="toast-indicator"></span>
         <span class="toast-message">${message}</span>
+        ${actionHtml}
       `;
       toastContainer.appendChild(toast);
 
@@ -88,7 +95,7 @@
       setTimeout(() => {
         toast.classList.remove('is-visible');
         setTimeout(() => toast.remove(), 400);
-      }, 3500);
+      }, 4500);
     }
   };
 
@@ -298,8 +305,11 @@
             const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
             if (!res.ok) throw new Error('Could not add to bag');
             const item = await res.json();
-            Utils.showToast(`${item.title} added to your bag`, 'success');
-            this.open();
+            if (window.Laceyaan.cartDrawer) {
+              await window.Laceyaan.cartDrawer.refresh();
+              window.Laceyaan.cartDrawer.open();
+            }
+            Utils.showToast(`${item.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
           } catch (err) {
             Utils.showToast(err.message, 'error');
           } finally {
@@ -391,13 +401,13 @@
       }
     }
 
-    open() {
+    async open() {
       this.drawer.classList.add('active', 'is-open');
       if (this.overlay) this.overlay.classList.add('active', 'is-open');
       this.drawer.setAttribute('aria-hidden', 'false');
       if (this.overlay) this.overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('overflow-hidden');
-      this.refresh();
+      await this.refresh();
     }
 
     close() {
@@ -439,8 +449,9 @@
         }
 
         const addedItem = await res.json();
-        Utils.showToast(`${addedItem.title} added to your bag`, 'success');
+        await this.refresh();
         this.open();
+        Utils.showToast(`${addedItem.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
       } catch (err) {
         Utils.showToast(err.message, 'error');
       } finally {
@@ -477,11 +488,13 @@
       if (cart.item_count === 0) {
         if (this.emptyState) this.emptyState.style.display = 'block';
         if (this.filledState) this.filledState.style.display = 'none';
+        if (this.itemsContainer) this.itemsContainer.style.display = 'none';
         return;
       }
 
       if (this.emptyState) this.emptyState.style.display = 'none';
-      if (this.filledState) this.filledState.style.display = 'flex';
+      if (this.filledState) this.filledState.style.display = 'block';
+      if (this.itemsContainer) this.itemsContainer.style.display = 'block';
 
       // Subtotal
       if (this.subtotalElement) {
@@ -495,7 +508,7 @@
         this.freeShippingBar.style.width = `${progress}%`;
 
         if (remaining <= 0) {
-          this.freeShippingText.innerHTML = 'You unlocked <strong>Complimentary Express Shipping</strong>!';
+          this.freeShippingText.innerHTML = '<div class="shipping-unlocked"><span>⚡</span> <span>Complimentary Express Shipping Unlocked!</span></div>';
         } else {
           this.freeShippingText.innerHTML = `Add <strong>${Utils.formatMoney(remaining)}</strong> more for Complimentary Express Shipping`;
         }
@@ -505,28 +518,49 @@
       if (this.itemsContainer) {
         this.itemsContainer.innerHTML = cart.items.map((item, index) => {
           const line = index + 1;
-          const options = item.options_with_values ? item.options_with_values.map(opt => `${opt.name}: ${opt.value}`).join(' · ') : '';
+
+          // Safe image resolution
+          let itemImg = '';
+          if (item.featured_image) {
+            itemImg = (typeof item.featured_image === 'object' && item.featured_image.url) 
+              ? item.featured_image.url 
+              : (typeof item.featured_image === 'string' ? item.featured_image : '');
+          }
+          if (!itemImg && item.image) {
+            itemImg = typeof item.image === 'string' ? item.image : (item.image.url || '');
+          }
+
+          // Safe options resolution
+          let optionsHtml = '';
+          if (item.variant_title && item.variant_title !== 'Default Title') {
+            optionsHtml = `<div class="cart-item-options"><span class="item-option-pill">${item.variant_title}</span></div>`;
+          } else if (item.options_with_values && item.options_with_values.length) {
+            optionsHtml = `<div class="cart-item-options">${item.options_with_values.map(opt => `<span class="item-option-pill">${opt.name}: ${opt.value}</span>`).join('')}</div>`;
+          }
+
+          const productTitle = item.product_title || item.title || 'Atelier Shoelaces';
+          const linePrice = Utils.formatMoney(item.final_line_price != null ? item.final_line_price : (item.line_price != null ? item.line_price : (item.price * item.quantity)));
 
           return `
             <div class="cart-item-card" data-line="${line}">
               <div class="cart-item-image-wrapper">
-                <img src="${item.featured_image ? item.featured_image.url : ''}" alt="${item.title}" class="cart-item-img" width="80" height="80" loading="lazy">
+                ${itemImg ? `<img src="${itemImg}" alt="${item.title || ''}" class="cart-item-img" width="75" height="75" loading="lazy">` : ''}
               </div>
               <div class="cart-item-content">
                 <div class="cart-item-header">
-                  <h4 class="cart-item-title"><a href="${item.url}">${item.product_title}</a></h4>
+                  <h4 class="cart-item-title"><a href="${item.url || '/cart'}">${productTitle}</a></h4>
                   <button type="button" class="cart-item-remove" data-cart-item-action="remove" data-item-line="${line}" aria-label="Remove item">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
                   </button>
                 </div>
-                ${options ? `<div class="cart-item-options">${options}</div>` : ''}
+                ${optionsHtml}
                 <div class="cart-item-footer">
                   <div class="cart-qty-control">
                     <button type="button" class="qty-btn" data-cart-item-action="minus" data-item-line="${line}" data-item-qty="${item.quantity}">-</button>
                     <input type="number" class="qty-input" value="${item.quantity}" min="1" data-cart-quantity-input data-item-line="${line}">
                     <button type="button" class="qty-btn" data-cart-item-action="plus" data-item-line="${line}" data-item-qty="${item.quantity}">+</button>
                   </div>
-                  <div class="cart-item-price">${Utils.formatMoney(item.final_line_price)}</div>
+                  <div class="cart-item-price">${linePrice}</div>
                 </div>
               </div>
             </div>
@@ -1001,11 +1035,12 @@
           }
 
           const addedItem = await res.json();
-          Utils.showToast(`${addedItem.title} added to your bag`, 'success');
           this.close();
           if (window.Laceyaan.cartDrawer) {
+            await window.Laceyaan.cartDrawer.refresh();
             window.Laceyaan.cartDrawer.open();
           }
+          Utils.showToast(`${addedItem.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
         } catch (err) {
           Utils.showToast(err.message, 'error');
         } finally {
