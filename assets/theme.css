@@ -3888,27 +3888,6 @@ img {
   border-color: #141311;
 }
 
-.drawer-checkout-blocks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-light);
-}
-
-.checkout-block-pill {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: #6A675F;
-}
-
-.checkout-block-pill .block-icon {
-  font-size: 0.75rem;
-}
-
 /* ==========================================================================
    Full Cart Page (main-cart.liquid) Baseline Styles
    ========================================================================== */
@@ -4098,47 +4077,6 @@ img {
   flex: 1;
   text-align: center;
   justify-content: center;
-}
-
-/* Cart Page Checkout Blocks */
-.cart-page-checkout-blocks {
-  margin-top: 1.5rem;
-  padding: 1.25rem;
-  background: #FFFFFF;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-xs);
-}
-
-.checkout-block-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--accent-gold);
-  margin-bottom: 0.5rem;
-}
-
-.checkout-block-info {
-  font-size: 0.8rem;
-  color: var(--text-sub);
-  line-height: 1.45;
-  margin-bottom: 0.75rem;
-}
-
-.checkout-block-perks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.perk-tag {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-main);
 }
 
 .cart-app-blocks {
