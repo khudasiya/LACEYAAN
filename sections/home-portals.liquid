@@ -14,32 +14,59 @@
 
     <div class="portals-grid">
       {%- for block in section.blocks -%}
-        <div class="portal-card" {{ block.shopify_attributes }}>
-          <div class="portal-media">
-            <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
-            <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
-            {%- if block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 800 | image_tag: 
-                class: 'portal-img', 
-                widths: '400, 600, 800',
-                alt: block.settings.title | escape 
-              }}
-            {%- else -%}
-              <div class="portal-placeholder">
-                {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
-              </div>
-            {%- endif -%}
-            <div class="portal-overlay"></div>
-            {%- if block.settings.tag != blank -%}
-              <span class="portal-tag">[ {{ block.settings.tag }} ]</span>
-            {%- endif -%}
-          </div>
+        {%- liquid
+          assign portal_action = ''
+          assign default_portal_img = 'portal-calculator.jpg'
+          case forloop.index
+            when 1
+              assign portal_action = 'calculator'
+              assign default_portal_img = 'portal-calculator.jpg'
+              assign fallback_link = '/pages/length-guide'
+            when 2
+              assign portal_action = 'lookbook'
+              assign default_portal_img = 'lookbook.jpg'
+              assign fallback_link = '/pages/lookbook'
+            when 3
+              assign portal_action = 'before-after'
+              assign default_portal_img = 'after.jpg'
+              assign fallback_link = '#before-after'
+            when 4
+              assign portal_action = 'story'
+              assign default_portal_img = 'campaign-terrace.jpg'
+              assign fallback_link = '/pages/story'
+          endcase
+          assign card_target_url = block.settings.button_link | default: fallback_link
+        -%}
+        <div class="portal-card" data-portal-action="{{ portal_action }}" {{ block.shopify_attributes }}>
+          <a href="{{ card_target_url }}" class="portal-media-link" data-portal-action="{{ portal_action }}" aria-label="{{ block.settings.title | escape }}">
+            <div class="portal-media">
+              <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
+              <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag: 
+                  class: 'portal-img', 
+                  widths: '400, 600, 800',
+                  alt: block.settings.title | escape 
+                }}
+              {%- else -%}
+                <img src="{{ default_portal_img | asset_url }}" alt="{{ block.settings.title | escape }}" class="portal-img" width="800" height="500" loading="lazy">
+              {%- endif -%}
+              <div class="portal-overlay"></div>
+              {%- if block.settings.tag != blank -%}
+                <span class="portal-tag">[ {{ block.settings.tag }} ]</span>
+              {%- endif -%}
+            </div>
+          </a>
 
           <div class="portal-content">
-            <h3 class="portal-title">{{ block.settings.title }}</h3>
+            <h3 class="portal-title">
+              <a href="{{ card_target_url }}" class="portal-title-link" data-portal-action="{{ portal_action }}">
+                {{ block.settings.title }}
+              </a>
+            </h3>
             <p class="portal-desc">{{ block.settings.description }}</p>
-            {%- if block.settings.button_link != blank -%}
-              <a href="{{ block.settings.button_link }}" class="portal-btn-link">
+            {%- if block.settings.button_link != blank or block.settings.button_label != blank -%}
+              <a href="{{ card_target_url }}" class="portal-btn-link" data-portal-action="{{ portal_action }}">
                 <span>{{ block.settings.button_label | default: 'Explore Studio' }}</span>
                 <span class="btn-arrow">[ &rarr; ]</span>
               </a>

@@ -1188,7 +1188,240 @@
   }
 
   /* ==========================================================================
-     11. Animated Background Shoelace Engine (Dual-Strand Fluid Atelier Physics)
+     11. Studio Exploration Portals & Interactive Modals
+     ========================================================================== */
+  class PortalModals {
+    constructor() {
+      this.backdrop = document.getElementById('portal-modal-backdrop');
+      this.calcModal = document.getElementById('portal-calculator-modal');
+      this.lookbookModal = document.getElementById('portal-lookbook-modal');
+      this.storyModal = document.getElementById('portal-story-modal');
+      this.activeModal = null;
+
+      // Sizing Matrix for Interactive Calculator Modal
+      this.calcMatrix = {
+        4: {
+          standard: { inches: '36"', cm: '90 cm', text: 'Tailored for 4-eyelet silhouettes and low-profile oxfords. Delivers neat, compact bow loops that sit cleanly on the vamp without dragging.' },
+          loose: { inches: '32"', cm: '80 cm', text: 'Ultra-clean untied drape for 4-eyelet pairs. Aglets hang naturally with zero slack.' }
+        },
+        5: {
+          standard: { inches: '45"', cm: '114 cm', text: 'Classic specification for 5-eyelet silhouettes (Air Force 1 Low, Stan Smith). Provides a balanced, symmetrical bow.' },
+          loose: { inches: '36"', cm: '90 cm', text: 'Relaxed streetwear drape for 5-eyelet kicks. Tips exit top eyelets with effortless hanging drape.' }
+        },
+        6: {
+          standard: { inches: '54"', cm: '137 cm', text: 'The gold standard length for 6-eyelet retro court shoes, Dunk Lows, and Jordan 1 Lows. Guaranteed proportional bow knot.' },
+          loose: { inches: '45"', cm: '114 cm', text: 'The collector-preferred street hang for 6-eyelet silhouettes with prominent aglet display.' }
+        },
+        7: {
+          standard: { inches: '63"', cm: '160 cm', text: 'Precision fit for 7-eyelet mid-tops, Converse Chuck 70s, and Air Jordan 1 Mids laced through the collar.' },
+          loose: { inches: '54"', cm: '137 cm', text: 'Unhindered drape for 7-eyelet sneakers leaving the top eyelet open for casual styling.' }
+        },
+        8: {
+          standard: { inches: '72"', cm: '182 cm', text: 'Definitive length for 8-eyelet high-tops (Air Jordan 1 High OG, Forum High) and 6-inch workwear heritage boots.' },
+          loose: { inches: '63"', cm: '160 cm', text: 'Iconic high-top street drape with laces resting loose through the collar.' }
+        },
+        9: {
+          standard: { inches: '72"', cm: '182 cm', text: 'Built for tall boots and 9-eyelet extended collars. Ample length for traditional secure wrap-and-tie.' },
+          loose: { inches: '63"', cm: '160 cm', text: 'Casual hanging drape on tall boots and high-cut designer silhouettes.' }
+        }
+      };
+
+      this.currentSilhouette = 'low-top';
+      this.currentEyelets = 6;
+      this.currentDrape = 'standard';
+
+      this.init();
+    }
+
+    init() {
+      // 1. Listen for clicks on [data-portal-action] triggers
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-portal-action]');
+        if (!trigger) return;
+
+        const action = trigger.getAttribute('data-portal-action');
+        if (!action) return;
+
+        // Card 1: Calculator Modal
+        if (action === 'calculator') {
+          e.preventDefault();
+          this.openModal(this.calcModal);
+          return;
+        }
+
+        // Card 2: Lookbook Modal
+        if (action === 'lookbook') {
+          e.preventDefault();
+          this.openModal(this.lookbookModal);
+          return;
+        }
+
+        // Card 3: Transformation Studio Split Slider
+        if (action === 'before-after') {
+          const targetSection = document.getElementById('before-after') || 
+                                document.querySelector('.before-after-section') || 
+                                document.querySelector('.comparison-wrapper');
+          if (targetSection) {
+            e.preventDefault();
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetSection.style.transition = 'box-shadow 0.4s ease';
+            targetSection.style.boxShadow = '0 0 0 3px #C5A880';
+            setTimeout(() => {
+              targetSection.style.boxShadow = '';
+            }, 1800);
+            return;
+          }
+        }
+
+        // Card 4: Brand Story Modal
+        if (action === 'story') {
+          e.preventDefault();
+          this.openModal(this.storyModal);
+          return;
+        }
+      });
+
+      // 2. Modal Close triggers
+      document.querySelectorAll('[data-portal-modal-close]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.closeAll();
+        });
+      });
+
+      // Escape key to close
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.activeModal) {
+          this.closeAll();
+        }
+      });
+
+      // 3. Calculator interactive controls
+      this.initCalculator();
+    }
+
+    openModal(modal) {
+      if (!modal) return;
+      this.closeAll();
+
+      if (this.backdrop) {
+        this.backdrop.removeAttribute('hidden');
+        void this.backdrop.offsetWidth;
+        this.backdrop.classList.add('is-active');
+      }
+
+      modal.removeAttribute('hidden');
+      void modal.offsetWidth;
+      modal.classList.add('is-active');
+      this.activeModal = modal;
+      document.body.classList.add('overflow-hidden');
+    }
+
+    closeAll() {
+      if (this.backdrop) {
+        this.backdrop.classList.remove('is-active');
+        setTimeout(() => {
+          if (!this.activeModal && this.backdrop) {
+            this.backdrop.setAttribute('hidden', '');
+          }
+        }, 300);
+      }
+
+      [this.calcModal, this.lookbookModal, this.storyModal].forEach(modal => {
+        if (modal) {
+          modal.classList.remove('is-active');
+          setTimeout(() => {
+            if (this.activeModal !== modal) {
+              modal.setAttribute('hidden', '');
+            }
+          }, 300);
+        }
+      });
+
+      this.activeModal = null;
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    initCalculator() {
+      if (!this.calcModal) return;
+
+      const silhouetteBtns = this.calcModal.querySelectorAll('#modal-silhouette-options .silhouette-pill');
+      const eyeletBtns = this.calcModal.querySelectorAll('#modal-eyelet-options .eyelet-btn');
+      const drapeBtns = this.calcModal.querySelectorAll('#modal-drape-options .drape-choice-btn');
+
+      // Silhouette selection
+      silhouetteBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          silhouetteBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          this.currentSilhouette = btn.dataset.silhouette || 'low-top';
+
+          // Auto-suggest eyelet count based on footwear silhouette
+          const suggestedEyelets = parseInt(btn.dataset.baseEyelets, 10);
+          if (suggestedEyelets) {
+            eyeletBtns.forEach(b => {
+              if (parseInt(b.dataset.eyelets, 10) === suggestedEyelets) {
+                eyeletBtns.forEach(eb => eb.classList.remove('active'));
+                b.classList.add('active');
+                this.currentEyelets = suggestedEyelets;
+              }
+            });
+          }
+
+          this.updateCalculation();
+        });
+      });
+
+      // Eyelet selection
+      eyeletBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          eyeletBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          this.currentEyelets = parseInt(btn.dataset.eyelets, 10) || 6;
+          this.updateCalculation();
+        });
+      });
+
+      // Drape selection
+      drapeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          drapeBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          this.currentDrape = btn.dataset.drape || 'standard';
+          this.updateCalculation();
+        });
+      });
+
+      this.updateCalculation();
+    }
+
+    updateCalculation() {
+      if (!this.calcModal) return;
+
+      const resultInches = this.calcModal.querySelector('#modal-result-inches');
+      const resultMetric = this.calcModal.querySelector('#modal-result-metric');
+      const resultReasoning = this.calcModal.querySelector('#modal-result-reasoning');
+      const resultShopBtn = this.calcModal.querySelector('#modal-result-shop-btn');
+
+      const eyeletData = this.calcMatrix[this.currentEyelets] || this.calcMatrix[6];
+      const result = eyeletData[this.currentDrape] || eyeletData.standard;
+
+      if (resultInches) resultInches.textContent = result.inches;
+      if (resultMetric) resultMetric.textContent = `(${result.cm})`;
+      if (resultReasoning) resultReasoning.textContent = result.text;
+
+      if (resultShopBtn) {
+        resultShopBtn.href = `/collections/all`;
+        const spanEl = resultShopBtn.querySelector('span');
+        if (spanEl) {
+          spanEl.textContent = `Shop ${result.inches} Laces Collection`;
+        }
+      }
+    }
+  }
+
+  /* ==========================================================================
+     12. Animated Background Shoelace Engine (Dual-Strand Fluid Atelier Physics)
      ========================================================================== */
   class BackgroundLace {
     constructor() {
@@ -1751,6 +1984,7 @@
     new PredictiveSearch();
     new BeforeAfterSlider();
     new LengthCalculator();
+    window.Laceyaan.portalModals = new PortalModals();
     new ProductVariantSelector();
     window.Laceyaan.quickViewModal = new QuickViewModal();
     new Accordion();
@@ -1773,6 +2007,7 @@
   document.addEventListener('shopify:section:load', () => {
     new BeforeAfterSlider();
     new LengthCalculator();
+    window.Laceyaan.portalModals = new PortalModals();
     new ProductVariantSelector();
     new Accordion();
     new AnnouncementBar();

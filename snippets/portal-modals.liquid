@@ -1,0 +1,214 @@
+{% comment %}
+  LACEYAAN Studio Exploration Portals Interactive Modals
+  Provides interactive overlays for:
+  1. Shoelace Length Calculator Modal
+  2. Editorial Lookbook Runway Modal
+  3. Brand Story & Craft Philosophy Modal
+{% endcomment %}
+
+<!-- Portal Modals Dimmer Backdrop -->
+<div id="portal-modal-backdrop" class="portal-modal-backdrop" data-portal-modal-close aria-hidden="true" hidden></div>
+
+<!-- 1. Interactive Shoelace Length Calculator Modal -->
+<div id="portal-calculator-modal" class="portal-modal-wrap" role="dialog" aria-modal="true" aria-labelledby="calc-modal-title" hidden>
+  <div class="portal-modal-container">
+    <button type="button" class="portal-modal-close-btn" data-portal-modal-close aria-label="Close Calculator">&times;</button>
+    
+    <div class="portal-modal-header text-center">
+      <div class="portal-modal-badge">
+        <span class="spec-dot" aria-hidden="true">●</span>
+        <span>[ INTERACTIVE SIZING ATELIER ]</span>
+      </div>
+      <h2 id="calc-modal-title" class="portal-modal-heading">Shoelace Length Calculator</h2>
+      <p class="portal-modal-sub">Select your footwear silhouette, eyelet count, and preferred drape to calculate your exact millimeter-accurate shoelace length.</p>
+    </div>
+
+    <div class="calc-modal-body" id="modal-calc-container">
+      <!-- Step 1: Footwear Silhouette -->
+      <div class="calc-modal-step">
+        <label class="calc-step-label">Step 1: Select Footwear Silhouette</label>
+        <div class="calc-silhouette-grid" id="modal-silhouette-options">
+          <button type="button" class="silhouette-pill active" data-silhouette="low-top" data-base-eyelets="6">
+            <span class="sil-icon">👟</span>
+            <span class="sil-name">Retro Court &amp; Low-Tops</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="high-top" data-base-eyelets="8">
+            <span class="sil-icon">🥾</span>
+            <span class="sil-name">High-Tops &amp; Mid-Collar</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="running" data-base-eyelets="6">
+            <span class="sil-icon">🏃</span>
+            <span class="sil-name">Sport &amp; Running Trainers</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="formal" data-base-eyelets="5">
+            <span class="sil-icon">👞</span>
+            <span class="sil-name">Office Dress &amp; Oxfords</span>
+          </button>
+          <button type="button" class="silhouette-pill" data-silhouette="boots" data-base-eyelets="8">
+            <span class="sil-icon">🥾</span>
+            <span class="sil-name">Workwear &amp; Combat Boots</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Eyelet Count -->
+      <div class="calc-modal-step">
+        <label class="calc-step-label">Step 2: Eyelet Pairs on One Shoe</label>
+        <div class="calc-eyelet-row" id="modal-eyelet-options">
+          <button type="button" class="eyelet-btn" data-eyelets="4">4 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="5">5 Pairs</button>
+          <button type="button" class="eyelet-btn active" data-eyelets="6">6 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="7">7 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="8">8 Pairs</button>
+          <button type="button" class="eyelet-btn" data-eyelets="9">9 Pairs</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Lacing Drape Style -->
+      <div class="calc-modal-step">
+        <label class="calc-step-label">Step 3: Preferred Styling Drape</label>
+        <div class="calc-drape-row" id="modal-drape-options">
+          <button type="button" class="drape-choice-btn active" data-drape="standard">
+            <span>Standard Tied Knot &amp; Loops</span>
+          </button>
+          <button type="button" class="drape-choice-btn" data-drape="loose">
+            <span>Loose Untied Hanging Drape</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-time Recommendation Result Card -->
+      <div class="calc-recommend-card">
+        <div class="recommend-meta-row">
+          <span class="recommend-spec-tag">[ RECOMMENDED SPECIFICATION ]</span>
+          <span class="recommend-guarantee">&check; 30-Day Guaranteed Fit</span>
+        </div>
+        
+        <div class="recommend-numbers-wrap">
+          <div class="recommend-primary-length" id="modal-result-inches">54"</div>
+          <div class="recommend-metric-length" id="modal-result-metric">(137 cm)</div>
+        </div>
+
+        <p class="recommend-explanation" id="modal-result-reasoning">
+          Ideal for 6-eyelet low-tops. Provides a refined 8-inch loop on standard bow knots without dragging on the ground.
+        </p>
+
+        <div class="recommend-specs-row">
+          <span class="spec-pill">&bull; 3.8mm CNC Solid Aglet Diameter</span>
+          <span class="spec-pill">&bull; Universal Eyelet Fit Guarantee</span>
+        </div>
+
+        <div class="recommend-action-row">
+          <a href="/collections/all" class="btn-gold" id="modal-result-shop-btn">
+            <span>Shop 54" Laces Collection</span>
+            <span class="btn-arrow">[ &rarr; ]</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Editorial Lookbook Gallery Modal -->
+<div id="portal-lookbook-modal" class="portal-modal-wrap" role="dialog" aria-modal="true" aria-labelledby="lookbook-modal-title" hidden>
+  <div class="portal-modal-container portal-modal-wide">
+    <button type="button" class="portal-modal-close-btn" data-portal-modal-close aria-label="Close Lookbook">&times;</button>
+    
+    <div class="portal-modal-header text-center">
+      <div class="portal-modal-badge">
+        <span class="spec-dot" aria-hidden="true">●</span>
+        <span>[ STREETWEAR EDITORIAL ROTATION ]</span>
+      </div>
+      <h2 id="lookbook-modal-title" class="portal-modal-heading">The Editorial Runway Lookbook</h2>
+      <p class="portal-modal-sub">Inspect how leading stylists, collectors, and footwear connoisseurs pair LACEYAAN bespoke weaves with high-heat sneakers.</p>
+    </div>
+
+    <div class="lookbook-modal-content">
+      <div class="lookbook-modal-media-frame">
+        <img src="{{ 'lookbook.jpg' | asset_url }}" alt="LACEYAAN Streetwear Editorial Lookbook" class="lookbook-modal-hero-img" width="1200" height="750" loading="lazy">
+        <div class="lookbook-photo-credit">LACEYAAN ATELIER // RUNWAY ROTATION S'25</div>
+      </div>
+
+      <div class="lookbook-featured-row">
+        <div class="lookbook-feature-card">
+          <span class="feat-num">01</span>
+          <h4>Vintage Waxed Flat Cotton (72")</h4>
+          <p>Hand-finished in solid brass aglets. Pairs effortlessly with high-top heritage basketball silhouettes.</p>
+          <a href="/collections/all" class="btn-secondary btn-sm"><span>Shop Silhouette</span></a>
+        </div>
+
+        <div class="lookbook-feature-card">
+          <span class="feat-num">02</span>
+          <h4>10mm Chunky Ecru Rope Laces (45")</h4>
+          <p>Heavy Japanese combed cotton weave with gunmetal aglets. Built for retro court kicks and chunky trainers.</p>
+          <a href="/collections/all" class="btn-secondary btn-sm"><span>Shop Silhouette</span></a>
+        </div>
+
+        <div class="lookbook-feature-card">
+          <span class="feat-num">03</span>
+          <h4>Nocturnal 3M Reflective Weave (45")</h4>
+          <p>Diamond-braided micro-glass retroreflection engineered for night runs and low-light street photography.</p>
+          <a href="/collections/all" class="btn-secondary btn-sm"><span>Shop Silhouette</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. The LACEYAAN Standard / Brand Story Modal -->
+<div id="portal-story-modal" class="portal-modal-wrap" role="dialog" aria-modal="true" aria-labelledby="story-modal-title" hidden>
+  <div class="portal-modal-container portal-modal-wide">
+    <button type="button" class="portal-modal-close-btn" data-portal-modal-close aria-label="Close Brand Story">&times;</button>
+    
+    <div class="portal-modal-header text-center">
+      <div class="portal-modal-badge">
+        <span class="spec-dot" aria-hidden="true">●</span>
+        <span>[ OUR CRAFT PHILOSOPHY ]</span>
+      </div>
+      <h2 id="story-modal-title" class="portal-modal-heading">The LACEYAAN Standard</h2>
+      <p class="portal-modal-sub">Factory laces were made to save margins. laceyaan laces are engineered to honor footwear design.</p>
+    </div>
+
+    <div class="story-modal-content">
+      <div class="story-modal-banner">
+        <img src="{{ 'campaign-terrace.jpg' | asset_url }}" alt="LACEYAAN Craft Philosophy" class="story-modal-img" width="1000" height="500" loading="lazy">
+        <div class="story-modal-quote">
+          &ldquo;Same Shoes. Different Story. Transforming standard footwear into bespoke runway statements.&rdquo;
+        </div>
+      </div>
+
+      <div class="story-pillars-grid">
+        <div class="story-pillar-item">
+          <div class="pillar-icon">01</div>
+          <h4>Slow Shuttle Loom Weave</h4>
+          <p>Woven on heritage high-tension Japanese shuttle looms from 100% combed cotton, yielding dense texture that never slips or wrinkles.</p>
+        </div>
+
+        <div class="story-pillar-item">
+          <div class="pillar-icon">02</div>
+          <h4>Solid CNC Naval Brass</h4>
+          <p>Precision-milled to an exact 3.8mm outer diameter, guaranteed to glide effortlessly through 99.8% of footwear eyelets without snagging.</p>
+        </div>
+
+        <div class="story-pillar-item">
+          <div class="pillar-icon">03</div>
+          <h4>Organic Beeswax Infusion</h4>
+          <p>Each fiber is micro-infused with organic beeswax, locking knots securely in place while repelling rain and dust.</p>
+        </div>
+
+        <div class="story-pillar-item">
+          <div class="pillar-icon">04</div>
+          <h4>Guaranteed Fit Promise</h4>
+          <p>Every pair is backed by our 30-Day Guaranteed Fit Promise: free exchanges across India with zero questions asked.</p>
+        </div>
+      </div>
+
+      <div class="story-modal-cta text-center">
+        <a href="/collections/all" class="btn-primary">
+          <span>Explore All Atelier Weaves</span>
+          <span class="btn-arrow">[ &rarr; ]</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
