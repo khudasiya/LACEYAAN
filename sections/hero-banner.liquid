@@ -49,22 +49,34 @@
       </div>
 
       <!-- Key Metrics Counter Grid -->
-      <div class="hero-metrics-grid">
-        <div class="metric-item">
-          <span class="metric-val">{{ section.settings.metric_1_val }}</span>
-          <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
+      {%- if section.settings.show_metrics != false and section.settings.metric_1_val != blank or section.settings.metric_2_val != blank or section.settings.metric_3_val != blank -%}
+        <div class="hero-metrics-grid">
+          {%- if section.settings.metric_1_val != blank -%}
+            <div class="metric-item">
+              <span class="metric-val">{{ section.settings.metric_1_val }}</span>
+              <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.metric_1_val != blank and section.settings.metric_2_val != blank -%}
+            <div class="metric-divider"></div>
+          {%- endif -%}
+          {%- if section.settings.metric_2_val != blank -%}
+            <div class="metric-item">
+              <span class="metric-val">{{ section.settings.metric_2_val }}</span>
+              <span class="metric-lbl">{{ section.settings.metric_2_lbl }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.metric_3_val != blank and section.settings.metric_2_val != blank or section.settings.metric_3_val != blank and section.settings.metric_1_val != blank -%}
+            <div class="metric-divider"></div>
+          {%- endif -%}
+          {%- if section.settings.metric_3_val != blank -%}
+            <div class="metric-item">
+              <span class="metric-val">{{ section.settings.metric_3_val }}</span>
+              <span class="metric-lbl">{{ section.settings.metric_3_lbl }}</span>
+            </div>
+          {%- endif -%}
         </div>
-        <div class="metric-divider"></div>
-        <div class="metric-item">
-          <span class="metric-val">{{ section.settings.metric_2_val }}</span>
-          <span class="metric-lbl">{{ section.settings.metric_2_lbl }}</span>
-        </div>
-        <div class="metric-divider"></div>
-        <div class="metric-item">
-          <span class="metric-val">{{ section.settings.metric_3_val }}</span>
-          <span class="metric-lbl">{{ section.settings.metric_3_lbl }}</span>
-        </div>
-      </div>
+      {%- endif -%}
     </div>
   </div>
 
@@ -143,6 +155,12 @@
       "content": "Metrics"
     },
     {
+      "type": "checkbox",
+      "id": "show_metrics",
+      "label": "Show Metrics Bar",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "metric_1_val",
       "label": "Metric 1 Value",
@@ -169,14 +187,12 @@
     {
       "type": "text",
       "id": "metric_3_val",
-      "label": "Metric 3 Value",
-      "default": "100%"
+      "label": "Metric 3 Value"
     },
     {
       "type": "text",
       "id": "metric_3_lbl",
-      "label": "Metric 3 Label",
-      "default": "Solid Milled Metal Aglets"
+      "label": "Metric 3 Label"
     }
   ],
   "presets": [
