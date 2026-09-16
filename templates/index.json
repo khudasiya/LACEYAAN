@@ -164,57 +164,6 @@
         "subtitle": "Everything engineered to ensure an immaculate, precision lace swap for your entire footwear rotation."
       }
     },
-    "reviews": {
-      "type": "reviews-press",
-      "blocks": {
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "verified": true,
-            "title": "Elevated my kicks to another stratosphere",
-            "comment": "The 72\" Vintage Sail flat waxed laces with solid brass tips took my high-top sneakers from off-the-shelf to looking like an archival bespoke pair. Substantial drape that never slips.",
-            "author": "Marcus T.",
-            "location": "Los Angeles, CA • High-Top Sneakers",
-            "lace_used": "Heritage Waxed Flat (Vintage Sail, 72\")"
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "verified": true,
-            "title": "The chunky ecru rope is unreal on low-tops",
-            "comment": "Swapped out thin standard polyester for the 10mm chunky rope with gunmetal aglets. Compliments on the street are non-stop. Quality of the combed cotton is ridiculously soft yet holds shape.",
-            "author": "Chloe V.",
-            "location": "London, UK • Retro Court Low-Tops",
-            "lace_used": "Chunky Braided Rope (Natural Ecru, 45\")"
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "verified": true,
-            "title": "3M reflective pops like crazy on evening runs",
-            "comment": "Took flash photos at night and the micro-glass reflections look incredible. Hardware is heavy solid CNC metal. Fast courier delivery across India too. Ordered 3 more sets immediately.",
-            "author": "Julian K.",
-            "location": "New Delhi, India • Sport Running Trainers",
-            "lace_used": "3M Nocturnal Reflective (Diamond Grid, 45\")"
-          }
-        }
-      },
-      "block_order": [
-        "review_1",
-        "review_2",
-        "review_3"
-      ],
-      "settings": {
-        "badge": "12,000+ SNEAKERHEADS UPGRADED",
-        "heading": "Validated by the Culture",
-        "subtitle": "Read authentic reactions from sneaker collectors, stylists, and footwear enthusiasts who made the switch to bespoke weaves."
-      }
-    },
     "faq": {
       "type": "faq",
       "blocks": {
@@ -267,7 +216,6 @@
     "featured_collection",
     "design_lab",
     "portals",
-    "reviews",
     "faq"
   ]
 }
