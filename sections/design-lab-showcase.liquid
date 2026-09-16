@@ -109,7 +109,7 @@
                 if b_price == blank and b_product != blank
                   assign b_price = b_product.price | money
                 elsif b_price == blank
-                  assign b_price = '₹899'
+                  assign b_price = '₹249'
                 endif
 
                 assign b_vendor = block.settings.custom_vendor
@@ -196,7 +196,7 @@
               {% render 'product-card', product: product %}
             {%- endfor -%}
           {%- else -%}
-            {%- assign default_capsule = 'product-leopard.jpg|Leopard Weave Jacquard|₹899,product-paisley.jpg|Vintage Paisley Tapestry|₹899,product-olive.jpg|Olive Heritage Shuttle Loom|₹899,product-plum.jpg|Imperial Plum Damier|₹899' | split: ',' -%}
+            {%- assign default_capsule = 'product-leopard.jpg|Leopard Weave Jacquard|₹249,product-paisley.jpg|Vintage Paisley Tapestry|₹249,product-olive.jpg|Olive Heritage Shuttle Loom|₹249,product-plum.jpg|Imperial Plum Damier|₹249' | split: ',' -%}
             {%- for item in default_capsule -%}
               {%- assign item_parts = item | split: '|' -%}
               <div class="product-card">
@@ -393,7 +393,7 @@
           "type": "lace_card",
           "settings": {
             "custom_title": "Leopard Weave Jacquard",
-            "custom_price": "₹899",
+            "custom_price": "₹249",
             "custom_vendor": "Jacquard Shuttle Loom"
           }
         },
@@ -401,7 +401,7 @@
           "type": "lace_card",
           "settings": {
             "custom_title": "Vintage Paisley Tapestry",
-            "custom_price": "₹899",
+            "custom_price": "₹249",
             "custom_vendor": "Jacquard Shuttle Loom"
           }
         },
@@ -409,7 +409,7 @@
           "type": "lace_card",
           "settings": {
             "custom_title": "Olive Heritage Shuttle Loom",
-            "custom_price": "₹899",
+            "custom_price": "₹249",
             "custom_vendor": "Jacquard Shuttle Loom"
           }
         },
@@ -417,7 +417,7 @@
           "type": "lace_card",
           "settings": {
             "custom_title": "Imperial Plum Damier",
-            "custom_price": "₹899",
+            "custom_price": "₹249",
             "custom_vendor": "Jacquard Shuttle Loom"
           }
         }

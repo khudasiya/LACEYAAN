@@ -1394,19 +1394,31 @@ img {
 .card-price-row {
   margin-bottom: 0.75rem;
   font-family: var(--font-mono);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
+/* Default / White Card Price: Rich Bold Charcoal Black */
+.product-card .price-now,
+.card-price-row .price-now,
+.product-card .price-item,
+.product-card .price-item--regular,
+.product-card .price-item--sale,
 .price-now {
   font-weight: 700;
-  color: var(--text-main);
+  color: #141311 !important;
 }
 
+.product-card .price-was,
+.product-card s.price-item--regular,
 .price-was {
-  color: #8C8880;
+  color: #78756E !important;
   text-decoration: line-through;
-  margin-left: 0.45rem;
+  margin-left: 0.35rem;
   font-size: 0.85em;
+  font-weight: 400;
 }
 
 .card-lengths-preview {
@@ -1683,14 +1695,38 @@ img {
   gap: 1rem;
 }
 
-.lab-details-col .product-card {
+.lab-details-col .product-card,
+.design-lab-section .product-card,
+.individual-laces-grid .product-card {
   background: #1E1D1B;
   border-color: rgba(255, 255, 255, 0.1);
   color: #FAF9F5;
 }
 
-.lab-details-col .product-card .card-title a { color: #FAF9F5; }
-.lab-details-col .product-card .price-now { color: #FAF9F5; }
+.lab-details-col .product-card .card-title a,
+.design-lab-section .product-card .card-title a,
+.individual-laces-grid .product-card .card-title a { 
+  color: #FAF9F5; 
+}
+
+/* Black Screen Price: Distinct Luxury Warm Gold */
+.lab-details-col .product-card .price-now,
+.design-lab-section .product-card .price-now,
+.individual-laces-grid .product-card .price-now,
+.design-lab-section .price-now { 
+  color: var(--accent-gold, #C5A880) !important;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.lab-details-col .product-card .price-was,
+.design-lab-section .product-card .price-was,
+.individual-laces-grid .product-card .price-was {
+  color: #9E9B93 !important;
+  text-decoration: line-through;
+}
+
 .lab-details-col .product-card .btn-secondary {
   border-color: rgba(255, 255, 255, 0.25);
   color: #FAF9F5;
@@ -3698,15 +3734,15 @@ img {
   align-items: flex-end;
 }
 
-.price-now {
-  font-size: 1.2rem;
+.vault-price .price-now {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #FAF9F5;
+  color: var(--accent-gold, #C5A880) !important;
 }
 
-.price-was {
-  font-size: 0.82rem;
-  color: #8C8880;
+.vault-price .price-was {
+  font-size: 0.85rem;
+  color: #9E9B93 !important;
   text-decoration: line-through;
 }
 
@@ -3768,6 +3804,12 @@ img {
 
 .individual-laces-grid .card-vendor {
   color: #8C8880;
+}
+
+.individual-laces-grid .price-now {
+  color: var(--accent-gold, #C5A880) !important;
+  font-weight: 700;
+  font-size: 1.05rem;
 }
 
 .vault-perks-list {
