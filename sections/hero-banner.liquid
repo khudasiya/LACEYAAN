@@ -18,18 +18,12 @@
 
   <div class="container hero-content-wrap">
     <div class="hero-inner">
-      <div class="hero-badge-group">
-        {%- if section.settings.badge != blank -%}
-          <div class="hero-badge">
-            <span class="spec-dot" aria-hidden="true">●</span>
-            <span>[ {{ section.settings.badge }} ]</span>
-          </div>
-        {%- endif -%}
-        <div class="hero-drift-badge">
-          <span class="drift-neon-dot" aria-hidden="true">⚡</span>
-          <span>[ TOKYO DRIFT SPEC // 88.5 FM ]</span>
+      {%- if section.settings.badge != blank -%}
+        <div class="hero-badge">
+          <span class="spec-dot" aria-hidden="true">●</span>
+          <span>[ {{ section.settings.badge }} ]</span>
         </div>
-      </div>
+      {%- endif -%}
 
       <h1 class="hero-title">
         {{ section.settings.heading }}
@@ -50,15 +44,12 @@
         {%- if section.settings.button_2_label != blank -%}
           <a href="{{ section.settings.button_2_link | default: '/pages/length-guide' }}" class="btn-secondary hero-btn-secondary">
             <span>{{ section.settings.button_2_label }}</span>
-            <span class="btn-arrow">[ + ]</span>
           </a>
         {%- endif -%}
       </div>
 
-      <!-- Key Metrics Counter Grid with Streetwear Corner Crosshairs -->
+      <!-- Key Metrics Counter Grid -->
       <div class="hero-metrics-grid">
-        <span class="metric-crosshair crosshair-tl" aria-hidden="true">+</span>
-        <span class="metric-crosshair crosshair-tr" aria-hidden="true">+</span>
         <div class="metric-item">
           <span class="metric-val">{{ section.settings.metric_1_val }}</span>
           <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
