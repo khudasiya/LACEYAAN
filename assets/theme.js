@@ -2268,11 +2268,10 @@
      ========================================================================== */
   class HeroVideoShowcase {
     constructor() {
-      this.card = document.getElementById('drop01-highlights-showcase');
-      this.video = document.getElementById('drop01-hero-video');
-      this.soundBtn = document.getElementById('drop01-sound-toggle');
+      this.video = document.getElementById('hero-bg-video') || document.getElementById('drop01-hero-video');
+      this.soundBtn = document.getElementById('hero-sound-toggle') || document.getElementById('drop01-sound-toggle');
       this.playBtn = document.getElementById('drop01-play-toggle');
-      this.soundLabel = document.getElementById('sound-btn-label');
+      this.soundLabel = document.getElementById('hero-sound-label') || document.getElementById('sound-btn-label');
       this.iconSoundOff = this.soundBtn ? this.soundBtn.querySelector('.icon-sound-off') : null;
       this.iconSoundOn = this.soundBtn ? this.soundBtn.querySelector('.icon-sound-on') : null;
       this.iconPlay = this.playBtn ? this.playBtn.querySelector('.icon-play') : null;
