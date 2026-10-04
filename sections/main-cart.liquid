@@ -101,22 +101,124 @@
           <div class="cart-note-col">
             <label for="cart-page-note">{{ 'sections.cart.note' | t }}</label>
             <textarea name="note" id="cart-page-note" placeholder="Special length instructions or sneaker models...">{{ cart.note }}</textarea>
+
+            <!-- Delivery Experience Selector -->
+            {%- assign enable_founder_delivery = section.settings.enable_founder_delivery | default: true -%}
+            {%- if enable_founder_delivery -%}
+              {%- assign is_founder = false -%}
+              {%- if cart.attributes['delivery_method'] contains 'Founder' or cart.attributes['Delivery Method'] contains 'Founder' -%}
+                {%- assign is_founder = true -%}
+              {%- endif -%}
+              {%- assign founder_fee = section.settings.founder_delivery_fee | default: 3000 -%}
+              {%- assign founder_fee_cents = founder_fee | times: 100 -%}
+              <div class="cart-delivery-selector-card" id="cart-delivery-selector" data-founder-fee="{{ founder_fee_cents }}" data-founder-variant-id="{{ section.settings.founder_delivery_product.selected_or_first_available_variant.id }}">
+                <div class="delivery-selector-header">
+                  <span class="delivery-selector-title">Select Delivery Experience</span>
+                  <span class="delivery-selector-sub">Direct from our atelier</span>
+                </div>
+
+                <div class="delivery-options-grid">
+                  <!-- Standard Delivery -->
+                  <label class="delivery-option-box{% unless is_founder %} is-selected{% endunless %}" data-delivery-type="standard">
+                    <input 
+                      type="radio" 
+                      name="attributes[delivery_method]" 
+                      value="Standard Atelier Shipping" 
+                      class="delivery-radio-input visually-hidden"
+                      {% unless is_founder %}checked{% endunless %}
+                      data-delivery-radio="standard"
+                    >
+                    <div class="delivery-box-indicator">
+                      <span class="radio-dot"></span>
+                    </div>
+                    <div class="delivery-box-content">
+                      <div class="delivery-box-top">
+                        <span class="delivery-name">Standard Courier Delivery</span>
+                        <span class="delivery-price free">FREE</span>
+                      </div>
+                      <p class="delivery-desc">All-India express courier dispatch via Blue Dart / Delhivery.</p>
+                    </div>
+                  </label>
+
+                  <!-- Hand Delivered by Founder -->
+                  <label class="delivery-option-box founder-box{% if is_founder %} is-selected{% endif %}" data-delivery-type="founder">
+                    <input 
+                      type="radio" 
+                      name="attributes[delivery_method]" 
+                      value="Hand Delivered by Founder (₹3,000 - Vellore Only)" 
+                      class="delivery-radio-input visually-hidden"
+                      {% if is_founder %}checked{% endif %}
+                      data-delivery-radio="founder"
+                    >
+                    <div class="delivery-box-indicator">
+                      <span class="radio-dot"></span>
+                    </div>
+                    <div class="delivery-box-content">
+                      <div class="delivery-box-top">
+                        <div class="delivery-name-group">
+                          <span class="delivery-name founder-name">{{ section.settings.founder_delivery_title | default: 'Hand Delivered by Founder' }}</span>
+                          <span class="delivery-vellore-badge">{{ section.settings.founder_delivery_badge | default: 'Only available in Vellore' }}</span>
+                        </div>
+                        <span class="delivery-price founder-price">+ {{ founder_fee_cents | money }}</span>
+                      </div>
+                      <p class="delivery-desc">{{ section.settings.founder_delivery_desc | default: 'White-glove personal hand delivery and custom lace fitting directly by the LACEYAAN founder.' }}</p>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- Vellore Address & Delivery Note (Shown when Founder option is selected) -->
+                <div class="founder-vellore-details" id="cart-founder-vellore-details"{% unless is_founder %} style="display: none;"{% endunless %}>
+                  <label for="cart-founder-vellore-address" class="founder-vellore-label">
+                    <span>📍 Vellore Location / Delivery Details (Required for Hand Delivery)</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    name="attributes[founder_delivery_vellore_address]" 
+                    id="cart-founder-vellore-address" 
+                    class="founder-vellore-input"
+                    placeholder="e.g. VIT Vellore Mens/Womens Hostel Block, Room No., or Street Address..." 
+                    value="{{ cart.attributes['founder_delivery_vellore_address'] }}"
+                  >
+                  <span class="founder-vellore-hint">Our founder will personally coordinate dispatch time directly via your checkout phone number.</span>
+                </div>
+              </div>
+            {%- endif -%}
           </div>
 
           <div class="cart-totals-col">
             <div class="subtotal-row">
               <span class="subtotal-label">{{ 'sections.cart.subtotal' | t }}</span>
-              <span class="subtotal-amount">{{ cart.total_price | money }}</span>
+              <span class="subtotal-amount" id="cart-page-base-subtotal" data-base-price="{{ cart.total_price }}">{{ cart.total_price | money }}</span>
             </div>
+
+            <!-- Founder Hand Delivery Row -->
+            <div class="founder-fee-row" id="cart-founder-fee-row"{% unless is_founder %} style="display: none;"{% endunless %}>
+              <div class="fee-meta">
+                <span class="fee-title">Hand Delivered by Founder</span>
+                <span class="fee-badge">Vellore Only</span>
+              </div>
+              <span class="fee-amount" id="cart-page-founder-fee">+ {{ founder_fee_cents | money }}</span>
+            </div>
+
+            <!-- Final Checkout Total Row -->
+            <div class="cart-final-total-row">
+              <span class="final-total-label">Estimated Total</span>
+              {%- assign initial_total = cart.total_price -%}
+              {%- if is_founder -%}
+                {%- assign initial_total = initial_total | plus: founder_fee_cents -%}
+              {%- endif -%}
+              <span class="final-total-amount" id="cart-page-final-total">{{ initial_total | money }}</span>
+            </div>
+
             <p class="shipping-notice">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
 
             <div class="cart-actions-row">
               <a href="{{ routes.all_products_collection_url }}" class="btn-secondary">
                 <span>Continue Shopping</span>
               </a>
-              <button type="submit" name="checkout" class="btn-primary btn-checkout">
+              <button type="submit" name="checkout" class="btn-primary btn-checkout" id="cart-checkout-button">
                 {% render 'icon-shield-check' %}
-                <span>{{ 'sections.cart.checkout' | t | default: 'PROCEED TO SECURE CHECKOUT' }}</span>
+                <span id="cart-checkout-text">{{ 'sections.cart.checkout' | t | default: 'PROCEED TO SECURE CHECKOUT' }}</span>
               </button>
             </div>
           </div>
@@ -136,7 +238,48 @@
 {% schema %}
 {
   "name": "Cart Page",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Founder Hand Delivery Experience"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_founder_delivery",
+      "label": "Enable Hand Delivered by Founder Option",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "founder_delivery_title",
+      "label": "Founder Delivery Title",
+      "default": "Hand Delivered by Founder"
+    },
+    {
+      "type": "number",
+      "id": "founder_delivery_fee",
+      "label": "Delivery Charge (in ₹)",
+      "default": 3000
+    },
+    {
+      "type": "text",
+      "id": "founder_delivery_badge",
+      "label": "Availability Tag / Badge",
+      "default": "Only available in Vellore"
+    },
+    {
+      "type": "textarea",
+      "id": "founder_delivery_desc",
+      "label": "Delivery Description",
+      "default": "White-glove personal hand delivery and bespoke lace styling directly by the LACEYAAN founder."
+    },
+    {
+      "type": "product",
+      "id": "founder_delivery_product",
+      "label": "Founder Delivery Add-on Product (Optional)",
+      "info": "Select a ₹3,000 product to automatically add as a line item so it passes directly into native Shopify Checkout"
+    }
+  ],
   "blocks": [
     {
       "type": "@app"

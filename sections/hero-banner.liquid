@@ -17,64 +17,157 @@
   </div>
 
   <div class="container hero-content-wrap">
-    <div class="hero-inner">
-      {%- if section.settings.badge != blank -%}
-        <div class="hero-badge">
-          <span class="spec-dot" aria-hidden="true">●</span>
-          <span>[ {{ section.settings.badge }} ]</span>
-        </div>
-      {%- endif -%}
-
-      <h1 class="hero-title">
-        {{ section.settings.heading }}
-      </h1>
-
-      <p class="hero-subtitle">
-        {{ section.settings.subtitle }}
-      </p>
-
-      <div class="hero-cta-group">
-        {%- if section.settings.button_1_label != blank -%}
-          <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="btn-primary hero-btn-primary">
-            <span>{{ section.settings.button_1_label }}</span>
-            <span class="btn-arrow">[ &rarr; ]</span>
-          </a>
+    <div class="hero-grid">
+      <div class="hero-inner">
+        {%- if section.settings.badge != blank -%}
+          <div class="hero-badge">
+            <span class="spec-dot" aria-hidden="true">●</span>
+            <span>[ {{ section.settings.badge }} ]</span>
+          </div>
         {%- endif -%}
 
-        {%- if section.settings.button_2_label != blank -%}
-          <a href="{{ section.settings.button_2_link | default: '/pages/length-guide' }}" class="btn-secondary hero-btn-secondary">
-            <span>{{ section.settings.button_2_label }}</span>
-          </a>
+        <h1 class="hero-title">
+          {{ section.settings.heading }}
+        </h1>
+
+        <p class="hero-subtitle">
+          {{ section.settings.subtitle }}
+        </p>
+
+        <div class="hero-cta-group">
+          {%- if section.settings.button_1_label != blank -%}
+            <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="btn-primary hero-btn-primary">
+              <span>{{ section.settings.button_1_label }}</span>
+              <span class="btn-arrow">[ &rarr; ]</span>
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.button_2_label != blank -%}
+            <a href="{{ section.settings.button_2_link | default: '/pages/length-guide' }}" class="btn-secondary hero-btn-secondary">
+              <span>{{ section.settings.button_2_label }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+
+        <!-- Key Metrics Counter Grid -->
+        {%- if section.settings.show_metrics != false and section.settings.metric_1_val != blank or section.settings.metric_2_val != blank or section.settings.metric_3_val != blank -%}
+          <div class="hero-metrics-grid">
+            <span class="metric-crosshair crosshair-tl" aria-hidden="true">+</span>
+            <span class="metric-crosshair crosshair-tr" aria-hidden="true">+</span>
+            {%- if section.settings.metric_1_val != blank -%}
+              <div class="metric-item">
+                <span class="metric-val">{{ section.settings.metric_1_val }}</span>
+                <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.metric_1_val != blank and section.settings.metric_2_val != blank -%}
+              <div class="metric-divider"></div>
+            {%- endif -%}
+            {%- if section.settings.metric_2_val != blank -%}
+              <div class="metric-item">
+                <span class="metric-val">{{ section.settings.metric_2_val }}</span>
+                <span class="metric-lbl">{{ section.settings.metric_2_lbl }}</span>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.metric_3_val != blank and section.settings.metric_2_val != blank or section.settings.metric_3_val != blank and section.settings.metric_1_val != blank -%}
+              <div class="metric-divider"></div>
+            {%- endif -%}
+            {%- if section.settings.metric_3_val != blank -%}
+              <div class="metric-item">
+                <span class="metric-val">{{ section.settings.metric_3_val }}</span>
+                <span class="metric-lbl">{{ section.settings.metric_3_lbl }}</span>
+              </div>
+            {%- endif -%}
+          </div>
         {%- endif -%}
       </div>
 
-      <!-- Key Metrics Counter Grid -->
-      {%- if section.settings.show_metrics != false and section.settings.metric_1_val != blank or section.settings.metric_2_val != blank or section.settings.metric_3_val != blank -%}
-        <div class="hero-metrics-grid">
-          {%- if section.settings.metric_1_val != blank -%}
-            <div class="metric-item">
-              <span class="metric-val">{{ section.settings.metric_1_val }}</span>
-              <span class="metric-lbl">{{ section.settings.metric_1_lbl }}</span>
+      <!-- Highlights of Drop 01 Video Showcase Reel -->
+      {%- if section.settings.show_drop_highlights != false -%}
+        <div class="hero-showcase-col">
+          <div class="drop-highlights-card" id="drop01-highlights-showcase">
+            <span class="card-crosshair crosshair-tl" aria-hidden="true">+</span>
+            <span class="card-crosshair crosshair-tr" aria-hidden="true">+</span>
+            <span class="card-crosshair crosshair-bl" aria-hidden="true">+</span>
+            <span class="card-crosshair crosshair-br" aria-hidden="true">+</span>
+
+            <!-- Top Header Status Bar -->
+            <div class="drop-highlights-header">
+              <div class="live-status-pill">
+                <span class="live-pulse-dot" aria-hidden="true"></span>
+                <span class="live-status-text">{{ section.settings.drop_highlights_badge | default: 'DROP 01 // HIGHLIGHTS' }}</span>
+              </div>
+              <div class="archive-spec-tag">
+                <span>[ 4K SPECIMEN REEL ]</span>
+              </div>
             </div>
-          {%- endif -%}
-          {%- if section.settings.metric_1_val != blank and section.settings.metric_2_val != blank -%}
-            <div class="metric-divider"></div>
-          {%- endif -%}
-          {%- if section.settings.metric_2_val != blank -%}
-            <div class="metric-item">
-              <span class="metric-val">{{ section.settings.metric_2_val }}</span>
-              <span class="metric-lbl">{{ section.settings.metric_2_lbl }}</span>
+
+            <!-- Video Player Frame -->
+            <div class="drop-highlights-media-wrap">
+              <video 
+                id="drop01-hero-video" 
+                class="drop-highlights-video" 
+                autoplay 
+                loop 
+                muted 
+                playsinline 
+                preload="auto"
+                poster="{{ 'drop-01-poster.jpg' | asset_url }}"
+                aria-label="LACEYAAN Highlights of Drop 01 Video"
+              >
+                {%- if section.settings.drop_highlights_video_url != blank -%}
+                  <source src="{{ section.settings.drop_highlights_video_url }}" type="video/mp4">
+                {%- endif -%}
+                <source src="{{ 'drop-01-highlights.mp4' | asset_url }}" type="video/mp4">
+                <source src="{{ 'WhatsApp Video 2026-10-04 at 9.36.32 PM.mp4' | asset_url }}" type="video/mp4">
+                Your browser does not support HTML5 video.
+              </video>
+
+              <!-- Video Controls Overlay -->
+              <div class="video-interactive-overlay">
+                <div class="video-controls-bar">
+                  <button type="button" class="video-control-btn sound-btn" id="drop01-sound-toggle" aria-label="Toggle Sound" title="Toggle Sound">
+                    <svg class="icon-sound-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                    <svg class="icon-sound-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <span class="btn-text" id="sound-btn-label">SOUND</span>
+                  </button>
+
+                  <button type="button" class="video-control-btn play-btn" id="drop01-play-toggle" aria-label="Pause or Play Video" title="Pause / Play">
+                    <svg class="icon-pause" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    <svg class="icon-play" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
-          {%- endif -%}
-          {%- if section.settings.metric_3_val != blank and section.settings.metric_2_val != blank or section.settings.metric_3_val != blank and section.settings.metric_1_val != blank -%}
-            <div class="metric-divider"></div>
-          {%- endif -%}
-          {%- if section.settings.metric_3_val != blank -%}
-            <div class="metric-item">
-              <span class="metric-val">{{ section.settings.metric_3_val }}</span>
-              <span class="metric-lbl">{{ section.settings.metric_3_lbl }}</span>
+
+            <!-- Card Bottom Spec & Description -->
+            <div class="drop-highlights-info">
+              <div class="info-title-row">
+                <h3 class="info-heading">{{ section.settings.drop_highlights_title | default: 'HIGHLIGHTS OF DROP 01' }}</h3>
+                <span class="info-indicator">[ ARCHIVE // 01 ]</span>
+              </div>
+              <p class="info-desc">
+                {{ section.settings.drop_highlights_desc | default: 'Slow-crafted weaves in kinetic motion. Universal 3.8mm CNC aglets on bespoke footwear.' }}
+              </p>
+              <div class="info-tags-row">
+                <span class="info-tag-chip">✦ {{ section.settings.drop_highlights_tag1 | default: '4 SIGNATURE WEAVES' }}</span>
+                <span class="info-tag-chip">✦ {{ section.settings.drop_highlights_tag2 | default: 'SOLID MILLED BRASS' }}</span>
+                <span class="info-tag-chip">✦ {{ section.settings.drop_highlights_tag3 | default: 'ZERO RESTOCKS' }}</span>
+              </div>
             </div>
-          {%- endif -%}
+          </div>
         </div>
       {%- endif -%}
     </div>
@@ -187,12 +280,66 @@
     {
       "type": "text",
       "id": "metric_3_val",
-      "label": "Metric 3 Value"
+      "label": "Metric 3 Value",
+      "default": "100%"
     },
     {
       "type": "text",
       "id": "metric_3_lbl",
-      "label": "Metric 3 Label"
+      "label": "Metric 3 Label",
+      "default": "Solid Milled Metal Aglets"
+    },
+    {
+      "type": "header",
+      "content": "Highlights of Drop 01 Reel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_drop_highlights",
+      "label": "Show Highlights of Drop 01 Video Card",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "drop_highlights_video_url",
+      "label": "Custom Video URL (Optional from Shopify Content > Files)",
+      "info": "Leave blank to use the bundled Drop 01 highlight video."
+    },
+    {
+      "type": "text",
+      "id": "drop_highlights_badge",
+      "label": "Highlights Badge Text",
+      "default": "DROP 01 // HIGHLIGHTS"
+    },
+    {
+      "type": "text",
+      "id": "drop_highlights_title",
+      "label": "Highlights Title",
+      "default": "HIGHLIGHTS OF DROP 01"
+    },
+    {
+      "type": "textarea",
+      "id": "drop_highlights_desc",
+      "label": "Highlights Description",
+      "default": "Slow-crafted weaves in kinetic motion. Universal 3.8mm CNC aglets on bespoke footwear."
+    },
+    {
+      "type": "text",
+      "id": "drop_highlights_tag1",
+      "label": "Spec Tag 1",
+      "default": "4 SIGNATURE WEAVES"
+    },
+    {
+      "type": "text",
+      "id": "drop_highlights_tag2",
+      "label": "Spec Tag 2",
+      "default": "SOLID MILLED BRASS"
+    },
+    {
+      "type": "text",
+      "id": "drop_highlights_tag3",
+      "label": "Spec Tag 3",
+      "default": "ZERO RESTOCKS"
     }
   ],
   "presets": [

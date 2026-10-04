@@ -22,11 +22,16 @@
       <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
     {%- endif -%}
 
+    {%- assign shop_display_name = shop.name -%}
+    {%- if shop_display_name == 'My Store' or shop_display_name == blank -%}
+      {%- assign shop_display_name = 'LACEYAAN' -%}
+    {%- endif -%}
+
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless page_title contains shop_display_name %} &ndash; {{ shop_display_name }}{% endunless -%}
     </title>
 
     {%- if page_description -%}

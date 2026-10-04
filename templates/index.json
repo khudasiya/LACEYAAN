@@ -22,7 +22,16 @@
         "metric_1_val": "3.8mm",
         "metric_1_lbl": "Universal Eyelet Fit",
         "metric_2_val": "20,000",
-        "metric_2_lbl": "Tension Cycle Durability"
+        "metric_2_lbl": "Tension Cycle Durability",
+        "metric_3_val": "100%",
+        "metric_3_lbl": "Solid Milled Metal Aglets",
+        "show_drop_highlights": true,
+        "drop_highlights_badge": "DROP 01 // HIGHLIGHTS",
+        "drop_highlights_title": "HIGHLIGHTS OF DROP 01",
+        "drop_highlights_desc": "Slow-crafted weaves in kinetic motion. Universal 3.8mm CNC aglets on bespoke footwear.",
+        "drop_highlights_tag1": "4 SIGNATURE WEAVES",
+        "drop_highlights_tag2": "SOLID MILLED BRASS",
+        "drop_highlights_tag3": "ZERO RESTOCKS"
       }
     },
     "before_after": {

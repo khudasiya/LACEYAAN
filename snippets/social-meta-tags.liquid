@@ -2,9 +2,14 @@
   Open Graph and Twitter social card tags
 {%- endcomment -%}
 
-<meta property="og:site_name" content="{{ shop.name }}">
+{%- assign shop_display_name = shop.name -%}
+{%- if shop_display_name == 'My Store' or shop_display_name == blank -%}
+  {%- assign shop_display_name = 'LACEYAAN' -%}
+{%- endif -%}
+
+<meta property="og:site_name" content="{{ shop_display_name }}">
 <meta property="og:url" content="{{ canonical_url }}">
-<meta property="og:title" content="{{ page_title | default: shop.name }}">
+<meta property="og:title" content="{{ page_title | default: shop_display_name }}">
 <meta property="og:type" content="website">
 <meta property="og:description" content="{{ page_description | default: shop.description | escape }}">
 
@@ -16,5 +21,5 @@
 {%- endif -%}
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ page_title | default: shop.name }}">
+<meta name="twitter:title" content="{{ page_title | default: shop_display_name }}">
 <meta name="twitter:description" content="{{ page_description | default: shop.description | escape }}">

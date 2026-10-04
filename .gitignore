@@ -6,6 +6,7 @@ scratch/
 dist/
 node_modules/
 video_frames/
-*.mp4
+# *.mp4 (allowed for theme asset videos)
+!assets/*.mp4
 *.zip
 preview*.html

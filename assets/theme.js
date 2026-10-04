@@ -498,7 +498,13 @@
 
       // Subtotal
       if (this.subtotalElement) {
+        this.subtotalElement.dataset.basePrice = cart.total_price;
         this.subtotalElement.textContent = Utils.formatMoney(cart.total_price);
+      }
+
+      // Sync Delivery Method and Recalculate Totals
+      if (window.Laceyaan.deliveryManager) {
+        window.Laceyaan.deliveryManager.updatePricesForCart(cart.total_price);
       }
 
       // Free shipping threshold
@@ -567,6 +573,254 @@
           `;
         }).join('');
       }
+    }
+  }
+
+  /* ==========================================================================
+     3B. Delivery Method Manager (Founder Hand Delivery vs Standard)
+     ========================================================================== */
+  class DeliveryManager {
+    constructor() {
+      this.FEE_CENTS = 300000; // ₹3,000 in cents / paise
+      this.STORAGE_KEY = 'laceyaan_founder_delivery';
+
+      this.init();
+    }
+
+    init() {
+      this.initCartPage();
+      this.initCartDrawer();
+      this.syncUI(this.isFounderSelected());
+    }
+
+    isFounderSelected() {
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      if (stored === 'true') return true;
+      if (stored === 'false') return false;
+
+      // Check pre-rendered markup
+      const pageFounderRadio = document.querySelector('input[data-delivery-radio="founder"]');
+      if (pageFounderRadio && pageFounderRadio.checked) return true;
+
+      const drawerFounderRadio = document.querySelector('input[name="drawer_delivery_radio"][value="founder"]');
+      if (drawerFounderRadio && drawerFounderRadio.checked) return true;
+
+      return false;
+    }
+
+    setFounderSelected(selected) {
+      localStorage.setItem(this.STORAGE_KEY, selected ? 'true' : 'false');
+      this.syncUI(selected);
+      this.updateCartAttributes(selected);
+      this.syncLineItem(selected);
+    }
+
+    async syncLineItem(selected) {
+      const pageSelector = document.getElementById('cart-delivery-selector') || document.getElementById('drawer-delivery-selector');
+      const variantId = pageSelector ? pageSelector.dataset.founderVariantId : null;
+
+      try {
+        const res = await fetch('/cart.js');
+        if (!res.ok) return;
+        const cart = await res.json();
+        const founderItem = cart.items.find(item => 
+          (variantId && item.variant_id == variantId) ||
+          item.title.toLowerCase().includes('founder') ||
+          (item.product_title && item.product_title.toLowerCase().includes('founder'))
+        );
+
+        if (selected && !founderItem && variantId) {
+          await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: [{ id: parseInt(variantId, 10), quantity: 1 }] })
+          });
+          if (window.Laceyaan.cartDrawer) await window.Laceyaan.cartDrawer.refresh();
+        } else if (!selected && founderItem) {
+          await fetch('/cart/change.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: founderItem.key, quantity: 0 })
+          });
+          if (window.Laceyaan.cartDrawer) await window.Laceyaan.cartDrawer.refresh();
+        }
+      } catch (e) {
+        console.debug('Line item sync error:', e);
+      }
+    }
+
+    updateCartAttributes(selected) {
+      const addressInput = document.getElementById('cart-founder-vellore-address');
+      const velloreAddress = (addressInput && addressInput.value) ? addressInput.value.trim() : '';
+
+      const attributes = {
+        'Delivery Method': selected ? 'Hand Delivered by Founder (₹3,000 - Only available in Vellore)' : 'Standard Atelier Shipping',
+        'Founder Delivery Fee': selected ? '₹3,000' : '',
+        'Delivery City': selected ? 'Only available in Vellore' : '',
+        'delivery_method': selected ? 'Hand Delivered by Founder' : 'Standard'
+      };
+
+      if (selected && velloreAddress) {
+        attributes['founder_delivery_vellore_address'] = velloreAddress;
+      }
+
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ attributes })
+      }).catch(err => console.debug('Cart attribute update sync:', err));
+    }
+
+    syncUI(selected) {
+      // 1. Sync Cart Page (main-cart.liquid)
+      const pageSelector = document.getElementById('cart-delivery-selector');
+      if (pageSelector) {
+        const standardBox = pageSelector.querySelector('[data-delivery-type="standard"]');
+        const founderBox = pageSelector.querySelector('[data-delivery-type="founder"]');
+        const standardRadio = pageSelector.querySelector('input[data-delivery-radio="standard"]');
+        const founderRadio = pageSelector.querySelector('input[data-delivery-radio="founder"]');
+        const velloreDetails = document.getElementById('cart-founder-vellore-details');
+        const founderFeeRow = document.getElementById('cart-founder-fee-row');
+        const baseSubtotalEl = document.getElementById('cart-page-base-subtotal');
+        const finalTotalEl = document.getElementById('cart-page-final-total');
+
+        if (standardBox) standardBox.classList.toggle('is-selected', !selected);
+        if (founderBox) founderBox.classList.toggle('is-selected', selected);
+        if (standardRadio) standardRadio.checked = !selected;
+        if (founderRadio) founderRadio.checked = selected;
+
+        if (velloreDetails) {
+          velloreDetails.style.display = selected ? 'block' : 'none';
+        }
+        if (founderFeeRow) {
+          founderFeeRow.style.display = selected ? 'flex' : 'none';
+        }
+
+        if (baseSubtotalEl && finalTotalEl) {
+          const baseCents = parseInt(baseSubtotalEl.dataset.basePrice || '0', 10);
+          const finalCents = selected ? (baseCents + this.FEE_CENTS) : baseCents;
+          finalTotalEl.textContent = Utils.formatMoney(finalCents);
+        }
+      }
+
+      // 2. Sync Cart Drawer (cart-drawer.liquid)
+      const drawerSelector = document.getElementById('drawer-delivery-selector');
+      if (drawerSelector) {
+        const drawerStandardPill = drawerSelector.querySelector('[data-drawer-delivery="standard"]');
+        const drawerFounderPill = drawerSelector.querySelector('[data-drawer-delivery="founder"]');
+        const drawerStandardRadio = drawerSelector.querySelector('input[name="drawer_delivery_radio"][value="standard"]');
+        const drawerFounderRadio = drawerSelector.querySelector('input[name="drawer_delivery_radio"][value="founder"]');
+        const drawerFeeRow = document.getElementById('drawer-founder-fee-row');
+        const drawerTotalRow = document.getElementById('drawer-final-total-row');
+        const drawerSubtotalEl = document.getElementById('cart-drawer-subtotal');
+        const drawerFinalTotalEl = document.getElementById('drawer-final-total-amount');
+        const drawerAttrMethod = document.getElementById('drawer-attr-delivery-method');
+        const drawerAttrFee = document.getElementById('drawer-attr-founder-fee');
+
+        if (drawerStandardPill) drawerStandardPill.classList.toggle('is-selected', !selected);
+        if (drawerFounderPill) drawerFounderPill.classList.toggle('is-selected', selected);
+        if (drawerStandardRadio) drawerStandardRadio.checked = !selected;
+        if (drawerFounderRadio) drawerFounderRadio.checked = selected;
+
+        if (drawerFeeRow) drawerFeeRow.style.display = selected ? 'flex' : 'none';
+        if (drawerTotalRow) drawerTotalRow.style.display = selected ? 'flex' : 'none';
+
+        if (drawerAttrMethod) {
+          drawerAttrMethod.value = selected ? 'Hand Delivered by Founder (₹3,000 - Vellore Only)' : 'Standard Atelier Shipping';
+        }
+        if (drawerAttrFee) {
+          drawerAttrFee.value = selected ? '₹3,000' : '';
+        }
+
+        if (drawerSubtotalEl && drawerFinalTotalEl) {
+          const baseCents = parseInt(drawerSubtotalEl.dataset.basePrice || '0', 10);
+          const finalCents = selected ? (baseCents + this.FEE_CENTS) : baseCents;
+          drawerFinalTotalEl.textContent = Utils.formatMoney(finalCents);
+        }
+      }
+    }
+
+    initCartPage() {
+      const pageSelector = document.getElementById('cart-delivery-selector');
+      if (!pageSelector) return;
+
+      const radios = pageSelector.querySelectorAll('.delivery-radio-input');
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          const isFounder = radio.dataset.deliveryRadio === 'founder';
+          this.setFounderSelected(isFounder);
+        });
+      });
+
+      const boxes = pageSelector.querySelectorAll('.delivery-option-box');
+      boxes.forEach(box => {
+        box.addEventListener('click', (e) => {
+          if (e.target.matches('input')) return;
+          const isFounder = box.dataset.deliveryType === 'founder';
+          this.setFounderSelected(isFounder);
+        });
+      });
+
+      const addressInput = document.getElementById('cart-founder-vellore-address');
+      if (addressInput) {
+        addressInput.addEventListener('input', Utils.debounce(() => {
+          if (this.isFounderSelected()) {
+            this.updateCartAttributes(true);
+          }
+        }, 500));
+      }
+    }
+
+    initCartDrawer() {
+      const drawerSelector = document.getElementById('drawer-delivery-selector');
+      if (!drawerSelector) return;
+
+      const pills = drawerSelector.querySelectorAll('.drawer-delivery-pill');
+      pills.forEach(pill => {
+        pill.addEventListener('click', (e) => {
+          if (e.target.matches('input')) return;
+          const isFounder = pill.dataset.drawerDelivery === 'founder';
+          this.setFounderSelected(isFounder);
+        });
+      });
+
+      const radios = drawerSelector.querySelectorAll('input[name="drawer_delivery_radio"]');
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          const isFounder = radio.value === 'founder';
+          this.setFounderSelected(isFounder);
+        });
+      });
+    }
+
+    updatePricesForCart(totalPriceCents) {
+      const isFounder = this.isFounderSelected();
+
+      // Update Cart Page subtotal base
+      const pageBaseEl = document.getElementById('cart-page-base-subtotal');
+      const pageFinalEl = document.getElementById('cart-page-final-total');
+      if (pageBaseEl) {
+        pageBaseEl.dataset.basePrice = totalPriceCents;
+        pageBaseEl.textContent = Utils.formatMoney(totalPriceCents);
+      }
+      if (pageFinalEl) {
+        const finalPrice = isFounder ? (totalPriceCents + this.FEE_CENTS) : totalPriceCents;
+        pageFinalEl.textContent = Utils.formatMoney(finalPrice);
+      }
+
+      // Update Cart Drawer base
+      const drawerSubtotalEl = document.getElementById('cart-drawer-subtotal');
+      const drawerFinalTotalEl = document.getElementById('drawer-final-total-amount');
+      if (drawerSubtotalEl) {
+        drawerSubtotalEl.dataset.basePrice = totalPriceCents;
+        drawerSubtotalEl.textContent = Utils.formatMoney(totalPriceCents);
+      }
+      if (drawerFinalTotalEl) {
+        const finalPrice = isFounder ? (totalPriceCents + this.FEE_CENTS) : totalPriceCents;
+        drawerFinalTotalEl.textContent = Utils.formatMoney(finalPrice);
+      }
+
+      this.syncUI(isFounder);
     }
   }
 
@@ -2010,12 +2264,137 @@
   }
 
   /* ==========================================================================
+     Hero Video Showcase (Highlights of Drop 01)
+     ========================================================================== */
+  class HeroVideoShowcase {
+    constructor() {
+      this.card = document.getElementById('drop01-highlights-showcase');
+      this.video = document.getElementById('drop01-hero-video');
+      this.soundBtn = document.getElementById('drop01-sound-toggle');
+      this.playBtn = document.getElementById('drop01-play-toggle');
+      this.soundLabel = document.getElementById('sound-btn-label');
+      this.iconSoundOff = this.soundBtn ? this.soundBtn.querySelector('.icon-sound-off') : null;
+      this.iconSoundOn = this.soundBtn ? this.soundBtn.querySelector('.icon-sound-on') : null;
+      this.iconPlay = this.playBtn ? this.playBtn.querySelector('.icon-play') : null;
+      this.iconPause = this.playBtn ? this.playBtn.querySelector('.icon-pause') : null;
+      this.userPaused = false;
+
+      if (!this.video) return;
+
+      this.init();
+    }
+
+    init() {
+      // Autoplay muted by default for browser compliance
+      this.video.muted = true;
+      const playPromise = this.video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+
+      // Sound Toggle
+      if (this.soundBtn) {
+        this.soundBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggleSound();
+        });
+      }
+
+      // Play/Pause Toggle
+      if (this.playBtn) {
+        this.playBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.togglePlay();
+        });
+      }
+
+      // Direct click on video frame
+      this.video.addEventListener('click', () => {
+        this.togglePlay();
+      });
+
+      // Video state tracking
+      this.video.addEventListener('play', () => {
+        this.updatePlayState(true);
+      });
+      this.video.addEventListener('pause', () => {
+        this.updatePlayState(false);
+      });
+
+      // Smart Intersection Observer for battery & performance
+      if ('IntersectionObserver' in window) {
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (this.video.paused && !this.userPaused) {
+                this.video.play().catch(() => {});
+              }
+            } else {
+              if (!this.video.paused) {
+                this.video.pause();
+              }
+            }
+          });
+        }, { threshold: 0.15 });
+
+        this.observer.observe(this.video);
+      }
+    }
+
+    toggleSound() {
+      this.video.muted = !this.video.muted;
+      if (!this.video.muted) {
+        this.video.volume = 1.0;
+        if (this.video.paused) {
+          this.video.play().catch(() => {});
+        }
+      }
+      this.updateSoundState(!this.video.muted);
+    }
+
+    updateSoundState(isSoundOn) {
+      if (this.iconSoundOff && this.iconSoundOn) {
+        this.iconSoundOff.style.display = isSoundOn ? 'none' : 'block';
+        this.iconSoundOn.style.display = isSoundOn ? 'block' : 'none';
+      }
+      if (this.soundLabel) {
+        this.soundLabel.textContent = isSoundOn ? 'AUDIO [ON]' : 'SOUND';
+      }
+      if (this.soundBtn) {
+        this.soundBtn.classList.toggle('is-active', isSoundOn);
+      }
+    }
+
+    togglePlay() {
+      if (this.video.paused) {
+        this.userPaused = false;
+        this.video.play().catch(() => {});
+      } else {
+        this.userPaused = true;
+        this.video.pause();
+      }
+    }
+
+    updatePlayState(isPlaying) {
+      if (this.iconPause && this.iconPlay) {
+        this.iconPause.style.display = isPlaying ? 'block' : 'none';
+        this.iconPlay.style.display = isPlaying ? 'none' : 'block';
+      }
+      if (this.playBtn) {
+        this.playBtn.setAttribute('title', isPlaying ? 'Pause Video' : 'Play Video');
+        this.playBtn.setAttribute('aria-label', isPlaying ? 'Pause Video' : 'Play Video');
+      }
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
     new AnnouncementBar();
     new Header();
     window.Laceyaan.cartDrawer = new CartDrawer();
+    window.Laceyaan.deliveryManager = new DeliveryManager();
     new PredictiveSearch();
     new BeforeAfterSlider();
     new LengthCalculator();
@@ -2024,6 +2403,7 @@
     window.Laceyaan.quickViewModal = new QuickViewModal();
     new Accordion();
     new EasterEggModal();
+    new HeroVideoShowcase();
 
     // Initialize Animated Background Shoelace Engine
     if (window.Laceyaan.backgroundLace) {
@@ -2047,6 +2427,12 @@
     new Accordion();
     new AnnouncementBar();
     new EasterEggModal();
+    new HeroVideoShowcase();
+    if (window.Laceyaan.deliveryManager) {
+      window.Laceyaan.deliveryManager.init();
+    } else {
+      window.Laceyaan.deliveryManager = new DeliveryManager();
+    }
 
     if (!window.Laceyaan.backgroundLace) {
       window.Laceyaan.backgroundLace = new BackgroundLace();

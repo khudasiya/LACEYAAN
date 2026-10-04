@@ -111,17 +111,67 @@
       </div>
     {%- endif -%}
 
+    <!-- Drawer Delivery Method Selector -->
+    {%- assign is_drawer_founder = false -%}
+    {%- if cart.attributes['delivery_method'] contains 'Founder' or cart.attributes['Delivery Method'] contains 'Founder' -%}
+      {%- assign is_drawer_founder = true -%}
+    {%- endif -%}
+    {%- assign drawer_founder_fee_cents = 300000 -%}
+    <div class="drawer-delivery-selector" id="drawer-delivery-selector" data-founder-fee="{{ drawer_founder_fee_cents }}">
+      <div class="drawer-delivery-header">
+        <span class="drawer-delivery-label">DELIVERY METHOD</span>
+      </div>
+      <div class="drawer-delivery-pills">
+        <label class="drawer-delivery-pill{% unless is_drawer_founder %} is-selected{% endunless %}" data-drawer-delivery="standard">
+          <input type="radio" name="drawer_delivery_radio" value="standard" class="visually-hidden"{% unless is_drawer_founder %} checked{% endunless %}>
+          <span class="pill-dot"></span>
+          <div class="pill-info">
+            <span class="pill-title">Standard Courier</span>
+            <span class="pill-sub">All-India Express</span>
+          </div>
+          <span class="pill-price free">FREE</span>
+        </label>
+        <label class="drawer-delivery-pill founder-pill{% if is_drawer_founder %} is-selected{% endif %}" data-drawer-delivery="founder">
+          <input type="radio" name="drawer_delivery_radio" value="founder" class="visually-hidden"{% if is_drawer_founder %} checked{% endif %}>
+          <span class="pill-dot"></span>
+          <div class="pill-info">
+            <span class="pill-title">Hand Delivered by Founder</span>
+            <span class="pill-badge">Only available in Vellore</span>
+          </div>
+          <span class="pill-price founder-price">+ ₹3,000</span>
+        </label>
+      </div>
+    </div>
+
     <div class="drawer-subtotal-row">
       <span class="subtotal-label">{{ 'sections.cart.subtotal' | t }}</span>
-      <span class="subtotal-amount" id="cart-drawer-subtotal">{{ cart.total_price | money }}</span>
+      <span class="subtotal-amount" id="cart-drawer-subtotal" data-base-price="{{ cart.total_price }}">{{ cart.total_price | money }}</span>
     </div>
+
+    <!-- Drawer Founder Fee Breakdown Row -->
+    <div class="drawer-founder-row" id="drawer-founder-fee-row"{% unless is_drawer_founder %} style="display: none;"{% endunless %}>
+      <span class="drawer-fee-label">Founder Hand Delivery:</span>
+      <span class="drawer-fee-amount">+ ₹3,000</span>
+    </div>
+
+    <div class="drawer-final-total-row" id="drawer-final-total-row"{% unless is_drawer_founder %} style="display: none;"{% endunless %}>
+      <span class="drawer-total-label">Estimated Total:</span>
+      {%- assign drawer_initial_total = cart.total_price -%}
+      {%- if is_drawer_founder -%}
+        {%- assign drawer_initial_total = drawer_initial_total | plus: drawer_founder_fee_cents -%}
+      {%- endif -%}
+      <span class="drawer-total-amount" id="drawer-final-total-amount">{{ drawer_initial_total | money }}</span>
+    </div>
+
     <p class="drawer-shipping-notice">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
 
     <div class="drawer-actions-group">
       <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form" class="cart-drawer-form-action">
-        <button type="submit" name="checkout" class="btn-primary btn-checkout">
+        <input type="hidden" name="attributes[delivery_method]" id="drawer-attr-delivery-method" value="{% if is_drawer_founder %}Hand Delivered by Founder (₹3,000 - Vellore Only){% else %}Standard Atelier Shipping{% endif %}">
+        <input type="hidden" name="attributes[founder_delivery_fee]" id="drawer-attr-founder-fee" value="{% if is_drawer_founder %}₹3,000{% endif %}">
+        <button type="submit" name="checkout" class="btn-primary btn-checkout" id="drawer-checkout-btn">
           {% render 'icon-shield-check' %}
-          <span>{{ 'sections.cart.checkout' | t | default: 'PROCEED TO CHECKOUT' }}</span>
+          <span id="drawer-checkout-text">{{ 'sections.cart.checkout' | t | default: 'PROCEED TO CHECKOUT' }}</span>
         </button>
       </form>
       <a href="{{ routes.cart_url }}" class="btn-secondary btn-view-cart" id="drawer-go-to-cart-btn">

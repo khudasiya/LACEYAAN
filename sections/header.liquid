@@ -67,12 +67,16 @@
 
       <!-- Center: Brand Logo -->
       <div class="navbar-center">
-        <a href="{{ routes.root_url }}" class="brand-logo-link" aria-label="{{ shop.name }}">
+        {%- assign header_shop_name = shop.name -%}
+        {%- if header_shop_name == 'My Store' or header_shop_name == blank -%}
+          {%- assign header_shop_name = 'LACEYAAN' -%}
+        {%- endif -%}
+        <a href="{{ routes.root_url }}" class="brand-logo-link" aria-label="{{ header_shop_name }}">
           {%- if section.settings.logo != blank -%}
             {{ section.settings.logo | image_url: width: 340 | image_tag: 
               class: 'brand-logo-img', 
               widths: '170, 340',
-              alt: shop.name | escape 
+              alt: header_shop_name | escape 
             }}
           {%- else -%}
             <div class="brand-text-logo">
