@@ -3,7 +3,7 @@
 {%- endcomment -%}
 
 <section id="design-lab" class="design-lab-section section-padding" {{ section.shopify_attributes }}>
-  <div class="container">
+  <div class="container container-fullwidth">
     <div class="section-header text-center">
       {%- if section.settings.badge != blank -%}
         <div class="design-lab-badge">
@@ -126,21 +126,19 @@
 
                 assign b_variant = b_product.selected_or_first_available_variant
               -%}
-              <div class="product-card" {{ block.shopify_attributes }}>
+              <div class="product-card product-card-editorial" {{ block.shopify_attributes }}>
                 <div class="card-media">
-                  <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
-                  <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
                   <a href="{{ b_url }}" class="media-link" aria-label="{{ b_title | escape }}">
                     {%- if block.settings.custom_image != blank -%}
                       {{ block.settings.custom_image | image_url: width: 600 | image_tag: 
-                        class: 'card-img-primary',
+                        class: 'primary-img',
                         widths: '300, 450, 600',
                         loading: 'lazy',
                         alt: b_title | escape 
                       }}
                     {%- elsif b_product.featured_media != blank -%}
                       {{ b_product.featured_media | image_url: width: 600 | image_tag: 
-                        class: 'card-img-primary',
+                        class: 'primary-img',
                         widths: '300, 450, 600',
                         loading: 'lazy',
                         alt: b_title | escape 
@@ -152,36 +150,37 @@
                         {%- when 3 -%}{%- assign default_img = 'product-olive.jpg' -%}
                         {%- when 4 -%}{%- assign default_img = 'product-plum.jpg' -%}
                       {%- endcase -%}
-                      <img src="{{ default_img | asset_url }}" alt="{{ b_title | escape }}" class="card-img-primary" width="400" height="400" loading="lazy">
+                      <img src="{{ default_img | asset_url }}" alt="{{ b_title | escape }}" class="primary-img" width="400" height="500" loading="lazy">
                     {%- endif -%}
                   </a>
+                  <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
+                    <svg class="icon-bookmark-ribbon" width="13" height="17" viewBox="0 0 14 18" fill="currentColor">
+                      <path d="M1 1H13V17L7 12.5L1 17V1Z"></path>
+                    </svg>
+                  </button>
+                  <div class="card-carousel-dots" aria-hidden="true">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                  </div>
                 </div>
                 <div class="card-content">
-                  <span class="card-category">{{ b_vendor }}</span>
-                  <h3 class="card-title"><a href="{{ b_url }}">{{ b_title }}</a></h3>
-                  <div class="card-price-row">
-                    <span class="price-now">{{ b_price }}</span>
-                  </div>
-                  <div class="card-actions">
+                  <div class="card-info-row">
+                    <div class="card-details-col">
+                      <h3 class="card-title"><a href="{{ b_url }}">{{ b_title }}</a></h3>
+                      <div class="card-price-row">
+                        <span class="price-now">{{ b_price }}</span>
+                      </div>
+                    </div>
                     <button 
                       type="button" 
-                      class="btn-buy-now" 
-                      data-buy-now 
+                      class="card-action-plus-btn" 
+                      data-action-plus 
                       {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
                       {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
-                      aria-label="Buy {{ b_title | escape }} now"
+                      aria-label="Quick action for {{ b_title | escape }}"
                     >
-                      <span>BUY NOW [ &rarr; ]</span>
-                    </button>
-                    <button 
-                      type="button" 
-                      class="btn-add-bag" 
-                      data-add-to-cart 
-                      {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
-                      {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
-                      aria-label="Add {{ b_title | escape }} to bag"
-                    >
-                      {% render 'icon-shopping-bag' %}
+                      <span class="plus-symbol">+</span>
                     </button>
                   </div>
                 </div>

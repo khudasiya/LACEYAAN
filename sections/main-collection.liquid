@@ -11,7 +11,7 @@
 
 {%- paginate collection.products by section.settings.products_per_page -%}
 <section class="main-collection-section section-padding{% if is_register_interest_page %} is-register-interest-collection{% endif %}" {{ section.shopify_attributes }}>
-  <div class="container">
+  <div class="container container-fullwidth">
     <!-- Collection Banner Header -->
     <div class="collection-header text-center">
       {%- if is_register_interest_page -%}
