@@ -220,6 +220,8 @@
             </a>
           {%- endif -%}
         </div>
+      {%- endfor -%}
+
       {%- if linklists[section.settings.menu].links.size == 0 -%}
         <div class="mobile-nav-group">
           <a href="{{ routes.all_products_collection_url }}" class="mobile-nav-link">Shop All Laces</a>
