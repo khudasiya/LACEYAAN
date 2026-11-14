@@ -1281,7 +1281,7 @@
   }
 
   /* ==========================================================================
-     8. Quick View Ajax Modal
+     8. LACEYAAN 3D Studio Sneaker Showcase & Quick View Modal
      ========================================================================== */
   class QuickViewModal {
     constructor() {
@@ -1296,16 +1296,24 @@
     }
 
     bindEvents() {
+      // Open modal on click of product card media, title, plus button, or explicit trigger
       document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-quick-view-trigger], .quick-view-btn');
+        const trigger = e.target.closest('[data-open-studio-modal], [data-quick-view-trigger], .quick-view-btn, .product-card-editorial .media-link, .product-card-editorial .card-title a, [data-action-plus]');
         if (!trigger) return;
+
+        // Respect keyboard shortcuts or new-tab clicks (Cmd/Ctrl/Middle click)
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+
+        // Skip if user interacted with card sub-elements like bookmark or voting buttons
+        if (e.target.closest('.card-bookmark-btn') || e.target.closest('.card-interest-pills-row')) return;
+
         e.preventDefault();
         e.stopPropagation();
 
         const handle = trigger.dataset.productHandle || 
                        trigger.getAttribute('data-quick-view-trigger') || 
-                       trigger.dataset.quickViewTrigger ||
                        trigger.closest('[data-product-handle]')?.dataset.productHandle;
+
         if (handle) this.open(handle, trigger);
       });
 
@@ -1318,13 +1326,30 @@
         }
       });
 
+      // Handle interactive studio controls inside modal
+      this.content.addEventListener('click', (e) => {
+        const viewBtn = e.target.closest('[data-studio-view]');
+        if (viewBtn) {
+          e.preventDefault();
+          this.setStudioMode(viewBtn.dataset.studioView);
+          return;
+        }
+
+        const pillBtn = e.target.closest('.variant-pill-btn');
+        if (pillBtn) {
+          e.preventDefault();
+          this.selectVariant(pillBtn.dataset.variantId, pillBtn);
+          return;
+        }
+      });
+
       // Intercept Quick View add to bag form
       this.modal.addEventListener('submit', async (e) => {
         const form = e.target.closest('.quick-view-form');
         if (!form) return;
         e.preventDefault();
 
-        const submitBtn = form.querySelector('.quick-view-submit');
+        const submitBtn = form.querySelector('.quick-view-submit, .studio-btn-add');
         const originalText = submitBtn ? submitBtn.innerHTML : '';
         if (submitBtn) {
           submitBtn.disabled = true;
@@ -1382,7 +1407,7 @@
       }
 
       // 2. Fallback to network request
-      this.content.innerHTML = '<div class="quick-view-loading"><span class="spinner"></span><p>Loading details...</p></div>';
+      this.content.innerHTML = '<div class="quick-view-loading"><span class="spinner"></span><p>Initializing 3D Atelier Render...</p></div>';
 
       try {
         const res = await fetch(`/products/${handle}.js`);
@@ -1399,7 +1424,7 @@
             handle: handle,
             featured_image: img,
             available: false,
-            variants: [{ id: card.getAttribute('data-product-id') || 1, price: 0, available: false, compare_at_price: 0, title: 'Default' }],
+            variants: [{ id: card.getAttribute('data-product-id') || 1, price: 0, available: false, compare_at_price: 0, title: 'Standard' }],
             tags: ['register-interest'],
             description: 'Bespoke weave silhouette in active development. Register your interest below to vote for production or receive restock notification.'
           }, card);
@@ -1415,6 +1440,88 @@
       this.modal.setAttribute('aria-hidden', 'true');
       if (this.overlay) this.overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('overflow-hidden');
+      const video = document.getElementById('StudioModalVideo');
+      if (video) video.pause();
+    }
+
+    setStudioMode(mode) {
+      const viewport = document.getElementById('StudioModalViewport');
+      const videoBox = document.getElementById('StudioModalVideoBox');
+      const stillsBox = document.getElementById('StudioModalStillsBox');
+      const video = document.getElementById('StudioModalVideo');
+      const shadow = document.getElementById('StudioModalShadow');
+      const buttons = this.modal.querySelectorAll('[data-studio-view]');
+
+      buttons.forEach(b => b.classList.toggle('active', b.dataset.studioView === mode));
+
+      if (mode === '360') {
+        if (viewport) viewport.classList.remove('is-glow-mode');
+        if (videoBox) videoBox.style.display = 'block';
+        if (stillsBox) stillsBox.style.display = 'none';
+        if (shadow) shadow.style.display = 'block';
+        if (video) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        }
+      } else if (mode === 'glow') {
+        if (viewport) viewport.classList.add('is-glow-mode');
+        if (videoBox) videoBox.style.display = 'block';
+        if (stillsBox) stillsBox.style.display = 'none';
+        if (shadow) shadow.style.display = 'block';
+        if (video) {
+          video.currentTime = 5.8; // jump to glowing 3M lace sequence
+          video.play().catch(() => {});
+        }
+      } else if (mode === 'stills') {
+        if (viewport) viewport.classList.remove('is-glow-mode');
+        if (videoBox) videoBox.style.display = 'none';
+        if (stillsBox) stillsBox.style.display = 'flex';
+        if (shadow) shadow.style.display = 'none';
+        if (video) video.pause();
+      }
+    }
+
+    selectVariant(variantId, buttonEl) {
+      const form = this.content.querySelector('.studio-buy-form');
+      if (form) {
+        const idInput = form.querySelector('input[name="id"]');
+        if (idInput) idInput.value = variantId;
+      }
+      const buttons = this.content.querySelectorAll('.variant-pill-btn');
+      buttons.forEach(b => b.classList.toggle('is-selected', b === buttonEl));
+      
+      const price = buttonEl.dataset.variantPrice;
+      if (price) {
+        const priceEl = this.content.querySelector('.price-now');
+        if (priceEl) priceEl.textContent = Utils.formatMoney(price);
+      }
+    }
+
+    async buyNow(variantId) {
+      const buyBtn = this.content.querySelector('.studio-btn-buy');
+      const originalText = buyBtn ? buyBtn.innerHTML : '';
+      if (buyBtn) {
+        buyBtn.disabled = true;
+        buyBtn.innerHTML = '<span>CHECKING OUT...</span>';
+      }
+      try {
+        const formData = new FormData();
+        formData.append('id', variantId);
+        formData.append('quantity', '1');
+        const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
+        if (res.ok) {
+          window.location.href = '/checkout';
+        } else {
+          window.location.href = '/cart';
+        }
+      } catch (err) {
+        window.location.href = '/checkout';
+      } finally {
+        if (buyBtn) {
+          buyBtn.disabled = false;
+          buyBtn.innerHTML = originalText;
+        }
+      }
     }
 
     renderProduct(product, card) {
@@ -1437,42 +1544,84 @@
         : '';
 
       const featuredImg = product.featured_image || (product.images && product.images[0]) || '';
+      const studioVideoUrl = this.modal.getAttribute('data-studio-video-url') || 'assets/drop-01-highlights.mp4';
+      const studioVideoAlt = this.modal.getAttribute('data-studio-video-alt') || 'assets/WhatsApp Video 2026-10-04 at 9.36.32 PM.mp4';
 
       this.content.innerHTML = `
-        <div class="quick-view-grid">
-          <div class="quick-view-gallery">
-            <img src="${featuredImg}" alt="${product.title}" class="quick-view-main-image" width="450" height="450" loading="eager">
+        <div class="studio-modal-grid">
+          <!-- Left Column: 3D Floating Sneaker Video Stage -->
+          <div class="studio-viewport-col">
+            <div class="studio-viewport" id="StudioModalViewport">
+              <!-- 3D Sneaker Video -->
+              <div class="studio-video-box active" id="StudioModalVideoBox">
+                <video 
+                  class="studio-sneaker-video" 
+                  id="StudioModalVideo" 
+                  autoplay 
+                  loop 
+                  muted 
+                  playsinline 
+                  preload="auto"
+                  poster="${featuredImg}"
+                >
+                  <source src="${studioVideoUrl}" type="video/mp4">
+                  <source src="${studioVideoAlt}" type="video/mp4">
+                </video>
+                <div class="studio-floor-shadow" id="StudioModalShadow"></div>
+              </div>
+
+              <!-- Still Image Box (Toggled on stills mode) -->
+              <div class="studio-stills-box" id="StudioModalStillsBox" style="display: none;">
+                <img src="${featuredImg}" alt="${product.title}" class="studio-stills-img" width="550" height="550" loading="eager">
+              </div>
+
+              <!-- Studio Mode Switcher Toolbar -->
+              <div class="studio-controls-bar">
+                <button type="button" class="studio-tab-btn active" data-studio-view="360" aria-label="360 Rotation View">
+                  <span class="tab-icon">↻</span>
+                  <span>360° 3D</span>
+                </button>
+                <button type="button" class="studio-tab-btn" data-studio-view="glow" aria-label="Glow In Dark Mode">
+                  <span class="tab-icon">✦</span>
+                  <span>GLOW LAB</span>
+                </button>
+                <button type="button" class="studio-tab-btn" data-studio-view="stills" aria-label="Product Stills View">
+                  <span class="tab-icon">📷</span>
+                  <span>STILLS</span>
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="quick-view-details" data-product-handle="${product.handle}" data-product-title="${product.title}">
-            <div class="quick-view-header-badges" style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
-              <span class="quick-view-eyebrow">LACEYAAN ATELIER</span>
+
+          <!-- Right Column: Product Intelligence & Buying / Voting Panel -->
+          <div class="studio-details-col" data-product-handle="${product.handle}" data-product-title="${product.title}">
+            <div class="studio-eyebrow-row">
+              <span class="studio-craft-badge">LACEYAAN ATELIER // DROP 01</span>
               ${isRegisterInterest 
                 ? `<span class="badge badge-gold">CONCEPT ARCHIVE // VOTING OPEN</span>` 
                 : `<span class="badge badge-dark">IN STOCK</span>`
               }
             </div>
-            
-            <h2 class="quick-view-title">${product.title}</h2>
-            
-            ${!isRegisterInterest ? `
-              <div class="quick-view-price">
+
+            <h2 class="studio-product-title">${product.title}</h2>
+
+            <div class="studio-price-block">
+              ${!isRegisterInterest ? `
                 <span class="price-now">${Utils.formatMoney(firstVariant.price)}</span>
                 ${comparePrice}
-              </div>
-            ` : `
-              <div class="interest-concept-status" style="margin: 0.5rem 0 1rem; display: flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-gold-dark); font-weight: 700;">
-                <span class="concept-dot">●</span>
-                <span>LIMITED ARCHIVE &bull; NOT FOR PURCHASE</span>
-              </div>
-            `}
+                ${firstVariant.compare_at_price > firstVariant.price ? `<span class="badge badge-sale">SAVE ${Math.round((firstVariant.compare_at_price - firstVariant.price) * 100 / firstVariant.compare_at_price)}%</span>` : ''}
+              ` : `
+                <span class="price-prototype">CONCEPT PROTOTYPE &bull; NOT FOR PURCHASE</span>
+              `}
+            </div>
 
-            <div class="quick-view-desc" style="color: #6A675F; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.25rem;">
-              ${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 240) + '...' : 'Slow-crafted atelier shoelaces engineered with solid CNC milled brass hardware and precision Japanese weaves.'}
+            <div class="studio-desc-text">
+              ${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 260) + '...' : 'Atelier slow-crafted shoelaces engineered with solid CNC milled brass hardware, bespoke aglets, and precision Japanese shuttle weaves.'}
             </div>
 
             ${isRegisterInterest ? `
-              <!-- Interactive Register Interest & Voting Section -->
-              <div class="quick-view-interest-box" style="margin: 1.25rem 0; padding: 1.25rem; background: rgba(20, 19, 17, 0.04); border: 1px solid rgba(197, 168, 128, 0.35); border-radius: var(--radius-xs);">
+              <!-- Community Demand Voting Engine -->
+              <div class="quick-view-interest-box">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
                   <span style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 700; color: var(--accent-gold-dark); text-transform: uppercase;">COMMUNITY DEMAND SCORE</span>
                   <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 800; color: #141311;" data-demand-percent>${demandPercent}%</span>
@@ -1482,50 +1631,76 @@
                 </div>
 
                 <div style="font-size: 0.82rem; color: #555; margin-bottom: 0.85rem;">
-                  Cast your vote below. Community interest directly determines which silhouettes enter our next production drop:
+                  Cast your vote below. Community demand directly determines which prototypes enter full artisan production:
                 </div>
 
                 <div class="card-actions card-interest-actions" style="display: flex; gap: 0.65rem; margin-bottom: 1rem;">
-                  <button type="button" class="btn-interest-pill btn-interest-yes ${userVote === 'interested' ? 'is-active' : ''}" data-vote-btn="interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.7rem 0.9rem;">
+                  <button type="button" class="btn-interest-pill btn-interest-yes ${userVote === 'interested' ? 'is-active' : ''}" data-vote-btn="interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.75rem 1rem;">
                     <span class="vote-icon">▲</span>
                     <span class="vote-label">INTERESTED</span>
                     <span class="vote-count-badge" data-count="interested">${countData.interested || 0}</span>
                   </button>
-                  <button type="button" class="btn-interest-pill btn-interest-no ${userVote === 'not_interested' ? 'is-active' : ''}" data-vote-btn="not_interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.7rem 0.9rem;">
+                  <button type="button" class="btn-interest-pill btn-interest-no ${userVote === 'not_interested' ? 'is-active' : ''}" data-vote-btn="not_interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.75rem 1rem;">
                     <span class="vote-icon">▼</span>
                     <span class="vote-label">NOT INTERESTED</span>
                     <span class="vote-count-badge" data-count="not_interested">${countData.not_interested || 0}</span>
                   </button>
                 </div>
 
-                <!-- Restock Notification Email Form -->
                 <form class="modal-notify-form" onsubmit="window.Laceyaan.handleEarlyAccessNotify(event, '${product.handle}')" style="display: flex; gap: 0.5rem; margin-top: 0.85rem;">
-                  <input type="email" name="email" placeholder="Enter your email for early access" required style="flex: 1; padding: 0.6rem 0.8rem; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.18); border-radius: var(--radius-xs); background: #FAF9F5; color: #141311;">
-                  <button type="submit" class="btn-primary" style="padding: 0.6rem 1.1rem; font-size: 0.75rem; white-space: nowrap;">
+                  <input type="email" name="email" placeholder="Enter email for VIP production drop alerts" required style="flex: 1; padding: 0.65rem 0.85rem; font-size: 0.8rem; border: 1px solid rgba(20,19,17,0.18); border-radius: 6px; background: #FAF9F5; color: #141311;">
+                  <button type="submit" class="btn-primary" style="padding: 0.65rem 1.15rem; font-size: 0.75rem; white-space: nowrap;">
                     <span>NOTIFY ME</span>
                   </button>
                 </form>
                 <div class="modal-notify-success" style="display: none; color: #2B7A4B; font-size: 0.8rem; font-weight: 700; margin-top: 0.6rem;">
-                  ✓ You're on the early-access VIP list for this silhouette!
+                  ✓ You are registered for the VIP allocation list!
                 </div>
               </div>
             ` : `
-              <!-- In Stock Add to Bag Form -->
-              <form action="/cart/add" method="post" class="quick-view-form">
+              <!-- In Stock Add to Bag & Buy Now Form -->
+              <form action="/cart/add" method="post" class="quick-view-form studio-buy-form">
                 <input type="hidden" name="id" value="${firstVariant.id}">
+                
                 ${hasVariants ? `
-                  <div class="quick-view-variants" style="margin: 1rem 0;">
-                    <label class="variant-label" style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Select Length / Color</label>
-                    <select class="variant-select" onchange="this.form.id.value = this.value" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-light); border-radius: var(--radius-xs); background: #fff; margin-top: 0.35rem;">
-                      ${product.variants.map(v => `<option value="${v.id}">${v.title} - ${Utils.formatMoney(v.price)}</option>`).join('')}
-                    </select>
+                  <div class="studio-variants-wrap" style="margin: 1.25rem 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                      <span class="studio-option-label">SELECT LENGTH</span>
+                      <button type="button" class="studio-guide-btn" onclick="document.getElementById('portal-modal-calculator')?.classList.add('is-open')" style="background: none; border: none; font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent-gold-dark); text-decoration: underline; cursor: pointer; padding: 0;">Size Guide &bull; Calculator</button>
+                    </div>
+                    <div class="studio-variant-pills">
+                      ${product.variants.map((v, idx) => `
+                        <button 
+                          type="button" 
+                          class="variant-pill-btn ${idx === 0 ? 'is-selected' : ''}" 
+                          data-variant-id="${v.id}"
+                          data-variant-price="${v.price}"
+                          data-variant-available="${v.available}"
+                        >
+                          <span>${v.title}</span>
+                        </button>
+                      `).join('')}
+                    </div>
                   </div>
                 ` : ''}
-                <button type="submit" class="btn btn-primary btn-block quick-view-submit" style="width: 100%; margin-top: 1rem;">
-                  <span>ADD TO BAG</span>
-                </button>
+
+                <div class="studio-actions-row" style="display: flex; gap: 0.65rem; margin-top: 1.25rem;">
+                  <button type="submit" class="btn-primary studio-btn-add" style="flex: 1; padding: 0.85rem 1rem;">
+                    <span>ADD TO BAG</span>
+                  </button>
+                  <button type="button" class="btn-secondary studio-btn-buy" onclick="window.Laceyaan.quickViewModal.buyNow('${firstVariant.id}')" style="flex: 1; padding: 0.85rem 1rem;">
+                    <span>BUY NOW</span>
+                  </button>
+                </div>
               </form>
             `}
+
+            <div class="studio-full-page-link" style="margin-top: 1.35rem; padding-top: 1rem; border-top: 1px solid rgba(20,19,17,0.08); text-align: center;">
+              <a href="/products/${product.handle}" class="link-view-full-page" style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; color: #141311; text-transform: uppercase; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                <span>View Full Atelier Spec Sheet</span>
+                <span>[ &rarr; ]</span>
+              </a>
+            </div>
           </div>
         </div>
       `;
@@ -1533,6 +1708,71 @@
       // Update UI counts and active states inside modal
       if (votingEngine) {
         votingEngine.updateAllUI();
+      }
+    }
+  }
+
+  /* ==========================================================================
+     8b. Main Product Detail Page 3D Studio Controller
+     ========================================================================== */
+  class ProductStudioController {
+    constructor() {
+      this.viewport = document.getElementById('ProductPageStudioViewport');
+      if (!this.viewport) return;
+
+      this.videoBox = document.getElementById('ProductPageVideoBox');
+      this.stillsBox = document.getElementById('ProductPageStillsBox');
+      this.video = document.getElementById('ProductPageStudioVideo');
+      this.shadow = document.getElementById('ProductPageShadow');
+      this.buttons = document.querySelectorAll('[data-product-mode]');
+
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      this.buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const mode = btn.dataset.productMode;
+          this.setMode(mode);
+        });
+      });
+
+      // Gallery thumb buttons switch to stills
+      document.querySelectorAll('.gallery-thumb-btn[data-media-url]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.setMode('stills');
+        });
+      });
+    }
+
+    setMode(mode) {
+      this.buttons.forEach(b => b.classList.toggle('active', b.dataset.productMode === mode));
+
+      if (mode === '360') {
+        if (this.viewport) this.viewport.classList.remove('is-glow-mode');
+        if (this.videoBox) this.videoBox.style.display = 'block';
+        if (this.stillsBox) this.stillsBox.style.display = 'none';
+        if (this.shadow) this.shadow.style.display = 'block';
+        if (this.video) {
+          this.video.currentTime = 0;
+          this.video.play().catch(() => {});
+        }
+      } else if (mode === 'glow') {
+        if (this.viewport) this.viewport.classList.add('is-glow-mode');
+        if (this.videoBox) this.videoBox.style.display = 'block';
+        if (this.stillsBox) this.stillsBox.style.display = 'none';
+        if (this.shadow) this.shadow.style.display = 'block';
+        if (this.video) {
+          this.video.currentTime = 5.8; // jump to glowing 3M lace sequence
+          this.video.play().catch(() => {});
+        }
+      } else if (mode === 'stills') {
+        if (this.viewport) this.viewport.classList.remove('is-glow-mode');
+        if (this.videoBox) this.videoBox.style.display = 'none';
+        if (this.stillsBox) this.stillsBox.style.display = 'block';
+        if (this.shadow) this.shadow.style.display = 'none';
+        if (this.video) this.video.pause();
       }
     }
   }
@@ -2955,10 +3195,12 @@
     window.Laceyaan.portalModals = new PortalModals();
     new ProductVariantSelector();
     window.Laceyaan.quickViewModal = new QuickViewModal();
+    window.Laceyaan.productStudio = new ProductStudioController();
     new Accordion();
     new EasterEggModal();
     new HeroVideoShowcase();
     window.Laceyaan.interestVoting = new InterestVotingEngine();
+    window.Laceyaan.productStudio = new ProductStudioController();
 
     // Initialize Animated Background Shoelace Engine
     if (window.Laceyaan.backgroundLace) {
@@ -2984,6 +3226,7 @@
     new EasterEggModal();
     new HeroVideoShowcase();
     window.Laceyaan.interestVoting = new InterestVotingEngine();
+    window.Laceyaan.productStudio = new ProductStudioController();
     if (window.Laceyaan.deliveryManager) {
       window.Laceyaan.deliveryManager.init();
     } else {

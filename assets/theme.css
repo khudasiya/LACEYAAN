@@ -7332,3 +7332,488 @@ img {
     font-size: 0.68rem;
   }
 }
+
+/* ==========================================================================
+   LACEYAAN 3D Studio Sneaker Showcase & Quick View Modal (Video Reference)
+   ========================================================================== */
+.studio-3d-modal {
+  width: min(1080px, 94vw) !important;
+  max-height: 92vh !important;
+  border-radius: 16px !important;
+  background: #FAF9F5 !important;
+  box-shadow: 0 30px 90px -20px rgba(0, 0, 0, 0.45) !important;
+  border: 1px solid rgba(20, 19, 17, 0.12) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+}
+
+.studio-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.6rem;
+  background: #FAF9F5;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.08);
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.studio-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.studio-brand-tag {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #141311;
+}
+
+.studio-divider {
+  color: #8C8880;
+  font-size: 0.75rem;
+}
+
+.studio-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold-dark);
+  text-transform: uppercase;
+}
+
+.studio-header-center {
+  display: flex;
+  align-items: center;
+}
+
+.studio-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(20, 19, 17, 0.05);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #141311;
+  letter-spacing: 0.08em;
+}
+
+.live-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2ED573;
+  animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 7px rgba(46, 213, 115, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 213, 115, 0); }
+}
+
+.studio-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(20, 19, 17, 0.05);
+  border: 1px solid rgba(20, 19, 17, 0.12);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #141311;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.studio-close-btn:hover {
+  background: #141311;
+  color: var(--accent-gold);
+  border-color: #141311;
+  transform: scale(1.04);
+}
+
+.studio-close-btn .close-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Modal Content Grid */
+.studio-modal-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.studio-viewport-col {
+  position: relative;
+  background: radial-gradient(ellipse at 50% 48%, #F7F5F0 0%, #E9E6DC 60%, #D8D3C6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-right: 1px solid rgba(20, 19, 17, 0.08);
+}
+
+.studio-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 48%, #F7F5F0 0%, #E9E6DC 60%, #D8D3C6 100%);
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.studio-viewport.is-glow-mode {
+  background: radial-gradient(ellipse at 50% 50%, #151e17 0%, #0d120e 60%, #060806 100%) !important;
+}
+
+.studio-video-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.studio-sneaker-video {
+  max-width: 95%;
+  max-height: 460px;
+  object-fit: contain;
+  z-index: 2;
+  position: relative;
+  animation: studioLevitate 4.5s ease-in-out infinite;
+  display: block;
+  pointer-events: none;
+}
+
+@keyframes studioLevitate {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(0.4deg);
+  }
+}
+
+.studio-floor-shadow {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58%;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(20, 19, 17, 0.36) 0%, rgba(20, 19, 17, 0.12) 45%, transparent 75%);
+  z-index: 1;
+  pointer-events: none;
+  animation: studioShadow 4.5s ease-in-out infinite;
+  transition: all 0.5s ease;
+}
+
+@keyframes studioShadow {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0.55;
+  }
+}
+
+.studio-viewport.is-glow-mode .studio-floor-shadow {
+  background: radial-gradient(ellipse at center, rgba(57, 255, 20, 0.55) 0%, rgba(57, 255, 20, 0.2) 45%, transparent 80%) !important;
+  filter: blur(5px);
+  width: 65%;
+  height: 28px;
+}
+
+.studio-stills-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.studio-stills-img {
+  max-width: 100%;
+  max-height: 440px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Floating Studio Controls Toolbar */
+.studio-controls-bar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(20, 19, 17, 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.studio-tab-btn {
+  background: transparent;
+  border: none;
+  color: #FAF9F5;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 6px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.studio-tab-btn .tab-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.studio-tab-btn:hover {
+  color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.studio-tab-btn.active {
+  background: var(--accent-gold);
+  color: #141311;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Studio Product Intelligence & Buying Panel */
+.studio-details-col {
+  padding: 2.25rem 2.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: #FAF9F5;
+}
+
+.studio-eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.studio-craft-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-gold-dark);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.studio-product-title {
+  font-family: var(--font-sans);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.28;
+  margin: 0 0 0.85rem;
+  color: #141311;
+  letter-spacing: -0.01em;
+}
+
+.studio-price-block {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.studio-desc-text {
+  color: #6A675F;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.studio-option-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #141311;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.studio-variant-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.variant-pill-btn {
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 19, 17, 0.2);
+  border-radius: 6px;
+  padding: 0.55rem 0.95rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #141311;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.variant-pill-btn:hover {
+  border-color: #141311;
+  transform: translateY(-1px);
+}
+
+.variant-pill-btn.is-selected {
+  background: #141311;
+  color: var(--accent-gold);
+  border-color: #141311;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.studio-actions-row {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.studio-btn-add {
+  flex: 1;
+  padding: 0.9rem 1rem !important;
+  background: var(--accent-gold) !important;
+  color: #141311 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 800 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.1em !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.studio-btn-add:hover {
+  background: var(--accent-gold-dark) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(197, 168, 128, 0.35);
+}
+
+.studio-btn-buy {
+  flex: 1;
+  padding: 0.9rem 1rem !important;
+  background: #141311 !important;
+  color: #FAF9F5 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 800 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.1em !important;
+  border: 1px solid rgba(197, 168, 128, 0.45) !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.studio-btn-buy:hover {
+  background: var(--accent-gold) !important;
+  color: #141311 !important;
+  border-color: var(--accent-gold) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(197, 168, 128, 0.35);
+}
+
+/* 3D Badge on Product Page Thumbnails */
+.thumb-3d-btn {
+  position: relative;
+}
+
+.thumb-3d-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 3;
+  background: var(--accent-gold);
+  color: #141311;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+/* Mobile Responsiveness for Studio Modal */
+@media (max-width: 860px) {
+  .studio-3d-modal {
+    width: 95vw !important;
+    max-height: 94vh !important;
+  }
+  .studio-modal-grid {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .studio-viewport-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(20, 19, 17, 0.08);
+  }
+  .studio-viewport {
+    min-height: 320px;
+    height: 320px;
+  }
+  .studio-sneaker-video {
+    max-height: 280px;
+  }
+  .studio-details-col {
+    padding: 1.5rem 1.25rem;
+  }
+  .studio-actions-row {
+    flex-direction: column;
+  }
+  .studio-header-center {
+    display: none;
+  }
+}
