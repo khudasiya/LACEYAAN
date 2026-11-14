@@ -61,6 +61,33 @@
                 {%- endif -%}
               </li>
             {%- endfor -%}
+
+            {%- if linklists[section.settings.menu].links.size == 0 -%}
+              <li class="nav-item">
+                <a href="{{ routes.all_products_collection_url }}" class="nav-link">
+                  <span>Shop All Laces</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/pages/lookbook" class="nav-link">
+                  <span>Lookbook</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/pages/length-guide" class="nav-link">
+                  <span>Length Guide</span>
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- if section.settings.show_register_interest != false -%}
+              <li class="nav-item nav-item-interest">
+                <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="nav-link nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
+                  <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
+                  <span class="nav-interest-pill">VOTE</span>
+                </a>
+              </li>
+            {%- endif -%}
           </ul>
         </nav>
       </div>
@@ -195,7 +222,26 @@
             </a>
           {%- endif -%}
         </div>
-      {%- endfor -%}
+      {%- if linklists[section.settings.menu].links.size == 0 -%}
+        <div class="mobile-nav-group">
+          <a href="{{ routes.all_products_collection_url }}" class="mobile-nav-link">Shop All Laces</a>
+        </div>
+        <div class="mobile-nav-group">
+          <a href="/pages/lookbook" class="mobile-nav-link">Lookbook</a>
+        </div>
+        <div class="mobile-nav-group">
+          <a href="/pages/length-guide" class="mobile-nav-link">Length Guide</a>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_register_interest != false -%}
+        <div class="mobile-nav-group mobile-nav-group-interest">
+          <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="mobile-nav-link mobile-nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
+            <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
+            <span class="nav-interest-pill">VOTE</span>
+          </a>
+        </div>
+      {%- endif -%}
     </nav>
 
     <!-- Mobile Drawer Footer Contact & Social -->
@@ -239,6 +285,27 @@
       "id": "enable_sticky_header",
       "label": "Enable sticky header on scroll",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Register Interest Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_register_interest",
+      "label": "Show 'Register Interest' in Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "register_interest_label",
+      "label": "Menu Item Label",
+      "default": "Register Interest"
+    },
+    {
+      "type": "url",
+      "id": "register_interest_url",
+      "label": "Register Interest Link"
     }
   ]
 }

@@ -8,9 +8,14 @@
   assign current_variant = product.selected_or_first_available_variant
   assign featured_media = product.featured_media
   assign secondary_media = product.media[1]
+
+  assign is_register_interest = false
+  if collection.handle == 'register-interest' or template.suffix == 'register-interest' or product.tags contains 'register-interest' or collection.title contains 'Register Interest'
+    assign is_register_interest = true
+  endif
 -%}
 
-<div class="product-card" data-product-id="{{ product.id }}">
+<div class="product-card{% if is_register_interest %} product-card-interest{% endif %}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">
   <div class="card-media">
     <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
@@ -35,9 +40,12 @@
       {%- endif -%}
     </a>
 
-    <!-- Luxury Status Badges (Genuine only) -->
+    <!-- Luxury Status Badges -->
     <div class="card-badges">
-      {%- if current_variant.available == false -%}
+      {%- if is_register_interest -%}
+        <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
+        <span class="badge badge-dark">VOTE ONLY</span>
+      {%- elsif current_variant.available == false -%}
         <span class="badge badge-sold-out">SOLD OUT</span>
       {%- elsif product.compare_at_price > product.price -%}
         {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
@@ -85,51 +93,90 @@
       <a href="{{ product.url }}">{{ product.title }}</a>
     </h3>
 
-    <!-- Price -->
+    <!-- Price or Prototype Concept Status -->
     <div class="card-price-row">
-      {% render 'price', product: product, use_variant: true %}
+      {%- if is_register_interest -%}
+        <div class="interest-concept-status">
+          <span class="concept-dot">●</span>
+          <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+        </div>
+      {%- else -%}
+        {% render 'price', product: product, use_variant: true %}
+      {%- endif -%}
     </div>
 
     <!-- Options Previews (Lengths or Colors) -->
-    {%- for option in product.options_with_values -%}
-      {%- assign opt_name = option.name | downcase -%}
-      {%- if opt_name contains 'length' -%}
-        <div class="card-lengths-preview">
-          {%- for val in option.values limit: 4 -%}
-            <span class="length-pill-preview">{{ val }}</span>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
+    {%- unless is_register_interest -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign opt_name = option.name | downcase -%}
+        {%- if opt_name contains 'length' -%}
+          <div class="card-lengths-preview">
+            {%- for val in option.values limit: 4 -%}
+              <span class="length-pill-preview">{{ val }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endunless -%}
 
-    <!-- Action Buttons with Direct BUY NOW -->
-    <div class="card-actions">
-      {%- if current_variant.available -%}
+    <!-- Action Buttons: Voting Pills for Register Interest OR Standard Buy Now -->
+    {%- if is_register_interest -%}
+      <div class="card-actions card-interest-actions" data-interest-card data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
         <button 
           type="button" 
-          class="btn-buy-now" 
-          data-buy-now 
-          data-variant-id="{{ current_variant.id }}"
+          class="btn-interest-pill btn-interest-yes" 
+          data-vote-btn="interested"
           data-product-handle="{{ product.handle }}"
-          aria-label="Buy {{ product.title | escape }} now"
+          aria-label="I am interested in {{ product.title | escape }}"
+          title="Vote Interested"
         >
-          <span>BUY NOW</span>
+          <span class="vote-icon">▲</span>
+          <span class="vote-label">INTERESTED</span>
+          <span class="vote-count-badge" data-count="interested">0</span>
         </button>
+
         <button 
           type="button" 
-          class="btn-add-bag" 
-          data-add-to-cart 
-          data-variant-id="{{ current_variant.id }}"
+          class="btn-interest-pill btn-interest-no" 
+          data-vote-btn="not_interested"
           data-product-handle="{{ product.handle }}"
-          aria-label="Add {{ product.title | escape }} to bag"
+          aria-label="Not interested in {{ product.title | escape }}"
+          title="Vote Pass"
         >
-          {% render 'icon-shopping-bag' %}
+          <span class="vote-icon">▼</span>
+          <span class="vote-label">PASS</span>
+          <span class="vote-count-badge" data-count="not_interested">0</span>
         </button>
-      {%- else -%}
-        <button type="button" class="btn-buy-now btn-sold-out" disabled>
-          <span>SOLD OUT</span>
-        </button>
-      {%- endif -%}
-    </div>
+      </div>
+    {%- else -%}
+      <div class="card-actions">
+        {%- if current_variant.available -%}
+          <button 
+            type="button" 
+            class="btn-buy-now" 
+            data-buy-now 
+            data-variant-id="{{ current_variant.id }}"
+            data-product-handle="{{ product.handle }}"
+            aria-label="Buy {{ product.title | escape }} now"
+          >
+            <span>BUY NOW</span>
+          </button>
+          <button 
+            type="button" 
+            class="btn-add-bag" 
+            data-add-to-cart 
+            data-variant-id="{{ current_variant.id }}"
+            data-product-handle="{{ product.handle }}"
+            aria-label="Add {{ product.title | escape }} to bag"
+          >
+            {% render 'icon-shopping-bag' %}
+          </button>
+        {%- else -%}
+          <button type="button" class="btn-buy-now btn-sold-out" disabled>
+            <span>SOLD OUT</span>
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </div>
 </div>

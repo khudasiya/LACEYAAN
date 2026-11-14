@@ -1,0 +1,79 @@
+{% comment %}
+  LACEYAAN Register Interest - Store Owner Analytics & Intelligence Modal
+{% endcomment %}
+
+<div id="interest-admin-modal" class="interest-admin-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+  <div class="interest-admin-overlay" id="close-interest-admin-overlay"></div>
+  <div class="interest-admin-dialog">
+    <div class="interest-admin-header">
+      <div class="admin-header-title">
+        <span class="admin-badge">ATELIER INTELLIGENCE</span>
+        <h3>Register Interest &bull; Product Demand Analytics</h3>
+      </div>
+      <button type="button" class="interest-admin-close" id="close-interest-admin-btn" aria-label="Close Admin Modal">&times;</button>
+    </div>
+
+    <div class="interest-admin-body">
+      <!-- Admin Portal Guide -->
+      <div class="admin-instructions-card">
+        <div class="instructions-icon">🏛️</div>
+        <div class="instructions-text">
+          <h4>How to view this in your Shopify Admin Portal:</h4>
+          <ul>
+            <li><strong>Customers &amp; Early Drop List:</strong> Go to <strong>Shopify Admin &rarr; Customers</strong>. Every user who requests early access is saved with the tag <code>interest-registered</code> and <code>product-[handle]</code>.</li>
+            <li><strong>Customer Segments:</strong> In Shopify Admin, click <em>Customers &rarr; Filter &rarr; Tag &rarr; interest-registered</em> to export all early interest buyers.</li>
+            <li><strong>Email Alerts:</strong> New signups notify your store admin email (<code>laceyaan@gmail.com</code>) automatically.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Action Toolbar -->
+      <div class="admin-table-toolbar">
+        <div class="admin-stats-summary-row">
+          <span class="summary-pill">Total Silhouettes: <strong id="admin-summary-total-products">0</strong></span>
+          <span class="summary-pill">Total Community Votes: <strong id="admin-summary-total-votes">0</strong></span>
+        </div>
+        <button type="button" class="btn-primary btn-export-csv" id="btn-export-interest-csv">
+          <span>📥 EXPORT CSV REPORT</span>
+        </button>
+      </div>
+
+      <!-- Interactive Table -->
+      <div class="admin-table-container">
+        <table class="interest-admin-table" id="interest-admin-table">
+          <thead>
+            <tr>
+              <th>Product Silhouette</th>
+              <th>Product Handle</th>
+              <th style="text-align: center;">▲ Interested</th>
+              <th style="text-align: center;">▼ Pass</th>
+              <th style="text-align: center;">Total Votes</th>
+              <th style="text-align: right;">Demand %</th>
+            </tr>
+          </thead>
+          <tbody id="interest-admin-tbody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Live Webhook / Google Sheets Sync (Optional) -->
+      <div class="admin-webhook-section">
+        <div class="webhook-header">
+          <h5>Real-Time Google Sheets / Webhook Sync (Optional)</h5>
+          <span class="webhook-hint">Stream every vote automatically into a Google Sheet or Zapier</span>
+        </div>
+        <div class="webhook-input-group">
+          <input 
+            type="url" 
+            id="interest-webhook-input" 
+            class="admin-webhook-input" 
+            placeholder="Paste Google Apps Script / Zapier Webhook URL"
+          >
+          <button type="button" class="btn-primary btn-save-webhook" id="btn-save-webhook">Save Webhook</button>
+        </div>
+        <p class="webhook-saved-note" id="webhook-saved-note" style="display:none;">✓ Webhook connected! Votes will sync in real time.</p>
+      </div>
+    </div>
+  </div>
+</div>

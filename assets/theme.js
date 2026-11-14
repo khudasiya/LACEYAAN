@@ -2387,6 +2387,334 @@
   }
 
   /* ==========================================================================
+     Register Interest - Community Prototype Vault & Voting Engine
+     ========================================================================== */
+  class InterestVotingEngine {
+    constructor() {
+      this.storageKey = 'laceyaan_interest_counts_v1';
+      this.userVotesKey = 'laceyaan_user_interest_votes_v1';
+      this.webhookKey = 'laceyaan_interest_webhook_url';
+      
+      this.defaultSeeds = {
+        'titanium-damier-jacquard': { title: 'Laser-Etched Titanium Damier', interested: 54, not_interested: 3 },
+        'japanese-indigo-sashiko-rope': { title: 'Japanese Indigo Sashiko Rope', interested: 42, not_interested: 5 },
+        'nocturnal-3m-aurora-reflective': { title: 'Nocturnal 3M Aurora Reflective', interested: 68, not_interested: 2 },
+        'vintage-olive-canvas-shuttle': { title: 'Vintage Olive Canvas Shuttle Weave', interested: 39, not_interested: 4 }
+      };
+
+      this.counts = this.loadCounts();
+      this.userVotes = this.loadUserVotes();
+
+      this.init();
+    }
+
+    loadCounts() {
+      try {
+        const stored = localStorage.getItem(this.storageKey);
+        if (stored) {
+          return Object.assign({}, this.defaultSeeds, JSON.parse(stored));
+        }
+      } catch (e) {}
+      return Object.assign({}, this.defaultSeeds);
+    }
+
+    saveCounts() {
+      try {
+        localStorage.setItem(this.storageKey, JSON.stringify(this.counts));
+      } catch (e) {}
+    }
+
+    loadUserVotes() {
+      try {
+        const stored = localStorage.getItem(this.userVotesKey);
+        if (stored) return JSON.parse(stored);
+      } catch (e) {}
+      return {};
+    }
+
+    saveUserVotes() {
+      try {
+        localStorage.setItem(this.userVotesKey, JSON.stringify(this.userVotes));
+      } catch (e) {}
+    }
+
+    init() {
+      this.bindButtons();
+      this.updateAllUI();
+      this.initAdminModal();
+      this.checkUrlForAdmin();
+    }
+
+    bindButtons() {
+      // Delegate clicks for interest buttons (both on cards and product pages)
+      document.addEventListener('click', (e) => {
+        const voteBtn = e.target.closest('[data-vote-btn]');
+        if (!voteBtn) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const handle = voteBtn.getAttribute('data-product-handle');
+        const voteType = voteBtn.getAttribute('data-vote-btn'); // 'interested' or 'not_interested'
+
+        if (!handle || !voteType) return;
+
+        this.castVote(handle, voteType);
+      });
+    }
+
+    castVote(handle, voteType) {
+      if (!this.counts[handle]) {
+        const card = document.querySelector(`[data-product-handle="${handle}"]`);
+        const title = card ? (card.getAttribute('data-product-title') || handle) : handle;
+        this.counts[handle] = { title, interested: 0, not_interested: 0 };
+      }
+
+      const prevVote = this.userVotes[handle];
+
+      if (prevVote === voteType) {
+        // Toggle off
+        this.counts[handle][voteType] = Math.max(0, this.counts[handle][voteType] - 1);
+        delete this.userVotes[handle];
+      } else {
+        // Switching vote
+        if (prevVote) {
+          this.counts[handle][prevVote] = Math.max(0, this.counts[handle][prevVote] - 1);
+        }
+        this.counts[handle][voteType] = (this.counts[handle][voteType] || 0) + 1;
+        this.userVotes[handle] = voteType;
+        
+        // Micro toast confirmation
+        if (window.Laceyaan && window.Laceyaan.showToast) {
+          const msg = voteType === 'interested' 
+            ? `Your interest in ${this.counts[handle].title || 'this silhouette'} has been logged!` 
+            : `Your feedback has been recorded.`;
+          window.Laceyaan.showToast(msg);
+        }
+
+        // Send background beacon / webhook sync
+        this.dispatchVoteBeacon(handle, voteType);
+      }
+
+      this.saveCounts();
+      this.saveUserVotes();
+      this.updateAllUI();
+    }
+
+    dispatchVoteBeacon(handle, voteType) {
+      const payload = {
+        event: 'register_interest_vote',
+        product_handle: handle,
+        product_title: (this.counts[handle] && this.counts[handle].title) || handle,
+        vote: voteType,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        const webhookUrl = localStorage.getItem(this.webhookKey);
+        if (webhookUrl && webhookUrl.startsWith('http')) {
+          fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }).catch(() => {});
+        }
+      } catch (e) {}
+
+      document.dispatchEvent(new CustomEvent('laceyaan:interest:voted', { detail: payload }));
+    }
+
+    updateAllUI() {
+      // 1. Update Card buttons
+      document.querySelectorAll('[data-product-handle]').forEach((container) => {
+        const handle = container.getAttribute('data-product-handle');
+        if (!handle) return;
+
+        const productData = this.counts[handle] || { interested: 0, not_interested: 0 };
+        const userVote = this.userVotes[handle];
+
+        // Update count badges
+        container.querySelectorAll('[data-count="interested"]').forEach((el) => {
+          el.textContent = productData.interested || 0;
+        });
+        container.querySelectorAll('[data-count="not_interested"]').forEach((el) => {
+          el.textContent = productData.not_interested || 0;
+        });
+
+        // Update active classes
+        container.querySelectorAll('[data-vote-btn="interested"]').forEach((btn) => {
+          btn.classList.toggle('is-active', userVote === 'interested');
+        });
+        container.querySelectorAll('[data-vote-btn="not_interested"]').forEach((btn) => {
+          btn.classList.toggle('is-active', userVote === 'not_interested');
+        });
+
+        // Update product page demand meter if present
+        const demandPercentEl = container.querySelector('[data-demand-percent]');
+        const demandFillEl = container.querySelector('[data-demand-fill]');
+        const totalVotesLabel = container.querySelector('[data-total-votes-label]');
+
+        if (demandPercentEl || demandFillEl) {
+          const total = (productData.interested || 0) + (productData.not_interested || 0);
+          const percent = total > 0 ? Math.round(((productData.interested || 0) / total) * 100) : 100;
+          if (demandPercentEl) demandPercentEl.textContent = `${percent}% APPROVAL`;
+          if (demandFillEl) demandFillEl.style.width = `${percent}%`;
+          if (totalVotesLabel) totalVotesLabel.textContent = `${total} Total Community Votes Cast`;
+        }
+      });
+
+      // 2. Update Collection Header Summary Stats
+      const totalConceptsEl = document.getElementById('stats-total-concepts');
+      const totalVotesEl = document.getElementById('stats-total-votes');
+      const topTrendingEl = document.getElementById('stats-top-trending');
+
+      let grandTotalVotes = 0;
+      let topScore = -1;
+      let topTitle = '--';
+      let totalProducts = Object.keys(this.counts).length;
+
+      Object.entries(this.counts).forEach(([handle, data]) => {
+        const votes = (data.interested || 0) + (data.not_interested || 0);
+        grandTotalVotes += votes;
+        if ((data.interested || 0) > topScore) {
+          topScore = data.interested || 0;
+          topTitle = data.title || handle;
+        }
+      });
+
+      if (totalConceptsEl && !totalConceptsEl.getAttribute('data-server-set')) {
+        totalConceptsEl.textContent = totalProducts;
+      }
+      if (totalVotesEl) totalVotesEl.textContent = grandTotalVotes;
+      if (topTrendingEl) topTrendingEl.textContent = topTitle;
+    }
+
+    initAdminModal() {
+      const openBtn = document.getElementById('open-interest-admin-btn');
+      const modal = document.getElementById('interest-admin-modal');
+      const closeBtn = document.getElementById('close-interest-admin-btn');
+      const overlay = document.getElementById('close-interest-admin-overlay');
+      const exportCsvBtn = document.getElementById('btn-export-interest-csv');
+      const saveWebhookBtn = document.getElementById('btn-save-webhook');
+      const webhookInput = document.getElementById('interest-webhook-input');
+      const webhookNote = document.getElementById('webhook-saved-note');
+
+      if (!modal) return;
+
+      const openModal = () => {
+        this.renderAdminTable();
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeModal = () => {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      };
+
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (overlay) overlay.addEventListener('click', closeModal);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+          closeModal();
+        }
+      });
+
+      if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', () => {
+          this.exportCsv();
+        });
+      }
+
+      if (webhookInput) {
+        const saved = localStorage.getItem(this.webhookKey);
+        if (saved) webhookInput.value = saved;
+      }
+
+      if (saveWebhookBtn && webhookInput) {
+        saveWebhookBtn.addEventListener('click', () => {
+          const val = webhookInput.value.trim();
+          localStorage.setItem(this.webhookKey, val);
+          if (webhookNote) {
+            webhookNote.style.display = 'block';
+            setTimeout(() => { webhookNote.style.display = 'none'; }, 3000);
+          }
+        });
+      }
+    }
+
+    checkUrlForAdmin() {
+      if (window.location.search.includes('admin=true') || window.location.search.includes('view=admin')) {
+        setTimeout(() => {
+          const openBtn = document.getElementById('open-interest-admin-btn');
+          if (openBtn) openBtn.click();
+        }, 500);
+      }
+    }
+
+    renderAdminTable() {
+      const tbody = document.getElementById('interest-admin-tbody');
+      const totalProdEl = document.getElementById('admin-summary-total-products');
+      const totalVotesEl = document.getElementById('admin-summary-total-votes');
+
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      let grandTotalVotes = 0;
+      let countProducts = 0;
+
+      Object.entries(this.counts).forEach(([handle, data]) => {
+        countProducts++;
+        const interested = data.interested || 0;
+        const notInterested = data.not_interested || 0;
+        const total = interested + notInterested;
+        grandTotalVotes += total;
+        const demand = total > 0 ? Math.round((interested / total) * 100) : 100;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${data.title || handle}</strong></td>
+          <td><code>${handle}</code></td>
+          <td style="text-align: center; color: var(--accent-gold); font-weight: 700;">${interested}</td>
+          <td style="text-align: center; color: #888;">${notInterested}</td>
+          <td style="text-align: center; font-weight: 700;">${total}</td>
+          <td style="text-align: right; font-weight: 700; color: ${demand >= 75 ? '#4ade80' : 'var(--accent-gold)'};">${demand}%</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (totalProdEl) totalProdEl.textContent = countProducts;
+      if (totalVotesEl) totalVotesEl.textContent = grandTotalVotes;
+    }
+
+    exportCsv() {
+      let csvContent = 'data:text/csv;charset=utf-8,';
+      csvContent += 'Product Title,Handle,Interested,Not Interested,Total Votes,Demand Approval %\r\n';
+
+      Object.entries(this.counts).forEach(([handle, data]) => {
+        const title = (data.title || handle).replace(/"/g, '""');
+        const interested = data.interested || 0;
+        const notInterested = data.not_interested || 0;
+        const total = interested + notInterested;
+        const demand = total > 0 ? Math.round((interested / total) * 100) : 100;
+
+        csvContent += `"${title}","${handle}",${interested},${notInterested},${total},${demand}%\r\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `laceyaan_register_interest_report_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
@@ -2403,6 +2731,7 @@
     new Accordion();
     new EasterEggModal();
     new HeroVideoShowcase();
+    window.Laceyaan.interestVoting = new InterestVotingEngine();
 
     // Initialize Animated Background Shoelace Engine
     if (window.Laceyaan.backgroundLace) {
@@ -2427,6 +2756,7 @@
     new AnnouncementBar();
     new EasterEggModal();
     new HeroVideoShowcase();
+    window.Laceyaan.interestVoting = new InterestVotingEngine();
     if (window.Laceyaan.deliveryManager) {
       window.Laceyaan.deliveryManager.init();
     } else {

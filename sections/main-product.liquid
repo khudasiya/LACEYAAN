@@ -72,116 +72,215 @@
           <span class="product-vendor-badge">{{ product.type }}</span>
         {%- endif -%}
 
+        {%- liquid
+          assign is_register_interest = false
+          if product.tags contains 'register-interest' or template.suffix == 'register-interest' or collection.handle == 'register-interest'
+            assign is_register_interest = true
+          endif
+        -%}
+
         <h1 class="product-page-title">{{ product.title }}</h1>
 
-        <!-- Price -->
-        <div class="product-price-container" id="product-price-{{ section.id }}">
-          {% render 'price', product: product, use_variant: true %}
-        </div>
+        {%- if is_register_interest -%}
+          <!-- Register Interest Prototype Status Banner -->
+          <div class="product-interest-status-banner">
+            <div class="interest-badge-row">
+              <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
+              <span class="badge badge-dark">VOTING OPEN</span>
+            </div>
+            <p class="interest-concept-notice">
+              This silhouette is an experimental atelier weave in development. <strong>It is not currently available for purchase.</strong> Cast your vote below to help fast-track it into our next limited production run.
+            </p>
+          </div>
+        {%- else -%}
+          <!-- Price -->
+          <div class="product-price-container" id="product-price-{{ section.id }}">
+            {% render 'price', product: product, use_variant: true %}
+          </div>
 
-        <!-- Stock indicator -->
-        <div class="product-stock-status">
-          {%- if current_variant.available -%}
-            <span class="stock-pill stock-in">
-              <span class="stock-dot"></span>
-              <span>{{ 'products.product.in_stock' | t }}</span>
-            </span>
-          {%- else -%}
-            <span class="stock-pill stock-out">
-              <span class="stock-dot"></span>
-              <span>{{ 'products.product.sold_out' | t }}</span>
-            </span>
-          {%- endif -%}
-        </div>
+          <!-- Stock indicator -->
+          <div class="product-stock-status">
+            {%- if current_variant.available -%}
+              <span class="stock-pill stock-in">
+                <span class="stock-dot"></span>
+                <span>{{ 'products.product.in_stock' | t }}</span>
+              </span>
+            {%- else -%}
+              <span class="stock-pill stock-out">
+                <span class="stock-dot"></span>
+                <span>{{ 'products.product.sold_out' | t }}</span>
+              </span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
 
         <!-- Short Subtitle or Summary -->
         {%- if product.metafields.descriptors.subtitle != blank -%}
           <p class="product-teaser">{{ product.metafields.descriptors.subtitle }}</p>
         {%- endif -%}
 
-        <!-- Native Shopify Product Form -->
-        {%- form 'product', product, id: 'product-form-installment', class: 'native-product-form' -%}
-          <input type="hidden" name="id" value="{{ current_variant.id }}" id="selected-variant-id">
-
-          <!-- Dynamic Option Selectors (Length, Color, Aglet Finish) -->
-          {%- unless product.has_only_default_variant -%}
-            <div class="product-options-wrapper">
-              {%- for option in product.options_with_values -%}
-                <div class="option-group" data-option-index="{{ forloop.index0 }}">
-                  <div class="option-header">
-                    <label class="option-label">
-                      {{ option.name }}: <strong class="selected-option-value">{{ option.selected_value }}</strong>
-                    </label>
-                    {%- assign opt_down = option.name | downcase -%}
-                    {%- if opt_down contains 'length' -%}
-                      <a href="/pages/length-guide" class="length-calculator-link" target="_blank">
-                        <span>Calculate Length &rarr;</span>
-                      </a>
-                    {%- endif -%}
-                  </div>
-
-                  <div class="option-values-row">
-                    {%- for value in option.values -%}
-                      <label class="option-value-chip{% if option.selected_value == value %} active{% endif %}">
-                        <input 
-                          type="radio" 
-                          name="options[{{ option.name | escape }}]" 
-                          value="{{ value | escape }}"
-                          {% if option.selected_value == value %}checked="checked"{% endif %}
-                          class="visually-hidden option-radio-input"
-                          data-option-position="{{ option.position }}"
-                        >
-                        <span class="chip-label">{{ value }}</span>
-                      </label>
-                    {%- endfor -%}
-                  </div>
-                </div>
-              {%- endfor -%}
-            </div>
-          {%- endunless -%}
-
-          <!-- Quantity Picker & Add to Bag Button -->
-          <div class="product-purchase-row">
-            <div class="quantity-input-wrap">
-              <label for="Quantity-{{ section.id }}" class="visually-hidden">{{ 'products.product.quantity' | t }}</label>
-              <button type="button" class="qty-btn" data-qty-action="minus" aria-label="Decrease quantity">-</button>
-              <input 
-                type="number" 
-                name="quantity" 
-                id="Quantity-{{ section.id }}" 
-                min="1" 
-                value="1" 
-                class="quantity-input"
-                aria-label="{{ 'products.product.quantity' | t }}"
+        {%- if is_register_interest -%}
+          <!-- Prototype Voting & Early Access Form (No Buy / Add to Bag) -->
+          <div class="product-interest-vote-unit" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
+            <div class="interest-vote-buttons-row">
+              <button 
+                type="button" 
+                class="btn-vote-main btn-vote-main-yes" 
+                data-vote-btn="interested" 
+                data-product-handle="{{ product.handle }}"
+                aria-label="Vote Interested"
               >
-              <button type="button" class="qty-btn" data-qty-action="plus" aria-label="Increase quantity">+</button>
+                <span class="vote-icon">▲</span>
+                <span class="vote-label">I'M INTERESTED</span>
+                <span class="vote-count-pill" data-count="interested">0</span>
+              </button>
+
+              <button 
+                type="button" 
+                class="btn-vote-main btn-vote-main-no" 
+                data-vote-btn="not_interested" 
+                data-product-handle="{{ product.handle }}"
+                aria-label="Vote Pass"
+              >
+                <span class="vote-icon">▼</span>
+                <span class="vote-label">NOT INTERESTED</span>
+                <span class="vote-count-pill" data-count="not_interested">0</span>
+              </button>
             </div>
 
-            <button 
-              type="submit" 
-              name="add" 
-              class="btn-primary btn-add-main" 
-              id="AddToCart-{{ section.id }}"
-              {% unless current_variant.available %}disabled{% endunless %}
-            >
-              {% render 'icon-shopping-bag' %}
-              <span id="AddToCartText-{{ section.id }}">
-                {%- if current_variant.available -%}
-                  {{ 'products.product.add_to_cart' | t }} &bull; <span class="btn-price">{{ current_variant.price | money }}</span>
+            <!-- Community Demand Progress Bar -->
+            <div class="interest-demand-meter">
+              <div class="demand-meter-header">
+                <span class="demand-meter-title">Community Demand Approval</span>
+                <span class="demand-meter-percent" data-demand-percent>92% APPROVAL</span>
+              </div>
+              <div class="demand-meter-bar">
+                <div class="demand-meter-fill" data-demand-fill style="width: 92%;"></div>
+              </div>
+              <div class="demand-meter-stats">
+                <span data-total-votes-label>47 Total Community Votes Cast</span>
+              </div>
+            </div>
+
+            <!-- Early Drop Notification Collector (Submits directly to Shopify Admin -> Customers) -->
+            <div class="interest-notify-box">
+              <h4 class="notify-box-title">Request Early Drop Notification</h4>
+              <p class="notify-box-sub">Enter your email to receive priority early drop access if this silhouette enters production.</p>
+
+              {%- form 'customer', id: 'InterestNotifyForm', class: 'interest-notify-form' -%}
+                <input type="hidden" name="contact[tags]" value="interest-registered, product-{{ product.handle }}">
+                <input type="hidden" name="contact[note]" value="Customer registered early interest for {{ product.title | escape }}">
+                
+                {%- if form.posted_successfully? -%}
+                  <div class="interest-notify-success">
+                    ✓ Your interest has been registered! You'll receive priority access if this drops.
+                  </div>
                 {%- else -%}
-                  {{ 'products.product.sold_out' | t }}
+                  <div class="notify-input-group">
+                    <input 
+                      type="email" 
+                      name="contact[email]" 
+                      class="notify-input" 
+                      placeholder="Enter your email address" 
+                      required 
+                      aria-label="Email for drop notification"
+                    >
+                    <button type="submit" class="btn-primary notify-submit-btn">
+                      <span>NOTIFY ME</span>
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <p class="notify-form-error">{{ form.errors | default_errors }}</p>
+                  {%- endif -%}
                 {%- endif -%}
-              </span>
-            </button>
-          </div>
-
-          <!-- Dynamic Shopify Payment Buttons (Apple Pay, Google Pay, Buy It Now) -->
-          {%- if section.settings.show_dynamic_checkout -%}
-            <div class="dynamic-payment-buttons">
-              {{ form | payment_button }}
+              {%- endform -%}
             </div>
-          {%- endif -%}
-        {%- endform -%}
+          </div>
+        {%- else -%}
+          <!-- Native Shopify Product Form with Buy Now & Add to Bag -->
+          {%- form 'product', product, id: 'product-form-installment', class: 'native-product-form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}" id="selected-variant-id">
+
+            <!-- Dynamic Option Selectors (Length, Color, Aglet Finish) -->
+            {%- unless product.has_only_default_variant -%}
+              <div class="product-options-wrapper">
+                {%- for option in product.options_with_values -%}
+                  <div class="option-group" data-option-index="{{ forloop.index0 }}">
+                    <div class="option-header">
+                      <label class="option-label">
+                        {{ option.name }}: <strong class="selected-option-value">{{ option.selected_value }}</strong>
+                      </label>
+                      {%- assign opt_down = option.name | downcase -%}
+                      {%- if opt_down contains 'length' -%}
+                        <a href="/pages/length-guide" class="length-calculator-link" target="_blank">
+                          <span>Calculate Length &rarr;</span>
+                        </a>
+                      {%- endif -%}
+                    </div>
+
+                    <div class="option-values-row">
+                      {%- for value in option.values -%}
+                        <label class="option-value-chip{% if option.selected_value == value %} active{% endif %}">
+                          <input 
+                            type="radio" 
+                            name="options[{{ option.name | escape }}]" 
+                            value="{{ value | escape }}"
+                            {% if option.selected_value == value %}checked="checked"{% endif %}
+                            class="visually-hidden option-radio-input"
+                            data-option-position="{{ option.position }}"
+                          >
+                          <span class="chip-label">{{ value }}</span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+            <!-- Quantity Picker & Add to Bag Button -->
+            <div class="product-purchase-row">
+              <div class="quantity-input-wrap">
+                <label for="Quantity-{{ section.id }}" class="visually-hidden">{{ 'products.product.quantity' | t }}</label>
+                <button type="button" class="qty-btn" data-qty-action="minus" aria-label="Decrease quantity">-</button>
+                <input 
+                  type="number" 
+                  name="quantity" 
+                  id="Quantity-{{ section.id }}" 
+                  min="1" 
+                  value="1" 
+                  class="quantity-input"
+                  aria-label="{{ 'products.product.quantity' | t }}"
+                >
+                <button type="button" class="qty-btn" data-qty-action="plus" aria-label="Increase quantity">+</button>
+              </div>
+
+              <button 
+                type="submit" 
+                name="add" 
+                class="btn-primary btn-add-main" 
+                id="AddToCart-{{ section.id }}"
+                {% unless current_variant.available %}disabled{% endunless %}
+              >
+                {% render 'icon-shopping-bag' %}
+                <span id="AddToCartText-{{ section.id }}">
+                  {%- if current_variant.available -%}
+                    {{ 'products.product.add_to_cart' | t }} &bull; <span class="btn-price">{{ current_variant.price | money }}</span>
+                  {%- else -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </span>
+              </button>
+            </div>
+
+            <!-- Dynamic Shopify Payment Buttons (Apple Pay, Google Pay, Buy It Now) -->
+            {%- if section.settings.show_dynamic_checkout -%}
+              <div class="dynamic-payment-buttons">
+                {{ form | payment_button }}
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        {%- endif -%}
 
         <!-- Atelier Craft Trust Badges -->
         <div class="product-trust-matrix">

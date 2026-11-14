@@ -1,55 +1,251 @@
 {%- comment -%}
-  LACEYAAN Collection Grid with Facet Filters, Sorting, and Pagination
+  LACEYAAN Collection Grid with Facet Filters, Sorting, and Register Interest Support
 {%- endcomment -%}
 
+{%- liquid
+  assign is_register_interest_page = false
+  if collection.handle == 'register-interest' or template.suffix == 'register-interest' or collection.title contains 'Register Interest'
+    assign is_register_interest_page = true
+  endif
+-%}
+
 {%- paginate collection.products by section.settings.products_per_page -%}
-<section class="main-collection-section section-padding" {{ section.shopify_attributes }}>
+<section class="main-collection-section section-padding{% if is_register_interest_page %} is-register-interest-collection{% endif %}" {{ section.shopify_attributes }}>
   <div class="container">
     <!-- Collection Banner Header -->
     <div class="collection-header text-center">
-      <span class="badge badge-gold">Atelier Catalog</span>
-      <h1 class="editorial-heading">{{ collection.title }}</h1>
-      {%- if collection.description != blank -%}
-        <div class="collection-desc-wrap section-subtitle">
-          {{ collection.description }}
+      {%- if is_register_interest_page -%}
+        <div class="interest-collection-badge">
+          <span class="live-pulse-dot"></span>
+          <span>COMMUNITY PROTOTYPE VAULT // VOTING OPEN</span>
         </div>
+        <h1 class="editorial-heading">{{ collection.title | default: 'Register Interest' }}</h1>
+        <div class="collection-desc-wrap section-subtitle">
+          <p>{{ collection.description | default: 'These bespoke weaves are prototype concepts in active development. They are not available for purchase. Cast your vote below to decide which silhouettes enter our next limited drop.' }}</p>
+        </div>
+
+        <!-- Community Vote Stats Summary Bar -->
+        <div class="interest-stats-banner" id="interest-stats-banner">
+          <div class="interest-stat-item">
+            <span class="stat-number" id="stats-total-concepts">{% if collection.products_count > 0 %}{{ collection.products_count }}{% else %}4{% endif %}</span>
+            <span class="stat-title">PROTOTYPES</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="interest-stat-item">
+            <span class="stat-number" id="stats-total-votes">0</span>
+            <span class="stat-title">COMMUNITY VOTES</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="interest-stat-item">
+            <span class="stat-number" id="stats-top-trending">--</span>
+            <span class="stat-title">TOP TRENDING</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="interest-stat-item">
+            <button type="button" class="btn-admin-stats-open" id="open-interest-admin-btn" title="Open Store Owner Analytics">
+              <span>📊 ADMIN STATS</span>
+            </button>
+          </div>
+        </div>
+      {%- else -%}
+        <span class="badge badge-gold">Atelier Catalog</span>
+        <h1 class="editorial-heading">{{ collection.title }}</h1>
+        {%- if collection.description != blank -%}
+          <div class="collection-desc-wrap section-subtitle">
+            {{ collection.description }}
+          </div>
+        {%- endif -%}
       {%- endif -%}
     </div>
 
-    <!-- Filter & Sort Bar -->
-    <div class="collection-controls-bar">
-      <!-- Collection Filter Pills -->
-      <div class="collection-pills-row">
-        <a href="{{ routes.all_products_collection_url }}" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">
-          All Weaves
-        </a>
-        {%- for tag in collection.all_tags -%}
-          <a href="{{ collection.url }}/{{ tag | handle }}" class="filter-pill{% if current_tags contains tag %} active{% endif %}">
-            {{ tag }}
+    <!-- Filter & Sort Bar (Hidden on Register Interest for clean focus) -->
+    {%- unless is_register_interest_page -%}
+      <div class="collection-controls-bar">
+        <!-- Collection Filter Pills -->
+        <div class="collection-pills-row">
+          <a href="{{ routes.all_products_collection_url }}" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">
+            All Weaves
           </a>
-        {%- endfor -%}
-      </div>
+          {%- for tag in collection.all_tags -%}
+            <a href="{{ collection.url }}/{{ tag | handle }}" class="filter-pill{% if current_tags contains tag %} active{% endif %}">
+              {{ tag }}
+            </a>
+          {%- endfor -%}
+        </div>
 
-      <!-- Sort Options Dropdown -->
-      <div class="collection-sort-wrap">
-        <label for="sort-by" class="sort-label">Sort by:</label>
-        <select id="sort-by" class="sort-select" onchange="location = this.value;">
-          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-          <option value="{{ collection.url }}?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
-          <option value="{{ collection.url }}?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-          <option value="{{ collection.url }}?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-          <option value="{{ collection.url }}?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-          <option value="{{ collection.url }}?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest Drops</option>
-        </select>
+        <!-- Sort Options Dropdown -->
+        <div class="collection-sort-wrap">
+          <label for="sort-by" class="sort-label">Sort by:</label>
+          <select id="sort-by" class="sort-select" onchange="location = this.value;">
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            <option value="{{ collection.url }}?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
+            <option value="{{ collection.url }}?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+            <option value="{{ collection.url }}?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+            <option value="{{ collection.url }}?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+            <option value="{{ collection.url }}?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest Drops</option>
+          </select>
+        </div>
       </div>
-    </div>
+    {%- endunless -%}
 
     <!-- Product Grid -->
     {%- if collection.products_count == 0 -%}
-      <div class="collection-empty-notice text-center">
-        <p>No silhouettes match this filter criteria.</p>
-        <a href="{{ routes.all_products_collection_url }}" class="btn-primary">View All Laces</a>
-      </div>
+      {%- if is_register_interest_page -%}
+        <!-- Starter Concept Silhouettes for Register Interest -->
+        <div class="product-grid-layout grid-cols-4" id="interest-demo-grid">
+          <!-- Concept 1 -->
+          <div class="product-card product-card-interest" data-product-handle="titanium-damier-jacquard">
+            <div class="card-media">
+              <a href="#vote" class="media-link">
+                <img src="{{ 'design-lab-collection.jpg' | asset_url }}" alt="Laser-Etched Titanium Damier" class="primary-img" width="600" height="600" loading="lazy">
+              </a>
+              <div class="card-badges">
+                <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
+                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-category">CNC Titanium &bull; Jacquard Shuttle</div>
+              <h3 class="card-title"><a href="#vote">Laser-Etched Titanium Damier</a></h3>
+              <div class="card-price-row">
+                <div class="interest-concept-status">
+                  <span class="concept-dot">●</span>
+                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+                </div>
+              </div>
+              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="titanium-damier-jacquard" data-product-title="Laser-Etched Titanium Damier">
+                <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="titanium-damier-jacquard" aria-label="Vote Interested">
+                  <span class="vote-icon">▲</span>
+                  <span class="vote-label">INTERESTED</span>
+                  <span class="vote-count-badge" data-count="interested">54</span>
+                </button>
+                <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="titanium-damier-jacquard" aria-label="Vote Pass">
+                  <span class="vote-icon">▼</span>
+                  <span class="vote-label">PASS</span>
+                  <span class="vote-count-badge" data-count="not_interested">3</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Concept 2 -->
+          <div class="product-card product-card-interest" data-product-handle="japanese-indigo-sashiko-rope">
+            <div class="card-media">
+              <a href="#vote" class="media-link">
+                <img src="{{ 'lace-brown.jpg' | asset_url }}" alt="Japanese Indigo Sashiko Rope" class="primary-img" width="600" height="600" loading="lazy">
+              </a>
+              <div class="card-badges">
+                <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
+                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-category">10mm Braided Rope &bull; Pure Indigo</div>
+              <h3 class="card-title"><a href="#vote">Japanese Indigo Sashiko Rope</a></h3>
+              <div class="card-price-row">
+                <div class="interest-concept-status">
+                  <span class="concept-dot">●</span>
+                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+                </div>
+              </div>
+              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="japanese-indigo-sashiko-rope" data-product-title="Japanese Indigo Sashiko Rope">
+                <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="japanese-indigo-sashiko-rope" aria-label="Vote Interested">
+                  <span class="vote-icon">▲</span>
+                  <span class="vote-label">INTERESTED</span>
+                  <span class="vote-count-badge" data-count="interested">42</span>
+                </button>
+                <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="japanese-indigo-sashiko-rope" aria-label="Vote Pass">
+                  <span class="vote-icon">▼</span>
+                  <span class="vote-label">PASS</span>
+                  <span class="vote-count-badge" data-count="not_interested">5</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Concept 3 -->
+          <div class="product-card product-card-interest" data-product-handle="nocturnal-3m-aurora-reflective">
+            <div class="card-media">
+              <a href="#vote" class="media-link">
+                <img src="{{ 'lace-glow-full.jpg' | asset_url }}" alt="Nocturnal 3M Aurora Reflective" class="primary-img" width="600" height="600" loading="lazy">
+              </a>
+              <div class="card-badges">
+                <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
+                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-category">3M Micro-Prism &bull; Nocturnal Series</div>
+              <h3 class="card-title"><a href="#vote">Nocturnal 3M Aurora Reflective</a></h3>
+              <div class="card-price-row">
+                <div class="interest-concept-status">
+                  <span class="concept-dot">●</span>
+                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+                </div>
+              </div>
+              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="nocturnal-3m-aurora-reflective" data-product-title="Nocturnal 3M Aurora Reflective">
+                <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="nocturnal-3m-aurora-reflective" aria-label="Vote Interested">
+                  <span class="vote-icon">▲</span>
+                  <span class="vote-label">INTERESTED</span>
+                  <span class="vote-count-badge" data-count="interested">68</span>
+                </button>
+                <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="nocturnal-3m-aurora-reflective" aria-label="Vote Pass">
+                  <span class="vote-icon">▼</span>
+                  <span class="vote-label">PASS</span>
+                  <span class="vote-count-badge" data-count="not_interested">2</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Concept 4 -->
+          <div class="product-card product-card-interest" data-product-handle="vintage-olive-canvas-shuttle">
+            <div class="card-media">
+              <a href="#vote" class="media-link">
+                <img src="{{ 'lace-green.jpg' | asset_url }}" alt="Vintage Olive Canvas Shuttle Weave" class="primary-img" width="600" height="600" loading="lazy">
+              </a>
+              <div class="card-badges">
+                <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
+                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="card-category">Heritage Shuttle Loom &bull; Military Canvas</div>
+              <h3 class="card-title"><a href="#vote">Vintage Olive Canvas Shuttle Weave</a></h3>
+              <div class="card-price-row">
+                <div class="interest-concept-status">
+                  <span class="concept-dot">●</span>
+                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+                </div>
+              </div>
+              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="vintage-olive-canvas-shuttle" data-product-title="Vintage Olive Canvas Shuttle Weave">
+                <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="vintage-olive-canvas-shuttle" aria-label="Vote Interested">
+                  <span class="vote-icon">▲</span>
+                  <span class="vote-label">INTERESTED</span>
+                  <span class="vote-count-badge" data-count="interested">39</span>
+                </button>
+                <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="vintage-olive-canvas-shuttle" aria-label="Vote Pass">
+                  <span class="vote-icon">▼</span>
+                  <span class="vote-label">PASS</span>
+                  <span class="vote-count-badge" data-count="not_interested">4</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Store Owner Instructions Box -->
+        <div class="interest-admin-guide-card">
+          <div class="guide-badge">💡 STORE OWNER TIP</div>
+          <h4>How to add more concept products to this page:</h4>
+          <p>In your <strong>Shopify Admin &rarr; Products</strong>, create any product, and simply add the tag <code>register-interest</code> (or assign it to the collection handle <code>register-interest</code>). The theme will automatically remove the price and buy buttons and replace them with these <strong>INTERESTED / NOT INTERESTED</strong> voting buttons!</p>
+        </div>
+      {%- else -%}
+        <div class="collection-empty-notice text-center">
+          <p>No silhouettes match this filter criteria.</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn-primary">View All Laces</a>
+        </div>
+      {%- endif -%}
     {%- else -%}
       <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop }}">
         {%- for product in collection.products -%}
