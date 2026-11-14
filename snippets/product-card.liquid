@@ -10,14 +10,39 @@
   assign secondary_media = product.media[1]
 
   assign is_register_interest = false
-  if collection.handle == 'register-interest' or template.suffix == 'register-interest' or product.tags contains 'register-interest' or collection.title contains 'Register Interest'
+  if is_register_interest_force == true
     assign is_register_interest = true
   endif
+
+  assign page_coll_handle = collection.handle | default: '' | downcase
+  assign page_coll_title = collection.title | default: '' | downcase
+  if page_coll_handle contains 'interest' or page_coll_handle contains 'register' or page_coll_title contains 'interest' or page_coll_title contains 'register' or template.suffix contains 'interest'
+    assign is_register_interest = true
+  endif
+
+  assign tags_combined = product.tags | join: ' ' | downcase
+  if tags_combined contains 'register' or tags_combined contains 'interest' or tags_combined contains 'prototype'
+    assign is_register_interest = true
+  endif
+
+  for prod_coll in product.collections
+    assign prod_coll_handle = prod_coll.handle | downcase
+    assign prod_coll_title = prod_coll.title | downcase
+    if prod_coll_handle contains 'interest' or prod_coll_handle contains 'register' or prod_coll_title contains 'interest' or prod_coll_title contains 'register'
+      assign is_register_interest = true
+      break
+    endif
+  endfor
 -%}
 
-<div class="product-card{% if is_register_interest %} product-card-interest{% endif %}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">
+<div class="product-card{% if is_register_interest %} product-card-interest{% endif %}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
+  <!-- Self-contained Product JSON for instant, offline, password-safe Quick View rendering -->
+  <script type="application/json" class="product-card-json" data-product-handle="{{ product.handle }}">
+    {{ product | json }}
+  </script>
+
   <div class="card-media">
-    <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
+    <a href="{{ product.url }}" class="media-link" data-quick-view data-product-handle="{{ product.handle }}" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
         {{ featured_media | image_url: width: 750 | image_tag: 
           loading: 'lazy', 
@@ -60,19 +85,17 @@
     </div>
 
     <!-- Quick View Trigger (Icon Only - Function Intact Without Text) -->
-    {%- if settings.enable_quick_view -%}
-      <button 
-        type="button" 
-        class="quick-view-btn" 
-        data-quick-view
-        data-product-handle="{{ product.handle }}"
-        data-quick-view-trigger="{{ product.handle }}" 
-        aria-label="Quick View {{ product.title | escape }}"
-        title="Quick View"
-      >
-        {% render 'icon-eye' %}
-      </button>
-    {%- endif -%}
+    <button 
+      type="button" 
+      class="quick-view-btn" 
+      data-quick-view
+      data-product-handle="{{ product.handle }}"
+      data-quick-view-trigger="{{ product.handle }}" 
+      aria-label="Quick View {{ product.title | escape }}"
+      title="Quick View"
+    >
+      {% render 'icon-eye' %}
+    </button>
   </div>
 
   <div class="card-content">
@@ -90,7 +113,7 @@
     {%- endif -%}
 
     <h3 class="card-title">
-      <a href="{{ product.url }}">{{ product.title }}</a>
+      <a href="{{ product.url }}" data-quick-view data-product-handle="{{ product.handle }}">{{ product.title }}</a>
     </h3>
 
     <!-- Price or Prototype Concept Status -->
@@ -172,8 +195,15 @@
             {% render 'icon-shopping-bag' %}
           </button>
         {%- else -%}
-          <button type="button" class="btn-buy-now btn-sold-out" disabled>
-            <span>SOLD OUT</span>
+          <button 
+            type="button" 
+            class="btn-buy-now btn-sold-out" 
+            data-quick-view 
+            data-product-handle="{{ product.handle }}"
+            aria-label="Register interest for {{ product.title | escape }}"
+            title="Click to register interest or get notified when restocked"
+          >
+            <span>REGISTER INTEREST &bull; SOLD OUT</span>
           </button>
         {%- endif -%}
       </div>

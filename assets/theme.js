@@ -1244,14 +1244,16 @@
 
     bindEvents() {
       document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-quick-view], [data-quick-view-trigger], .quick-view-btn');
+        const trigger = e.target.closest('[data-quick-view], [data-quick-view-trigger], .quick-view-btn, .btn-sold-out');
         if (!trigger) return;
         e.preventDefault();
+        e.stopPropagation();
+
         const handle = trigger.dataset.productHandle || 
                        trigger.getAttribute('data-quick-view-trigger') || 
                        trigger.dataset.quickViewTrigger ||
                        trigger.closest('[data-product-handle]')?.dataset.productHandle;
-        if (handle) this.open(handle);
+        if (handle) this.open(handle, trigger);
       });
 
       if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
@@ -1306,21 +1308,51 @@
       });
     }
 
-    async open(handle) {
+    async open(handle, trigger) {
       this.modal.classList.add('active', 'is-open');
       if (this.overlay) this.overlay.classList.add('active', 'is-open');
       this.modal.setAttribute('aria-hidden', 'false');
       if (this.overlay) this.overlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('overflow-hidden');
+
+      // 1. Check DOM for embedded product JSON (instant 0ms render, password-safe)
+      const card = trigger ? trigger.closest('[data-product-handle]') : document.querySelector(`[data-product-handle="${handle}"]`);
+      if (card) {
+        const jsonEl = card.querySelector('.product-card-json');
+        if (jsonEl && jsonEl.textContent) {
+          try {
+            const product = JSON.parse(jsonEl.textContent);
+            this.renderProduct(product, card);
+            return;
+          } catch (e) {}
+        }
+      }
+
+      // 2. Fallback to network request
       this.content.innerHTML = '<div class="quick-view-loading"><span class="spinner"></span><p>Loading details...</p></div>';
 
       try {
         const res = await fetch(`/products/${handle}.js`);
         if (!res.ok) throw new Error('Product not found');
         const product = await res.json();
-        this.renderProduct(product);
+        this.renderProduct(product, card);
       } catch (err) {
-        this.content.innerHTML = '<div class="quick-view-error">Unable to load product preview.</div>';
+        // 3. Graceful fallback from DOM card attributes if offline or password-protected
+        if (card) {
+          const title = card.getAttribute('data-product-title') || card.querySelector('.card-title')?.textContent?.trim() || handle;
+          const img = card.querySelector('img.primary-img')?.src || '';
+          this.renderProduct({
+            title: title,
+            handle: handle,
+            featured_image: img,
+            available: false,
+            variants: [{ id: card.getAttribute('data-product-id') || 1, price: 0, available: false, compare_at_price: 0, title: 'Default' }],
+            tags: ['register-interest'],
+            description: 'Bespoke weave silhouette in active development. Register your interest below to vote for production or receive restock notification.'
+          }, card);
+        } else {
+          this.content.innerHTML = '<div class="quick-view-error" style="padding: 2.5rem; text-align: center;"><p>Unable to load product preview.</p><button type="button" class="btn-primary" onclick="window.Laceyaan.quickViewModal.close()" style="margin-top: 1rem;">Close</button></div>';
+        }
       }
     }
 
@@ -1332,45 +1364,123 @@
       document.body.classList.remove('overflow-hidden');
     }
 
-    renderProduct(product) {
-      const firstVariant = product.variants[0];
-      const hasVariants = product.variants.length > 1;
+    renderProduct(product, card) {
+      const firstVariant = (product.variants && product.variants[0]) || { price: 0, compare_at_price: 0, available: false, id: product.id };
+      const hasVariants = product.variants && product.variants.length > 1;
+      
+      const isSoldOut = !product.available || (product.variants && product.variants.every(v => !v.available));
+      const tagsStr = (Array.isArray(product.tags) ? product.tags.join(' ') : String(product.tags || '')).toLowerCase();
+      const isRegisterInterest = isSoldOut || tagsStr.includes('interest') || tagsStr.includes('register') || tagsStr.includes('prototype') || (card && card.classList.contains('product-card-interest'));
+
+      // Community voting stats
+      const votingEngine = window.Laceyaan && window.Laceyaan.interestVoting;
+      const countData = (votingEngine && votingEngine.counts && votingEngine.counts[product.handle]) || { interested: 0, not_interested: 0 };
+      const userVote = (votingEngine && votingEngine.userVotes && votingEngine.userVotes[product.handle]) || null;
+      const totalVotes = (countData.interested || 0) + (countData.not_interested || 0);
+      const demandPercent = totalVotes > 0 ? Math.round(((countData.interested || 0) / totalVotes) * 100) : 100;
+
       const comparePrice = firstVariant.compare_at_price > firstVariant.price 
         ? `<s class="price-was" style="margin-left: 0.5rem; color: #8C8880; font-size: 0.9em; text-decoration: line-through;">${Utils.formatMoney(firstVariant.compare_at_price)}</s>` 
         : '';
 
+      const featuredImg = product.featured_image || (product.images && product.images[0]) || '';
+
       this.content.innerHTML = `
         <div class="quick-view-grid">
           <div class="quick-view-gallery">
-            <img src="${product.featured_image}" alt="${product.title}" class="quick-view-main-image" width="450" height="450" loading="eager">
+            <img src="${featuredImg}" alt="${product.title}" class="quick-view-main-image" width="450" height="450" loading="eager">
           </div>
-          <div class="quick-view-details">
-            <span class="quick-view-eyebrow">LACEYAAN</span>
-            <h2 class="quick-view-title">${product.title}</h2>
-            <div class="quick-view-price">
-              <span class="price-now">${Utils.formatMoney(firstVariant.price)}</span>
-              ${comparePrice}
+          <div class="quick-view-details" data-product-handle="${product.handle}" data-product-title="${product.title}">
+            <div class="quick-view-header-badges" style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+              <span class="quick-view-eyebrow">LACEYAAN ATELIER</span>
+              ${isRegisterInterest 
+                ? `<span class="badge badge-gold">CONCEPT ARCHIVE // VOTING OPEN</span>` 
+                : `<span class="badge badge-dark">IN STOCK</span>`
+              }
             </div>
-            <div class="quick-view-desc">${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 180) + '...' : ''}</div>
+            
+            <h2 class="quick-view-title">${product.title}</h2>
+            
+            ${!isRegisterInterest ? `
+              <div class="quick-view-price">
+                <span class="price-now">${Utils.formatMoney(firstVariant.price)}</span>
+                ${comparePrice}
+              </div>
+            ` : `
+              <div class="interest-concept-status" style="margin: 0.5rem 0 1rem; display: flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-gold-dark); font-weight: 700;">
+                <span class="concept-dot">●</span>
+                <span>LIMITED ARCHIVE &bull; NOT FOR PURCHASE</span>
+              </div>
+            `}
 
-            <form action="/cart/add" method="post" class="quick-view-form">
-              <input type="hidden" name="id" value="${firstVariant.id}">
-              ${hasVariants ? `
-                <div class="quick-view-variants">
-                  <label class="variant-label">Select Option</label>
-                  <select class="variant-select" onchange="this.form.id.value = this.value">
-                    ${product.variants.map(v => `<option value="${v.id}">${v.title} - ${Utils.formatMoney(v.price)}</option>`).join('')}
-                  </select>
+            <div class="quick-view-desc" style="color: #6A675F; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              ${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 240) + '...' : 'Slow-crafted atelier shoelaces engineered with solid CNC milled brass hardware and precision Japanese weaves.'}
+            </div>
+
+            ${isRegisterInterest ? `
+              <!-- Interactive Register Interest & Voting Section -->
+              <div class="quick-view-interest-box" style="margin: 1.25rem 0; padding: 1.25rem; background: rgba(20, 19, 17, 0.04); border: 1px solid rgba(197, 168, 128, 0.35); border-radius: var(--radius-xs);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+                  <span style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 700; color: var(--accent-gold-dark); text-transform: uppercase;">COMMUNITY DEMAND SCORE</span>
+                  <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 800; color: #141311;" data-demand-percent>${demandPercent}%</span>
                 </div>
-              ` : ''}
-              <button type="submit" class="btn btn-primary btn-block quick-view-submit">
-                <span>ADD TO BAG</span>
-              </button>
-            </form>
-            <a href="${product.url}" class="quick-view-full-link">View Full Product Details &rarr;</a>
+                <div style="width: 100%; height: 6px; background: rgba(0, 0, 0, 0.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem;">
+                  <div style="width: ${demandPercent}%; height: 100%; background: linear-gradient(90deg, #A38760, #C5A880); transition: width 0.4s ease;" data-demand-fill></div>
+                </div>
+
+                <div style="font-size: 0.82rem; color: #555; margin-bottom: 0.85rem;">
+                  Cast your vote below. Community interest directly determines which silhouettes enter our next production drop:
+                </div>
+
+                <div class="card-actions card-interest-actions" style="display: flex; gap: 0.65rem; margin-bottom: 1rem;">
+                  <button type="button" class="btn-interest-pill btn-interest-yes ${userVote === 'interested' ? 'is-active' : ''}" data-vote-btn="interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.7rem 0.9rem;">
+                    <span class="vote-icon">▲</span>
+                    <span class="vote-label">INTERESTED</span>
+                    <span class="vote-count-badge" data-count="interested">${countData.interested || 0}</span>
+                  </button>
+                  <button type="button" class="btn-interest-pill btn-interest-no ${userVote === 'not_interested' ? 'is-active' : ''}" data-vote-btn="not_interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.7rem 0.9rem;">
+                    <span class="vote-icon">▼</span>
+                    <span class="vote-label">NOT INTERESTED</span>
+                    <span class="vote-count-badge" data-count="not_interested">${countData.not_interested || 0}</span>
+                  </button>
+                </div>
+
+                <!-- Restock Notification Email Form -->
+                <form class="modal-notify-form" onsubmit="window.Laceyaan.handleEarlyAccessNotify(event, '${product.handle}')" style="display: flex; gap: 0.5rem; margin-top: 0.85rem;">
+                  <input type="email" name="email" placeholder="Enter your email for early access" required style="flex: 1; padding: 0.6rem 0.8rem; font-size: 0.8rem; border: 1px solid rgba(0,0,0,0.18); border-radius: var(--radius-xs); background: #FAF9F5; color: #141311;">
+                  <button type="submit" class="btn-primary" style="padding: 0.6rem 1.1rem; font-size: 0.75rem; white-space: nowrap;">
+                    <span>NOTIFY ME</span>
+                  </button>
+                </form>
+                <div class="modal-notify-success" style="display: none; color: #2B7A4B; font-size: 0.8rem; font-weight: 700; margin-top: 0.6rem;">
+                  ✓ You're on the early-access VIP list for this silhouette!
+                </div>
+              </div>
+            ` : `
+              <!-- In Stock Add to Bag Form -->
+              <form action="/cart/add" method="post" class="quick-view-form">
+                <input type="hidden" name="id" value="${firstVariant.id}">
+                ${hasVariants ? `
+                  <div class="quick-view-variants" style="margin: 1rem 0;">
+                    <label class="variant-label" style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Select Length / Color</label>
+                    <select class="variant-select" onchange="this.form.id.value = this.value" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-light); border-radius: var(--radius-xs); background: #fff; margin-top: 0.35rem;">
+                      ${product.variants.map(v => `<option value="${v.id}">${v.title} - ${Utils.formatMoney(v.price)}</option>`).join('')}
+                    </select>
+                  </div>
+                ` : ''}
+                <button type="submit" class="btn btn-primary btn-block quick-view-submit" style="width: 100%; margin-top: 1rem;">
+                  <span>ADD TO BAG</span>
+                </button>
+              </form>
+            `}
           </div>
         </div>
       `;
+
+      // Update UI counts and active states inside modal
+      if (votingEngine) {
+        votingEngine.updateAllUI();
+      }
     }
   }
 
@@ -2704,6 +2814,17 @@
         csvContent += `"${title}","${handle}",${interested},${notInterested},${total},${demand}%\r\n`;
       });
 
+      // Append VIP Email Leads Section if present
+      try {
+        const leads = JSON.parse(localStorage.getItem('laceyaan_interest_leads_v1') || '[]');
+        if (leads.length > 0) {
+          csvContent += '\r\n\r\nVIP Early-Access Email Leads\r\nEmail,Product Handle,Registration Date\r\n';
+          leads.forEach(lead => {
+            csvContent += `"${lead.email}","${lead.handle}","${lead.date}"\r\n`;
+          });
+        }
+      } catch (err) {}
+
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement('a');
       link.setAttribute('href', encodedUri);
@@ -2713,6 +2834,59 @@
       document.body.removeChild(link);
     }
   }
+
+  /* ==========================================================================
+     Early Access VIP Notification Handler
+     ========================================================================== */
+  window.Laceyaan.handleEarlyAccessNotify = function(e, handle) {
+    e.preventDefault();
+    const form = e.target;
+    const input = form.querySelector('input[name="email"], input[type="email"]');
+    const email = input ? input.value.trim() : '';
+    if (!email) return;
+
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> SAVING...';
+    }
+
+    // Auto-cast positive vote if not already voted
+    if (window.Laceyaan.interestVoting) {
+      const curVote = window.Laceyaan.interestVoting.userVotes[handle];
+      if (curVote !== 'interested') {
+        window.Laceyaan.interestVoting.castVote(handle, 'interested');
+      }
+    }
+
+    // Submit background customer registration
+    const formData = new FormData();
+    formData.append('form_type', 'customer');
+    formData.append('utf8', '✓');
+    formData.append('contact[email]', email);
+    formData.append('contact[tags]', `interest-registered, prototype-${handle}`);
+    
+    fetch('/contact#contact_form', {
+      method: 'POST',
+      body: formData
+    }).catch(() => {});
+
+    // Save lead locally to admin modal records
+    try {
+      const leadsKey = 'laceyaan_interest_leads_v1';
+      const leads = JSON.parse(localStorage.getItem(leadsKey) || '[]');
+      leads.push({ email, handle, date: new Date().toISOString() });
+      localStorage.setItem(leadsKey, JSON.stringify(leads));
+    } catch (err) {}
+
+    setTimeout(() => {
+      form.style.display = 'none';
+      const successMsg = form.parentElement.querySelector('.modal-notify-success');
+      if (successMsg) successMsg.style.display = 'block';
+      Utils.showToast(`VIP early-access logged for ${email}!`, 'success');
+    }, 400);
+  };
 
   /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization

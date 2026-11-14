@@ -19,11 +19,11 @@
     <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop }}">
       {%- if section.settings.product_list != blank and section.settings.product_list.count > 0 -%}
         {%- for product in section.settings.product_list limit: section.settings.products_to_show -%}
-          {% render 'product-card', product: product %}
+          {% render 'product-card', product: product, collection: target_collection %}
         {%- endfor -%}
       {%- elsif target_collection != blank and target_collection.products_count > 0 -%}
         {%- for product in target_collection.products limit: section.settings.products_to_show -%}
-          {% render 'product-card', product: product %}
+          {% render 'product-card', product: product, collection: target_collection %}
         {%- endfor -%}
       {%- else -%}
         {%- assign fallback_laces = 'product-rope.jpg|10mm Chunky Braided Rope Laces|₹899|Raw Ecru Cotton,product-waxed.jpg|Japanese Waxed Flat Sneaker Laces|₹799|Matte Noir Wax,product-reflective.jpg|Nocturnal 3M Reflective Rope Laces|₹999|Reflective Silver,product-vintage.jpg|1985 Vintage Distressed Flat Laces|₹799|Aged Sail Fade,product-leather.jpg|Italian Lambskin Leather Laces|₹1,299|Solid Brass Tips,product-aglets.jpg|CNC Laser-Engraved Brass Aglets Kit|₹699|Gold Aglet Set,product-carbon.jpg|Carbon Weave Technical Laces|₹899|Ballistic Weave,product-duotone.jpg|Duotone Split Weave Laces|₹899|Dual Accent' | split: ',' -%}

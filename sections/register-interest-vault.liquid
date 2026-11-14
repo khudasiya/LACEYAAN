@@ -46,7 +46,7 @@
     {%- if vault_collection != blank and vault_collection.products_count > 0 -%}
       <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop | default: 4 }}">
         {%- for product in vault_collection.products limit: section.settings.products_to_show -%}
-          {% render 'product-card', product: product, is_register_interest: true %}
+          {% render 'product-card', product: product, is_register_interest: true, is_register_interest_force: true %}
         {%- endfor -%}
       </div>
     {%- else -%}

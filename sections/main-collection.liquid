@@ -249,7 +249,7 @@
     {%- else -%}
       <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop }}">
         {%- for product in collection.products -%}
-          {% render 'product-card', product: product %}
+          {% render 'product-card', product: product, collection: collection %}
         {%- endfor -%}
       </div>
 
