@@ -80,18 +80,14 @@
               </li>
             {%- endif -%}
 
-            {%- assign show_interest_nav = true -%}
-            {%- if section.settings.show_register_interest == false -%}
-              {%- assign show_interest_nav = false -%}
-            {%- endif -%}
-            {%- if show_interest_nav -%}
+            {%- unless section.settings.disable_register_interest -%}
               <li class="nav-item nav-item-interest">
                 <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="nav-link nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
                   <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
                   <span class="nav-interest-pill">VOTE</span>
                 </a>
               </li>
-            {%- endif -%}
+            {%- endunless -%}
           </ul>
         </nav>
       </div>
@@ -238,14 +234,14 @@
         </div>
       {%- endif -%}
 
-      {%- if show_interest_nav -%}
+      {%- unless section.settings.disable_register_interest -%}
         <div class="mobile-nav-group mobile-nav-group-interest">
           <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="mobile-nav-link mobile-nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
             <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
             <span class="nav-interest-pill">VOTE</span>
           </a>
         </div>
-      {%- endif -%}
+      {%- endunless -%}
     </nav>
 
     <!-- Mobile Drawer Footer Contact & Social -->
@@ -296,9 +292,9 @@
     },
     {
       "type": "checkbox",
-      "id": "show_register_interest",
-      "label": "Show 'Register Interest' in Navigation",
-      "default": true
+      "id": "disable_register_interest",
+      "label": "Hide 'Register Interest' from Navigation",
+      "default": false
     },
     {
       "type": "text",
