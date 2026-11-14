@@ -45,11 +45,15 @@
       {%- endif -%}
     </div>
 
-    {%- if section.settings.show_view_all and target_collection.url != blank -%}
+    {%- if section.settings.show_view_all != false -%}
+      {%- assign all_url = target_collection.url | default: routes.all_products_collection_url | default: '/collections/all' -%}
+      {%- if all_url == blank or all_url == '' -%}
+        {%- assign all_url = '/collections/all' -%}
+      {%- endif -%}
       <div class="section-footer-cta text-center">
-        <a href="{{ target_collection.url }}" class="btn-primary">
+        <a href="{{ all_url }}" class="btn-primary">
           <span>{{ section.settings.view_all_label | default: 'Explore All Atelier Weaves' }}</span>
-          &rarr;
+          <span class="btn-arrow">[ &rarr; ]</span>
         </a>
       </div>
     {%- endif -%}

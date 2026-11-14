@@ -1244,7 +1244,7 @@
 
     bindEvents() {
       document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-quick-view], [data-quick-view-trigger], .quick-view-btn, .btn-sold-out');
+        const trigger = e.target.closest('[data-quick-view-trigger], .quick-view-btn');
         if (!trigger) return;
         e.preventDefault();
         e.stopPropagation();

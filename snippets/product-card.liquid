@@ -42,7 +42,7 @@
   </script>
 
   <div class="card-media">
-    <a href="{{ product.url }}" class="media-link" data-quick-view data-product-handle="{{ product.handle }}" aria-label="{{ product.title | escape }}">
+    <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
         {{ featured_media | image_url: width: 750 | image_tag: 
           loading: 'lazy', 
@@ -113,7 +113,7 @@
     {%- endif -%}
 
     <h3 class="card-title">
-      <a href="{{ product.url }}" data-quick-view data-product-handle="{{ product.handle }}">{{ product.title }}</a>
+      <a href="{{ product.url }}">{{ product.title }}</a>
     </h3>
 
     <!-- Price or Prototype Concept Status -->
@@ -195,16 +195,14 @@
             {% render 'icon-shopping-bag' %}
           </button>
         {%- else -%}
-          <button 
-            type="button" 
+          <a 
+            href="{{ product.url }}" 
             class="btn-buy-now btn-sold-out" 
-            data-quick-view 
-            data-product-handle="{{ product.handle }}"
-            aria-label="Register interest for {{ product.title | escape }}"
-            title="Click to register interest or get notified when restocked"
+            aria-label="View {{ product.title | escape }}"
+            title="View details and register interest"
           >
-            <span>REGISTER INTEREST &bull; SOLD OUT</span>
-          </button>
+            <span>SOLD OUT &bull; VIEW DETAILS</span>
+          </a>
         {%- endif -%}
       </div>
     {%- endif -%}
