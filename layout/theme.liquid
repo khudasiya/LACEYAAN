@@ -129,6 +129,32 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
+    <script>
+      (function() {
+        function ensureRegisterInterestNav() {
+          var desktopList = document.querySelector('.desktop-nav .nav-links-list');
+          if (desktopList && !desktopList.querySelector('.nav-item-interest')) {
+            var li = document.createElement('li');
+            li.className = 'nav-item nav-item-interest';
+            li.innerHTML = '<a href="/collections/register-interest" class="nav-link nav-link-interest"><span>Register Interest</span><span class="nav-interest-pill">VOTE</span></a>';
+            desktopList.appendChild(li);
+          }
+          var mobileList = document.querySelector('.mobile-nav-list');
+          if (mobileList && !mobileList.querySelector('.mobile-nav-group-interest')) {
+            var div = document.createElement('div');
+            div.className = 'mobile-nav-group mobile-nav-group-interest';
+            div.innerHTML = '<a href="/collections/register-interest" class="mobile-nav-link mobile-nav-link-interest"><span>Register Interest</span><span class="nav-interest-pill">VOTE</span></a>';
+            mobileList.appendChild(div);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', ensureRegisterInterestNav);
+        } else {
+          ensureRegisterInterestNav();
+        }
+      })();
+    </script>
+
     <!-- Theme JavaScript -->
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
