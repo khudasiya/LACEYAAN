@@ -76,7 +76,10 @@
       "type": "header",
       "settings": {
         "menu": "main-menu",
-        "enable_sticky_header": true
+        "enable_sticky_header": true,
+        "show_register_interest": true,
+        "register_interest_label": "Register Interest",
+        "register_interest_url": "/collections/register-interest"
       }
     }
   },

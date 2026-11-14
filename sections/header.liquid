@@ -80,7 +80,11 @@
               </li>
             {%- endif -%}
 
-            {%- if section.settings.show_register_interest != false -%}
+            {%- assign show_interest_nav = true -%}
+            {%- if section.settings.show_register_interest == false -%}
+              {%- assign show_interest_nav = false -%}
+            {%- endif -%}
+            {%- if show_interest_nav -%}
               <li class="nav-item nav-item-interest">
                 <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="nav-link nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
                   <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
@@ -234,7 +238,7 @@
         </div>
       {%- endif -%}
 
-      {%- if section.settings.show_register_interest != false -%}
+      {%- if show_interest_nav -%}
         <div class="mobile-nav-group mobile-nav-group-interest">
           <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="mobile-nav-link mobile-nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
             <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
