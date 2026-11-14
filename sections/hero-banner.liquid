@@ -34,33 +34,6 @@
 
   <div class="container hero-content-wrap">
     <div class="hero-inner">
-      <div class="hero-header-meta">
-        {%- if section.settings.badge != blank -%}
-          <div class="hero-badge">
-            <span class="spec-dot" aria-hidden="true">●</span>
-            <span>[ {{ section.settings.badge }} ]</span>
-          </div>
-        {%- endif -%}
-
-        <!-- Highlights of Drop 01 In-Motion Badge with Sound Toggle -->
-        <div class="hero-reel-badge">
-          <span class="live-pulse-dot" aria-hidden="true"></span>
-          <span class="live-status-text">DROP 01 // HIGHLIGHTS</span>
-          <button type="button" class="hero-audio-toggle" id="hero-sound-toggle" aria-label="Toggle Sound" title="Toggle Sound">
-            <svg class="icon-sound-off" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>
-            <svg class="icon-sound-on" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-            <span class="btn-text" id="hero-sound-label">AUDIO</span>
-          </button>
-        </div>
-      </div>
-
       <h1 class="hero-title">
         {{ section.settings.heading }}
       </h1>
