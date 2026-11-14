@@ -359,6 +359,59 @@
         }
       });
 
+      // Editorial Streetwear Product Card Minimalist Plus (+) Quick-Action Button
+      document.addEventListener('click', async (e) => {
+        const plusBtn = e.target.closest('[data-action-plus]');
+        if (!plusBtn) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const handle = plusBtn.dataset.productHandle;
+        const variantId = plusBtn.dataset.variantId;
+        const available = plusBtn.dataset.available === 'true';
+        const hasVariants = plusBtn.dataset.hasVariants === 'true';
+        const isPrototype = plusBtn.dataset.isPrototype === 'true';
+
+        // If prototype, multi-variant, or unavailable -> open Quick View Modal for full options/voting
+        if (isPrototype || hasVariants || !available || !variantId) {
+          if (handle && window.Laceyaan.quickViewModal) {
+            window.Laceyaan.quickViewModal.open(handle, plusBtn);
+          } else if (handle) {
+            window.location.href = `/products/${handle}`;
+          }
+          return;
+        }
+
+        // Single variant in stock -> 1-click add to cart & open cart drawer
+        const originalContent = plusBtn.innerHTML;
+        plusBtn.disabled = true;
+        plusBtn.innerHTML = '<span class="plus-symbol" style="display:inline-block;animation:spin 0.6s linear infinite;">↻</span>';
+
+        try {
+          const formData = new FormData();
+          formData.append('id', variantId);
+          formData.append('quantity', '1');
+          const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
+          if (!res.ok) throw new Error('Could not add to bag');
+          const item = await res.json();
+          if (window.Laceyaan.cartDrawer) {
+            await window.Laceyaan.cartDrawer.refresh();
+            window.Laceyaan.cartDrawer.open();
+          }
+          Utils.showToast(`${item.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
+        } catch (err) {
+          if (handle && window.Laceyaan.quickViewModal) {
+            window.Laceyaan.quickViewModal.open(handle, plusBtn);
+          } else {
+            Utils.showToast(err.message || 'Error adding to bag', 'error');
+          }
+        } finally {
+          plusBtn.disabled = false;
+          plusBtn.innerHTML = originalContent;
+        }
+      });
+
       // Cart Item modifications inside Drawer
       if (this.itemsContainer) {
         this.itemsContainer.addEventListener('click', (e) => {

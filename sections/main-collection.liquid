@@ -94,26 +94,35 @@
         <!-- Starter Concept Silhouettes for Register Interest -->
         <div class="product-grid-layout grid-cols-4" id="interest-demo-grid">
           <!-- Concept 1 -->
-          <div class="product-card product-card-interest" data-product-handle="titanium-damier-jacquard">
+          <div class="product-card product-card-editorial product-card-interest" data-product-handle="titanium-damier-jacquard">
             <div class="card-media">
               <a href="#vote" class="media-link">
                 <img src="{{ 'design-lab-collection.jpg' | asset_url }}" alt="Laser-Etched Titanium Damier" class="primary-img" width="600" height="600" loading="lazy">
               </a>
+              <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
+                <svg class="icon-bookmark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </button>
               <div class="card-badges">
                 <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
-                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+              <div class="card-carousel-dots" aria-hidden="true">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
               </div>
             </div>
             <div class="card-content">
-              <div class="card-category">CNC Titanium &bull; Jacquard Shuttle</div>
-              <h3 class="card-title"><a href="#vote">Laser-Etched Titanium Damier</a></h3>
-              <div class="card-price-row">
-                <div class="interest-concept-status">
-                  <span class="concept-dot">●</span>
-                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+              <div class="card-info-row">
+                <div class="card-details-col">
+                  <h3 class="card-title"><a href="#vote">Laser-Etched Titanium Damier</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-prototype">CONCEPT SILHOUETTE</span>
+                  </div>
                 </div>
               </div>
-              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="titanium-damier-jacquard" data-product-title="Laser-Etched Titanium Damier">
+              <div class="card-interest-pills-row" data-interest-card data-product-handle="titanium-damier-jacquard" data-product-title="Laser-Etched Titanium Damier">
                 <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="titanium-damier-jacquard" aria-label="Vote Interested">
                   <span class="vote-icon">▲</span>
                   <span class="vote-label">INTERESTED</span>
@@ -121,7 +130,7 @@
                 </button>
                 <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="titanium-damier-jacquard" aria-label="Vote Pass">
                   <span class="vote-icon">▼</span>
-                  <span class="vote-label">PASS</span>
+                  <span class="vote-label">NOT INTERESTED</span>
                   <span class="vote-count-badge" data-count="not_interested">3</span>
                 </button>
               </div>
@@ -129,26 +138,35 @@
           </div>
 
           <!-- Concept 2 -->
-          <div class="product-card product-card-interest" data-product-handle="japanese-indigo-sashiko-rope">
+          <div class="product-card product-card-editorial product-card-interest" data-product-handle="japanese-indigo-sashiko-rope">
             <div class="card-media">
               <a href="#vote" class="media-link">
                 <img src="{{ 'lace-brown.jpg' | asset_url }}" alt="Japanese Indigo Sashiko Rope" class="primary-img" width="600" height="600" loading="lazy">
               </a>
+              <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
+                <svg class="icon-bookmark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </button>
               <div class="card-badges">
                 <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
-                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+              <div class="card-carousel-dots" aria-hidden="true">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
               </div>
             </div>
             <div class="card-content">
-              <div class="card-category">10mm Braided Rope &bull; Pure Indigo</div>
-              <h3 class="card-title"><a href="#vote">Japanese Indigo Sashiko Rope</a></h3>
-              <div class="card-price-row">
-                <div class="interest-concept-status">
-                  <span class="concept-dot">●</span>
-                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+              <div class="card-info-row">
+                <div class="card-details-col">
+                  <h3 class="card-title"><a href="#vote">Japanese Indigo Sashiko Rope</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-prototype">CONCEPT SILHOUETTE</span>
+                  </div>
                 </div>
               </div>
-              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="japanese-indigo-sashiko-rope" data-product-title="Japanese Indigo Sashiko Rope">
+              <div class="card-interest-pills-row" data-interest-card data-product-handle="japanese-indigo-sashiko-rope" data-product-title="Japanese Indigo Sashiko Rope">
                 <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="japanese-indigo-sashiko-rope" aria-label="Vote Interested">
                   <span class="vote-icon">▲</span>
                   <span class="vote-label">INTERESTED</span>
@@ -156,7 +174,7 @@
                 </button>
                 <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="japanese-indigo-sashiko-rope" aria-label="Vote Pass">
                   <span class="vote-icon">▼</span>
-                  <span class="vote-label">PASS</span>
+                  <span class="vote-label">NOT INTERESTED</span>
                   <span class="vote-count-badge" data-count="not_interested">5</span>
                 </button>
               </div>
@@ -164,26 +182,35 @@
           </div>
 
           <!-- Concept 3 -->
-          <div class="product-card product-card-interest" data-product-handle="nocturnal-3m-aurora-reflective">
+          <div class="product-card product-card-editorial product-card-interest" data-product-handle="nocturnal-3m-aurora-reflective">
             <div class="card-media">
               <a href="#vote" class="media-link">
                 <img src="{{ 'lace-glow-full.jpg' | asset_url }}" alt="Nocturnal 3M Aurora Reflective" class="primary-img" width="600" height="600" loading="lazy">
               </a>
+              <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
+                <svg class="icon-bookmark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </button>
               <div class="card-badges">
                 <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
-                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+              <div class="card-carousel-dots" aria-hidden="true">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
               </div>
             </div>
             <div class="card-content">
-              <div class="card-category">3M Micro-Prism &bull; Nocturnal Series</div>
-              <h3 class="card-title"><a href="#vote">Nocturnal 3M Aurora Reflective</a></h3>
-              <div class="card-price-row">
-                <div class="interest-concept-status">
-                  <span class="concept-dot">●</span>
-                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+              <div class="card-info-row">
+                <div class="card-details-col">
+                  <h3 class="card-title"><a href="#vote">Nocturnal 3M Aurora Reflective</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-prototype">CONCEPT SILHOUETTE</span>
+                  </div>
                 </div>
               </div>
-              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="nocturnal-3m-aurora-reflective" data-product-title="Nocturnal 3M Aurora Reflective">
+              <div class="card-interest-pills-row" data-interest-card data-product-handle="nocturnal-3m-aurora-reflective" data-product-title="Nocturnal 3M Aurora Reflective">
                 <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="nocturnal-3m-aurora-reflective" aria-label="Vote Interested">
                   <span class="vote-icon">▲</span>
                   <span class="vote-label">INTERESTED</span>
@@ -191,7 +218,7 @@
                 </button>
                 <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="nocturnal-3m-aurora-reflective" aria-label="Vote Pass">
                   <span class="vote-icon">▼</span>
-                  <span class="vote-label">PASS</span>
+                  <span class="vote-label">NOT INTERESTED</span>
                   <span class="vote-count-badge" data-count="not_interested">2</span>
                 </button>
               </div>
@@ -199,26 +226,35 @@
           </div>
 
           <!-- Concept 4 -->
-          <div class="product-card product-card-interest" data-product-handle="vintage-olive-canvas-shuttle">
+          <div class="product-card product-card-editorial product-card-interest" data-product-handle="vintage-olive-canvas-shuttle">
             <div class="card-media">
               <a href="#vote" class="media-link">
                 <img src="{{ 'lace-green.jpg' | asset_url }}" alt="Vintage Olive Canvas Shuttle Weave" class="primary-img" width="600" height="600" loading="lazy">
               </a>
+              <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
+                <svg class="icon-bookmark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </button>
               <div class="card-badges">
                 <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
-                <span class="badge badge-dark">VOTE ONLY</span>
+              </div>
+              <div class="card-carousel-dots" aria-hidden="true">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
               </div>
             </div>
             <div class="card-content">
-              <div class="card-category">Heritage Shuttle Loom &bull; Military Canvas</div>
-              <h3 class="card-title"><a href="#vote">Vintage Olive Canvas Shuttle Weave</a></h3>
-              <div class="card-price-row">
-                <div class="interest-concept-status">
-                  <span class="concept-dot">●</span>
-                  <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+              <div class="card-info-row">
+                <div class="card-details-col">
+                  <h3 class="card-title"><a href="#vote">Vintage Olive Canvas Shuttle Weave</a></h3>
+                  <div class="card-price-row">
+                    <span class="price-prototype">CONCEPT SILHOUETTE</span>
+                  </div>
                 </div>
               </div>
-              <div class="card-actions card-interest-actions" data-interest-card data-product-handle="vintage-olive-canvas-shuttle" data-product-title="Vintage Olive Canvas Shuttle Weave">
+              <div class="card-interest-pills-row" data-interest-card data-product-handle="vintage-olive-canvas-shuttle" data-product-title="Vintage Olive Canvas Shuttle Weave">
                 <button type="button" class="btn-interest-pill btn-interest-yes" data-vote-btn="interested" data-product-handle="vintage-olive-canvas-shuttle" aria-label="Vote Interested">
                   <span class="vote-icon">▲</span>
                   <span class="vote-label">INTERESTED</span>
@@ -226,7 +262,7 @@
                 </button>
                 <button type="button" class="btn-interest-pill btn-interest-no" data-vote-btn="not_interested" data-product-handle="vintage-olive-canvas-shuttle" aria-label="Vote Pass">
                   <span class="vote-icon">▼</span>
-                  <span class="vote-label">PASS</span>
+                  <span class="vote-label">NOT INTERESTED</span>
                   <span class="vote-count-badge" data-count="not_interested">4</span>
                 </button>
               </div>
@@ -253,25 +289,35 @@
         {%- endfor -%}
       </div>
 
-      <!-- Pagination Navigation -->
+      <!-- Aesthetic Luxury Pagination Navigation -->
       {%- if paginate.pages > 1 -%}
-        <nav class="pagination-wrap text-center" aria-label="Pagination">
-          {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}" class="pagination-arrow">&larr; Previous</a>
-          {%- endif -%}
-
-          {%- for part in paginate.parts -%}
-            {%- if part.is_link -%}
-              <a href="{{ part.url }}" class="pagination-num">{{ part.title }}</a>
-            {%- else -%}
-              <span class="pagination-num current">{{ part.title }}</span>
+        <div class="aesthetic-pagination-wrap">
+          <nav class="aesthetic-pagination" aria-label="Catalog Navigation">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="pagination-arrow-btn pagination-prev" aria-label="Previous Page">
+                <span class="arrow-glyph">&larr;</span>
+                <span>PREV</span>
+              </a>
             {%- endif -%}
-          {%- endfor -%}
 
-          {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}" class="pagination-arrow">Next &rarr;</a>
-          {%- endif -%}
-        </nav>
+            <div class="pagination-pages-group">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="pagination-num-btn" aria-label="Page {{ part.title }}">{{ part.title }}</a>
+                {%- else -%}
+                  <span class="pagination-num-btn is-active" aria-current="page">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="pagination-arrow-btn pagination-next" aria-label="Next Page">
+                <span>NEXT</span>
+                <span class="arrow-glyph">&rarr;</span>
+              </a>
+            {%- endif -%}
+          </nav>
+        </div>
       {%- endif -%}
     {%- endif -%}
   </div>

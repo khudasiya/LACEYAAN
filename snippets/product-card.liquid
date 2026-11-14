@@ -1,7 +1,7 @@
 {% comment %}
-  Renders a luxury product card matching LACEYAAN Broadcast theme aesthetic
-  Usage:
-  {% render 'product-card', product: product %}
+  LACEYAAN Luxury Editorial Product Card
+  Matches high-fashion streetwear catalog aesthetic (Reference Image)
+  Features rounded portrait image, bookmark ribbon, carousel dots, minimal info row with plus (+) quick action.
 {% endcomment %}
 
 {%- liquid
@@ -35,12 +35,13 @@
   endfor
 -%}
 
-<div class="product-card{% if is_register_interest %} product-card-interest{% endif %}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
+<div class="product-card product-card-editorial{% if is_register_interest %} product-card-interest{% endif %}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
   <!-- Self-contained Product JSON for instant, offline, password-safe Quick View rendering -->
   <script type="application/json" class="product-card-json" data-product-handle="{{ product.handle }}">
     {{ product | json }}
   </script>
 
+  <!-- Editorial Rounded Media Container -->
   <div class="card-media">
     <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
@@ -65,86 +66,79 @@
       {%- endif -%}
     </a>
 
-    <!-- Luxury Status Badges -->
+    <!-- Top-Right Bookmark Ribbon Icon (Streetwear Tag) -->
+    <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" title="Save silhouette" onclick="this.classList.toggle('is-saved')">
+      <svg class="icon-bookmark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </button>
+
+    <!-- Top-Left Status Badges -->
     <div class="card-badges">
       {%- if is_register_interest -%}
-        <span class="badge badge-gold">CONCEPT PROTOTYPE</span>
-        <span class="badge badge-dark">VOTE ONLY</span>
+        <span class="badge badge-gold">CONCEPT</span>
       {%- elsif current_variant.available == false -%}
         <span class="badge badge-sold-out">SOLD OUT</span>
       {%- elsif product.compare_at_price > product.price -%}
         {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-        <span class="badge badge-sale">-{{ savings }}% OFF</span>
+        <span class="badge badge-sale">-{{ savings }}%</span>
       {%- elsif product.tags contains 'bestseller' -%}
         <span class="badge badge-gold">BESTSELLER</span>
       {%- elsif product.tags contains 'new' -%}
         <span class="badge badge-new">NEW DROP</span>
-      {%- elsif product.tags contains 'vault' -%}
-        <span class="badge badge-dark">VAULT ARCHIVE</span>
       {%- endif -%}
     </div>
 
-    <!-- Quick View Trigger (Icon Only - Function Intact Without Text) -->
-    <button 
-      type="button" 
-      class="quick-view-btn" 
-      data-quick-view
-      data-product-handle="{{ product.handle }}"
-      data-quick-view-trigger="{{ product.handle }}" 
-      aria-label="Quick View {{ product.title | escape }}"
-      title="Quick View"
-    >
-      {% render 'icon-eye' %}
-    </button>
+    <!-- Bottom-Center Carousel Dots -->
+    <div class="card-carousel-dots" aria-hidden="true">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
   </div>
 
+  <!-- Editorial Info Row directly below image -->
   <div class="card-content">
-    {%- assign vendor_clean = product.vendor | default: '' | strip -%}
-    {%- assign vendor_lower = vendor_clean | downcase -%}
-    {%- assign shop_lower = shop.name | downcase -%}
-    {%- if settings.show_vendor and vendor_clean != blank and vendor_lower != 'my store' and vendor_lower != shop_lower -%}
-      <div class="card-category">
-        {{ vendor_clean }}
-      </div>
-    {%- elsif product.type != blank -%}
-      <div class="card-category">
-        {{ product.type }}
-      </div>
-    {%- endif -%}
-
-    <h3 class="card-title">
-      <a href="{{ product.url }}">{{ product.title }}</a>
-    </h3>
-
-    <!-- Price or Prototype Concept Status -->
-    <div class="card-price-row">
-      {%- if is_register_interest -%}
-        <div class="interest-concept-status">
-          <span class="concept-dot">●</span>
-          <span>CONCEPT SILHOUETTE &bull; NOT FOR PURCHASE</span>
+    <div class="card-info-row">
+      <div class="card-details-col">
+        <h3 class="card-title">
+          <a href="{{ product.url }}">{{ product.title }}</a>
+        </h3>
+        <div class="card-price-row">
+          {%- if is_register_interest -%}
+            <span class="price-prototype">CONCEPT SILHOUETTE</span>
+          {%- elsif current_variant.available == false -%}
+            <span class="price-now">{{ product.price | money }}</span>
+            <span class="price-soldout-label">SOLD OUT</span>
+          {%- else -%}
+            <span class="price-now">{{ product.price | money }}</span>
+            {%- if product.compare_at_price > product.price -%}
+              <s class="price-was">{{ product.compare_at_price | money }}</s>
+            {%- endif -%}
+          {%- endif -%}
         </div>
-      {%- else -%}
-        {% render 'price', product: product, use_variant: true %}
-      {%- endif -%}
+      </div>
+
+      <!-- Minimalist Plus (+) Quick-Action Button -->
+      <button 
+        type="button" 
+        class="card-action-plus-btn" 
+        data-action-plus
+        data-variant-id="{{ current_variant.id }}"
+        data-product-handle="{{ product.handle }}"
+        data-available="{{ current_variant.available }}"
+        data-has-variants="{% if product.variants.size > 1 %}true{% else %}false{% endif %}"
+        data-is-prototype="{% if is_register_interest %}true{% else %}false{% endif %}"
+        aria-label="Quick Action for {{ product.title | escape }}"
+        title="{% if current_variant.available %}Quick add to bag{% else %}View details & register interest{% endif %}"
+      >
+        <span class="plus-symbol">+</span>
+      </button>
     </div>
 
-    <!-- Options Previews (Lengths or Colors) -->
-    {%- unless is_register_interest -%}
-      {%- for option in product.options_with_values -%}
-        {%- assign opt_name = option.name | downcase -%}
-        {%- if opt_name contains 'length' -%}
-          <div class="card-lengths-preview">
-            {%- for val in option.values limit: 4 -%}
-              <span class="length-pill-preview">{{ val }}</span>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endunless -%}
-
-    <!-- Action Buttons: Voting Pills for Register Interest OR Standard Buy Now -->
+    <!-- Voting Pills for Register Interest Silhouettes -->
     {%- if is_register_interest -%}
-      <div class="card-actions card-interest-actions" data-interest-card data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
+      <div class="card-interest-pills-row" data-interest-card data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
         <button 
           type="button" 
           class="btn-interest-pill btn-interest-yes" 
@@ -170,40 +164,6 @@
           <span class="vote-label">PASS</span>
           <span class="vote-count-badge" data-count="not_interested">0</span>
         </button>
-      </div>
-    {%- else -%}
-      <div class="card-actions">
-        {%- if current_variant.available -%}
-          <button 
-            type="button" 
-            class="btn-buy-now" 
-            data-buy-now 
-            data-variant-id="{{ current_variant.id }}"
-            data-product-handle="{{ product.handle }}"
-            aria-label="Buy {{ product.title | escape }} now"
-          >
-            <span>BUY NOW</span>
-          </button>
-          <button 
-            type="button" 
-            class="btn-add-bag" 
-            data-add-to-cart 
-            data-variant-id="{{ current_variant.id }}"
-            data-product-handle="{{ product.handle }}"
-            aria-label="Add {{ product.title | escape }} to bag"
-          >
-            {% render 'icon-shopping-bag' %}
-          </button>
-        {%- else -%}
-          <a 
-            href="{{ product.url }}" 
-            class="btn-buy-now btn-sold-out" 
-            aria-label="View {{ product.title | escape }}"
-            title="View details and register interest"
-          >
-            <span>SOLD OUT &bull; VIEW DETAILS</span>
-          </a>
-        {%- endif -%}
       </div>
     {%- endif -%}
   </div>
