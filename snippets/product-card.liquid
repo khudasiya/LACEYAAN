@@ -66,28 +66,12 @@
       {%- endif -%}
     </a>
 
-    <!-- Top-Right Bookmark Ribbon Icon (Streetwear Tag) -->
+    <!-- Top-Right Bookmark Ribbon Icon (Streetwear Tag matching reference) -->
     <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" title="Save silhouette" onclick="this.classList.toggle('is-saved')">
-      <svg class="icon-bookmark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+      <svg class="icon-bookmark-ribbon" width="13" height="17" viewBox="0 0 14 18" fill="currentColor">
+        <path d="M1 1H13V17L7 12.5L1 17V1Z"></path>
       </svg>
     </button>
-
-    <!-- Top-Left Status Badges -->
-    <div class="card-badges">
-      {%- if is_register_interest -%}
-        <span class="badge badge-gold">CONCEPT</span>
-      {%- elsif current_variant.available == false -%}
-        <span class="badge badge-sold-out">SOLD OUT</span>
-      {%- elsif product.compare_at_price > product.price -%}
-        {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-        <span class="badge badge-sale">-{{ savings }}%</span>
-      {%- elsif product.tags contains 'bestseller' -%}
-        <span class="badge badge-gold">BESTSELLER</span>
-      {%- elsif product.tags contains 'new' -%}
-        <span class="badge badge-new">NEW DROP</span>
-      {%- endif -%}
-    </div>
 
     <!-- Bottom-Center Carousel Dots -->
     <div class="card-carousel-dots" aria-hidden="true">
@@ -107,19 +91,13 @@
         <div class="card-price-row">
           {%- if is_register_interest -%}
             <span class="price-prototype">CONCEPT SILHOUETTE</span>
-          {%- elsif current_variant.available == false -%}
-            <span class="price-now">{{ product.price | money }}</span>
-            <span class="price-soldout-label">SOLD OUT</span>
           {%- else -%}
             <span class="price-now">{{ product.price | money }}</span>
-            {%- if product.compare_at_price > product.price -%}
-              <s class="price-was">{{ product.compare_at_price | money }}</s>
-            {%- endif -%}
           {%- endif -%}
         </div>
       </div>
 
-      <!-- Minimalist Plus (+) Quick-Action Button -->
+      <!-- Minimalist Bare Plus (+) Quick-Action Button -->
       <button 
         type="button" 
         class="card-action-plus-btn" 
