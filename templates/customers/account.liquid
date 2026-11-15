@@ -1,0 +1,181 @@
+{%- comment -%}
+  LACEYAAN Atelier — Customer Account Dashboard & Order History
+  Official Shopify Classic Customer Account Hub
+{%- endcomment -%}
+
+<section class="customer-account-section section-padding">
+  <div class="container">
+    <!-- Account Header Banner -->
+    <div class="account-header-bar">
+      <div class="account-user-meta">
+        <div class="user-avatar-badge">
+          <span>{{ customer.first_name | slice: 0, 1 | default: 'L' }}</span>
+        </div>
+        <div class="user-info-text">
+          <span class="user-tier-badge">ATELIER MEMBER</span>
+          <h1 class="user-display-name">{{ customer.name | default: 'Valued Collector' }}</h1>
+          <span class="user-email-text">{{ customer.email }}</span>
+        </div>
+      </div>
+
+      <div class="account-header-actions">
+        <a href="{{ routes.account_logout_url }}" class="btn-secondary btn-account-logout">
+          {% render 'icon-close' %}
+          <span>SIGN OUT</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Account Grid: Orders List & Address Sidebar -->
+    <div class="account-layout-grid">
+      <!-- Left Column: Order History -->
+      <div class="account-orders-column">
+        <div class="account-card-box">
+          <div class="account-card-header">
+            <div class="card-header-left">
+              <span class="card-kicker">COMMERCE LEDGER</span>
+              <h2 class="card-title">Order History ({{ customer.orders.size }})</h2>
+            </div>
+            <a href="{{ routes.all_products_collection_url }}" class="btn-primary btn-sm">
+              <span>EXPLORE SILHOUETTES &rarr;</span>
+            </a>
+          </div>
+
+          {%- paginate customer.orders by 10 -%}
+            {%- if customer.orders.size > 0 -%}
+              <div class="orders-table-wrapper">
+                <table class="account-orders-table" role="table">
+                  <caption class="visually-hidden">Your Orders History</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Order Ref</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Payment</th>
+                      <th scope="col">Fulfillment</th>
+                      <th scope="col">Total</th>
+                      <th scope="col" class="text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%- for order in customer.orders -%}
+                      <tr class="order-table-row">
+                        <td class="order-ref-cell">
+                          <a href="{{ order.customer_url }}" class="order-ref-link" title="View order {{ order.name }}">
+                            <strong>{{ order.name }}</strong>
+                          </a>
+                        </td>
+                        <td class="order-date-cell">
+                          <span>{{ order.created_at | date: "%d %b %Y" }}</span>
+                        </td>
+                        <td class="order-status-cell">
+                          <span class="status-pill status-pay-{{ order.financial_status }}">
+                            {{ order.financial_status_label }}
+                          </span>
+                        </td>
+                        <td class="order-status-cell">
+                          <span class="status-pill status-ful-{{ order.fulfillment_status }}">
+                            {{ order.fulfillment_status_label }}
+                          </span>
+                          {%- if order.line_items.first.fulfillment.tracking_url != blank -%}
+                            <a href="{{ order.line_items.first.fulfillment.tracking_url }}" target="_blank" rel="noopener noreferrer" class="order-track-link" title="Track with carrier">
+                              Track &rarr;
+                            </a>
+                          {%- endif -%}
+                        </td>
+                        <td class="order-total-cell">
+                          <strong>{{ order.total_price | money_with_currency }}</strong>
+                        </td>
+                        <td class="order-action-cell text-right">
+                          <a href="{{ order.customer_url }}" class="btn-secondary btn-order-view">
+                            <span>View Details</span>
+                          </a>
+                        </td>
+                      </tr>
+                    {%- endfor -%}
+                  </tbody>
+                </table>
+              </div>
+
+              {%- if paginate.pages > 1 -%}
+                <div class="account-pagination">
+                  {{ paginate | default_pagination }}
+                </div>
+              {%- endif -%}
+
+            {%- else -%}
+              <!-- Empty Orders State -->
+              <div class="account-empty-orders text-center">
+                <div class="empty-icon-ring">
+                  {% render 'icon-shopping-bag' %}
+                </div>
+                <h3>No Silhouettes in Your Rotation Yet</h3>
+                <p>Elevate your footwear with solid CNC-milled brass aglets and Japanese shuttle-loom combed cotton.</p>
+                <a href="{{ routes.all_products_collection_url }}" class="btn-primary">
+                  <span>DISCOVER ATELIER LACES &rarr;</span>
+                </a>
+              </div>
+            {%- endif -%}
+          {%- endpaginate -%}
+        </div>
+      </div>
+
+      <!-- Right Column: Primary Address & Account Summary -->
+      <div class="account-sidebar-column">
+        <!-- Default Address Card -->
+        <div class="account-card-box">
+          <div class="account-card-header">
+            <div>
+              <span class="card-kicker">DELIVERY DESTINATION</span>
+              <h3 class="card-title">Default Address</h3>
+            </div>
+            <a href="{{ routes.account_addresses_url }}" class="link-manage-addresses">
+              Manage ({{ customer.addresses_count }}) &rarr;
+            </a>
+          </div>
+
+          <div class="address-card-body">
+            {%- if customer.default_address -%}
+              <div class="address-details-block">
+                <p class="address-name"><strong>{{ customer.default_address.name }}</strong></p>
+                {%- if customer.default_address.company != blank -%}
+                  <p class="address-company">{{ customer.default_address.company }}</p>
+                {%- endif -%}
+                <p class="address-street">{{ customer.default_address.address1 }}</p>
+                {%- if customer.default_address.address2 != blank -%}
+                  <p class="address-street2">{{ customer.default_address.address2 }}</p>
+                {%- endif -%}
+                <p class="address-region">
+                  {{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}
+                </p>
+                <p class="address-country">{{ customer.default_address.country }}</p>
+                {%- if customer.default_address.phone != blank -%}
+                  <p class="address-phone">Phone: {{ customer.default_address.phone }}</p>
+                {%- endif -%}
+              </div>
+            {%- else -%}
+              <p class="address-empty-text">No delivery address saved yet.</p>
+            {%- endif -%}
+
+            <div class="address-actions-footer">
+              <a href="{{ routes.account_addresses_url }}" class="btn-secondary btn-full-width">
+                <span>VIEW &amp; EDIT ADDRESSES ({{ customer.addresses_count }})</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Atelier Support & Assistance Card -->
+        <div class="account-card-box card-support-box">
+          <span class="card-kicker">NEED ASSISTANCE?</span>
+          <h4 class="card-title">Atelier Client Services</h4>
+          <p class="support-desc">Have a question regarding custom length matching, exchange requests, or order tracking?</p>
+          <ul class="support-contact-list">
+            <li><strong>Email:</strong> <a href="mailto:laceyaan@gmail.com">laceyaan@gmail.com</a></li>
+            <li><strong>Instagram:</strong> <a href="https://instagram.com/laceyaan_" target="_blank" rel="noopener noreferrer">@laceyaan_</a></li>
+            <li><strong>Fit Guarantee:</strong> 30-Day Free Length Exchanges</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -358,21 +358,27 @@
 
       // Standalone BUY NOW Buttons (Direct Checkout)
       document.addEventListener('click', async (e) => {
-        const buyBtn = e.target.closest('[data-buy-now]');
+        const buyBtn = e.target.closest('[data-buy-now], [data-direct-buy-now]');
         if (!buyBtn) return;
 
         e.preventDefault();
-        const variantId = buyBtn.dataset.variantId;
+        const variantId = buyBtn.dataset.variantId || document.getElementById('selected-variant-id')?.value;
         const handle = buyBtn.dataset.productHandle;
 
         if (variantId) {
           const originalText = buyBtn.innerHTML;
           buyBtn.disabled = true;
           buyBtn.innerHTML = '<span>CHECKING OUT...</span>';
+
+          // Get selected quantity from nearest quantity input or default to 1
+          const form = buyBtn.closest('form') || document.querySelector('.native-product-form');
+          const qtyInput = form ? form.querySelector('[name="quantity"]') : null;
+          const quantity = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+
           try {
             const formData = new FormData();
             formData.append('id', variantId);
-            formData.append('quantity', '1');
+            formData.append('quantity', String(quantity));
             const res = await fetch('/cart/add.js', { method: 'POST', body: formData });
             if (res.ok) {
               window.location.href = '/checkout';
@@ -1213,7 +1219,19 @@
     init() {
       const optionInputs = this.section.querySelectorAll('[data-option-input]');
       optionInputs.forEach(input => {
-        input.addEventListener('change', () => this.onOptionChange());
+        input.addEventListener('change', () => {
+          // Update active chip classes & label display
+          const group = input.closest('[data-option-group]');
+          if (group) {
+            group.querySelectorAll('[data-chip-label]').forEach(chip => chip.classList.remove('active'));
+            const parentChip = input.closest('[data-chip-label]');
+            if (parentChip) parentChip.classList.add('active');
+
+            const labelEl = group.querySelector('[data-selected-option-label]');
+            if (labelEl) labelEl.textContent = input.value;
+          }
+          this.onOptionChange();
+        });
       });
 
       // Quantity buttons
@@ -1310,7 +1328,7 @@
         }
       }
 
-      // Update Availability & Button
+      // Update Availability & Add To Bag Button
       if (this.submitBtn) {
         if (variant.available) {
           this.submitBtn.disabled = false;
@@ -1318,6 +1336,33 @@
         } else {
           this.submitBtn.disabled = true;
           this.submitBtn.textContent = 'SOLD OUT';
+        }
+      }
+
+      // Update Direct Buy Now button
+      const buyNowBtn = this.section.querySelector('[data-direct-buy-now]');
+      if (buyNowBtn) {
+        buyNowBtn.dataset.variantId = variant.id;
+        if (variant.available) {
+          buyNowBtn.disabled = false;
+          buyNowBtn.style.display = 'inline-flex';
+        } else {
+          buyNowBtn.disabled = true;
+          buyNowBtn.style.display = 'none';
+        }
+      }
+
+      // Update Sticky Mobile Bar
+      const stickyBtn = document.getElementById('StickyAddToCartBtn');
+      const stickyPrice = document.getElementById('StickyBarPrice');
+      if (stickyPrice) stickyPrice.textContent = Utils.formatMoney(variant.price);
+      if (stickyBtn) {
+        if (variant.available) {
+          stickyBtn.disabled = false;
+          stickyBtn.textContent = 'ADD TO BAG';
+        } else {
+          stickyBtn.disabled = true;
+          stickyBtn.textContent = 'SOLD OUT';
         }
       }
 

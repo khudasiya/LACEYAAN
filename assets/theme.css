@@ -3341,6 +3341,58 @@ img {
   transform: translateY(-3px) scale(1.1);
 }
 
+/* 5b. Shopify Dynamic Payment Icons */
+.footer-payment-icons-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.25rem 0 1.5rem;
+  padding: 0 1rem;
+}
+
+.list-payment-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.payment-icon-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-icon-svg {
+  width: 38px;
+  height: 24px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.payment-icon-svg:hover {
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+.payment-icon-pill {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
 /* 6. Copyright */
 .footer-copyright-row {
   text-align: center;
@@ -5978,7 +6030,7 @@ img {
     align-items: center !important;
     gap: 4px !important;
   }
-  .navbar-utilities > *:not(#open-search-modal):not(#open-cart-drawer):not(.bag-btn) {
+  .navbar-utilities > *:not(#open-search-modal):not(#open-cart-drawer):not(.bag-btn):not(#header-account-btn):not(.nav-account-btn) {
     display: none !important;
   }
   .navbar-utilities .nav-util-btn {
@@ -9303,3 +9355,895 @@ img {
 .product-card-editorial:hover .card-media img.primary-img {
   transform: scale(1.025);
 }
+
+/* ==========================================================================
+   CUSTOMER AUTHENTICATION & ACCOUNT PORTAL SUITE
+   Official Shopify Classic Customer Account Styling (Laceyaan Luxury Streetwear)
+   ========================================================================== */
+
+.customer-auth-section {
+  padding: clamp(3rem, 7vw, 6rem) 0;
+  background: var(--bg-primary);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.customer-auth-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.customer-auth-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 19, 17, 0.12);
+  border-radius: var(--radius-sm);
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: 0 10px 40px rgba(20, 19, 17, 0.04);
+}
+
+.auth-card-header {
+  margin-bottom: 2rem;
+}
+
+.auth-kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--accent-gold-dark);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.auth-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  margin-bottom: 0.6rem;
+}
+
+.auth-subtitle {
+  font-size: 0.86rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.auth-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .auth-row-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.auth-row-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .auth-row-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.auth-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.auth-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth-label {
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.auth-link-recover {
+  font-size: 0.74rem;
+  color: var(--accent-gold-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.auth-link-recover:hover {
+  color: var(--text-main);
+}
+
+.auth-input,
+.auth-select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  background: #FAF9F5;
+  border: 1px solid rgba(20, 19, 17, 0.18);
+  border-radius: var(--radius-xs);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  outline: none;
+}
+
+.auth-input:focus,
+.auth-select:focus {
+  border-color: var(--text-main);
+  background: #FFFFFF;
+}
+
+.auth-hint {
+  font-size: 0.74rem;
+  color: var(--text-sub);
+  line-height: 1.4;
+}
+
+.auth-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.auth-checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--text-main);
+  cursor: pointer;
+}
+
+.auth-actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn-auth-submit {
+  width: 100%;
+  padding: 0.95rem 1.5rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.1em;
+  justify-content: center;
+}
+
+.btn-auth-cancel {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.82rem;
+  justify-content: center;
+}
+
+.auth-switch-row {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(20, 19, 17, 0.08);
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.auth-switch-link {
+  font-weight: 700;
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-alert {
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.84rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.45;
+}
+
+.auth-alert-error {
+  background: rgba(231, 76, 60, 0.08);
+  border: 1px solid rgba(231, 76, 60, 0.35);
+  color: #c0392b;
+}
+
+.auth-alert-error ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.auth-alert-success {
+  background: rgba(46, 204, 113, 0.08);
+  border: 1px solid rgba(46, 204, 113, 0.35);
+  color: #27ae60;
+}
+
+/* ==========================================================================
+   CUSTOMER ACCOUNT HUB & DASHBOARD
+   ========================================================================== */
+
+.customer-account-section,
+.customer-order-section,
+.customer-addresses-section {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  background: var(--bg-primary);
+  min-height: 80vh;
+}
+
+.account-header-bar {
+  background: #141311;
+  color: #FAF9F5;
+  border-radius: var(--radius-sm);
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.account-user-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.user-avatar-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  color: #0A0908;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-tier-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+}
+
+.user-display-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  color: #FAF9F5;
+  margin: 0.15rem 0;
+  line-height: 1.2;
+}
+
+.user-email-text {
+  font-size: 0.82rem;
+  color: #9E9A92;
+}
+
+.btn-account-logout {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FAF9F5;
+  border-color: rgba(255, 255, 255, 0.2);
+  gap: 0.5rem;
+}
+
+.btn-account-logout:hover {
+  background: #FFFFFF;
+  color: #000000;
+}
+
+.account-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .account-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.account-card-box {
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 19, 17, 0.1);
+  border-radius: var(--radius-sm);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: 0 4px 20px rgba(20, 19, 17, 0.03);
+  margin-bottom: 2rem;
+}
+
+.account-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.card-header-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.card-kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--accent-gold-dark);
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  margin: 0.2rem 0 0 0;
+}
+
+/* Orders Table */
+.orders-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.account-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  text-align: left;
+}
+
+.account-orders-table th {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.1);
+}
+
+.account-orders-table td {
+  padding: 1.15rem 1rem;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.06);
+  vertical-align: middle;
+}
+
+.order-ref-link {
+  font-family: var(--font-heading);
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 0.92rem;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status-pay-paid,
+.status-ful-fulfilled {
+  background: rgba(46, 204, 113, 0.12);
+  color: #27ae60;
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.status-pay-pending,
+.status-ful-unfulfilled {
+  background: rgba(197, 168, 128, 0.15);
+  color: var(--accent-gold-dark);
+  border: 1px solid rgba(197, 168, 128, 0.4);
+}
+
+.status-pay-refunded,
+.status-pay-voided {
+  background: rgba(231, 76, 60, 0.12);
+  color: #c0392b;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.order-track-link {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.74rem;
+  color: var(--accent-gold-dark);
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.btn-order-view {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.74rem;
+}
+
+.account-empty-orders {
+  padding: 3rem 1.5rem;
+}
+
+.empty-icon-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #F4F3EF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+  color: var(--text-main);
+}
+
+/* Sidebar Address & Support */
+.address-details-block p {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.link-manage-addresses {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.card-support-box {
+  background: #FAF9F5;
+}
+
+.support-desc {
+  font-size: 0.84rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.support-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.support-contact-list a {
+  color: var(--accent-gold-dark);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   ORDER DETAIL VIEW
+   ========================================================================== */
+
+.order-nav-bar {
+  margin-bottom: 1.5rem;
+}
+
+.link-back-account {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.order-header-card {
+  background: #141311;
+  color: #FAF9F5;
+  border-radius: var(--radius-sm);
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.order-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #FAF9F5;
+  margin: 0.2rem 0;
+}
+
+.order-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+  color: #9E9A92;
+}
+
+.order-cancelled-badge {
+  background: rgba(231, 76, 60, 0.2);
+  color: #ff6b6b;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.order-status-pills-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.status-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.status-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9E9A92;
+}
+
+.order-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .order-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.order-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+
+.order-items-table th {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.1);
+}
+
+.order-items-table td {
+  padding: 1.25rem 0.5rem;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.06);
+  vertical-align: middle;
+}
+
+.order-item-meta-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-item-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #F4F3EF;
+}
+
+.order-item-heading {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.order-item-heading a {
+  color: var(--text-main);
+}
+
+.order-item-variant {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--text-sub);
+  margin-top: 0.2rem;
+}
+
+.order-item-fulfillment-box {
+  margin-top: 0.45rem;
+  padding: 0.35rem 0.65rem;
+  background: #F4F3EF;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-track-carrier {
+  font-weight: 700;
+  color: var(--accent-gold-dark);
+  text-decoration: underline;
+}
+
+.order-financial-ledger {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(20, 19, 17, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+}
+
+.ledger-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ledger-discount {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.ledger-total {
+  margin-top: 0.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(20, 19, 17, 0.12);
+  font-size: 1.15rem;
+  font-family: var(--font-heading);
+}
+
+/* ==========================================================================
+   ADDRESSES DIRECTORY
+   ========================================================================== */
+
+.addresses-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.addresses-main-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  margin: 0.25rem 0;
+}
+
+.addresses-sub {
+  font-size: 0.88rem;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+.addresses-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .addresses-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.address-display-card.is-default-card {
+  border-color: var(--accent-gold);
+}
+
+.address-card-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(20, 19, 17, 0.08);
+}
+
+.btn-delete-address {
+  color: #c0392b;
+  border-color: rgba(231, 76, 60, 0.3);
+}
+
+.btn-delete-address:hover {
+  background: #c0392b;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   MOBILE DRAWER CUSTOMER ACCOUNT HUB
+   ========================================================================== */
+
+.mobile-drawer-account-box {
+  margin: 1.25rem 1.25rem 0.5rem 1.25rem;
+  padding: 1rem 1.15rem;
+  background: #141311;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FAF9F5;
+}
+
+.mobile-account-user-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.mobile-avatar-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  color: #0A0908;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mobile-welcome-lbl {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold);
+}
+
+.mobile-user-name {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FAF9F5;
+}
+
+.mobile-account-links-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mobile-account-btn {
+  flex: 2;
+  padding: 0.65rem 0.85rem !important;
+  font-size: 0.72rem !important;
+  justify-content: center;
+}
+
+.mobile-logout-btn {
+  flex: 1;
+  padding: 0.65rem 0.75rem !important;
+  font-size: 0.72rem !important;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FAF9F5 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.mobile-account-guest-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-guest-title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #FAF9F5;
+  text-transform: uppercase;
+}
+
+.mobile-guest-sub {
+  display: block;
+  font-size: 0.74rem;
+  color: #9E9A92;
+}
+
+.mobile-auth-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.mobile-auth-buttons-grid .btn-primary,
+.mobile-auth-buttons-grid .btn-secondary {
+  padding: 0.65rem 0.5rem !important;
+  font-size: 0.72rem !important;
+  justify-content: center;
+  text-align: center;
+}
+

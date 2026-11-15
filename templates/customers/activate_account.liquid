@@ -1,0 +1,61 @@
+{%- comment -%}
+  LACEYAAN Atelier — Activate Customer Account
+  Official Shopify Classic Customer Account Activation
+{%- endcomment -%}
+
+<section class="customer-auth-section section-padding">
+  <div class="container container-narrow">
+    <div class="customer-auth-wrapper">
+      <div class="customer-auth-card">
+        <div class="auth-card-header text-center">
+          <span class="auth-kicker">WELCOME TO LACEYAAN</span>
+          <h1 class="auth-title">Activate Atelier Account</h1>
+          <p class="auth-subtitle">Create a password to activate your account and view your saved rotation orders.</p>
+        </div>
+
+        {%- form 'activate_customer_password', class: 'auth-form' -%}
+          {%- if form.errors -%}
+            <div class="auth-alert auth-alert-error" tabindex="-1" autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="auth-input-group">
+            <label for="password" class="auth-label">Password</label>
+            <input
+              type="password"
+              name="customer[password]"
+              id="password"
+              class="auth-input"
+              autocomplete="new-password"
+              placeholder="••••••••••••"
+              required
+            >
+          </div>
+
+          <div class="auth-input-group">
+            <label for="password_confirmation" class="auth-label">Confirm Password</label>
+            <input
+              type="password"
+              name="customer[password_confirmation]"
+              id="password_confirmation"
+              class="auth-input"
+              autocomplete="new-password"
+              placeholder="••••••••••••"
+              required
+            >
+          </div>
+
+          <div class="auth-actions-group">
+            <button type="submit" class="btn-primary btn-auth-submit">
+              <span>ACTIVATE ACCOUNT &rarr;</span>
+            </button>
+            <button type="submit" name="decline" class="btn-secondary">
+              <span>Decline Invitation</span>
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>

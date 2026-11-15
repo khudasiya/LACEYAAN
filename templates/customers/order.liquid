@@ -1,0 +1,203 @@
+{%- comment -%}
+  LACEYAAN Atelier — Individual Order Detail View
+  Official Shopify Classic Customer Order Breakdown with Live Carrier Tracking
+{%- endcomment -%}
+
+<section class="customer-order-section section-padding">
+  <div class="container">
+    <!-- Breadcrumb & Navigation -->
+    <div class="order-nav-bar">
+      <a href="{{ routes.account_url }}" class="link-back-account">
+        &larr; Return to Account Dashboard
+      </a>
+    </div>
+
+    <!-- Order Summary Header Card -->
+    <div class="order-header-card">
+      <div class="order-header-left">
+        <span class="order-kicker">ORDER BREAKDOWN</span>
+        <h1 class="order-title">Order {{ order.name }}</h1>
+        <div class="order-meta-row">
+          <span>Placed on {{ order.created_at | date: "%B %d, %Y at %I:%M %p" }}</span>
+          {%- if order.cancelled -%}
+            <span class="order-cancelled-badge">
+              CANCELLED: {{ order.cancelled_at | date: "%B %d, %Y" }} ({{ order.cancel_reason }})
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="order-header-right">
+        <div class="order-status-pills-group">
+          <div class="status-block">
+            <span class="status-lbl">Payment Status</span>
+            <span class="status-pill status-pay-{{ order.financial_status }}">{{ order.financial_status_label }}</span>
+          </div>
+          <div class="status-block">
+            <span class="status-lbl">Fulfillment Status</span>
+            <span class="status-pill status-ful-{{ order.fulfillment_status }}">{{ order.fulfillment_status_label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-layout-grid">
+      <!-- Left Column: Line Items Table & Financial Breakdown -->
+      <div class="order-main-column">
+        <div class="order-card-box">
+          <h2 class="card-title">Items in this Delivery</h2>
+
+          <div class="order-items-table-wrap">
+            <table class="order-items-table" role="table">
+              <caption class="visually-hidden">Order line items</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Silhouette</th>
+                  <th scope="col">SKU</th>
+                  <th scope="col">Price</th>
+                  <th scope="col" class="text-center">Qty</th>
+                  <th scope="col" class="text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for line_item in order.line_items -%}
+                  <tr class="order-item-row">
+                    <td class="order-product-cell">
+                      <div class="order-item-meta-wrap">
+                        {%- if line_item.image -%}
+                          <img src="{{ line_item.image | image_url: width: 160 }}" alt="{{ line_item.title | escape }}" class="order-item-img" width="70" height="70" loading="lazy">
+                        {%- endif -%}
+                        <div class="order-item-titles">
+                          <h3 class="order-item-heading">
+                            {%- if line_item.url -%}
+                              <a href="{{ line_item.url }}">{{ line_item.product.title }}</a>
+                            {%- else -%}
+                              {{ line_item.product.title }}
+                            {%- endif -%}
+                          </h3>
+                          {%- unless line_item.product.has_only_default_variant -%}
+                            <span class="order-item-variant">{{ line_item.variant.title }}</span>
+                          {%- endunless -%}
+
+                          {%- if line_item.fulfillment -%}
+                            <div class="order-item-fulfillment-box">
+                              <span class="ful-carrier">Dispatched via {{ line_item.fulfillment.tracking_company }}</span>
+                              {%- if line_item.fulfillment.tracking_number -%}
+                                <span class="ful-num">Waybill: {{ line_item.fulfillment.tracking_number }}</span>
+                              {%- endif -%}
+                              {%- if line_item.fulfillment.tracking_url -%}
+                                <a href="{{ line_item.fulfillment.tracking_url }}" target="_blank" rel="noopener noreferrer" class="btn-track-carrier">
+                                  <span>Track Package &rarr;</span>
+                                </a>
+                              {%- endif -%}
+                            </div>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="order-sku-cell">
+                      <span>{{ line_item.sku | default: '—' }}</span>
+                    </td>
+                    <td class="order-price-cell">
+                      <span>{{ line_item.final_price | money }}</span>
+                    </td>
+                    <td class="order-qty-cell text-center">
+                      <span>{{ line_item.quantity }}</span>
+                    </td>
+                    <td class="order-total-cell text-right">
+                      <strong>{{ line_item.final_line_price | money }}</strong>
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Financial Ledger Totals -->
+          <div class="order-financial-ledger">
+            <div class="ledger-row">
+              <span>Subtotal</span>
+              <span>{{ order.line_items_subtotal_price | money }}</span>
+            </div>
+
+            {%- for discount in order.discounts -%}
+              <div class="ledger-row ledger-discount">
+                <span>Discount ({{ discount.code }})</span>
+                <span>-{{ discount.amount | money }}</span>
+              </div>
+            {%- endfor -%}
+
+            {%- for shipping_method in order.shipping_methods -%}
+              <div class="ledger-row">
+                <span>Shipping ({{ shipping_method.title }})</span>
+                <span>{{ shipping_method.price | money }}</span>
+              </div>
+            {%- endfor -%}
+
+            {%- for tax_line in order.tax_lines -%}
+              <div class="ledger-row">
+                <span>Tax ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
+                <span>{{ tax_line.price | money }}</span>
+              </div>
+            {%- endfor -%}
+
+            <div class="ledger-row ledger-total">
+              <strong>Final Total Paid</strong>
+              <strong>{{ order.total_price | money_with_currency }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Shipping & Billing Addresses -->
+      <div class="order-sidebar-column">
+        <!-- Shipping Address Card -->
+        <div class="order-card-box">
+          <span class="card-kicker">DISPATCH DESTINATION</span>
+          <h3 class="card-title">Shipping Address</h3>
+          <div class="address-details-block">
+            {%- if order.shipping_address -%}
+              <p><strong>{{ order.shipping_address.name }}</strong></p>
+              {%- if order.shipping_address.company != blank -%}
+                <p>{{ order.shipping_address.company }}</p>
+              {%- endif -%}
+              <p>{{ order.shipping_address.address1 }}</p>
+              {%- if order.shipping_address.address2 != blank -%}
+                <p>{{ order.shipping_address.address2 }}</p>
+              {%- endif -%}
+              <p>{{ order.shipping_address.city }}, {{ order.shipping_address.province_code }} {{ order.shipping_address.zip }}</p>
+              <p>{{ order.shipping_address.country }}</p>
+              {%- if order.shipping_address.phone != blank -%}
+                <p>Phone: {{ order.shipping_address.phone }}</p>
+              {%- endif -%}
+            {%- else -%}
+              <p>No shipping address required for this order.</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Billing Address Card -->
+        <div class="order-card-box">
+          <span class="card-kicker">COMMERCE RECORD</span>
+          <h3 class="card-title">Billing Address</h3>
+          <div class="address-details-block">
+            {%- if order.billing_address -%}
+              <p><strong>{{ order.billing_address.name }}</strong></p>
+              {%- if order.billing_address.company != blank -%}
+                <p>{{ order.billing_address.company }}</p>
+              {%- endif -%}
+              <p>{{ order.billing_address.address1 }}</p>
+              {%- if order.billing_address.address2 != blank -%}
+                <p>{{ order.billing_address.address2 }}</p>
+              {%- endif -%}
+              <p>{{ order.billing_address.city }}, {{ order.billing_address.province_code }} {{ order.billing_address.zip }}</p>
+              <p>{{ order.billing_address.country }}</p>
+            {%- else -%}
+              <p>Billing address matches shipping address.</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

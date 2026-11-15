@@ -1,0 +1,238 @@
+{%- comment -%}
+  LACEYAAN Atelier — Customer Address Book Management
+  Official Shopify Classic Customer Addresses Template
+{%- endcomment -%}
+
+<section class="customer-addresses-section section-padding">
+  <div class="container">
+    <div class="addresses-header-bar">
+      <div>
+        <a href="{{ routes.account_url }}" class="link-back-account">&larr; Return to Account Dashboard</a>
+        <h1 class="addresses-main-title">Delivery Address Book</h1>
+        <p class="addresses-sub">Manage your domestic express shipping destinations for rapid one-click checkout.</p>
+      </div>
+
+      <div class="addresses-header-actions">
+        <button type="button" class="btn-primary" id="ToggleAddAddressBtn">
+          <span>+ ADD NEW ADDRESS</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Add New Address Collapsible Form -->
+    <div class="address-form-modal-wrap" id="AddAddressCard" style="display: none;">
+      <div class="account-card-box">
+        <div class="card-header-between">
+          <h2 class="card-title">Add New Delivery Destination</h2>
+          <button type="button" class="btn-close-form" id="CancelAddAddressBtn" aria-label="Cancel">
+            &times;
+          </button>
+        </div>
+
+        {%- form 'customer_address', customer.new_address, class: 'address-form' -%}
+          <div class="auth-row-2col">
+            <div class="auth-input-group">
+              <label for="AddressFirstNameNew" class="auth-label">First Name</label>
+              <input type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" class="auth-input" placeholder="e.g. Rahul" required>
+            </div>
+            <div class="auth-input-group">
+              <label for="AddressLastNameNew" class="auth-label">Last Name</label>
+              <input type="text" id="AddressLastNameNew" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" class="auth-input" placeholder="e.g. Sharma" required>
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="AddressCompanyNew" class="auth-label">Company / Apartment Name (Optional)</label>
+            <input type="text" id="AddressCompanyNew" name="address[company]" value="{{ form.company }}" autocomplete="organization" class="auth-input" placeholder="e.g. Studio 4B">
+          </div>
+
+          <div class="auth-input-group">
+            <label for="AddressAddress1New" class="auth-label">Street Address &amp; House Number</label>
+            <input type="text" id="AddressAddress1New" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" class="auth-input" placeholder="e.g. 104 Heritage Avenue" required>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="AddressAddress2New" class="auth-label">Apartment, Suite, Unit, etc. (Optional)</label>
+            <input type="text" id="AddressAddress2New" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" class="auth-input" placeholder="e.g. Floor 2">
+          </div>
+
+          <div class="auth-row-3col">
+            <div class="auth-input-group">
+              <label for="AddressCityNew" class="auth-label">City</label>
+              <input type="text" id="AddressCityNew" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" class="auth-input" placeholder="e.g. Mumbai" required>
+            </div>
+
+            <div class="auth-input-group">
+              <label for="AddressCountryNew" class="auth-label">Country</label>
+              <select id="AddressCountryNew" name="address[country]" data-default="{{ form.country | default: 'India' }}" autocomplete="country" class="auth-select">
+                {{ all_country_option_tags }}
+              </select>
+            </div>
+
+            <div class="auth-input-group">
+              <label for="AddressZipNew" class="auth-label">Pincode / Postal Code</label>
+              <input type="text" id="AddressZipNew" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" class="auth-input" placeholder="e.g. 400001" required>
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="AddressPhoneNew" class="auth-label">Phone Number (Required for Courier Dispatch)</label>
+            <input type="tel" id="AddressPhoneNew" name="address[phone]" value="{{ form.phone }}" autocomplete="tel" class="auth-input" placeholder="e.g. +91 98765 43210" required>
+          </div>
+
+          <div class="auth-checkbox-group">
+            {{ form.set_as_default_checkbox }}
+            <label for="address_default_address_new">Set as default delivery address</label>
+          </div>
+
+          <div class="auth-actions-group">
+            <button type="submit" class="btn-primary">
+              <span>SAVE ADDRESS &rarr;</span>
+            </button>
+            <button type="button" class="btn-secondary" id="CancelAddAddressBtn2">
+              <span>Cancel</span>
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+
+    <!-- Saved Addresses Grid -->
+    {%- paginate customer.addresses by 10 -%}
+      <div class="addresses-cards-grid">
+        {%- for address in customer.addresses -%}
+          <div class="account-card-box address-display-card{% if address == customer.default_address %} is-default-card{% endif %}" id="AddressCard-{{ address.id }}">
+            <div class="card-header-between">
+              <div>
+                {%- if address == customer.default_address -%}
+                  <span class="badge badge-gold">DEFAULT DESTINATION</span>
+                {%- else -%}
+                  <span class="badge badge-dark">SAVED DESTINATION</span>
+                {%- endif -%}
+                <h3 class="card-title">{{ address.name }}</h3>
+              </div>
+            </div>
+
+            <div class="address-details-block">
+              {%- if address.company != blank -%}<p>{{ address.company }}</p>{%- endif -%}
+              <p>{{ address.address1 }}</p>
+              {%- if address.address2 != blank -%}<p>{{ address.address2 }}</p>{%- endif -%}
+              <p>{{ address.city }}, {{ address.province_code }} {{ address.zip }}</p>
+              <p>{{ address.country }}</p>
+              {%- if address.phone != blank -%}<p>Phone: {{ address.phone }}</p>{%- endif -%}
+            </div>
+
+            <div class="address-card-actions">
+              <button type="button" class="btn-secondary btn-sm" data-edit-address-trigger="{{ address.id }}">
+                <span>EDIT</span>
+              </button>
+              <form class="address-delete-form" method="post" action="/account/addresses/{{ address.id }}" onsubmit="return confirm('Are you sure you wish to delete this delivery destination?');">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn-secondary btn-sm btn-delete-address">
+                  <span>DELETE</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Inline Edit Form for this specific address -->
+            <div class="address-edit-form-wrap" id="EditAddress-{{ address.id }}" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08);">
+              <h4 class="edit-heading">Edit Delivery Destination</h4>
+              {%- form 'customer_address', address, class: 'address-form' -%}
+                <div class="auth-row-2col">
+                  <div class="auth-input-group">
+                    <label for="AddressFirstName_{{ form.id }}" class="auth-label">First Name</label>
+                    <input type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" class="auth-input" required>
+                  </div>
+                  <div class="auth-input-group">
+                    <label for="AddressLastName_{{ form.id }}" class="auth-label">Last Name</label>
+                    <input type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" class="auth-input" required>
+                  </div>
+                </div>
+
+                <div class="auth-input-group">
+                  <label for="AddressAddress1_{{ form.id }}" class="auth-label">Street Address</label>
+                  <input type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" class="auth-input" required>
+                </div>
+
+                <div class="auth-row-3col">
+                  <div class="auth-input-group">
+                    <label for="AddressCity_{{ form.id }}" class="auth-label">City</label>
+                    <input type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" class="auth-input" required>
+                  </div>
+                  <div class="auth-input-group">
+                    <label for="AddressZip_{{ form.id }}" class="auth-label">Pincode</label>
+                    <input type="text" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" class="auth-input" required>
+                  </div>
+                  <div class="auth-input-group">
+                    <label for="AddressPhone_{{ form.id }}" class="auth-label">Phone</label>
+                    <input type="tel" id="AddressPhone_{{ form.id }}" name="address[phone]" value="{{ form.phone }}" class="auth-input" required>
+                  </div>
+                </div>
+
+                <div class="auth-checkbox-group">
+                  {{ form.set_as_default_checkbox }}
+                  <label for="address_default_address_{{ form.id }}">Set as default delivery address</label>
+                </div>
+
+                <div class="auth-actions-group">
+                  <button type="submit" class="btn-primary btn-sm"><span>UPDATE DESTINATION</span></button>
+                  <button type="button" class="btn-secondary btn-sm" data-cancel-edit="{{ address.id }}"><span>CANCEL</span></button>
+                </div>
+              {%- endform -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="account-pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+<script>
+  (function() {
+    var addBtn = document.getElementById('ToggleAddAddressBtn');
+    var addCard = document.getElementById('AddAddressCard');
+    var cancelBtn = document.getElementById('CancelAddAddressBtn');
+    var cancelBtn2 = document.getElementById('CancelAddAddressBtn2');
+
+    if (addBtn && addCard) {
+      addBtn.addEventListener('click', function() {
+        addCard.style.display = addCard.style.display === 'none' ? 'block' : 'none';
+        if (addCard.style.display === 'block') {
+          addCard.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    if (cancelBtn && addCard) {
+      cancelBtn.addEventListener('click', function() { addCard.style.display = 'none'; });
+    }
+    if (cancelBtn2 && addCard) {
+      cancelBtn2.addEventListener('click', function() { addCard.style.display = 'none'; });
+    }
+
+    // Edit toggles
+    document.querySelectorAll('[data-edit-address-trigger]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.dataset.editAddressTrigger;
+        var editWrap = document.getElementById('EditAddress-' + id);
+        if (editWrap) {
+          editWrap.style.display = editWrap.style.display === 'none' ? 'block' : 'none';
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-cancel-edit]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.dataset.cancelEdit;
+        var editWrap = document.getElementById('EditAddress-' + id);
+        if (editWrap) editWrap.style.display = 'none';
+      });
+    });
+  })();
+</script>

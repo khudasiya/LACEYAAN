@@ -135,6 +135,28 @@
       </a>
     </div>
 
+    <!-- Dynamic Shopify Payment Icons Row -->
+    {%- if section.settings.show_payment_icons -%}
+      <div class="footer-payment-icons-row">
+        <ul class="list-payment-icons" role="list" aria-label="Accepted Payment Methods">
+          {%- if shop.enabled_payment_types != empty -%}
+            {%- for type in shop.enabled_payment_types -%}
+              <li class="payment-icon-item">
+                {{ type | payment_type_svg_tag: class: 'payment-icon-svg' }}
+              </li>
+            {%- endfor -%}
+          {%- else -%}
+            <li class="payment-icon-item"><span class="payment-icon-pill">UPI</span></li>
+            <li class="payment-icon-item"><span class="payment-icon-pill">VISA</span></li>
+            <li class="payment-icon-item"><span class="payment-icon-pill">MASTERCARD</span></li>
+            <li class="payment-icon-item"><span class="payment-icon-pill">RUPAY</span></li>
+            <li class="payment-icon-item"><span class="payment-icon-pill">NETBANKING</span></li>
+            <li class="payment-icon-item"><span class="payment-icon-pill">COD</span></li>
+          {%- endif -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
     <!-- Copyright Line -->
     <div class="footer-copyright-row">
       <span>{{ 'now' | date: '%Y' }} &copy; -LACEYAAN-</span>
@@ -267,6 +289,12 @@
       "id": "marquee_text",
       "label": "Bottom Marquee Text",
       "default": "-LACEYAAN.™"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true
     }
   ]
 }

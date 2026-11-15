@@ -1,0 +1,177 @@
+{%- comment -%}
+  LACEYAAN Atelier — Customer Login & Password Recovery
+  Official Shopify Classic Customer Account Authentication Template
+{%- endcomment -%}
+
+<section class="customer-auth-section section-padding">
+  <div class="container container-narrow">
+    <div class="customer-auth-wrapper">
+
+      <!-- Login Form Card -->
+      <div class="customer-auth-card" id="CustomerLoginForm">
+        <div class="auth-card-header text-center">
+          <span class="auth-kicker">ATELIER PRIVILEGES</span>
+          <h1 class="auth-title">Customer Sign In</h1>
+          <p class="auth-subtitle">Access your curated sneaker rotations, order tracking, and bespoke archive vouchers.</p>
+        </div>
+
+        {%- if recover_success == true -%}
+          <div class="auth-alert auth-alert-success" tabindex="-1" autofocus>
+            {% render 'icon-check' %}
+            <span>Password reset instructions have been dispatched to your email address.</span>
+          </div>
+        {%- endif -%}
+
+        {%- form 'customer_login', class: 'auth-form', novalidate: 'novalidate' -%}
+          {%- if form.errors -%}
+            <div class="auth-alert auth-alert-error" tabindex="-1" autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="auth-input-group">
+            <label for="CustomerEmail" class="auth-label">Email Address</label>
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerEmail"
+              class="auth-input"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              placeholder="e.g. collector@laceyaan.in"
+              required
+              {% if form.errors contains 'form' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="auth-input-group">
+            <div class="auth-label-row">
+              <label for="CustomerPassword" class="auth-label">Password</label>
+              <a href="#recover" id="RecoverPasswordTrigger" class="auth-link-recover">Forgot Password?</a>
+            </div>
+            <input
+              type="password"
+              value=""
+              name="customer[password]"
+              id="CustomerPassword"
+              class="auth-input"
+              autocomplete="current-password"
+              placeholder="••••••••••••"
+              required
+              {% if form.errors contains 'form' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="auth-actions-group">
+            <button type="submit" class="btn-primary btn-auth-submit">
+              <span>SIGN IN &bull; ACCESS ROTATION</span>
+            </button>
+          </div>
+
+          <div class="auth-switch-row text-center">
+            <span>New collector?</span>
+            <a href="{{ routes.account_register_url }}" class="auth-switch-link">Create an Atelier Account &rarr;</a>
+          </div>
+        {%- endform -%}
+      </div>
+
+      <!-- Recover Password Form Card (Toggled via JS or #recover hash) -->
+      <div class="customer-auth-card" id="RecoverPasswordForm" style="display: none;">
+        <div class="auth-card-header text-center">
+          <span class="auth-kicker">PASSWORD RECOVERY</span>
+          <h2 class="auth-title">Reset Your Password</h2>
+          <p class="auth-subtitle">Enter your email address and we will dispatch a secure link to reset your account password.</p>
+        </div>
+
+        {%- form 'recover_customer_password', class: 'auth-form' -%}
+          {%- assign recover_success = form.posted_successfully? -%}
+          {%- if form.errors -%}
+            <div class="auth-alert auth-alert-error" tabindex="-1" autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="auth-input-group">
+            <label for="RecoverEmail" class="auth-label">Registered Email</label>
+            <input
+              type="email"
+              value=""
+              name="email"
+              id="RecoverEmail"
+              class="auth-input"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              placeholder="e.g. collector@laceyaan.in"
+              required
+            >
+          </div>
+
+          <div class="auth-actions-group">
+            <button type="submit" class="btn-primary btn-auth-submit">
+              <span>DISPATCH RESET INSTRUCTIONS</span>
+            </button>
+            <button type="button" id="CancelRecoverTrigger" class="btn-secondary btn-auth-cancel">
+              <span>Return to Sign In</span>
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+
+      <!-- Guest Checkout Option (Available when redirected from checkout) -->
+      {%- if shop.checkout.guest_login -%}
+        <div class="customer-guest-login-card text-center">
+          <hr class="auth-divider">
+          <h3 class="guest-title">Continue as Guest</h3>
+          <p class="guest-sub">Proceed directly to checkout without creating an account.</p>
+          {%- form 'guest_login' -%}
+            <button type="submit" class="btn-secondary btn-guest-submit">
+              <span>CONTINUE TO CHECKOUT &rarr;</span>
+            </button>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Instant Vanilla JS toggle between Login and Password Recovery
+  (function() {
+    var loginCard = document.getElementById('CustomerLoginForm');
+    var recoverCard = document.getElementById('RecoverPasswordForm');
+    var recoverTrigger = document.getElementById('RecoverPasswordTrigger');
+    var cancelTrigger = document.getElementById('CancelRecoverTrigger');
+
+    function showRecover() {
+      if (loginCard) loginCard.style.display = 'none';
+      if (recoverCard) recoverCard.style.display = 'block';
+      window.location.hash = 'recover';
+    }
+
+    function showLogin() {
+      if (recoverCard) recoverCard.style.display = 'none';
+      if (loginCard) loginCard.style.display = 'block';
+      if (window.location.hash === '#recover') {
+        history.replaceState(null, null, ' ');
+      }
+    }
+
+    if (recoverTrigger) recoverTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      showRecover();
+    });
+
+    if (cancelTrigger) cancelTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      showLogin();
+    });
+
+    // Check if URL opened directly with #recover
+    if (window.location.hash === '#recover') {
+      showRecover();
+    }
+  })();
+</script>

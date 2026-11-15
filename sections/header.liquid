@@ -152,11 +152,24 @@
           {%- if shop.customer_accounts_enabled -%}
             <a 
               href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
-              class="nav-util-btn" 
-              aria-label="{{ 'sections.header.account' | t }}"
+              class="nav-util-btn nav-account-btn" 
+              id="header-account-btn"
+              aria-label="{% if customer %}Account: {{ customer.first_name }}{% else %}{{ 'sections.header.account' | t | default: 'Sign In' }}{% endif %}"
+              title="{% if customer %}Account: {{ customer.first_name }}{% else %}Sign In{% endif %}"
             >
               {% render 'icon-user' %}
-              <span class="util-label">{% if customer %}Account{% else %}Sign In{% endif %}</span>
+              <span class="util-label">{% if customer %}{{ customer.first_name | default: 'Account' }}{% else %}Sign In{% endif %}</span>
+            </a>
+          {%- else -%}
+            <a 
+              href="{{ routes.account_login_url }}" 
+              class="nav-util-btn nav-account-btn" 
+              id="header-account-btn"
+              aria-label="Customer Account & Orders"
+              title="Customer Account & Orders"
+            >
+              {% render 'icon-user' %}
+              <span class="util-label">Sign In</span>
             </a>
           {%- endif -%}
 
@@ -242,6 +255,42 @@
         </a>
       </div>
     </nav>
+
+    <!-- Mobile Drawer Customer Account Hub -->
+    <div class="mobile-drawer-account-box">
+      {%- if customer -%}
+        <div class="mobile-account-user-row">
+          <div class="mobile-avatar-badge">{{ customer.first_name | slice: 0, 1 | default: 'L' }}</div>
+          <div class="mobile-user-details">
+            <span class="mobile-welcome-lbl">SIGNED IN AS</span>
+            <span class="mobile-user-name">{{ customer.name }}</span>
+          </div>
+        </div>
+        <div class="mobile-account-links-row">
+          <a href="{{ routes.account_url }}" class="btn-primary btn-sm mobile-account-btn">
+            <span>MY ACCOUNT &amp; ORDERS &rarr;</span>
+          </a>
+          <a href="{{ routes.account_logout_url }}" class="btn-secondary btn-sm mobile-logout-btn">
+            <span>SIGN OUT</span>
+          </a>
+        </div>
+      {%- else -%}
+        <div class="mobile-account-guest-row">
+          <div class="mobile-guest-text">
+            <span class="mobile-guest-title">Atelier Member Access</span>
+            <span class="mobile-guest-sub">Sign in to track orders or join the rotation</span>
+          </div>
+          <div class="mobile-auth-buttons-grid">
+            <a href="{{ routes.account_login_url }}" class="btn-primary btn-sm">
+              <span>SIGN IN</span>
+            </a>
+            <a href="{{ routes.account_register_url }}" class="btn-secondary btn-sm">
+              <span>REGISTER</span>
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
 
     <!-- Mobile Drawer Footer Contact & Social -->
     <div class="mobile-drawer-footer">

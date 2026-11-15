@@ -4,7 +4,7 @@
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
-<section class="main-product-section section-padding" data-section-id="{{ section.id }}" {{ section.shopify_attributes }}>
+<section class="main-product-section section-padding" data-section-id="{{ section.id }}" data-section-type="main-product" {{ section.shopify_attributes }}>
   <div class="container">
     <!-- Breadcrumbs -->
     <nav class="breadcrumb-nav" aria-label="Breadcrumb">
@@ -140,21 +140,28 @@
           </div>
         {%- else -%}
           <!-- Price -->
-          <div class="product-price-container" id="product-price-{{ section.id }}">
-            {% render 'price', product: product, use_variant: true %}
+          <div class="product-price-container" id="product-price-{{ section.id }}" data-product-price-container>
+            <span class="price-now" data-product-price>{{ current_variant.price | money }}</span>
+            <span class="price-was" data-compare-price{% unless current_variant.compare_at_price > current_variant.price %} style="display: none;"{% endunless %}>
+              {{ current_variant.compare_at_price | money }}
+            </span>
+            {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
+            <span class="badge badge-sale" data-save-badge{% unless current_variant.compare_at_price > current_variant.price %} style="display: none;"{% endunless %}>
+              SAVE {{ save_amount | money }}
+            </span>
           </div>
 
           <!-- Stock indicator -->
-          <div class="product-stock-status">
+          <div class="product-stock-status" data-stock-badge>
             {%- if current_variant.available -%}
               <span class="stock-pill stock-in">
                 <span class="stock-dot"></span>
-                <span>{{ 'products.product.in_stock' | t }}</span>
+                <span data-stock-text>{{ 'products.product.in_stock' | t | default: 'IN ATELIER STOCK' }}</span>
               </span>
             {%- else -%}
               <span class="stock-pill stock-out">
                 <span class="stock-dot"></span>
-                <span>{{ 'products.product.sold_out' | t }}</span>
+                <span data-stock-text>{{ 'products.product.sold_out' | t | default: 'SOLD OUT' }}</span>
               </span>
             {%- endif -%}
           </div>
@@ -251,10 +258,10 @@
             {%- unless product.has_only_default_variant -%}
               <div class="product-options-wrapper">
                 {%- for option in product.options_with_values -%}
-                  <div class="option-group" data-option-index="{{ forloop.index0 }}">
+                  <div class="option-group" data-option-group data-option-index="{{ forloop.index0 }}">
                     <div class="option-header">
                       <label class="option-label">
-                        {{ option.name }}: <strong class="selected-option-value">{{ option.selected_value }}</strong>
+                        {{ option.name }}: <strong class="selected-option-value" data-selected-option-label="{{ option.name | escape }}">{{ option.selected_value }}</strong>
                       </label>
                       {%- assign opt_down = option.name | downcase -%}
                       {%- if opt_down contains 'length' -%}
@@ -266,13 +273,14 @@
 
                     <div class="option-values-row">
                       {%- for value in option.values -%}
-                        <label class="option-value-chip{% if option.selected_value == value %} active{% endif %}">
+                        <label class="option-value-chip{% if option.selected_value == value %} active{% endif %}" data-chip-label>
                           <input 
                             type="radio" 
                             name="options[{{ option.name | escape }}]" 
                             value="{{ value | escape }}"
                             {% if option.selected_value == value %}checked="checked"{% endif %}
                             class="visually-hidden option-radio-input"
+                            data-option-input
                             data-option-position="{{ option.position }}"
                           >
                           <span class="chip-label">{{ value }}</span>
@@ -284,11 +292,11 @@
               </div>
             {%- endunless -%}
 
-            <!-- Quantity Picker & Add to Bag Button -->
+            <!-- Quantity Picker & Add to Bag / Buy Now Action Row -->
             <div class="product-purchase-row">
               <div class="quantity-input-wrap">
                 <label for="Quantity-{{ section.id }}" class="visually-hidden">{{ 'products.product.quantity' | t }}</label>
-                <button type="button" class="qty-btn" data-qty-action="minus" aria-label="Decrease quantity">-</button>
+                <button type="button" class="qty-btn" data-qty-action="minus" data-qty-minus aria-label="Decrease quantity">-</button>
                 <input 
                   type="number" 
                   name="quantity" 
@@ -298,7 +306,7 @@
                   class="quantity-input"
                   aria-label="{{ 'products.product.quantity' | t }}"
                 >
-                <button type="button" class="qty-btn" data-qty-action="plus" aria-label="Increase quantity">+</button>
+                <button type="button" class="qty-btn" data-qty-action="plus" data-qty-plus aria-label="Increase quantity">+</button>
               </div>
 
               <button 
@@ -306,20 +314,33 @@
                 name="add" 
                 class="btn-primary btn-add-main" 
                 id="AddToCart-{{ section.id }}"
+                data-add-to-cart-button
                 {% unless current_variant.available %}disabled{% endunless %}
               >
                 {% render 'icon-shopping-bag' %}
-                <span id="AddToCartText-{{ section.id }}">
+                <span id="AddToCartText-{{ section.id }}" data-add-to-cart-text>
                   {%- if current_variant.available -%}
-                    {{ 'products.product.add_to_cart' | t }} &bull; <span class="btn-price">{{ current_variant.price | money }}</span>
+                    {{ 'products.product.add_to_cart' | t | default: 'ADD TO BAG' }} &bull; <span class="btn-price">{{ current_variant.price | money }}</span>
                   {%- else -%}
-                    {{ 'products.product.sold_out' | t }}
+                    {{ 'products.product.sold_out' | t | default: 'SOLD OUT' }}
                   {%- endif -%}
                 </span>
               </button>
+
+              <button 
+                type="button" 
+                class="btn-secondary btn-buy-now-main" 
+                id="BuyNow-{{ section.id }}"
+                data-direct-buy-now
+                data-variant-id="{{ current_variant.id }}"
+                data-product-handle="{{ product.handle }}"
+                {% unless current_variant.available %}disabled style="display:none;"{% endunless %}
+              >
+                <span>BUY NOW</span>
+              </button>
             </div>
 
-            <!-- Dynamic Shopify Payment Buttons (Apple Pay, Google Pay, Buy It Now) -->
+            <!-- Dynamic Shopify Payment Buttons (Apple Pay, Google Pay, Shop Pay) -->
             {%- if section.settings.show_dynamic_checkout -%}
               <div class="dynamic-payment-buttons">
                 {{ form | payment_button }}
@@ -432,9 +453,12 @@
     </div>
   </div>
 
-  <!-- Product JSON data for script variant switching -->
+  <!-- Product JSON and Variants data for script variant switching -->
   <script type="application/json" id="ProductJson-{{ section.id }}">
     {{ product | json }}
+  </script>
+  <script type="application/json" data-product-variants-json>
+    {{ product.variants | json }}
   </script>
 </section>
 
