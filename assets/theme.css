@@ -86,9 +86,9 @@ img {
 /* --- Layout Containers & Spacing --- */
 .container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1560px;
   margin: 0 auto;
-  padding: 0 clamp(1rem, 3vw, 2.5rem);
+  padding: 0 clamp(16px, 2vw, 32px);
 }
 
 .container-narrow {
@@ -1301,14 +1301,6 @@ img {
   font-weight: 700;
   letter-spacing: 0.16em;
   color: #D4D0C7;
-}
-
-.marquee-bullet {
-  color: var(--accent-gold);
-}
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #CCC8BE;
 }
 
 .marquee-bullet {
@@ -6288,17 +6280,18 @@ img {
 }
 
 .interest-stats-banner {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vw, 1.75rem);
   flex-wrap: wrap;
-  margin: 1.75rem auto 0;
-  padding: 0.85rem 1.5rem;
-  background: var(--bg-dark-surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  max-width: 680px;
+  margin: 1.25rem auto 0;
+  padding: 0.65rem clamp(1rem, 2vw, 1.75rem);
+  background: #141311;
+  border: 1px solid rgba(197, 168, 128, 0.35);
+  border-radius: 9999px;
+  max-width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .interest-stat-item {
@@ -6934,6 +6927,9 @@ img {
   aspect-ratio: 3 / 4 !important;
   border-radius: 12px !important;
   overflow: hidden !important;
+  -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+  mask-image: radial-gradient(white, black) !important;
+  transform: translateZ(0) !important;
   background: #EFECE6 !important;
   box-shadow: none !important;
 }
@@ -6942,9 +6938,11 @@ img {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
+  border-radius: 12px !important;
 }
 
-.product-card-editorial .primary-img {
+.product-card-editorial .primary-img,
+.product-card-editorial .hover-img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
@@ -7142,6 +7140,30 @@ img {
   margin: 0 !important;
 }
 
+/* Design Lab (Dark Section) Contrast Overrides for Editorial Product Cards */
+.design-lab-section .product-card-editorial .card-title a {
+  color: #FAF9F5 !important;
+}
+.design-lab-section .product-card-editorial .card-title a:hover {
+  color: var(--accent-gold) !important;
+}
+.design-lab-section .product-card-editorial .card-price-row,
+.design-lab-section .product-card-editorial .price-now {
+  color: var(--accent-gold, #C5A880) !important;
+}
+.design-lab-section .product-card-editorial .card-action-plus-btn {
+  color: #FAF9F5 !important;
+}
+.design-lab-section .product-card-editorial .card-action-plus-btn:hover {
+  color: var(--accent-gold) !important;
+}
+.design-lab-section .product-card-editorial .card-bookmark-btn {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+.design-lab-section .product-card-editorial .card-bookmark-btn:hover {
+  color: #FFFFFF !important;
+}
+
 /* Turn off background lace canvas across entire store */
 .background-lace-container,
 .background-lace-canvas,
@@ -7324,35 +7346,35 @@ img {
 
 /* ==========================================================================
    Full-Width Edge-to-Edge Editorial Catalog Grid (Inspiration: Bluorng)
-   Stretches from proper left to proper right; eliminates empty side gutters
-   and giant top spacing
+   Stretches gracefully from left to right; caps at 1620px on widescreen
+   so cards stay perfectly proportioned with distinct gaps and rounded corners
    ========================================================================== */
 
-/* 1. Full-Width Edge-to-Edge Containers */
+/* 1. Harmonious Expansive Catalog Containers (Responsive on Minimize & Maximize) */
 .featured-collection-section .container,
 .main-collection-section .container,
 .register-interest-section .container,
 .container.container-fullwidth,
 .container-fullwidth {
   width: 100% !important;
-  max-width: 100% !important;
-  padding-left: clamp(12px, 1.25vw, 20px) !important;
-  padding-right: clamp(12px, 1.25vw, 20px) !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+  max-width: 1560px !important;
+  padding-left: clamp(16px, 2vw, 32px) !important;
+  padding-right: clamp(16px, 2vw, 32px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 /* 2. Compact Section Vertical Spacing (Eliminates top/bottom dead space) */
 .featured-collection-section,
 .main-collection-section,
 .register-interest-section {
-  padding-top: clamp(1rem, 2vw, 1.75rem) !important;
+  padding-top: clamp(1.25rem, 2.2vw, 2.25rem) !important;
   padding-bottom: clamp(2.5rem, 4vw, 4rem) !important;
 }
 
 .featured-collection-section .section-header,
 .main-collection-section .collection-header {
-  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem) !important;
+  margin-bottom: clamp(0.85rem, 1.6vw, 1.4rem) !important;
   padding: 0 clamp(8px, 1vw, 16px) !important;
 }
 
@@ -7387,7 +7409,7 @@ img {
   align-items: center !important;
 }
 
-/* 3. Sleek 4-Column Edge-to-Edge Responsive Grid with Tight 10px Gap */
+/* 3. Sleek 4-Column Responsive Grid with Clean Breathing Gap */
 .featured-collection-section .product-grid-layout,
 .main-collection-section .product-grid-layout,
 .register-interest-section .product-grid-layout,
@@ -7395,8 +7417,8 @@ img {
   display: grid !important;
   width: 100% !important;
   grid-template-columns: repeat(4, 1fr) !important;
-  column-gap: 10px !important;
-  row-gap: 26px !important;
+  column-gap: clamp(14px, 1.4vw, 22px) !important;
+  row-gap: clamp(24px, 2.5vw, 36px) !important;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -7405,8 +7427,8 @@ img {
   .register-interest-section .product-grid-layout,
   .product-grid-layout.grid-cols-4 {
     grid-template-columns: repeat(3, 1fr) !important;
-    column-gap: 10px !important;
-    row-gap: 20px !important;
+    column-gap: 14px !important;
+    row-gap: 22px !important;
   }
 }
 
@@ -7416,8 +7438,8 @@ img {
   .register-interest-section .container,
   .container.container-fullwidth,
   .container-fullwidth {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
   }
 
   .featured-collection-section .product-grid-layout,
@@ -7426,8 +7448,8 @@ img {
   .product-grid-layout,
   .product-grid-layout.grid-cols-4 {
     grid-template-columns: repeat(2, 1fr) !important;
-    column-gap: 8px !important;
-    row-gap: 16px !important;
+    column-gap: 10px !important;
+    row-gap: 18px !important;
   }
 
   .featured-collection-section,
