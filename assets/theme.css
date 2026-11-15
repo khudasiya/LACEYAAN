@@ -8934,7 +8934,119 @@ img {
   color: var(--accent-gold, #C5A880) !important;
 }
 
-/* 3. Reduced Motion Safety */
+/* ==========================================================================
+   MAGIC UI COMPATIBLE DESIGN ENHANCEMENTS (Clean Vanilla CSS)
+   - Border Beam (Luxury traveling perimeter gold light on featured containers)
+   - Product Gallery Thumbnail Rails & Mobile Touch Polish
+   - Marquee Velocity Polish (Pause-on-hover)
+   ========================================================================== */
+
+/* 1. Magic UI - Border Beam */
+.magic-border-beam,
+.vault-quick-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.magic-border-beam::after,
+.vault-quick-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--beam-angle, 0deg) at 50% 50%,
+    transparent 70%,
+    rgba(197, 168, 128, 0.4) 85%,
+    #FFFDF9 95%,
+    rgba(197, 168, 128, 0.8) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: magicBorderBeam 6s linear infinite;
+  z-index: 1;
+}
+
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes magicBorderBeam {
+  0% { --beam-angle: 0deg; }
+  100% { --beam-angle: 360deg; }
+}
+
+/* 2. Product Gallery Polish & Desktop Zoom */
+.gallery-thumb-btn {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease !important;
+}
+
+.gallery-thumb-btn:hover {
+  border-color: var(--accent-gold) !important;
+  transform: translateY(-2px);
+}
+
+.gallery-thumb-btn.active {
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 14px rgba(197, 168, 128, 0.45) !important;
+}
+
+.gallery-thumb-btn img {
+  transition: transform 0.3s ease;
+}
+
+.gallery-thumb-btn:hover img {
+  transform: scale(1.06);
+}
+
+@media (min-width: 1025px) and (hover: hover) {
+  .studio-stills-box {
+    overflow: hidden !important;
+    border-radius: 12px !important;
+  }
+  .studio-stills-box .main-product-img {
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    will-change: transform;
+  }
+  .studio-stills-box:hover .main-product-img {
+    transform: scale(1.04) !important;
+  }
+}
+
+/* 3. Mobile Product Gallery Swiping & Snap Alignment */
+@media (max-width: 768px) {
+  .gallery-thumbs-rail {
+    display: flex !important;
+    gap: 8px !important;
+    padding-bottom: 8px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .gallery-thumbs-rail::-webkit-scrollbar {
+    display: none !important;
+  }
+  .gallery-thumb-btn {
+    width: 66px !important;
+    height: 66px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+  }
+}
+
+/* 4. Marquee Velocity Pause on Hover */
+.hero-marquee-bar:hover .marquee-track,
+.footer-marquee-strip:hover .footer-marquee-group {
+  animation-play-state: paused !important;
+}
+
+/* 5. Reduced Motion Safety */
 @media (prefers-reduced-motion: reduce) {
   .badge-gold,
   .vault-master-badge,
@@ -8943,5 +9055,14 @@ img {
     animation: none !important;
     background-image: none !important;
     -webkit-text-fill-color: currentColor !important;
+  }
+  .magic-border-beam::after,
+  .vault-quick-bar::after {
+    animation: none !important;
+    display: none !important;
+  }
+  .hero-marquee-bar .marquee-track,
+  .footer-marquee-strip .footer-marquee-group {
+    animation: none !important;
   }
 }

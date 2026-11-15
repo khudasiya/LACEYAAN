@@ -1792,10 +1792,33 @@
         });
       });
 
-      // Gallery thumb buttons switch to stills
-      document.querySelectorAll('.gallery-thumb-btn[data-media-url]').forEach(btn => {
+      // Gallery thumb buttons switch images & modes with smooth crossfade
+      const mainImg = document.getElementById('ProductMainImage');
+      const allThumbs = document.querySelectorAll('.gallery-thumb-btn');
+
+      allThumbs.forEach(btn => {
         btn.addEventListener('click', () => {
-          this.setMode('stills');
+          allThumbs.forEach(t => t.classList.remove('active'));
+          btn.classList.add('active');
+
+          const mediaUrl = btn.dataset.mediaUrl;
+          if (mediaUrl && mainImg) {
+            mainImg.style.transition = 'opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
+            mainImg.style.opacity = '0.35';
+            mainImg.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+              mainImg.src = mediaUrl;
+              mainImg.removeAttribute('srcset');
+              mainImg.style.opacity = '1';
+              mainImg.style.transform = 'scale(1)';
+            }, 120);
+          }
+
+          if (btn.classList.contains('thumb-3d-btn')) {
+            this.setMode('360');
+          } else {
+            this.setMode('stills');
+          }
         });
       });
     }
@@ -3638,6 +3661,7 @@
       this.initScrollReveals();
       this.initStaggeredGrids();
       this.initCapsuleMotion();
+      this.initStatCounters();
     }
 
     refresh() {
@@ -3783,6 +3807,49 @@
           }
         );
       }
+    }
+
+    initStatCounters() {
+      if (!window.ScrollTrigger) return;
+
+      const statElements = document.querySelectorAll('.stat-number, .spec-metric .metric-val');
+      statElements.forEach(el => {
+        const text = el.textContent.trim();
+        const cleanNumber = text.replace(/[^0-9.]/g, '');
+        if (!cleanNumber) return;
+        const targetValue = parseFloat(cleanNumber);
+        if (isNaN(targetValue) || targetValue <= 0) return;
+
+        const hasComma = text.includes(',');
+        const isDecimal = cleanNumber.includes('.');
+        const prefix = text.match(/^[^\d]+/)?.[0] || '';
+        const suffix = text.match(/[^\d.]+$/)?.[0] || '';
+
+        const obj = { val: 0 };
+        this.gsap.to(obj, {
+          val: targetValue,
+          duration: 1.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 92%',
+            once: true
+          },
+          onUpdate: () => {
+            let formatted;
+            if (isDecimal) {
+              formatted = obj.val.toFixed(1);
+            } else {
+              const rounded = Math.round(obj.val);
+              formatted = hasComma ? rounded.toLocaleString() : rounded.toString();
+            }
+            el.textContent = `${prefix}${formatted}${suffix}`;
+          },
+          onComplete: () => {
+            el.textContent = text;
+          }
+        });
+      });
     }
   }
 
