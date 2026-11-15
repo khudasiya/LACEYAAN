@@ -3562,6 +3562,165 @@
   }
 
   /* ==========================================================================
+     REACT BITS ENHANCEMENT SUITE (DavidHDev/react-bits Adapted for LACEYAAN)
+     - SpotlightCard (Mouse-tracking radial ambient glow & border light)
+     - Magnet (Magnetic spring attraction for interactive buttons)
+     - DecryptedText (Streetwear tech-scramble character reveal on hover)
+     - TiltCard (3D perspective micro-tilt on desktop)
+     - BlurReveal (Scroll-triggered unblur entrance)
+     ========================================================================== */
+  class ReactBitsEnhanceSuite {
+    constructor() {
+      this.hasPointerHover = window.matchMedia('(hover: hover) and (min-width: 769px)').matches;
+      this.initSpotlight();
+      this.initMagnet();
+      this.initDecryptedText();
+      this.initTiltCard();
+      this.initBlurReveal();
+    }
+
+    initSpotlight() {
+      if (!this.hasPointerHover) return;
+      const cards = document.querySelectorAll(
+        '.product-card, .product-card-editorial, .story-card, .lab-spec-box, .ly-peek-item'
+      );
+      cards.forEach(card => {
+        if (card.dataset.rbSpotlight) return;
+        card.dataset.rbSpotlight = 'true';
+
+        card.addEventListener('pointermove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--spotlight-x', `${x}px`);
+          card.style.setProperty('--spotlight-y', `${y}px`);
+          card.style.setProperty('--spotlight-opacity', '1');
+        });
+
+        card.addEventListener('pointerleave', () => {
+          card.style.setProperty('--spotlight-opacity', '0');
+        });
+      });
+    }
+
+    initMagnet() {
+      if (!this.hasPointerHover) return;
+      const buttons = document.querySelectorAll(
+        '.btn-primary, .btn-gold, .card-action-plus-btn, .card-bookmark-btn, .ly-vip-submit-btn, .pincode-submit-btn, .studio-close-btn'
+      );
+      buttons.forEach(btn => {
+        if (btn.dataset.rbMagnet) return;
+        btn.dataset.rbMagnet = 'true';
+
+        const isSmallIcon = btn.classList.contains('card-action-plus-btn') || btn.classList.contains('card-bookmark-btn');
+        const pullFactor = isSmallIcon ? 0.32 : 0.16;
+
+        btn.addEventListener('pointermove', e => {
+          const rect = btn.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (e.clientX - centerX) * pullFactor;
+          const deltaY = (e.clientY - centerY) * pullFactor;
+
+          btn.style.transform = `translate3d(${deltaX.toFixed(2)}px, ${deltaY.toFixed(2)}px, 0)`;
+          btn.style.transition = 'transform 0.1s cubic-bezier(0.25, 1, 0.5, 1)';
+        });
+
+        btn.addEventListener('pointerleave', () => {
+          btn.style.transform = 'translate3d(0, 0, 0)';
+          btn.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+        });
+      });
+    }
+
+    initDecryptedText() {
+      const glyphs = '✦01XLACE#/&_';
+      const targets = document.querySelectorAll(
+        '.badge-gold, .vault-master-badge, .studio-brand-tag, [data-decrypt]'
+      );
+
+      targets.forEach(el => {
+        if (el.dataset.rbDecrypt) return;
+        el.dataset.rbDecrypt = 'true';
+        const originalText = el.textContent.trim();
+        if (!originalText) return;
+
+        el.addEventListener('mouseenter', () => {
+          if (el.dataset.decrypting === 'true') return;
+          el.dataset.decrypting = 'true';
+
+          let step = 0;
+          const totalSteps = originalText.length * 2;
+          const timer = setInterval(() => {
+            el.textContent = originalText
+              .split('')
+              .map((char, idx) => {
+                if (char === ' ' || char === '✦') return char;
+                if (idx < step / 2) return originalText[idx];
+                return glyphs[Math.floor(Math.random() * glyphs.length)];
+              })
+              .join('');
+
+            step++;
+            if (step >= totalSteps) {
+              clearInterval(timer);
+              el.textContent = originalText;
+              el.dataset.decrypting = 'false';
+            }
+          }, 28);
+        });
+      });
+    }
+
+    initTiltCard() {
+      if (!this.hasPointerHover) return;
+      const tiltCards = document.querySelectorAll('.product-card-editorial');
+      tiltCards.forEach(card => {
+        if (card.dataset.rbTilt) return;
+        card.dataset.rbTilt = 'true';
+
+        card.addEventListener('pointermove', e => {
+          const rect = card.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width;
+          const py = (e.clientY - rect.top) / rect.height;
+          const rotateX = ((py - 0.5) * -5).toFixed(2);
+          const rotateY = ((px - 0.5) * 5).toFixed(2);
+
+          card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+        });
+
+        card.addEventListener('pointerleave', () => {
+          card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+      });
+    }
+
+    initBlurReveal() {
+      if (!('IntersectionObserver' in window)) return;
+      const revealElements = document.querySelectorAll(
+        '.editorial-heading, .section-subtitle, .product-card-editorial, .lab-hero-card'
+      );
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.1
+      });
+
+      revealElements.forEach(el => {
+        el.classList.add('react-bits-blur-reveal');
+        observer.observe(el);
+      });
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
@@ -3582,8 +3741,10 @@
     new EasterEggModal();
     new HeroVideoShowcase();
     window.Laceyaan.interestVoting = new InterestVotingEngine();
-    window.Laceyaan.productStudio = new ProductStudioController();
     new MobileStickyBuyBar();
+
+    // React Bits Interactive Animation Suite
+    window.Laceyaan.reactBits = new ReactBitsEnhanceSuite();
     window.Laceyaan.cartPage = new CartPage();
     if (window.Laceyaan.pincodeChecker) {
       window.Laceyaan.pincodeChecker.init();
@@ -3632,6 +3793,9 @@
     if (!window.Laceyaan.backgroundLace) {
       window.Laceyaan.backgroundLace = new BackgroundLace();
     }
+
+    // Refresh React Bits animations for dynamically loaded section
+    window.Laceyaan.reactBits = new ReactBitsEnhanceSuite();
   });
 
 })();

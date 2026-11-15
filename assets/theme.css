@@ -8863,3 +8863,158 @@ img {
   margin: 1rem 0;
   line-height: 1.45;
 }
+
+/* ==========================================================================
+   REACT BITS ENHANCEMENT SUITE (DavidHDev/react-bits Adapted for Atelier Theme)
+   - SpotlightCard (Cursor-tracking radial glow & border highlight)
+   - Magnet (Tactile spring attraction on CTA buttons)
+   - ShinyText (Metallic light sweep on gold badges & accents)
+   - DecryptedText (Streetwear tech-scramble letter reveal)
+   - TiltCard (Subtle 3D perspective tilt on desktop hover)
+   - BlurText / ScrollReveal (Hardware-accelerated unblur entrance)
+   ========================================================================== */
+
+/* 1. React Bits - SpotlightCard */
+.product-card,
+.product-card-editorial,
+.story-card,
+.lab-spec-box,
+.ly-peek-item {
+  position: relative;
+  isolation: isolate;
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
+  --spotlight-opacity: 0;
+}
+
+.product-card::before,
+.product-card-editorial::before,
+.story-card::before,
+.lab-spec-box::before,
+.ly-peek-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    360px circle at var(--spotlight-x) var(--spotlight-y),
+    rgba(197, 168, 128, 0.15) 0%,
+    rgba(197, 168, 128, 0.04) 45%,
+    transparent 70%
+  );
+  opacity: var(--spotlight-opacity);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+}
+
+/* Dynamic Border Spotlight */
+.product-card::after,
+.product-card-editorial::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    280px circle at var(--spotlight-x) var(--spotlight-y),
+    rgba(197, 168, 128, 0.45) 0%,
+    rgba(197, 168, 128, 0.12) 40%,
+    transparent 65%
+  );
+  opacity: var(--spotlight-opacity);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+}
+
+/* 2. React Bits - ShinyText */
+.badge-gold,
+.vault-master-badge,
+.studio-live-pill,
+.shiny-text {
+  background-image: linear-gradient(
+    110deg,
+    currentColor 0%,
+    currentColor 35%,
+    #FFFDF9 50%,
+    currentColor 65%,
+    currentColor 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: reactBitsShinySweep 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  display: inline-flex;
+  align-items: center;
+}
+
+@keyframes reactBitsShinySweep {
+  0% { background-position: 200% 0; }
+  45%, 100% { background-position: -200% 0; }
+}
+
+/* 3. React Bits - Magnet & Tilt Micro-Interactions */
+@media (hover: hover) and (min-width: 769px) {
+  .btn-primary,
+  .btn-gold,
+  .card-action-plus-btn,
+  .card-bookmark-btn,
+  .ly-vip-submit-btn,
+  .pincode-submit-btn,
+  .studio-close-btn {
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+
+  .product-card-editorial {
+    will-change: transform;
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease;
+  }
+}
+
+/* 4. React Bits - Scroll Reveal & Blur Entrance */
+.react-bits-blur-reveal {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(18px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, filter, transform;
+}
+
+.react-bits-blur-reveal.is-revealed {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+/* 5. Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  .badge-gold,
+  .vault-master-badge,
+  .studio-live-pill,
+  .shiny-text {
+    animation: none !important;
+    background-image: none !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+  .product-card::before,
+  .product-card-editorial::before,
+  .product-card::after,
+  .product-card-editorial::after {
+    display: none !important;
+  }
+  .react-bits-blur-reveal {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
