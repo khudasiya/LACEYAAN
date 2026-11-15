@@ -7745,57 +7745,26 @@ img {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Floating Studio Controls Toolbar */
-.studio-controls-bar {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(20, 19, 17, 0.86);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 5px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+/* Permanently disable 360, Glow Lab, and video stages - Direct real product photo only */
+.studio-controls-bar,
+.studio-tab-btn,
+.studio-video-box,
+.studio-sneaker-video,
+#StudioModalVideo,
+#StudioModalVideoBox,
+#StudioModalShadow {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
 }
 
-.studio-tab-btn {
-  background: transparent;
-  border: none;
-  color: #FAF9F5;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 6px 13px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.studio-tab-btn .tab-icon {
-  font-size: 0.85rem;
-  line-height: 1;
-}
-
-.studio-tab-btn:hover {
-  color: var(--accent-gold);
-  transform: translateY(-1px);
-}
-
-.studio-tab-btn.active {
-  background: var(--accent-gold);
-  color: #141311;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+.studio-stills-box {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Studio Product Intelligence & Buying Panel */
@@ -8040,21 +8009,6 @@ img {
     height: clamp(210px, 46vw, 290px) !important;
   }
 
-  .studio-sneaker-video {
-    max-height: 100% !important;
-  }
-
-  .studio-controls-bar {
-    padding: 0.5rem 0.75rem !important;
-    gap: 0.35rem !important;
-  }
-
-  .studio-view-btn {
-    min-height: 38px !important;
-    padding: 0.4rem 0.65rem !important;
-    font-size: 0.65rem !important;
-    touch-action: manipulation !important;
-  }
 
   .studio-details-col {
     padding: 1.25rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 12px)) 1rem !important;

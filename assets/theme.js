@@ -1503,6 +1503,11 @@
         window.location.href = `/products/${h}`;
         return;
       }
+      const cardLink = trigger?.closest('.product-card')?.querySelector('.media-link, .card-title a');
+      if (cardLink && cardLink.href) {
+        window.location.href = cardLink.href;
+        return;
+      }
       if (!this.modal || !this.overlay) return;
 
       this.modal.classList.add('active', 'is-open');
@@ -1558,45 +1563,10 @@
       this.modal.setAttribute('aria-hidden', 'true');
       if (this.overlay) this.overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('overflow-hidden');
-      const video = document.getElementById('StudioModalVideo');
-      if (video) video.pause();
     }
 
     setStudioMode(mode) {
-      const viewport = document.getElementById('StudioModalViewport');
-      const videoBox = document.getElementById('StudioModalVideoBox');
-      const stillsBox = document.getElementById('StudioModalStillsBox');
-      const video = document.getElementById('StudioModalVideo');
-      const shadow = document.getElementById('StudioModalShadow');
-      const buttons = this.modal.querySelectorAll('[data-studio-view]');
-
-      buttons.forEach(b => b.classList.toggle('active', b.dataset.studioView === mode));
-
-      if (mode === '360') {
-        if (viewport) viewport.classList.remove('is-glow-mode');
-        if (videoBox) videoBox.style.display = 'block';
-        if (stillsBox) stillsBox.style.display = 'none';
-        if (shadow) shadow.style.display = 'block';
-        if (video) {
-          video.currentTime = 0;
-          video.play().catch(() => {});
-        }
-      } else if (mode === 'glow') {
-        if (viewport) viewport.classList.add('is-glow-mode');
-        if (videoBox) videoBox.style.display = 'block';
-        if (stillsBox) stillsBox.style.display = 'none';
-        if (shadow) shadow.style.display = 'block';
-        if (video) {
-          video.currentTime = 5.8; // jump to glowing 3M lace sequence
-          video.play().catch(() => {});
-        }
-      } else if (mode === 'stills') {
-        if (viewport) viewport.classList.remove('is-glow-mode');
-        if (videoBox) videoBox.style.display = 'none';
-        if (stillsBox) stillsBox.style.display = 'flex';
-        if (shadow) shadow.style.display = 'none';
-        if (video) video.pause();
-      }
+      // Direct photo presentation only - no video, no 360, no glow dark
     }
 
     selectVariant(variantId, buttonEl) {
@@ -1654,52 +1624,13 @@
         : '';
 
       const featuredImg = product.featured_image || (product.images && product.images[0]) || '';
-      const studioVideoUrl = this.modal.getAttribute('data-studio-video-url') || 'assets/drop-01-highlights.mp4';
-      const studioVideoAlt = this.modal.getAttribute('data-studio-video-alt') || 'assets/WhatsApp Video 2026-10-04 at 9.36.32 PM.mp4';
 
       this.content.innerHTML = `
         <div class="studio-modal-grid">
-          <!-- Left Column: 3D Floating Sneaker Video Stage -->
+          <!-- Left Column: Direct High-Resolution Product Still Photography -->
           <div class="studio-viewport-col">
-            <div class="studio-viewport" id="StudioModalViewport">
-              <!-- 3D Sneaker Video -->
-              <div class="studio-video-box active" id="StudioModalVideoBox">
-                <video 
-                  class="studio-sneaker-video" 
-                  id="StudioModalVideo" 
-                  autoplay 
-                  loop 
-                  muted 
-                  playsinline 
-                  preload="auto"
-                  poster="${featuredImg}"
-                >
-                  <source src="${studioVideoUrl}" type="video/mp4">
-                  <source src="${studioVideoAlt}" type="video/mp4">
-                </video>
-                <div class="studio-floor-shadow" id="StudioModalShadow"></div>
-              </div>
-
-              <!-- Still Image Box (Toggled on stills mode) -->
-              <div class="studio-stills-box" id="StudioModalStillsBox" style="display: none;">
-                <img src="${featuredImg}" alt="${product.title}" class="studio-stills-img" width="550" height="550" loading="eager">
-              </div>
-
-              <!-- Studio Mode Switcher Toolbar -->
-              <div class="studio-controls-bar">
-                <button type="button" class="studio-tab-btn active" data-studio-view="360" aria-label="360 Rotation View">
-                  <span class="tab-icon">↻</span>
-                  <span>360° 3D</span>
-                </button>
-                <button type="button" class="studio-tab-btn" data-studio-view="glow" aria-label="Glow In Dark Mode">
-                  <span class="tab-icon">✦</span>
-                  <span>GLOW LAB</span>
-                </button>
-                <button type="button" class="studio-tab-btn" data-studio-view="stills" aria-label="Product Stills View">
-                  <span class="tab-icon">📷</span>
-                  <span>STILLS</span>
-                </button>
-              </div>
+            <div class="studio-viewport" id="StudioModalViewport" style="background: #F4F1EA; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 420px; padding: 1.5rem;">
+              <img src="${featuredImg}" alt="${product.title}" class="studio-stills-img primary-img" width="600" height="600" loading="eager" style="max-width: 100%; height: auto; object-fit: contain; display: block; border-radius: 6px;">
             </div>
           </div>
 
