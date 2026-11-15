@@ -80,13 +80,6 @@
                 </a>
               </li>
             {%- endif -%}
-
-            <li class="nav-item nav-item-interest">
-              <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="nav-link nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
-                <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
-                <span class="nav-interest-pill">VOTE</span>
-              </a>
-            </li>
           </ul>
         </nav>
       </div>
@@ -247,13 +240,6 @@
           <a href="/pages/length-guide" class="mobile-nav-link">Length Guide</a>
         </div>
       {%- endif -%}
-
-      <div class="mobile-nav-group mobile-nav-group-interest">
-        <a href="{{ section.settings.register_interest_url | default: '/collections/register-interest' }}" class="mobile-nav-link mobile-nav-link-interest{% if request.path contains 'register-interest' %} active{% endif %}">
-          <span>{{ section.settings.register_interest_label | default: 'Register Interest' }}</span>
-          <span class="nav-interest-pill">VOTE</span>
-        </a>
-      </div>
     </nav>
 
     <!-- Mobile Drawer Customer Account Hub -->
@@ -333,27 +319,6 @@
       "id": "enable_sticky_header",
       "label": "Enable sticky header on scroll",
       "default": true
-    },
-    {
-      "type": "header",
-      "content": "Register Interest Navigation"
-    },
-    {
-      "type": "checkbox",
-      "id": "disable_register_interest",
-      "label": "Hide 'Register Interest' from Navigation",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "register_interest_label",
-      "label": "Menu Item Label",
-      "default": "Register Interest"
-    },
-    {
-      "type": "url",
-      "id": "register_interest_url",
-      "label": "Register Interest Link"
     }
   ]
 }

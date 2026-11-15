@@ -1,42 +1,16 @@
 {% comment %}
   LACEYAAN Luxury Editorial Product Card
-  Matches high-fashion streetwear catalog aesthetic (Reference Image)
-  Features rounded portrait image, bookmark ribbon, carousel dots, minimal info row with plus (+) quick action.
+  Pure luxury streetwear catalog product card with clean imagery, titles, real prices, and instant quick-actions.
 {% endcomment %}
 
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
   assign featured_media = product.featured_media
   assign secondary_media = product.media[1]
-
-  assign is_register_interest = false
-  if is_register_interest_force == true
-    assign is_register_interest = true
-  endif
-
-  assign page_coll_handle = collection.handle | default: '' | downcase
-  assign page_coll_title = collection.title | default: '' | downcase
-  if page_coll_handle contains 'interest' or page_coll_handle contains 'register' or page_coll_title contains 'interest' or page_coll_title contains 'register' or template.suffix contains 'interest'
-    assign is_register_interest = true
-  endif
-
-  assign tags_combined = product.tags | join: ' ' | downcase
-  if tags_combined contains 'register' or tags_combined contains 'interest' or tags_combined contains 'prototype'
-    assign is_register_interest = true
-  endif
-
-  for prod_coll in product.collections
-    assign prod_coll_handle = prod_coll.handle | downcase
-    assign prod_coll_title = prod_coll.title | downcase
-    if prod_coll_handle contains 'interest' or prod_coll_handle contains 'register' or prod_coll_title contains 'interest' or prod_coll_title contains 'register'
-      assign is_register_interest = true
-      break
-    endif
-  endfor
 -%}
 
-<div class="product-card product-card-editorial{% if is_register_interest %} product-card-interest{% endif %}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
-  <!-- Self-contained Product JSON for instant, offline, password-safe Quick View rendering -->
+<div class="product-card product-card-editorial" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
+  <!-- Self-contained Product JSON for instant, offline, password-safe data -->
   <script type="application/json" class="product-card-json" data-product-handle="{{ product.handle }}">
     {{ product | json }}
   </script>
@@ -75,10 +49,9 @@
           <a href="{{ product.url }}">{{ product.title }}</a>
         </h3>
         <div class="card-price-row">
-          {%- if is_register_interest -%}
-            <span class="price-prototype">CONCEPT SILHOUETTE</span>
-          {%- else -%}
-            <span class="price-now">{{ product.price | money }}</span>
+          <span class="price-now">{{ product.price | money }}</span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="price-compare" style="text-decoration: line-through; opacity: 0.6; font-size: 0.85em; margin-left: 0.4rem;">{{ product.compare_at_price | money }}</span>
           {%- endif -%}
         </div>
       </div>
@@ -92,43 +65,11 @@
         data-product-handle="{{ product.handle }}"
         data-available="{{ current_variant.available }}"
         data-has-variants="{% if product.variants.size > 1 %}true{% else %}false{% endif %}"
-        data-is-prototype="{% if is_register_interest %}true{% else %}false{% endif %}"
         aria-label="Quick Action for {{ product.title | escape }}"
-        title="{% if current_variant.available %}Quick add to bag{% else %}View details & register interest{% endif %}"
+        title="{% if current_variant.available %}Quick add to bag{% else %}View details{% endif %}"
       >
         <span class="plus-symbol">+</span>
       </button>
     </div>
-
-    <!-- Voting Pills for Register Interest Silhouettes -->
-    {%- if is_register_interest -%}
-      <div class="card-interest-pills-row" data-interest-card data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}">
-        <button 
-          type="button" 
-          class="btn-interest-pill btn-interest-yes" 
-          data-vote-btn="interested"
-          data-product-handle="{{ product.handle }}"
-          aria-label="I am interested in {{ product.title | escape }}"
-          title="Vote Interested"
-        >
-          <span class="vote-icon">▲</span>
-          <span class="vote-label">INTERESTED</span>
-          <span class="vote-count-badge" data-count="interested">0</span>
-        </button>
-
-        <button 
-          type="button" 
-          class="btn-interest-pill btn-interest-no" 
-          data-vote-btn="not_interested"
-          data-product-handle="{{ product.handle }}"
-          aria-label="Not interested in {{ product.title | escape }}"
-          title="Vote Pass"
-        >
-          <span class="vote-icon">▼</span>
-          <span class="vote-label">PASS</span>
-          <span class="vote-count-badge" data-count="not_interested">0</span>
-        </button>
-      </div>
-    {%- endif -%}
   </div>
 </div>

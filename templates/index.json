@@ -119,17 +119,6 @@
         "vault_product": ""
       }
     },
-    "register_interest": {
-      "type": "register-interest-vault",
-      "settings": {
-        "badge_text": "PROTOTYPE ARCHIVE // COMMUNITY VOTING",
-        "heading": "Upcoming Silhouettes",
-        "subtitle": "Concepts in laboratory development. Cast your vote to shape which silhouettes enter our next limited capsule drop.",
-        "collection": "register-interest",
-        "products_to_show": 8,
-        "columns_desktop": "4"
-      }
-    },
     "portals": {
       "type": "home-portals",
       "blocks": {
@@ -237,7 +226,6 @@
     "before_after",
     "featured_collection",
     "design_lab",
-    "register_interest",
     "portals",
     "faq"
   ]

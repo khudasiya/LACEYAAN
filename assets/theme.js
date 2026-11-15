@@ -1414,7 +1414,7 @@
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
 
         // Skip if user interacted with card sub-elements like bookmark or voting buttons
-        if (e.target.closest('.card-bookmark-btn') || e.target.closest('.card-interest-pills-row') || e.target.closest('[data-action-plus]')) return;
+        if (e.target.closest('.card-bookmark-btn') || e.target.closest('[data-action-plus]')) return;
 
         const handle = trigger.dataset.productHandle || 
                        trigger.getAttribute('data-quick-view-trigger') || 
@@ -1498,8 +1498,9 @@
     }
 
     async open(handle, trigger) {
-      if (handle) {
-        window.location.href = `/products/${handle}`;
+      const h = handle || trigger?.dataset?.productHandle || trigger?.getAttribute('data-quick-view-trigger') || trigger?.closest('[data-product-handle]')?.dataset?.productHandle;
+      if (h) {
+        window.location.href = `/products/${h}`;
         return;
       }
       if (!this.modal || !this.overlay) return;
@@ -1542,8 +1543,8 @@
             featured_image: img,
             available: false,
             variants: [{ id: card.getAttribute('data-product-id') || 1, price: 0, available: false, compare_at_price: 0, title: 'Standard' }],
-            tags: ['register-interest'],
-            description: 'Bespoke weave silhouette in active development. Register your interest below to vote for production or receive restock notification.'
+            tags: [],
+            description: 'Slow-crafted atelier shoelaces engineered with bespoke hardware and precision weaves.'
           }, card);
         } else {
           this.content.innerHTML = '<div class="quick-view-error" style="padding: 2.5rem; text-align: center;"><p>Unable to load product preview.</p><button type="button" class="btn-primary" onclick="window.Laceyaan.quickViewModal.close()" style="margin-top: 1rem;">Close</button></div>';
@@ -1647,14 +1648,6 @@
       
       const isSoldOut = !product.available || (product.variants && product.variants.every(v => !v.available));
       const tagsStr = (Array.isArray(product.tags) ? product.tags.join(' ') : String(product.tags || '')).toLowerCase();
-      const isRegisterInterest = isSoldOut || tagsStr.includes('interest') || tagsStr.includes('register') || tagsStr.includes('prototype') || (card && card.classList.contains('product-card-interest'));
-
-      // Community voting stats
-      const votingEngine = window.Laceyaan && window.Laceyaan.interestVoting;
-      const countData = (votingEngine && votingEngine.counts && votingEngine.counts[product.handle]) || { interested: 0, not_interested: 0 };
-      const userVote = (votingEngine && votingEngine.userVotes && votingEngine.userVotes[product.handle]) || null;
-      const totalVotes = (countData.interested || 0) + (countData.not_interested || 0);
-      const demandPercent = totalVotes > 0 ? Math.round(((countData.interested || 0) / totalVotes) * 100) : 100;
 
       const comparePrice = firstVariant.compare_at_price > firstVariant.price 
         ? `<s class="price-was" style="margin-left: 0.5rem; color: #8C8880; font-size: 0.9em; text-decoration: line-through;">${Utils.formatMoney(firstVariant.compare_at_price)}</s>` 
@@ -1713,68 +1706,22 @@
           <!-- Right Column: Product Intelligence & Buying / Voting Panel -->
           <div class="studio-details-col" data-product-handle="${product.handle}" data-product-title="${product.title}">
             <div class="studio-eyebrow-row">
-              <span class="studio-craft-badge">LACEYAAN ATELIER // DROP 01</span>
-              ${isRegisterInterest 
-                ? `<span class="badge badge-gold">CONCEPT ARCHIVE // VOTING OPEN</span>` 
-                : `<span class="badge badge-dark">IN STOCK</span>`
-              }
+              <span class="studio-craft-badge">LACEYAAN ATELIER // LUXURY ACCESSORIES</span>
+              <span class="badge badge-dark">IN STOCK</span>
             </div>
 
             <h2 class="studio-product-title">${product.title}</h2>
 
             <div class="studio-price-block">
-              ${!isRegisterInterest ? `
-                <span class="price-now">${Utils.formatMoney(firstVariant.price)}</span>
-                ${comparePrice}
-                ${firstVariant.compare_at_price > firstVariant.price ? `<span class="badge badge-sale">SAVE ${Math.round((firstVariant.compare_at_price - firstVariant.price) * 100 / firstVariant.compare_at_price)}%</span>` : ''}
-              ` : `
-                <span class="price-prototype">CONCEPT PROTOTYPE &bull; NOT FOR PURCHASE</span>
-              `}
+              <span class="price-now">${Utils.formatMoney(firstVariant.price)}</span>
+              ${comparePrice}
+              ${firstVariant.compare_at_price > firstVariant.price ? `<span class="badge badge-sale">SAVE ${Math.round((firstVariant.compare_at_price - firstVariant.price) * 100 / firstVariant.compare_at_price)}%</span>` : ''}
             </div>
 
             <div class="studio-desc-text">
-              ${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 260) + '...' : 'Atelier slow-crafted shoelaces engineered with solid CNC milled brass hardware, bespoke aglets, and precision Japanese shuttle weaves.'}
+              ${product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 260) + '...' : 'Atelier slow-crafted shoelaces engineered with solid CNC milled brass hardware, bespoke aglets, and precision weaves.'}
             </div>
 
-            ${isRegisterInterest ? `
-              <!-- Community Demand Voting Engine -->
-              <div class="quick-view-interest-box">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
-                  <span style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 700; color: var(--accent-gold-dark); text-transform: uppercase;">COMMUNITY DEMAND SCORE</span>
-                  <span style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 800; color: #141311;" data-demand-percent>${demandPercent}%</span>
-                </div>
-                <div style="width: 100%; height: 6px; background: rgba(0, 0, 0, 0.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem;">
-                  <div style="width: ${demandPercent}%; height: 100%; background: linear-gradient(90deg, #A38760, #C5A880); transition: width 0.4s ease;" data-demand-fill></div>
-                </div>
-
-                <div style="font-size: 0.82rem; color: #555; margin-bottom: 0.85rem;">
-                  Cast your vote below. Community demand directly determines which prototypes enter full artisan production:
-                </div>
-
-                <div class="card-actions card-interest-actions" style="display: flex; gap: 0.65rem; margin-bottom: 1rem;">
-                  <button type="button" class="btn-interest-pill btn-interest-yes ${userVote === 'interested' ? 'is-active' : ''}" data-vote-btn="interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.75rem 1rem;">
-                    <span class="vote-icon">▲</span>
-                    <span class="vote-label">INTERESTED</span>
-                    <span class="vote-count-badge" data-count="interested">${countData.interested || 0}</span>
-                  </button>
-                  <button type="button" class="btn-interest-pill btn-interest-no ${userVote === 'not_interested' ? 'is-active' : ''}" data-vote-btn="not_interested" data-product-handle="${product.handle}" style="flex: 1; padding: 0.75rem 1rem;">
-                    <span class="vote-icon">▼</span>
-                    <span class="vote-label">NOT INTERESTED</span>
-                    <span class="vote-count-badge" data-count="not_interested">${countData.not_interested || 0}</span>
-                  </button>
-                </div>
-
-                <form class="modal-notify-form" onsubmit="window.Laceyaan.handleEarlyAccessNotify(event, '${product.handle}')" style="display: flex; gap: 0.5rem; margin-top: 0.85rem;">
-                  <input type="email" name="email" placeholder="Enter email for VIP production drop alerts" required style="flex: 1; padding: 0.65rem 0.85rem; font-size: 0.8rem; border: 1px solid rgba(20,19,17,0.18); border-radius: 6px; background: #FAF9F5; color: #141311;">
-                  <button type="submit" class="btn-primary" style="padding: 0.65rem 1.15rem; font-size: 0.75rem; white-space: nowrap;">
-                    <span>NOTIFY ME</span>
-                  </button>
-                </form>
-                <div class="modal-notify-success" style="display: none; color: #2B7A4B; font-size: 0.8rem; font-weight: 700; margin-top: 0.6rem;">
-                  ✓ You are registered for the VIP allocation list!
-                </div>
-              </div>
-            ` : `
               <!-- In Stock Add to Bag & Buy Now Form -->
               <form action="/cart/add" method="post" class="quick-view-form studio-buy-form">
                 <input type="hidden" name="id" value="${firstVariant.id}">
@@ -1810,7 +1757,6 @@
                   </button>
                 </div>
               </form>
-            `}
 
             <div class="studio-full-page-link" style="margin-top: 1.35rem; padding-top: 1rem; border-top: 1px solid rgba(20,19,17,0.08); text-align: center;">
               <a href="/products/${product.handle}" class="link-view-full-page" style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; color: #141311; text-transform: uppercase; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
@@ -1822,10 +1768,7 @@
         </div>
       `;
 
-      // Update UI counts and active states inside modal
-      if (votingEngine) {
-        votingEngine.updateAllUI();
-      }
+
     }
   }
 
@@ -2936,398 +2879,6 @@
   }
 
   /* ==========================================================================
-     Register Interest - Community Prototype Vault & Voting Engine
-     ========================================================================== */
-  class InterestVotingEngine {
-    constructor() {
-      this.storageKey = 'laceyaan_interest_counts_v1';
-      this.userVotesKey = 'laceyaan_user_interest_votes_v1';
-      this.webhookKey = 'laceyaan_interest_webhook_url';
-      
-      this.defaultSeeds = {
-        'titanium-damier-jacquard': { title: 'Laser-Etched Titanium Damier', interested: 54, not_interested: 3 },
-        'japanese-indigo-sashiko-rope': { title: 'Japanese Indigo Sashiko Rope', interested: 42, not_interested: 5 },
-        'nocturnal-3m-aurora-reflective': { title: 'Nocturnal 3M Aurora Reflective', interested: 68, not_interested: 2 },
-        'vintage-olive-canvas-shuttle': { title: 'Vintage Olive Canvas Shuttle Weave', interested: 39, not_interested: 4 }
-      };
-
-      this.counts = this.loadCounts();
-      this.userVotes = this.loadUserVotes();
-
-      this.init();
-    }
-
-    loadCounts() {
-      try {
-        const stored = localStorage.getItem(this.storageKey);
-        if (stored) {
-          return Object.assign({}, this.defaultSeeds, JSON.parse(stored));
-        }
-      } catch (e) {}
-      return Object.assign({}, this.defaultSeeds);
-    }
-
-    saveCounts() {
-      try {
-        localStorage.setItem(this.storageKey, JSON.stringify(this.counts));
-      } catch (e) {}
-    }
-
-    loadUserVotes() {
-      try {
-        const stored = localStorage.getItem(this.userVotesKey);
-        if (stored) return JSON.parse(stored);
-      } catch (e) {}
-      return {};
-    }
-
-    saveUserVotes() {
-      try {
-        localStorage.setItem(this.userVotesKey, JSON.stringify(this.userVotes));
-      } catch (e) {}
-    }
-
-    init() {
-      this.bindButtons();
-      this.updateAllUI();
-      this.initAdminModal();
-      this.checkUrlForAdmin();
-    }
-
-    bindButtons() {
-      // Delegate clicks for interest buttons (both on cards and product pages)
-      document.addEventListener('click', (e) => {
-        const voteBtn = e.target.closest('[data-vote-btn]');
-        if (!voteBtn) return;
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        const handle = voteBtn.getAttribute('data-product-handle');
-        const voteType = voteBtn.getAttribute('data-vote-btn'); // 'interested' or 'not_interested'
-
-        if (!handle || !voteType) return;
-
-        this.castVote(handle, voteType);
-      });
-    }
-
-    castVote(handle, voteType) {
-      if (!this.counts[handle]) {
-        const card = document.querySelector(`[data-product-handle="${handle}"]`);
-        const title = card ? (card.getAttribute('data-product-title') || handle) : handle;
-        this.counts[handle] = { title, interested: 0, not_interested: 0 };
-      }
-
-      const prevVote = this.userVotes[handle];
-
-      if (prevVote === voteType) {
-        // Toggle off
-        this.counts[handle][voteType] = Math.max(0, this.counts[handle][voteType] - 1);
-        delete this.userVotes[handle];
-      } else {
-        // Switching vote
-        if (prevVote) {
-          this.counts[handle][prevVote] = Math.max(0, this.counts[handle][prevVote] - 1);
-        }
-        this.counts[handle][voteType] = (this.counts[handle][voteType] || 0) + 1;
-        this.userVotes[handle] = voteType;
-        
-        // Micro toast confirmation
-        if (window.Laceyaan && window.Laceyaan.showToast) {
-          const msg = voteType === 'interested' 
-            ? `Your interest in ${this.counts[handle].title || 'this silhouette'} has been logged!` 
-            : `Your feedback has been recorded.`;
-          window.Laceyaan.showToast(msg);
-        }
-
-        // Send background beacon / webhook sync
-        this.dispatchVoteBeacon(handle, voteType);
-      }
-
-      this.saveCounts();
-      this.saveUserVotes();
-      this.updateAllUI();
-    }
-
-    dispatchVoteBeacon(handle, voteType) {
-      const payload = {
-        event: 'register_interest_vote',
-        product_handle: handle,
-        product_title: (this.counts[handle] && this.counts[handle].title) || handle,
-        vote: voteType,
-        timestamp: new Date().toISOString()
-      };
-
-      try {
-        const webhookUrl = localStorage.getItem(this.webhookKey);
-        if (webhookUrl && webhookUrl.startsWith('http')) {
-          fetch(webhookUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }).catch(() => {});
-        }
-      } catch (e) {}
-
-      document.dispatchEvent(new CustomEvent('laceyaan:interest:voted', { detail: payload }));
-    }
-
-    updateAllUI() {
-      // 1. Update Card buttons
-      document.querySelectorAll('[data-product-handle]').forEach((container) => {
-        const handle = container.getAttribute('data-product-handle');
-        if (!handle) return;
-
-        const productData = this.counts[handle] || { interested: 0, not_interested: 0 };
-        const userVote = this.userVotes[handle];
-
-        // Update count badges
-        container.querySelectorAll('[data-count="interested"]').forEach((el) => {
-          el.textContent = productData.interested || 0;
-        });
-        container.querySelectorAll('[data-count="not_interested"]').forEach((el) => {
-          el.textContent = productData.not_interested || 0;
-        });
-
-        // Update active classes
-        container.querySelectorAll('[data-vote-btn="interested"]').forEach((btn) => {
-          btn.classList.toggle('is-active', userVote === 'interested');
-        });
-        container.querySelectorAll('[data-vote-btn="not_interested"]').forEach((btn) => {
-          btn.classList.toggle('is-active', userVote === 'not_interested');
-        });
-
-        // Update product page demand meter if present
-        const demandPercentEl = container.querySelector('[data-demand-percent]');
-        const demandFillEl = container.querySelector('[data-demand-fill]');
-        const totalVotesLabel = container.querySelector('[data-total-votes-label]');
-
-        if (demandPercentEl || demandFillEl) {
-          const total = (productData.interested || 0) + (productData.not_interested || 0);
-          const percent = total > 0 ? Math.round(((productData.interested || 0) / total) * 100) : 100;
-          if (demandPercentEl) demandPercentEl.textContent = `${percent}% APPROVAL`;
-          if (demandFillEl) demandFillEl.style.width = `${percent}%`;
-          if (totalVotesLabel) totalVotesLabel.textContent = `${total} Total Community Votes Cast`;
-        }
-      });
-
-      // 2. Update Collection Header Summary Stats
-      const totalConceptsEl = document.getElementById('stats-total-concepts');
-      const totalVotesEl = document.getElementById('stats-total-votes');
-      const topTrendingEl = document.getElementById('stats-top-trending');
-
-      let grandTotalVotes = 0;
-      let topScore = -1;
-      let topTitle = '--';
-      let totalProducts = Object.keys(this.counts).length;
-
-      Object.entries(this.counts).forEach(([handle, data]) => {
-        const votes = (data.interested || 0) + (data.not_interested || 0);
-        grandTotalVotes += votes;
-        if ((data.interested || 0) > topScore) {
-          topScore = data.interested || 0;
-          topTitle = data.title || handle;
-        }
-      });
-
-      if (totalConceptsEl && !totalConceptsEl.getAttribute('data-server-set')) {
-        totalConceptsEl.textContent = totalProducts;
-      }
-      if (totalVotesEl) totalVotesEl.textContent = grandTotalVotes;
-      if (topTrendingEl) topTrendingEl.textContent = topTitle;
-    }
-
-    initAdminModal() {
-      const openBtn = document.getElementById('open-interest-admin-btn');
-      const modal = document.getElementById('interest-admin-modal');
-      const closeBtn = document.getElementById('close-interest-admin-btn');
-      const overlay = document.getElementById('close-interest-admin-overlay');
-      const exportCsvBtn = document.getElementById('btn-export-interest-csv');
-      const saveWebhookBtn = document.getElementById('btn-save-webhook');
-      const webhookInput = document.getElementById('interest-webhook-input');
-      const webhookNote = document.getElementById('webhook-saved-note');
-
-      if (!modal) return;
-
-      const openModal = () => {
-        this.renderAdminTable();
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-      };
-
-      const closeModal = () => {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-      };
-
-      if (openBtn) openBtn.addEventListener('click', openModal);
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (overlay) overlay.addEventListener('click', closeModal);
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-          closeModal();
-        }
-      });
-
-      if (exportCsvBtn) {
-        exportCsvBtn.addEventListener('click', () => {
-          this.exportCsv();
-        });
-      }
-
-      if (webhookInput) {
-        const saved = localStorage.getItem(this.webhookKey);
-        if (saved) webhookInput.value = saved;
-      }
-
-      if (saveWebhookBtn && webhookInput) {
-        saveWebhookBtn.addEventListener('click', () => {
-          const val = webhookInput.value.trim();
-          localStorage.setItem(this.webhookKey, val);
-          if (webhookNote) {
-            webhookNote.style.display = 'block';
-            setTimeout(() => { webhookNote.style.display = 'none'; }, 3000);
-          }
-        });
-      }
-    }
-
-    checkUrlForAdmin() {
-      if (window.location.search.includes('admin=true') || window.location.search.includes('view=admin')) {
-        setTimeout(() => {
-          const openBtn = document.getElementById('open-interest-admin-btn');
-          if (openBtn) openBtn.click();
-        }, 500);
-      }
-    }
-
-    renderAdminTable() {
-      const tbody = document.getElementById('interest-admin-tbody');
-      const totalProdEl = document.getElementById('admin-summary-total-products');
-      const totalVotesEl = document.getElementById('admin-summary-total-votes');
-
-      if (!tbody) return;
-
-      tbody.innerHTML = '';
-      let grandTotalVotes = 0;
-      let countProducts = 0;
-
-      Object.entries(this.counts).forEach(([handle, data]) => {
-        countProducts++;
-        const interested = data.interested || 0;
-        const notInterested = data.not_interested || 0;
-        const total = interested + notInterested;
-        grandTotalVotes += total;
-        const demand = total > 0 ? Math.round((interested / total) * 100) : 100;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${data.title || handle}</strong></td>
-          <td><code>${handle}</code></td>
-          <td style="text-align: center; color: var(--accent-gold); font-weight: 700;">${interested}</td>
-          <td style="text-align: center; color: #888;">${notInterested}</td>
-          <td style="text-align: center; font-weight: 700;">${total}</td>
-          <td style="text-align: right; font-weight: 700; color: ${demand >= 75 ? '#4ade80' : 'var(--accent-gold)'};">${demand}%</td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      if (totalProdEl) totalProdEl.textContent = countProducts;
-      if (totalVotesEl) totalVotesEl.textContent = grandTotalVotes;
-    }
-
-    exportCsv() {
-      let csvContent = 'data:text/csv;charset=utf-8,';
-      csvContent += 'Product Title,Handle,Interested,Not Interested,Total Votes,Demand Approval %\r\n';
-
-      Object.entries(this.counts).forEach(([handle, data]) => {
-        const title = (data.title || handle).replace(/"/g, '""');
-        const interested = data.interested || 0;
-        const notInterested = data.not_interested || 0;
-        const total = interested + notInterested;
-        const demand = total > 0 ? Math.round((interested / total) * 100) : 100;
-
-        csvContent += `"${title}","${handle}",${interested},${notInterested},${total},${demand}%\r\n`;
-      });
-
-      // Append VIP Email Leads Section if present
-      try {
-        const leads = JSON.parse(localStorage.getItem('laceyaan_interest_leads_v1') || '[]');
-        if (leads.length > 0) {
-          csvContent += '\r\n\r\nVIP Early-Access Email Leads\r\nEmail,Product Handle,Registration Date\r\n';
-          leads.forEach(lead => {
-            csvContent += `"${lead.email}","${lead.handle}","${lead.date}"\r\n`;
-          });
-        }
-      } catch (err) {}
-
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `laceyaan_register_interest_report_${new Date().toISOString().split('T')[0]}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  }
-
-  /* ==========================================================================
-     Early Access VIP Notification Handler
-     ========================================================================== */
-  window.Laceyaan.handleEarlyAccessNotify = function(e, handle) {
-    e.preventDefault();
-    const form = e.target;
-    const input = form.querySelector('input[name="email"], input[type="email"]');
-    const email = input ? input.value.trim() : '';
-    if (!email) return;
-
-    const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn ? btn.innerHTML : '';
-    if (btn) {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> SAVING...';
-    }
-
-    // Auto-cast positive vote if not already voted
-    if (window.Laceyaan.interestVoting) {
-      const curVote = window.Laceyaan.interestVoting.userVotes[handle];
-      if (curVote !== 'interested') {
-        window.Laceyaan.interestVoting.castVote(handle, 'interested');
-      }
-    }
-
-    // Submit background customer registration
-    const formData = new FormData();
-    formData.append('form_type', 'customer');
-    formData.append('utf8', '✓');
-    formData.append('contact[email]', email);
-    formData.append('contact[tags]', `interest-registered, prototype-${handle}`);
-    
-    fetch('/contact#contact_form', {
-      method: 'POST',
-      body: formData
-    }).catch(() => {});
-
-    // Save lead locally to admin modal records
-    try {
-      const leadsKey = 'laceyaan_interest_leads_v1';
-      const leads = JSON.parse(localStorage.getItem(leadsKey) || '[]');
-      leads.push({ email, handle, date: new Date().toISOString() });
-      localStorage.setItem(leadsKey, JSON.stringify(leads));
-    } catch (err) {}
-
-    setTimeout(() => {
-      form.style.display = 'none';
-      const successMsg = form.parentElement.querySelector('.modal-notify-success');
-      if (successMsg) successMsg.style.display = 'block';
-      Utils.showToast(`VIP early-access logged for ${email}!`, 'success');
-    }, 400);
-  };
-
-  /* ==========================================================================
      Cart Page Controller (AJAX Quantities, Line Removals & Live Summary)
      ========================================================================== */
   class CartPage {
@@ -3732,7 +3283,7 @@
       headers.forEach(header => {
         const title = header.querySelector('.editorial-heading, h2, h1');
         const subtitle = header.querySelector('.section-subtitle, p');
-        const badge = header.querySelector('.badge, .design-lab-badge, .interest-collection-badge');
+        const badge = header.querySelector('.badge, .design-lab-badge');
 
         const tl = this.gsap.timeline({
           scrollTrigger: {
@@ -3759,7 +3310,7 @@
       if (!window.ScrollTrigger) return;
 
       const grids = document.querySelectorAll(
-        '.featured-collection-section .product-grid-layout, .main-collection-section .product-grid-layout, .register-interest-section .product-grid-layout'
+        '.featured-collection-section .product-grid-layout, .main-collection-section .product-grid-layout'
       );
 
       grids.forEach(grid => {
@@ -3897,7 +3448,6 @@
     new Accordion();
     new EasterEggModal();
     new HeroVideoShowcase();
-    window.Laceyaan.interestVoting = new InterestVotingEngine();
     new MobileStickyBuyBar();
 
     // Visual Micro-Interactions & GSAP Motion Engine
@@ -3933,7 +3483,6 @@
     new AnnouncementBar();
     new EasterEggModal();
     new HeroVideoShowcase();
-    window.Laceyaan.interestVoting = new InterestVotingEngine();
     window.Laceyaan.productGallery = new ProductGalleryController();
     window.Laceyaan.productStudio = window.Laceyaan.productGallery;
     new MobileStickyBuyBar();
