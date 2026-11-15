@@ -6255,6 +6255,8 @@ img {
     padding-right: 8px !important;
   }
 
+  .main-collection-section .product-grid-layout,
+  .main-collection-section .product-grid-layout.grid-cols-4,
   .product-grid-layout,
   .product-grid-layout.grid-cols-4,
   .individual-laces-grid {
@@ -6262,7 +6264,16 @@ img {
     row-gap: 14px !important;
   }
 
+  /* Carousel cards slightly wider on tiny phones */
+  .featured-collection-section .product-grid-layout .product-card-editorial,
+  .featured-collection-section .product-grid-layout.grid-cols-4 .product-card-editorial {
+    flex: 0 0 72% !important;
+    min-width: 72% !important;
+    max-width: 72% !important;
+  }
+
   .product-card-editorial .card-media {
+    aspect-ratio: 4 / 5 !important;
     border-radius: 8px !important;
   }
 
@@ -7618,14 +7629,60 @@ img {
     padding-right: 12px !important;
   }
 
-  .featured-collection-section .product-grid-layout,
+  /* ── Main Collection page: compact 2×2 grid ── */
   .main-collection-section .product-grid-layout,
   .register-interest-section .product-grid-layout,
   .product-grid-layout,
   .product-grid-layout.grid-cols-4 {
+    display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     column-gap: 10px !important;
-    row-gap: 18px !important;
+    row-gap: 14px !important;
+  }
+
+  /* ── Reduce portrait aspect-ratio so 2 rows fit on screen (3/4 → 4/5) ── */
+  .product-card-editorial .card-media {
+    aspect-ratio: 4 / 5 !important;
+    border-radius: 10px !important;
+  }
+
+  /* ── Featured Collection homepage: horizontal swipe carousel ── */
+  .featured-collection-section .product-grid-layout,
+  .featured-collection-section .product-grid-layout.grid-cols-4 {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: scroll !important;
+    overflow-y: visible !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 10px !important;
+    padding-bottom: 10px !important;
+    /* Hide scrollbar — keep swipe functional */
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    /* Allow cards to snap cleanly */
+    padding-left: 0 !important;
+    padding-right: 12px !important;
+  }
+
+  .featured-collection-section .product-grid-layout::-webkit-scrollbar,
+  .featured-collection-section .product-grid-layout.grid-cols-4::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Each card: show 2 fully + a sliver of 3rd card to hint swipe */
+  .featured-collection-section .product-grid-layout .product-card-editorial,
+  .featured-collection-section .product-grid-layout.grid-cols-4 .product-card-editorial {
+    flex: 0 0 46% !important;
+    min-width: 46% !important;
+    max-width: 46% !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* Swipe hint: faded right edge gradient */
+  .featured-collection-section {
+    position: relative !important;
+    overflow: hidden !important;
   }
 
   .featured-collection-section,
@@ -7633,10 +7690,6 @@ img {
   .register-interest-section {
     padding-top: 1rem !important;
     padding-bottom: 2rem !important;
-  }
-
-  .product-card-editorial .card-media {
-    border-radius: 10px !important;
   }
 
   .aesthetic-pagination {
