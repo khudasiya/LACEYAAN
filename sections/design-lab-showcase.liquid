@@ -98,6 +98,11 @@
             {%- for block in section.blocks -%}
               {%- liquid
                 assign b_product = block.settings.product
+                if b_product == blank and collections.all.products.size > 0
+                  assign fallback_idx = forloop.index0 | modulo: collections.all.products.size
+                  assign b_product = collections.all.products[fallback_idx]
+                endif
+
                 assign b_title = block.settings.custom_title
                 if b_title == blank and b_product != blank
                   assign b_title = b_product.title
@@ -120,15 +125,25 @@
                 endif
 
                 assign b_url = routes.all_products_collection_url
-                if b_product != blank
+                if b_product != blank and b_product.url != blank
                   assign b_url = b_product.url
                 endif
 
                 assign b_variant = b_product.selected_or_first_available_variant
               -%}
-              <div class="product-card product-card-editorial" {{ block.shopify_attributes }}>
+              <div 
+                class="product-card product-card-editorial" 
+                {% if b_product != blank %}data-product-id="{{ b_product.id }}" data-product-handle="{{ b_product.handle }}" data-product-title="{{ b_title | escape }}"{% endif %}
+                {{ block.shopify_attributes }}
+              >
+                {%- if b_product != blank -%}
+                  <script type="application/json" class="product-card-json" data-product-handle="{{ b_product.handle }}">
+                    {{ b_product | json }}
+                  </script>
+                {%- endif -%}
+
                 <div class="card-media">
-                  <a href="{{ b_url }}" class="media-link" aria-label="{{ b_title | escape }}">
+                  <a href="{{ b_url }}" class="media-link" {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %} aria-label="{{ b_title | escape }}">
                     {%- if block.settings.custom_image != blank -%}
                       {{ block.settings.custom_image | image_url: width: 600 | image_tag: 
                         class: 'primary-img',
@@ -167,7 +182,7 @@
                 <div class="card-content">
                   <div class="card-info-row">
                     <div class="card-details-col">
-                      <h3 class="card-title"><a href="{{ b_url }}">{{ b_title }}</a></h3>
+                      <h3 class="card-title"><a href="{{ b_url }}" {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}>{{ b_title }}</a></h3>
                       <div class="card-price-row">
                         <span class="price-now">{{ b_price }}</span>
                       </div>
@@ -178,7 +193,10 @@
                       data-action-plus 
                       {% if b_variant %}data-variant-id="{{ b_variant.id }}"{% endif %}
                       {% if b_product.handle %}data-product-handle="{{ b_product.handle }}"{% endif %}
-                      aria-label="Quick action for {{ b_title | escape }}"
+                      data-available="{{ b_variant.available | default: true }}"
+                      data-has-variants="{% if b_product.variants.size > 1 %}true{% else %}false{% endif %}"
+                      aria-label="Add {{ b_title | escape }} to bag"
+                      title="Add to bag"
                     >
                       <span class="plus-symbol">+</span>
                     </button>
@@ -197,10 +215,30 @@
           {%- else -%}
             {%- assign default_capsule = 'product-leopard.jpg|Leopard Weave Jacquard|₹249,product-paisley.jpg|Vintage Paisley Tapestry|₹249,product-olive.jpg|Olive Heritage Shuttle Loom|₹249,product-plum.jpg|Imperial Plum Damier|₹249' | split: ',' -%}
             {%- for item in default_capsule -%}
-              {%- assign item_parts = item | split: '|' -%}
-              <div class="product-card product-card-editorial">
+              {%- liquid
+                assign item_parts = item | split: '|'
+                assign fallback_prod = nil
+                if collections.all.products.size > 0
+                  assign fb_idx = forloop.index0 | modulo: collections.all.products.size
+                  assign fallback_prod = collections.all.products[fb_idx]
+                endif
+                assign card_url = routes.all_products_collection_url
+                if fallback_prod != blank and fallback_prod.url != blank
+                  assign card_url = fallback_prod.url
+                endif
+                assign card_variant = fallback_prod.selected_or_first_available_variant
+              -%}
+              <div 
+                class="product-card product-card-editorial"
+                {% if fallback_prod != blank %}data-product-id="{{ fallback_prod.id }}" data-product-handle="{{ fallback_prod.handle }}" data-product-title="{{ item_parts[1] | escape }}"{% endif %}
+              >
+                {%- if fallback_prod != blank -%}
+                  <script type="application/json" class="product-card-json" data-product-handle="{{ fallback_prod.handle }}">
+                    {{ fallback_prod | json }}
+                  </script>
+                {%- endif -%}
                 <div class="card-media">
-                  <a href="{{ routes.all_products_collection_url }}" class="media-link" aria-label="{{ item_parts[1] }}">
+                  <a href="{{ card_url }}" class="media-link" {% if fallback_prod.handle %}data-product-handle="{{ fallback_prod.handle }}"{% endif %} aria-label="{{ item_parts[1] }}">
                     <img src="{{ item_parts[0] | asset_url }}" alt="{{ item_parts[1] }}" class="primary-img" width="400" height="500" loading="lazy">
                   </a>
                   <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
@@ -217,14 +255,23 @@
                 <div class="card-content">
                   <div class="card-info-row">
                     <div class="card-details-col">
-                      <h3 class="card-title"><a href="{{ routes.all_products_collection_url }}">{{ item_parts[1] }}</a></h3>
+                      <h3 class="card-title"><a href="{{ card_url }}" {% if fallback_prod.handle %}data-product-handle="{{ fallback_prod.handle }}"{% endif %}>{{ item_parts[1] }}</a></h3>
                       <div class="card-price-row">
                         <span class="price-now">{{ item_parts[2] }}</span>
                       </div>
                     </div>
-                    <a href="{{ routes.all_products_collection_url }}" class="card-action-plus-btn" aria-label="View {{ item_parts[1] }}">
+                    <button 
+                      type="button" 
+                      class="card-action-plus-btn" 
+                      data-action-plus 
+                      {% if card_variant %}data-variant-id="{{ card_variant.id }}"{% endif %}
+                      {% if fallback_prod.handle %}data-product-handle="{{ fallback_prod.handle }}"{% endif %}
+                      data-available="{{ card_variant.available | default: true }}"
+                      aria-label="Add {{ item_parts[1] | escape }} to bag"
+                      title="Add to bag"
+                    >
                       <span class="plus-symbol">+</span>
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

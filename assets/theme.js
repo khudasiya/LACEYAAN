@@ -402,16 +402,24 @@
 
         const handle = plusBtn.dataset.productHandle;
         const variantId = plusBtn.dataset.variantId;
-        const available = plusBtn.dataset.available === 'true';
+        const available = plusBtn.dataset.available !== 'false';
         const hasVariants = plusBtn.dataset.hasVariants === 'true';
         const isPrototype = plusBtn.dataset.isPrototype === 'true';
 
-        // If prototype, multi-variant, or unavailable -> open Quick View Modal for full options/voting
+        // If prototype, multi-variant, or unavailable -> open Quick View Modal or navigate to product page
         if (isPrototype || hasVariants || !available || !variantId) {
           if (handle && window.Laceyaan.quickViewModal) {
             window.Laceyaan.quickViewModal.open(handle, plusBtn);
           } else if (handle) {
             window.location.href = `/products/${handle}`;
+          } else {
+            const card = plusBtn.closest('.product-card');
+            const link = card ? card.querySelector('.media-link, .card-title a') : null;
+            if (link && link.href) {
+              window.location.href = link.href;
+            } else {
+              window.location.href = '/collections/all';
+            }
           }
           return;
         }
@@ -1341,25 +1349,26 @@
     }
 
     bindEvents() {
-      // Open modal on click of product card media, title, plus button, or explicit trigger
+      // Open modal on click of explicit quick view trigger
       document.addEventListener('click', (e) => {
-        const trigger = e.target.closest('[data-open-studio-modal], [data-quick-view-trigger], .quick-view-btn, .product-card-editorial .media-link, .product-card-editorial .card-title a, [data-action-plus]');
+        const trigger = e.target.closest('[data-open-studio-modal], [data-quick-view-trigger], .quick-view-btn');
         if (!trigger) return;
 
         // Respect keyboard shortcuts or new-tab clicks (Cmd/Ctrl/Middle click)
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
 
         // Skip if user interacted with card sub-elements like bookmark or voting buttons
-        if (e.target.closest('.card-bookmark-btn') || e.target.closest('.card-interest-pills-row')) return;
-
-        e.preventDefault();
-        e.stopPropagation();
+        if (e.target.closest('.card-bookmark-btn') || e.target.closest('.card-interest-pills-row') || e.target.closest('[data-action-plus]')) return;
 
         const handle = trigger.dataset.productHandle || 
                        trigger.getAttribute('data-quick-view-trigger') || 
                        trigger.closest('[data-product-handle]')?.dataset.productHandle;
 
-        if (handle) this.open(handle, trigger);
+        if (handle) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.open(handle, trigger);
+        }
       });
 
       if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
@@ -3562,75 +3571,12 @@
   }
 
   /* ==========================================================================
-     REACT BITS ENHANCEMENT SUITE (DavidHDev/react-bits Adapted for LACEYAAN)
-     - SpotlightCard (Mouse-tracking radial ambient glow & border light)
-     - Magnet (Magnetic spring attraction for interactive buttons)
+     THEME-ALIGNED VISUAL MICRO-INTERACTIONS
      - DecryptedText (Streetwear tech-scramble character reveal on hover)
-     - TiltCard (3D perspective micro-tilt on desktop)
-     - BlurReveal (Scroll-triggered unblur entrance)
      ========================================================================== */
   class ReactBitsEnhanceSuite {
     constructor() {
-      this.hasPointerHover = window.matchMedia('(hover: hover) and (min-width: 769px)').matches;
-      this.initSpotlight();
-      this.initMagnet();
       this.initDecryptedText();
-      this.initTiltCard();
-      this.initBlurReveal();
-    }
-
-    initSpotlight() {
-      if (!this.hasPointerHover) return;
-      const cards = document.querySelectorAll(
-        '.product-card, .product-card-editorial, .story-card, .lab-spec-box, .ly-peek-item'
-      );
-      cards.forEach(card => {
-        if (card.dataset.rbSpotlight) return;
-        card.dataset.rbSpotlight = 'true';
-
-        card.addEventListener('pointermove', e => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--spotlight-x', `${x}px`);
-          card.style.setProperty('--spotlight-y', `${y}px`);
-          card.style.setProperty('--spotlight-opacity', '1');
-        });
-
-        card.addEventListener('pointerleave', () => {
-          card.style.setProperty('--spotlight-opacity', '0');
-        });
-      });
-    }
-
-    initMagnet() {
-      if (!this.hasPointerHover) return;
-      const buttons = document.querySelectorAll(
-        '.btn-primary, .btn-gold, .card-action-plus-btn, .card-bookmark-btn, .ly-vip-submit-btn, .pincode-submit-btn, .studio-close-btn'
-      );
-      buttons.forEach(btn => {
-        if (btn.dataset.rbMagnet) return;
-        btn.dataset.rbMagnet = 'true';
-
-        const isSmallIcon = btn.classList.contains('card-action-plus-btn') || btn.classList.contains('card-bookmark-btn');
-        const pullFactor = isSmallIcon ? 0.32 : 0.16;
-
-        btn.addEventListener('pointermove', e => {
-          const rect = btn.getBoundingClientRect();
-          const centerX = rect.left + rect.width / 2;
-          const centerY = rect.top + rect.height / 2;
-          const deltaX = (e.clientX - centerX) * pullFactor;
-          const deltaY = (e.clientY - centerY) * pullFactor;
-
-          btn.style.transform = `translate3d(${deltaX.toFixed(2)}px, ${deltaY.toFixed(2)}px, 0)`;
-          btn.style.transition = 'transform 0.1s cubic-bezier(0.25, 1, 0.5, 1)';
-        });
-
-        btn.addEventListener('pointerleave', () => {
-          btn.style.transform = 'translate3d(0, 0, 0)';
-          btn.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
-        });
-      });
     }
 
     initDecryptedText() {
@@ -3669,53 +3615,6 @@
             }
           }, 28);
         });
-      });
-    }
-
-    initTiltCard() {
-      if (!this.hasPointerHover) return;
-      const tiltCards = document.querySelectorAll('.product-card-editorial');
-      tiltCards.forEach(card => {
-        if (card.dataset.rbTilt) return;
-        card.dataset.rbTilt = 'true';
-
-        card.addEventListener('pointermove', e => {
-          const rect = card.getBoundingClientRect();
-          const px = (e.clientX - rect.left) / rect.width;
-          const py = (e.clientY - rect.top) / rect.height;
-          const rotateX = ((py - 0.5) * -5).toFixed(2);
-          const rotateY = ((px - 0.5) * 5).toFixed(2);
-
-          card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
-        });
-
-        card.addEventListener('pointerleave', () => {
-          card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-        });
-      });
-    }
-
-    initBlurReveal() {
-      if (!('IntersectionObserver' in window)) return;
-      const revealElements = document.querySelectorAll(
-        '.editorial-heading, .section-subtitle, .product-card-editorial, .lab-hero-card'
-      );
-
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            obs.unobserve(entry.target);
-          }
-        });
-      }, {
-        rootMargin: '0px 0px -40px 0px',
-        threshold: 0.1
-      });
-
-      revealElements.forEach(el => {
-        el.classList.add('react-bits-blur-reveal');
-        observer.observe(el);
       });
     }
   }
