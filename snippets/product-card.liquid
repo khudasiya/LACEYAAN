@@ -43,7 +43,7 @@
 
   <!-- Editorial Rounded Media Container -->
   <div class="card-media">
-    <a href="{{ product.url }}" class="media-link" data-open-studio-modal data-product-handle="{{ product.handle }}" aria-label="{{ product.title | escape }}">
+    <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
         {{ featured_media | image_url: width: 750 | image_tag: 
           loading: 'lazy', 
@@ -72,7 +72,7 @@
     <div class="card-info-row">
       <div class="card-details-col">
         <h3 class="card-title">
-          <a href="{{ product.url }}" data-open-studio-modal data-product-handle="{{ product.handle }}">{{ product.title }}</a>
+          <a href="{{ product.url }}">{{ product.title }}</a>
         </h3>
         <div class="card-price-row">
           {%- if is_register_interest -%}

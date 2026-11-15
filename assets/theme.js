@@ -349,8 +349,8 @@
             addBtn.disabled = false;
             addBtn.innerHTML = originalContent;
           }
-        } else if (handle && window.Laceyaan.quickViewModal) {
-          window.Laceyaan.quickViewModal.open(handle);
+        } else if (handle) {
+          window.location.href = `/products/${handle}`;
         } else {
           window.location.href = '/collections/all';
         }
@@ -391,8 +391,8 @@
             buyBtn.disabled = false;
             buyBtn.innerHTML = originalText;
           }
-        } else if (handle && window.Laceyaan.quickViewModal) {
-          window.Laceyaan.quickViewModal.open(handle);
+        } else if (handle) {
+          window.location.href = `/products/${handle}`;
         } else {
           window.location.href = '/collections/all';
         }
@@ -412,11 +412,9 @@
         const hasVariants = plusBtn.dataset.hasVariants === 'true';
         const isPrototype = plusBtn.dataset.isPrototype === 'true';
 
-        // If prototype, multi-variant, or unavailable -> open Quick View Modal or navigate to product page
+        // If prototype, multi-variant, or unavailable -> navigate directly to product page in full screen
         if (isPrototype || hasVariants || !available || !variantId) {
-          if (handle && window.Laceyaan.quickViewModal) {
-            window.Laceyaan.quickViewModal.open(handle, plusBtn);
-          } else if (handle) {
+          if (handle) {
             window.location.href = `/products/${handle}`;
           } else {
             const card = plusBtn.closest('.product-card');
@@ -448,8 +446,8 @@
           }
           Utils.showToast(`${item.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
         } catch (err) {
-          if (handle && window.Laceyaan.quickViewModal) {
-            window.Laceyaan.quickViewModal.open(handle, plusBtn);
+          if (handle) {
+            window.location.href = `/products/${handle}`;
           } else {
             Utils.showToast(err.message || 'Error adding to bag', 'error');
           }
@@ -1375,6 +1373,19 @@
           this.availabilityBadge.innerHTML = '<span class="status-dot"></span> Vault Closed &bull; Sold Out';
         }
       }
+
+      // Switch to variant real product photo if available
+      if (variant.featured_image && variant.featured_image.src) {
+        if (window.Laceyaan.productGallery) {
+          window.Laceyaan.productGallery.setImage(variant.featured_image.src);
+        } else {
+          const mainImg = document.getElementById('ProductMainImage');
+          if (mainImg) {
+            mainImg.src = variant.featured_image.src;
+            mainImg.removeAttribute('srcset');
+          }
+        }
+      }
     }
   }
 
@@ -1412,7 +1423,8 @@
         if (handle) {
           e.preventDefault();
           e.stopPropagation();
-          this.open(handle, trigger);
+          window.location.href = `/products/${handle}`;
+          return;
         }
       });
 
@@ -1486,6 +1498,12 @@
     }
 
     async open(handle, trigger) {
+      if (handle) {
+        window.location.href = `/products/${handle}`;
+        return;
+      }
+      if (!this.modal || !this.overlay) return;
+
       this.modal.classList.add('active', 'is-open');
       if (this.overlay) this.overlay.classList.add('active', 'is-open');
       this.modal.setAttribute('aria-hidden', 'false');
@@ -1812,90 +1830,50 @@
   }
 
   /* ==========================================================================
-     8b. Main Product Detail Page 3D Studio Controller
+     8b. Main Product Detail Page Pure Real-Photo Gallery Controller
      ========================================================================== */
-  class ProductStudioController {
+  class ProductGalleryController {
     constructor() {
-      this.viewport = document.getElementById('ProductPageStudioViewport');
-      if (!this.viewport) return;
-
-      this.videoBox = document.getElementById('ProductPageVideoBox');
-      this.stillsBox = document.getElementById('ProductPageStillsBox');
-      this.video = document.getElementById('ProductPageStudioVideo');
-      this.shadow = document.getElementById('ProductPageShadow');
-      this.buttons = document.querySelectorAll('[data-product-mode]');
+      this.mainImg = document.getElementById('ProductMainImage');
+      this.thumbs = document.querySelectorAll('.gallery-thumb-btn');
+      if (!this.mainImg) return;
 
       this.bindEvents();
     }
 
     bindEvents() {
-      this.buttons.forEach(btn => {
+      // Gallery thumb buttons switch real product photos with high-end crossfade
+      this.thumbs.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
-          const mode = btn.dataset.productMode;
-          this.setMode(mode);
-        });
-      });
-
-      // Gallery thumb buttons switch images & modes with smooth crossfade
-      const mainImg = document.getElementById('ProductMainImage');
-      const allThumbs = document.querySelectorAll('.gallery-thumb-btn');
-
-      allThumbs.forEach(btn => {
-        btn.addEventListener('click', () => {
-          allThumbs.forEach(t => t.classList.remove('active'));
+          this.thumbs.forEach(t => t.classList.remove('active'));
           btn.classList.add('active');
 
           const mediaUrl = btn.dataset.mediaUrl;
-          if (mediaUrl && mainImg) {
-            mainImg.style.transition = 'opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
-            mainImg.style.opacity = '0.35';
-            mainImg.style.transform = 'scale(0.98)';
+          if (mediaUrl && this.mainImg) {
+            this.mainImg.style.transition = 'opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
+            this.mainImg.style.opacity = '0.35';
+            this.mainImg.style.transform = 'scale(0.98)';
             setTimeout(() => {
-              mainImg.src = mediaUrl;
-              mainImg.removeAttribute('srcset');
-              mainImg.style.opacity = '1';
-              mainImg.style.transform = 'scale(1)';
-            }, 120);
-          }
-
-          if (btn.classList.contains('thumb-3d-btn')) {
-            this.setMode('360');
-          } else {
-            this.setMode('stills');
+              this.mainImg.src = mediaUrl;
+              this.mainImg.removeAttribute('srcset');
+              this.mainImg.style.opacity = '1';
+              this.mainImg.style.transform = 'scale(1)';
+            }, 100);
           }
         });
       });
     }
 
-    setMode(mode) {
-      this.buttons.forEach(b => b.classList.toggle('active', b.dataset.productMode === mode));
-
-      if (mode === '360') {
-        if (this.viewport) this.viewport.classList.remove('is-glow-mode');
-        if (this.videoBox) this.videoBox.style.display = 'block';
-        if (this.stillsBox) this.stillsBox.style.display = 'none';
-        if (this.shadow) this.shadow.style.display = 'block';
-        if (this.video) {
-          this.video.currentTime = 0;
-          this.video.play().catch(() => {});
-        }
-      } else if (mode === 'glow') {
-        if (this.viewport) this.viewport.classList.add('is-glow-mode');
-        if (this.videoBox) this.videoBox.style.display = 'block';
-        if (this.stillsBox) this.stillsBox.style.display = 'none';
-        if (this.shadow) this.shadow.style.display = 'block';
-        if (this.video) {
-          this.video.currentTime = 5.8; // jump to glowing 3M lace sequence
-          this.video.play().catch(() => {});
-        }
-      } else if (mode === 'stills') {
-        if (this.viewport) this.viewport.classList.remove('is-glow-mode');
-        if (this.videoBox) this.videoBox.style.display = 'none';
-        if (this.stillsBox) this.stillsBox.style.display = 'block';
-        if (this.shadow) this.shadow.style.display = 'none';
-        if (this.video) this.video.pause();
-      }
+    setImage(url) {
+      if (!this.mainImg || !url) return;
+      this.mainImg.src = url;
+      this.mainImg.removeAttribute('srcset');
+      const cleanUrl = url.split('?')[0];
+      this.thumbs.forEach(thumb => {
+        const thumbUrl = (thumb.dataset.mediaUrl || '').split('?')[0];
+        thumb.classList.toggle('active', thumbUrl === cleanUrl);
+      });
     }
   }
 
@@ -3914,7 +3892,8 @@
     window.Laceyaan.portalModals = new PortalModals();
     new ProductVariantSelector();
     window.Laceyaan.quickViewModal = new QuickViewModal();
-    window.Laceyaan.productStudio = new ProductStudioController();
+    window.Laceyaan.productGallery = new ProductGalleryController();
+    window.Laceyaan.productStudio = window.Laceyaan.productGallery;
     new Accordion();
     new EasterEggModal();
     new HeroVideoShowcase();
@@ -3955,7 +3934,8 @@
     new EasterEggModal();
     new HeroVideoShowcase();
     window.Laceyaan.interestVoting = new InterestVotingEngine();
-    window.Laceyaan.productStudio = new ProductStudioController();
+    window.Laceyaan.productGallery = new ProductGalleryController();
+    window.Laceyaan.productStudio = window.Laceyaan.productGallery;
     new MobileStickyBuyBar();
     window.Laceyaan.cartPage = new CartPage();
     if (window.Laceyaan.pincodeChecker) {

@@ -21,34 +21,16 @@
     </nav>
 
     <div class="product-layout-grid">
-      <!-- Left: 3D Studio Sneaker Showcase & Media Gallery -->
-      <div class="product-gallery studio-product-gallery">
-        <div class="main-gallery-viewport studio-viewport" id="ProductPageStudioViewport">
-          <!-- 3D Floating Sneaker Video Stage -->
-          <div class="studio-video-box active" id="ProductPageVideoBox">
-            <video 
-              id="ProductPageStudioVideo" 
-              class="studio-sneaker-video" 
-              autoplay 
-              loop 
-              muted 
-              playsinline 
-              preload="auto"
-              poster="{{ product.featured_media | image_url: width: 1200 }}"
-            >
-              <source src="{{ 'drop-01-highlights.mp4' | asset_url }}" type="video/mp4">
-              <source src="{{ 'WhatsApp Video 2026-10-04 at 9.36.32 PM.mp4' | asset_url }}" type="video/mp4">
-            </video>
-            <div class="studio-floor-shadow" id="ProductPageShadow"></div>
-          </div>
-
-          <!-- Stills Image Stage -->
-          <div class="studio-stills-box" id="ProductPageStillsBox" style="display: none;">
+      <!-- Left: High-Resolution Atelier Product Gallery -->
+      <div class="product-gallery atelier-product-gallery">
+        <div class="main-gallery-viewport" id="ProductPageGalleryViewport">
+          <div class="gallery-main-image-wrap" id="ProductMainImageWrap">
             {%- if product.featured_media != blank -%}
-              {{ product.featured_media | image_url: width: 1200 | image_tag: 
+              {{ product.featured_media | image_url: width: 1400 | image_tag: 
                 class: 'main-product-img', 
                 id: 'ProductMainImage',
-                widths: '600, 800, 1000, 1200',
+                widths: '600, 800, 1000, 1200, 1400',
+                loading: 'eager',
                 alt: product.featured_media.alt | default: product.title | escape 
               }}
             {%- else -%}
@@ -56,51 +38,26 @@
             {%- endif -%}
           </div>
 
-          <!-- Studio Interactive Mode Switcher Toolbar -->
-          <div class="studio-controls-bar">
-            <button type="button" class="studio-tab-btn active" data-product-mode="360" aria-label="360 Rotation View">
-              <span class="tab-icon">↻</span>
-              <span>360° 3D</span>
-            </button>
-            <button type="button" class="studio-tab-btn" data-product-mode="glow" aria-label="Glow In Dark Mode">
-              <span class="tab-icon">✦</span>
-              <span>GLOW LAB</span>
-            </button>
-            <button type="button" class="studio-tab-btn" data-product-mode="stills" aria-label="Product Stills View">
-              <span class="tab-icon">📷</span>
-              <span>STILLS</span>
-            </button>
-          </div>
-
           <div class="gallery-badges">
             {%- if current_variant.available == false -%}
-              <span class="badge badge-sold-out">{{ 'products.product.sold_out' | t }}</span>
+              <span class="badge badge-sold-out" data-stock-text>{{ 'products.product.sold_out' | t }}</span>
             {%- elsif product.compare_at_price > product.price -%}
               {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-              <span class="badge badge-sale">Save {{ savings }}%</span>
+              <span class="badge badge-sale" data-save-badge>Save {{ savings }}%</span>
             {%- endif -%}
           </div>
         </div>
 
         {%- if product.media.size > 1 -%}
-          <div class="gallery-thumbs-rail">
-            <button 
-              type="button" 
-              class="gallery-thumb-btn active thumb-3d-btn" 
-              data-product-mode="360"
-              aria-label="3D Floating Sneaker View"
-            >
-              <div class="thumb-3d-badge">3D</div>
-              <img src="{{ 'drop-01-poster.jpg' | asset_url }}" alt="3D Sneaker Showcase" width="160" height="160" loading="lazy">
-            </button>
+          <div class="gallery-thumbs-rail" id="ProductGalleryThumbs">
             {%- for media in product.media -%}
               <button 
                 type="button" 
-                class="gallery-thumb-btn" 
-                data-media-url="{{ media | image_url: width: 1200 }}"
-                aria-label="View image {{ forloop.index }}"
+                class="gallery-thumb-btn{% if forloop.first %} active{% endif %}" 
+                data-media-url="{{ media | image_url: width: 1400 }}"
+                aria-label="View product image {{ forloop.index }}"
               >
-                {{ media | image_url: width: 160 | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
+                {{ media | image_url: width: 180, height: 180, crop: 'center' | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
               </button>
             {%- endfor -%}
           </div>

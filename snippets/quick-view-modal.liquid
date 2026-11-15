@@ -1,45 +1,4 @@
 {% comment %}
-  LACEYAAN 3D Studio Showcase Modal
-  Features the cinematic floating 3D sneaker video (drop-01-highlights.mp4 / WhatsApp Video),
-  interactive 360 rotation controls, glow-in-the-dark test, high-res stills, and instant e-commerce ordering.
+  LACEYAAN - Direct product navigation active.
+  Products open directly in full screen on their dedicated product page.
 {% endcomment %}
-
-<div id="quick-view-overlay" class="quick-view-overlay" data-modal-close aria-hidden="true"></div>
-
-<div 
-  id="quick-view-modal" 
-  class="quick-view-modal studio-3d-modal" 
-  role="dialog" 
-  aria-modal="true" 
-  aria-labelledby="quick-view-title" 
-  aria-hidden="true"
-  data-studio-video-url="{{ 'drop-01-highlights.mp4' | asset_url }}"
-  data-studio-video-alt="{{ 'WhatsApp Video 2026-10-04 at 9.36.32 PM.mp4' | asset_url }}"
->
-  <div class="studio-modal-header">
-    <div class="studio-header-left">
-      <span class="studio-brand-tag">LACEYAAN</span>
-      <span class="studio-divider">/</span>
-      <span class="studio-label">3D ATELIER SHOWCASE</span>
-    </div>
-    <div class="studio-header-center">
-      <span class="studio-live-pill">
-        <span class="live-pulse-dot"></span>
-        <span>360° SNEAKER LAB</span>
-      </span>
-    </div>
-    <div class="studio-header-right">
-      <button type="button" class="studio-close-btn" id="close-quick-view" data-modal-close aria-label="{{ 'accessibility.close' | t }}">
-        <span class="close-label">CLOSE</span>
-        <span class="close-icon">&times;</span>
-      </button>
-    </div>
-  </div>
-
-  <div class="quick-view-content" id="quick-view-content">
-    <div class="quick-view-loading">
-      <span class="spinner"></span>
-      <p>Initializing 3D Atelier Render...</p>
-    </div>
-  </div>
-</div>

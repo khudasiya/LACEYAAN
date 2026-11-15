@@ -161,32 +161,29 @@ product_main = """
       </nav>
 
       <div class="product-layout-grid">
-        <!-- Left: Product Studio Showcase & Media Gallery -->
-        <div class="product-gallery studio-product-gallery">
-          <div class="main-gallery-viewport studio-viewport" id="ProductPageStudioViewport">
-            <div class="studio-video-box active" id="ProductPageVideoBox">
-              <video class="studio-sneaker-video" autoplay loop muted playsinline poster="assets/drop-01-poster.jpg">
-                <source src="assets/drop-01-highlights.mp4" type="video/mp4">
-              </video>
-              <div class="studio-floor-shadow"></div>
-            </div>
-            <div class="studio-stills-box" id="ProductPageStillsBox" style="display: none;">
+        <!-- Left: High-Resolution Atelier Product Gallery -->
+        <div class="product-gallery atelier-product-gallery">
+          <div class="main-gallery-viewport" id="ProductPageGalleryViewport">
+            <div class="gallery-main-image-wrap" id="ProductMainImageWrap">
               <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="main-product-img" id="ProductMainImage">
+            </div>
+            <div class="gallery-badges">
+              <span class="badge badge-sale">Save 25%</span>
             </div>
           </div>
 
-          <div class="gallery-thumbs-rail" role="tablist">
-            <button type="button" class="gallery-thumb-btn active" data-thumb-type="video" aria-label="Studio 3D Video">
-              <img src="assets/drop-01-poster.jpg" alt="Video thumb">
-            </button>
-            <button type="button" class="gallery-thumb-btn" data-thumb-type="image" data-full-src="assets/product-rope.jpg" aria-label="Still 1">
+          <div class="gallery-thumbs-rail" id="ProductGalleryThumbs">
+            <button type="button" class="gallery-thumb-btn active" data-media-url="assets/product-rope.jpg" aria-label="Still 1">
               <img src="assets/product-rope.jpg" alt="Rope Still">
             </button>
-            <button type="button" class="gallery-thumb-btn" data-thumb-type="image" data-full-src="assets/lace-white.jpg" aria-label="Still 2">
+            <button type="button" class="gallery-thumb-btn" data-media-url="assets/lace-white.jpg" aria-label="Still 2">
               <img src="assets/lace-white.jpg" alt="White lace">
             </button>
-            <button type="button" class="gallery-thumb-btn" data-thumb-type="image" data-full-src="assets/lace-black.jpg" aria-label="Still 3">
+            <button type="button" class="gallery-thumb-btn" data-media-url="assets/lace-black.jpg" aria-label="Still 3">
               <img src="assets/lace-black.jpg" alt="Black lace">
+            </button>
+            <button type="button" class="gallery-thumb-btn" data-media-url="assets/product-waxed.jpg" aria-label="Still 4">
+              <img src="assets/product-waxed.jpg" alt="Waxed lace">
             </button>
           </div>
         </div>

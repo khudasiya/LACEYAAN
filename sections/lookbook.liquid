@@ -56,15 +56,12 @@
                   {%- endif -%}
                   <h4 class="popover-title"><a href="{{ hot_product.url }}">{{ hot_product.title }}</a></h4>
                   <span class="popover-price">{{ hot_product.price | money }}</span>
-                  <button 
-                    type="button" 
-                    class="btn-primary btn-xs" 
-                    data-quick-view
-                    data-product-handle="{{ hot_product.handle }}"
-                    data-quick-view-trigger="{{ hot_product.handle }}"
+                  <a 
+                    href="{{ hot_product.url }}" 
+                    class="btn-primary btn-xs"
                   >
-                    Quick View
-                  </button>
+                    View Product
+                  </a>
                 </div>
               </div>
             {%- endif -%}
