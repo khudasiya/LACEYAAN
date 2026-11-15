@@ -2209,6 +2209,11 @@
       this.container = document.getElementById('laceyaan-background-lace');
       this.canvas = document.getElementById('background-lace-canvas');
       if (!this.container || !this.canvas) return;
+      try {
+        if (window.getComputedStyle(this.container).display === 'none' || window.getComputedStyle(this.canvas).display === 'none') {
+          return;
+        }
+      } catch (e) {}
 
       this.ctx = this.canvas.getContext('2d', { alpha: true });
       if (!this.ctx) return;
@@ -3231,155 +3236,18 @@
         this.gsap.registerPlugin(window.ScrollTrigger);
       }
 
-      this.initHeroEntrance();
-      this.initScrollReveals();
-      this.initStaggeredGrids();
-      this.initCapsuleMotion();
+      // Safe non-destructive animations: NEVER hide catalog products, titles, or prices with opacity: 0
       this.initStatCounters();
+      this.refresh();
+
+      window.addEventListener('load', () => this.refresh(), { passive: true });
     }
 
     refresh() {
       if (typeof window.ScrollTrigger !== 'undefined') {
-        window.ScrollTrigger.refresh();
-      }
-    }
-
-    initHeroEntrance() {
-      const hero = document.querySelector('.hero-banner-section');
-      if (!hero) return;
-
-      const badge = hero.querySelector('.hero-badge, .badge');
-      const headline = hero.querySelector('.hero-title, .editorial-heading');
-      const manifesto = hero.querySelector('.hero-manifesto, .hero-subtitle');
-      const metrics = hero.querySelectorAll('.spec-metric, .metric-box, .stat-item');
-      const ctas = hero.querySelectorAll('.hero-cta-row a, .hero-cta-row button');
-
-      const tl = this.gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      if (badge) {
-        tl.fromTo(badge, { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, clearProps: 'all' }, 0.1);
-      }
-      if (headline) {
-        tl.fromTo(headline, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, clearProps: 'all' }, 0.2);
-      }
-      if (manifesto) {
-        tl.fromTo(manifesto, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, clearProps: 'all' }, 0.35);
-      }
-      if (metrics.length > 0) {
-        tl.fromTo(metrics, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, clearProps: 'all' }, 0.45);
-      }
-      if (ctas.length > 0) {
-        tl.fromTo(ctas, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, clearProps: 'all' }, 0.55);
-      }
-    }
-
-    initScrollReveals() {
-      if (!window.ScrollTrigger) return;
-
-      const headers = document.querySelectorAll(
-        '.section-header, .collection-header, .portal-header, .lab-intro-box'
-      );
-
-      headers.forEach(header => {
-        const title = header.querySelector('.editorial-heading, h2, h1');
-        const subtitle = header.querySelector('.section-subtitle, p');
-        const badge = header.querySelector('.badge, .design-lab-badge');
-
-        const tl = this.gsap.timeline({
-          scrollTrigger: {
-            trigger: header,
-            start: 'top 88%',
-            once: true
-          },
-          defaults: { ease: 'power2.out' }
-        });
-
-        if (badge) {
-          tl.fromTo(badge, { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.5, clearProps: 'all' });
-        }
-        if (title) {
-          tl.fromTo(title, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, clearProps: 'all' }, '-=0.3');
-        }
-        if (subtitle) {
-          tl.fromTo(subtitle, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, clearProps: 'all' }, '-=0.4');
-        }
-      });
-    }
-
-    initStaggeredGrids() {
-      if (!window.ScrollTrigger) return;
-
-      const grids = document.querySelectorAll(
-        '.featured-collection-section .product-grid-layout, .main-collection-section .product-grid-layout'
-      );
-
-      grids.forEach(grid => {
-        const cards = grid.querySelectorAll('.product-card');
-        if (!cards.length) return;
-
-        this.gsap.fromTo(cards, 
-          { opacity: 0, y: 22 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.07,
-            ease: 'power2.out',
-            clearProps: 'all',
-            scrollTrigger: {
-              trigger: grid,
-              start: 'top 88%',
-              once: true
-            }
-          }
-        );
-      });
-    }
-
-    initCapsuleMotion() {
-      if (!window.ScrollTrigger) return;
-
-      const labSection = document.querySelector('.design-lab-section');
-      if (!labSection) return;
-
-      const mediaCard = labSection.querySelector('.lab-media-card');
-      const individualLaces = labSection.querySelectorAll('.individual-laces-grid .product-card');
-
-      if (mediaCard) {
-        this.gsap.fromTo(mediaCard,
-          { opacity: 0, x: -20 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.85,
-            ease: 'power3.out',
-            clearProps: 'all',
-            scrollTrigger: {
-              trigger: mediaCard,
-              start: 'top 85%',
-              once: true
-            }
-          }
-        );
-      }
-
-      if (individualLaces.length > 0) {
-        this.gsap.fromTo(individualLaces,
-          { opacity: 0, y: 18 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.65,
-            stagger: 0.08,
-            ease: 'power2.out',
-            clearProps: 'all',
-            scrollTrigger: {
-              trigger: '.individual-laces-grid',
-              start: 'top 88%',
-              once: true
-            }
-          }
-        );
+        try {
+          window.ScrollTrigger.refresh();
+        } catch (e) {}
       }
     }
 
@@ -3460,11 +3328,14 @@
       window.Laceyaan.pincodeChecker = new PincodeChecker();
     }
 
-    // Initialize Animated Background Shoelace Engine
-    if (window.Laceyaan.backgroundLace) {
-      window.Laceyaan.backgroundLace.destroy();
+    // Initialize Animated Background Shoelace Engine only if visible
+    const bgContainer = document.getElementById('laceyaan-background-lace');
+    if (bgContainer && window.getComputedStyle(bgContainer).display !== 'none') {
+      if (window.Laceyaan.backgroundLace) {
+        window.Laceyaan.backgroundLace.destroy();
+      }
+      window.Laceyaan.backgroundLace = new BackgroundLace();
     }
-    window.Laceyaan.backgroundLace = new BackgroundLace();
   }
 
   if (document.readyState === 'loading') {
