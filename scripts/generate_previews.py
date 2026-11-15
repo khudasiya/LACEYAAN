@@ -149,7 +149,7 @@ print("Created preview_cart.html")
 # 2. PREVIEW_PRODUCT.HTML (Product Studio & Accordions)
 product_main = """
 <main id="MainContent" class="main-content" role="main">
-  <section class="main-product-section section-padding">
+  <section class="main-product-section">
     <div class="container">
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
         <a href="preview_public_store.html">Home</a>

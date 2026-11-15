@@ -3699,13 +3699,20 @@ img {
 /* ==========================================================================
    Product Detail Page
    ========================================================================== */
+.main-product-section {
+  padding-top: clamp(0.65rem, 1.2vw, 1.15rem) !important;
+  padding-bottom: clamp(2rem, 3.5vw, 3.5rem) !important;
+}
+
 .breadcrumb-nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.78rem;
   color: #8C8880;
-  margin-bottom: 2rem;
+  margin-top: 0;
+  margin-bottom: clamp(0.55rem, 0.9vw, 0.85rem) !important;
+  padding: 0 !important;
 }
 
 .breadcrumb-nav a:hover { color: var(--text-main); }
@@ -7281,6 +7288,16 @@ img {
   padding-bottom: clamp(2.5rem, 4vw, 4rem) !important;
 }
 
+.main-product-section {
+  padding-top: clamp(0.65rem, 1.2vw, 1.15rem) !important;
+  padding-bottom: clamp(2rem, 3.5vw, 3.5rem) !important;
+}
+
+.main-cart-section {
+  padding-top: clamp(1rem, 1.8vw, 1.75rem) !important;
+  padding-bottom: clamp(2.5rem, 4vw, 4rem) !important;
+}
+
 .featured-collection-section .section-header,
 .main-collection-section .collection-header {
   margin-bottom: clamp(0.85rem, 1.6vw, 1.4rem) !important;
@@ -7487,6 +7504,15 @@ img {
   .main-collection-section {
     padding-top: 1rem !important;
     padding-bottom: 2rem !important;
+  }
+
+  .main-product-section {
+    padding-top: 0.5rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  .main-product-section .breadcrumb-nav {
+    margin-bottom: 0.5rem !important;
   }
 
   .aesthetic-pagination {
