@@ -6436,12 +6436,12 @@ img {
     row-gap: 14px !important;
   }
 
-  /* Carousel cards slightly wider on tiny phones */
+  /* Carousel cards fit 2 per screen on phones with smooth horizontal scroll */
   .featured-collection-section .product-grid-layout .product-card-editorial,
   .featured-collection-section .product-grid-layout.grid-cols-4 .product-card-editorial {
-    flex: 0 0 72% !important;
-    min-width: 72% !important;
-    max-width: 72% !important;
+    flex: 0 0 46% !important;
+    min-width: 46% !important;
+    max-width: 46% !important;
   }
 
   .product-card-editorial .card-media {

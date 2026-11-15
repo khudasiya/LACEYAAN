@@ -1,0 +1,86 @@
+{%- comment -%}
+  JSON-LD Structured Data for Google Rich Results & SEO
+  Includes Organization, WebSite (SearchAction), and Product schemas.
+{%- endcomment -%}
+
+{%- assign shop_display_name = shop.name -%}
+{%- if shop_display_name == 'My Store' or shop_display_name == blank -%}
+  {%- assign shop_display_name = 'LACEYAAN' -%}
+{%- endif -%}
+
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop_display_name | json }},
+  "url": {{ shop.url | json }},
+  {%- if settings.favicon != blank -%}
+    "logo": {{ settings.favicon | image_url: width: 500 | prepend: "https:" | json }},
+  {%- endif -%}
+  "sameAs": [
+    {%- if settings.social_instagram_link != blank -%}
+      {{ settings.social_instagram_link | json }}
+    {%- endif -%}
+  ]
+}
+</script>
+
+<!-- WebSite Schema with SearchAction -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ shop_display_name | json }},
+  "url": {{ shop.url | json }},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Product Schema (PDP) -->
+{%- if request.page_type == 'product' and product -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ canonical_url | json }},
+  {%- if product.featured_media -%}
+    "image": [
+      {{ product.featured_media | image_url: width: 1200 | prepend: "https:" | json }}
+    ],
+  {%- endif -%}
+  "description": {{ product.description | strip_html | truncatewords: 80 | json }},
+  {%- if product.selected_or_first_available_variant.sku != blank -%}
+    "sku": {{ product.selected_or_first_available_variant.sku | json }},
+  {%- endif -%}
+  "brand": {
+    "@type": "Brand",
+    "name": {{ product.vendor | default: shop_display_name | json }}
+  },
+  "offers": [
+    {%- for variant in product.variants -%}
+      {
+        "@type": "Offer",
+        "name": {{ variant.title | json }},
+        "price": "{{ variant.price | divided_by: 100.00 }}",
+        "priceCurrency": {{ cart.currency.iso_code | default: "INR" | json }},
+        "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "url": "{{ shop.url }}{{ variant.url }}",
+        "seller": {
+          "@type": "Organization",
+          "name": {{ shop_display_name | json }}
+        }
+      }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}

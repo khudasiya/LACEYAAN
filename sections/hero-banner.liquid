@@ -23,10 +23,12 @@
         {{ section.settings.image | image_url: width: 2400 | image_tag: 
           class: 'hero-img', 
           widths: '750, 1100, 1500, 1780, 2000, 2400',
-          alt: section.settings.heading | escape 
+          alt: section.settings.heading | escape,
+          preload: true,
+          fetchpriority: 'high'
         }}
       {%- else -%}
-        <img src="{{ 'hero.jpg' | asset_url }}" alt="LACEYAAN luxury sneaker shoelaces" class="hero-img" width="1920" height="1080" loading="eager">
+        <img src="{{ 'hero.jpg' | asset_url }}" alt="LACEYAAN luxury sneaker shoelaces" class="hero-img" width="1920" height="1080" loading="eager" fetchpriority="high">
       {%- endif -%}
     </video>
     <div class="hero-overlay"></div>
