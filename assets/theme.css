@@ -3922,13 +3922,7 @@ img {
 }
 
 .product-trust-matrix {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  padding: 1.5rem;
-  background: #F4F3EF;
-  border-radius: var(--radius-xs);
-  margin-bottom: 2rem;
+  display: none !important;
 }
 
 .trust-cell {
@@ -8197,15 +8191,7 @@ img {
 }
 
 .pincode-guarantee-badge {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #16A34A;
-  background: rgba(22, 163, 74, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: 999px;
+  display: none !important;
 }
 
 .pincode-input-wrapper {

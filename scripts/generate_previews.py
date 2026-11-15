@@ -34,7 +34,6 @@ cart_main = """
             <div class="pincode-title-wrap">
               <span class="pincode-title">Estimated Delivery</span>
             </div>
-            <span class="pincode-guarantee-badge">All-India Express</span>
           </div>
           <div class="pincode-form" data-pincode-form>
             <div class="pincode-input-wrapper">
@@ -203,7 +202,6 @@ product_main = """
               <div class="pincode-title-wrap">
                 <span class="pincode-title">Estimated Delivery</span>
               </div>
-              <span class="pincode-guarantee-badge">All-India Express</span>
             </div>
             <div class="pincode-form" data-pincode-form>
               <div class="pincode-input-wrapper">
