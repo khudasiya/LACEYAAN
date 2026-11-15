@@ -40,8 +40,6 @@
         <div class="portal-card" data-portal-action="{{ portal_action }}" {{ block.shopify_attributes }}>
           <a href="{{ card_target_url }}" class="portal-media-link" data-portal-action="{{ portal_action }}" aria-label="{{ block.settings.title | escape }}">
             <div class="portal-media">
-              <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
-              <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
               {%- if block.settings.image != blank -%}
                 {{ block.settings.image | image_url: width: 800 | image_tag: 
                   class: 'portal-img', 
@@ -53,7 +51,7 @@
               {%- endif -%}
               <div class="portal-overlay"></div>
               {%- if block.settings.tag != blank -%}
-                <span class="portal-tag">[ {{ block.settings.tag }} ]</span>
+                <span class="portal-tag">{{ block.settings.tag }}</span>
               {%- endif -%}
             </div>
           </a>
@@ -68,7 +66,7 @@
             {%- if block.settings.button_link != blank or block.settings.button_label != blank -%}
               <a href="{{ card_target_url }}" class="portal-btn-link" data-portal-action="{{ portal_action }}">
                 <span>{{ block.settings.button_label | default: 'Explore Studio' }}</span>
-                <span class="btn-arrow">[ &rarr; ]</span>
+                <span class="btn-arrow">&rarr;</span>
               </a>
             {%- endif -%}
           </div>

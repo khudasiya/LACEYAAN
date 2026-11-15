@@ -58,10 +58,10 @@
         {%- endform -%}
       </div>
 
-      <!-- Center: DONT CLICK HERE Interactive Button -->
+      <!-- Center: VIP Archive Access Action -->
       <div class="footer-center-action">
         <button type="button" class="btn-dont-click" id="DontClickHereBtn" data-dont-click-trigger aria-haspopup="dialog" aria-controls="EasterEggModal">
-          <span>{{ section.settings.dont_click_label | default: 'DONT CLICK HERE' }}</span>
+          <span>{{ section.settings.dont_click_label | default: 'ARCHIVE ACCESS // 10% OFF' }}</span>
         </button>
       </div>
 
@@ -175,17 +175,17 @@
 
       <div class="secret-modal-badge">
         <span class="secret-pulse-dot"></span>
-        <span>RESTRICTED ARCHIVE PROTOCOL</span>
+        <span>ATELIER ARCHIVE PRIVILEGE</span>
       </div>
 
-      <h3 id="SecretModalTitle" class="secret-modal-title">WE TOLD YOU NOT TO CLICK.</h3>
+      <h3 id="SecretModalTitle" class="secret-modal-title">EXCLUSIVE ROTATION PASS</h3>
       <p class="secret-modal-desc">
-        Since you breached perimeter protocol, you just unlocked an exclusive secret voucher for your next shoelace rotation order:
+        Welcome to the atelier tier. Apply this bespoke archive voucher for 10% off your next shoelace upgrade:
       </p>
 
       <div class="secret-code-box">
         <button type="button" class="secret-code-pill" id="SecretCodePill" data-code="{{ section.settings.secret_discount_code | default: 'LACEYAAN10' }}" aria-label="Copy discount code">
-          <span class="secret-code-lbl">SECRET CODE:</span>
+          <span class="secret-code-lbl">ARCHIVE CODE:</span>
           <strong class="secret-code-string">{{ section.settings.secret_discount_code | default: 'LACEYAAN10' }}</strong>
           <span class="secret-copy-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -199,7 +199,7 @@
 
       <div class="secret-modal-actions">
         <a href="{{ routes.all_products_collection_url }}" class="btn-secret-shop">
-          <span>CLAIM DISCOUNT &bull; SHOP THE ROTATION</span>
+          <span>APPLY PRIVILEGE &bull; SHOP THE COLLECTION</span>
         </a>
       </div>
     </div>
@@ -225,8 +225,8 @@
     {
       "type": "text",
       "id": "dont_click_label",
-      "label": "Easter Egg Button Label",
-      "default": "DONT CLICK HERE"
+      "label": "Archive Access Button Label",
+      "default": "ARCHIVE ACCESS // 10% OFF"
     },
     {
       "type": "text",

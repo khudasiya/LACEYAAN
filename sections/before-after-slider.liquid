@@ -50,44 +50,55 @@
           <div class="handle-line"></div>
         </div>
 
-        <!-- Floating Context Labels -->
+        <!-- Minimalist Context Labels -->
         <div class="label-pill label-before" data-label-before>
-          <span class="pill-dot red"></span>
-          <span>Standard Factory Laces</span>
+          <span>FACTORY STOCK</span>
         </div>
         <div class="label-pill label-after" data-label-after>
-          <span class="pill-dot gold"></span>
-          <span>LACEYAAN Atelier Upgrade</span>
+          <span>LACEYAAN ATELIER</span>
         </div>
       </div>
 
-      <!-- Comparison Facts & Product Card Side -->
+      <!-- Material Architecture Column (Clean Editorial Specs) -->
       <div class="comparison-details-col">
         <div class="comparison-card-box">
-          <h3 class="comparison-col-title">The Difference in Every Dimension</h3>
+          <span class="comparison-kicker">MATERIAL SPECIFICATIONS</span>
+          <h3 class="comparison-col-title">The Architecture of Craft</h3>
           <p class="comparison-intro-text">
-            Why over 12,000 sneaker collectors, runners, and lifestyle dressers refuse to leave flimsy factory laces on their footwear:
+            Standard footwear arrives with mass-produced synthetic cords. LACEYAAN replaces them with high-density natural weaves and precision-milled metal hardware.
           </p>
 
-          <div class="comparison-columns-grid">
-            <div class="comparison-column col-factory">
-              <span class="col-title">FACTORY STANDARD</span>
-              <ul class="comparison-points-list">
-                <li><span class="cross">&times;</span> 100% cheap synthetic polyester yarn</li>
-                <li><span class="cross">&times;</span> Flimsy clear plastic aglets that crack &amp; peel</li>
-                <li><span class="cross">&times;</span> Flat, lifeless silhouette with zero drape</li>
-                <li><span class="cross">&times;</span> Unties repeatedly after 20 minutes</li>
-              </ul>
+          <div class="comparison-specs-list">
+            <div class="comparison-spec-item">
+              <span class="spec-idx">01</span>
+              <div class="spec-body">
+                <h4 class="spec-name">YARN &amp; WEAVE DENSITY</h4>
+                <p class="spec-desc">100% Japanese long-staple combed cotton woven on heritage shuttle looms for substantial body, tactile hand-feel, and all-day knot lock.</p>
+              </div>
             </div>
 
-            <div class="comparison-column col-laceyaan">
-              <span class="col-title">LACEYAAN UPGRADE</span>
-              <ul class="comparison-points-list">
-                <li><span class="check">&check;</span> 100% Japanese long-staple combed cotton</li>
-                <li><span class="check">&check;</span> Solid CNC-milled brass with laser engraving</li>
-                <li><span class="check">&check;</span> Triple-weave volume &amp; weighted architectural drape</li>
-                <li><span class="check">&check;</span> Organic natural micro-beeswax knot retention</li>
-              </ul>
+            <div class="comparison-spec-item">
+              <span class="spec-idx">02</span>
+              <div class="spec-body">
+                <h4 class="spec-name">CNC MILLED HARDWARE</h4>
+                <p class="spec-desc">Solid milled naval brass aglets with matte anti-scratch coating and subtle laser-etched atelier branding.</p>
+              </div>
+            </div>
+
+            <div class="comparison-spec-item">
+              <span class="spec-idx">03</span>
+              <div class="spec-body">
+                <h4 class="spec-name">ARCHITECTURAL DRAPE</h4>
+                <p class="spec-desc">Infused with natural organic beeswax to give weighted structure that holds clean geometric lines without fraying or slipping.</p>
+              </div>
+            </div>
+
+            <div class="comparison-spec-item">
+              <span class="spec-idx">04</span>
+              <div class="spec-body">
+                <h4 class="spec-name">UNIVERSAL 3.8MM FIT</h4>
+                <p class="spec-desc">Tested across 100+ footwear models to guarantee smooth glide through standard eyelets on low-tops, trainers, and boots.</p>
+              </div>
             </div>
           </div>
 
@@ -95,7 +106,7 @@
             {%- assign upgrade_product = section.settings.featured_product -%}
             <div class="featured-upgrade-box">
               <div class="upgrade-info">
-                <span class="upgrade-label">Featured in this transformation:</span>
+                <span class="upgrade-label">Featured Silhouette:</span>
                 <h4>{{ upgrade_product.title }}</h4>
                 <span class="upgrade-price">{{ upgrade_product.price | money }}</span>
               </div>
@@ -106,7 +117,7 @@
                 data-variant-id="{{ upgrade_product.selected_or_first_available_variant.id }}"
               >
                 {% render 'icon-shopping-bag' %}
-                <span>Upgrade This Silhouette</span>
+                <span>Add to Bag</span>
               </button>
             </div>
           {%- endif -%}

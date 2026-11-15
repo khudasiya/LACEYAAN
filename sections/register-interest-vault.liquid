@@ -8,37 +8,34 @@
     <!-- Header -->
     <div class="collection-header text-center">
       <div class="interest-collection-badge">
-        <span class="live-pulse-dot" aria-hidden="true"></span>
-        <span>{{ section.settings.badge_text | default: 'COMMUNITY PROTOTYPE VAULT // VOTING OPEN' }}</span>
+        <span>{{ section.settings.badge_text | default: 'PROTOTYPE ATELIER // COMMUNITY VOTING' }}</span>
       </div>
-      <h2 class="editorial-heading">{{ section.settings.heading | default: 'Register Interest' }}</h2>
+      <h2 class="editorial-heading">{{ section.settings.heading | default: 'Upcoming Silhouettes' }}</h2>
       <div class="collection-desc-wrap section-subtitle">
-        <p>{{ section.settings.subtitle | default: 'These bespoke weaves are prototype concepts in active development. They are not available for purchase. Cast your vote below to decide which silhouettes enter our next limited drop.' }}</p>
+        <p>{{ section.settings.subtitle | default: 'These concepts are in laboratory development. Cast your vote to shape which silhouettes enter our next limited capsule release.' }}</p>
       </div>
 
-      <!-- Live Community Stats Bar -->
+      <!-- Understated Voting Bar -->
       <div class="interest-stats-banner" id="interest-stats-banner">
         <div class="interest-stat-item">
           {%- assign vault_collection = collections[section.settings.collection] -%}
           <span class="stat-number" id="stats-total-concepts">{% if vault_collection.products_count > 0 %}{{ vault_collection.products_count }}{% else %}4{% endif %}</span>
-          <span class="stat-title">PROTOTYPES</span>
+          <span class="stat-title">CONCEPTS</span>
         </div>
         <div class="stat-divider"></div>
         <div class="interest-stat-item">
           <span class="stat-number" id="stats-total-votes">0</span>
-          <span class="stat-title">COMMUNITY VOTES</span>
+          <span class="stat-title">VOTES CAST</span>
         </div>
         <div class="stat-divider"></div>
         <div class="interest-stat-item">
           <span class="stat-number" id="stats-top-trending">--</span>
-          <span class="stat-title">TOP TRENDING</span>
+          <span class="stat-title">TOP SELECTION</span>
         </div>
-        <div class="stat-divider"></div>
-        <div class="interest-stat-item">
-          <button type="button" class="btn-admin-stats-open" id="open-interest-admin-btn" title="Open Store Owner Analytics">
-            <span>📊 ADMIN STATS</span>
-          </button>
-        </div>
+        <!-- Secret Store Owner Trigger (Preserved for admin functionality, hidden from public view) -->
+        <button type="button" class="btn-admin-stats-open" id="open-interest-admin-btn" style="display: none;" aria-hidden="true">
+          <span>ADMIN STATS</span>
+        </button>
       </div>
     </div>
 

@@ -121,6 +121,8 @@ async function runAllTests() {
 
       await sendSession('Page.enable');
       await sendSession('DOM.enable');
+      await sendSession('Page.navigate', { url: `http://127.0.0.1:${PORT}${page.url}` });
+      await new Promise(r => setTimeout(r, 1200));
 
       for (const vp of VIEWPORTS) {
         await sendSession('Emulation.setDeviceMetricsOverride', {
@@ -130,12 +132,12 @@ async function runAllTests() {
           mobile: vp.width <= 768
         });
 
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r => setTimeout(r, 300));
 
         const evalRes = await sendSession('Runtime.evaluate', {
           expression: `(() => {
             const docEl = document.documentElement;
-            const body = document.body;
+            const body = document.body || docEl;
             const clientWidth = docEl.clientWidth;
             const scrollWidth = Math.max(docEl.scrollWidth, body.scrollWidth);
             const overflow = Math.max(0, scrollWidth - clientWidth);
@@ -163,6 +165,11 @@ async function runAllTests() {
           })()`,
           returnByValue: true
         });
+
+        if (!evalRes || !evalRes.result || !evalRes.result.value) {
+          console.error('Eval error or empty result:', evalRes);
+          continue;
+        }
 
         const res = evalRes.result.value;
         fullMatrix[page.name][vp.width] = res;

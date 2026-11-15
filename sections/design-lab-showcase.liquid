@@ -18,9 +18,6 @@
     <div class="lab-showcase-grid">
       <!-- Sticky Media Presentation Card -->
       <div class="lab-media-card">
-        <span class="card-corner-crosshair crosshair-tl" aria-hidden="true">+</span>
-        <span class="card-corner-crosshair crosshair-tr" aria-hidden="true">+</span>
-        
         <div class="lab-image-container">
           {%- if section.settings.box_image != blank -%}
             {{ section.settings.box_image | image_url: width: 1000 | image_tag: 
@@ -33,8 +30,8 @@
           {%- endif -%}
 
           <div class="lab-overlay-tag">
-            <span class="vault-tag">[ LACEYAAN DESIGN LAB // S'25 ARCHIVE ]</span>
-            <span class="vault-edition">[ LIMITED: 500 NUMBERED SETS ]</span>
+            <span class="vault-tag">DESIGN LAB // S'25 CAPSULE</span>
+            <span class="vault-edition">LIMITED ARCHIVE EDITION</span>
           </div>
         </div>
 
@@ -65,20 +62,13 @@
           </div>
         {%- endif -%}
 
-        <!-- Capsule Craft Perks -->
-        <div class="vault-perks-list">
-          <div class="vault-perk-item">
-            {% render 'icon-check' %}
-            <span>4 High-Density Shuttle Looms: Leopard, Baroque, Damier &amp; Plum</span>
-          </div>
-          <div class="vault-perk-item">
-            {% render 'icon-check' %}
-            <span>Individually coated aglets: Ceramic White, Matte Black, Olive &amp; Plum</span>
-          </div>
-          <div class="vault-perk-item">
-            {% render 'icon-check' %}
-            <span>Embossed matte black archival collector magnetic box</span>
-          </div>
+        <!-- Capsule Craft Notes -->
+        <div class="lab-specs-bar">
+          <span>HIGH-TENSION SHUTTLE LOOM</span>
+          <span class="spec-sep">&bull;</span>
+          <span>CERAMIC-COATED AGLETS</span>
+          <span class="spec-sep">&bull;</span>
+          <span>ARCHIVAL MAGNETIC BOX</span>
         </div>
       </div>
 
@@ -168,16 +158,6 @@
                       <img src="{{ default_img | asset_url }}" alt="{{ b_title | escape }}" class="primary-img" width="400" height="500" loading="lazy">
                     {%- endif -%}
                   </a>
-                  <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
-                    <svg class="icon-bookmark-ribbon" width="13" height="17" viewBox="0 0 14 18" fill="currentColor">
-                      <path d="M1 1H13V17L7 12.5L1 17V1Z"></path>
-                    </svg>
-                  </button>
-                  <div class="card-carousel-dots" aria-hidden="true">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                  </div>
                 </div>
                 <div class="card-content">
                   <div class="card-info-row">
@@ -241,16 +221,6 @@
                   <a href="{{ card_url }}" class="media-link" {% if fallback_prod.handle %}data-product-handle="{{ fallback_prod.handle }}"{% endif %} aria-label="{{ item_parts[1] }}">
                     <img src="{{ item_parts[0] | asset_url }}" alt="{{ item_parts[1] }}" class="primary-img" width="400" height="500" loading="lazy">
                   </a>
-                  <button type="button" class="card-bookmark-btn" aria-label="Save to Wishlist" onclick="this.classList.toggle('is-saved')">
-                    <svg class="icon-bookmark-ribbon" width="13" height="17" viewBox="0 0 14 18" fill="currentColor">
-                      <path d="M1 1H13V17L7 12.5L1 17V1Z"></path>
-                    </svg>
-                  </button>
-                  <div class="card-carousel-dots" aria-hidden="true">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                  </div>
                 </div>
                 <div class="card-content">
                   <div class="card-info-row">

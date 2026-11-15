@@ -12,20 +12,20 @@
     "hero": {
       "type": "hero-banner",
       "settings": {
-        "badge": "THE NEW STANDARD IN FOOTWEAR CRAFT",
-        "heading": "Elevate Every Step. <em>Precision Laces</em> for Every Style.",
-        "subtitle": "Factory laces were made to save margins. laceyaan laces are engineered to honor design. Hand-finished in solid brass and Japanese combed cotton to elevate your sneakers, sport shoes, formal wear, and boots.",
+        "badge": "DROP 01 // SNEAKER ATELIER",
+        "heading": "Engineered Hardware. <em>Signature Weaves.</em>",
+        "subtitle": "Solid CNC-milled brass hardware and high-gauge combed cotton. Handcrafted to elevate sneaker rotations and bespoke footwear silhouettes.",
         "button_1_label": "Shop All Laces",
         "button_1_link": "/collections/all",
         "button_2_label": "Find Your Length",
         "button_2_link": "/pages/length-guide",
         "show_metrics": true,
         "metric_1_val": "3.8mm",
-        "metric_1_lbl": "Universal Eyelet Fit",
-        "metric_2_val": "20,000",
-        "metric_2_lbl": "Tension Cycle Durability",
-        "metric_3_val": "100%",
-        "metric_3_lbl": "Solid Milled Metal Aglets",
+        "metric_1_lbl": "Universal Fit",
+        "metric_2_val": "100%",
+        "metric_2_lbl": "Combed Cotton",
+        "metric_3_val": "Solid",
+        "metric_3_lbl": "Milled Brass",
         "show_drop_highlights": true,
         "drop_highlights_video_url": "",
         "drop_highlights_badge": "DROP 01 // HIGHLIGHTS",
@@ -39,18 +39,18 @@
     "before_after": {
       "type": "before-after-slider",
       "settings": {
-        "badge": "THE VISUAL PROOF",
-        "heading": "Factory Laces vs. laceyaan Craft",
-        "subtitle": "Drag the slider horizontally to reveal how a single lace swap completely transforms standard footwear into an editorial runway custom.",
+        "badge": "TRANSFORMATION STUDIO",
+        "heading": "Stock Standard vs. LACEYAAN Craft",
+        "subtitle": "Drag horizontally to see how an architectural lace swap elevates standard footwear into bespoke luxury.",
         "featured_product": ""
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "badge": "CURATED ATELIER FAVORITES",
-        "heading": "Best Sellers & Signature Weaves",
-        "subtitle": "From our flagship Japanese waxed cotton flats to 10mm chunky rope and nocturnal 3M reflective weaves. Handcrafted with solid brass aglets.",
+        "badge": "ATELIER FAVORITES",
+        "heading": "Signature Weaves & Best Sellers",
+        "subtitle": "From heavyweight 10mm chunky braided rope to heritage Japanese waxed flats and 3M nocturnal reflective cords.",
         "product_list": [],
         "collection": "",
         "products_to_show": 8,
@@ -95,10 +95,10 @@
         "silhouette_4": {
           "type": "lace_card",
           "settings": {
-            "product": "premium-white-laces",
+            "product": "",
             "custom_title": "Imperial Plum Damier",
             "custom_vendor": "Jacquard Shuttle Loom",
-            "custom_price": "₹129",
+            "custom_price": "₹249",
             "buy_now_label": "BUY NOW"
           }
         }
@@ -110,7 +110,7 @@
         "silhouette_4"
       ],
       "settings": {
-        "badge": "ALCE DESIGN LAB // S'25 CAPSULE",
+        "badge": "LACEYAAN DESIGN LAB // S'25 CAPSULE",
         "heading": "Artisanal Jacquard & Tapestry Series",
         "subtitle": "Beyond standard solids. Four high-density Jacquard loom tapestries featuring custom-coated enamel aglets, presented in our signature textured collector's box.",
         "box_product": "",
@@ -122,9 +122,9 @@
     "register_interest": {
       "type": "register-interest-vault",
       "settings": {
-        "badge_text": "COMMUNITY PROTOTYPE VAULT // VOTING OPEN",
-        "heading": "Register Interest",
-        "subtitle": "These bespoke weaves are prototype concepts in active development. They are not available for purchase. Cast your vote below to decide which silhouettes enter our next limited drop.",
+        "badge_text": "PROTOTYPE ARCHIVE // COMMUNITY VOTING",
+        "heading": "Upcoming Silhouettes",
+        "subtitle": "Concepts in laboratory development. Cast your vote to shape which silhouettes enter our next limited capsule drop.",
         "collection": "register-interest",
         "products_to_show": 8,
         "columns_desktop": "4"
@@ -136,9 +136,9 @@
         "portal_1": {
           "type": "portal",
           "settings": {
-            "tag": "INTERACTIVE TOOL",
+            "tag": "INTERACTIVE SIZING",
             "title": "Shoelace Length Calculator",
-            "description": "Never guess your length. Select your footwear silhouette and eyelet count for a guaranteed precision fit.",
+            "description": "Never guess your lace length. Select your footwear silhouette and eyelet count for a precision guaranteed fit.",
             "button_label": "Launch Calculator",
             "button_link": "/pages/length-guide"
           }
@@ -146,9 +146,9 @@
         "portal_2": {
           "type": "portal",
           "settings": {
-            "tag": "EDITORIAL GALLERY",
+            "tag": "RUNWAY ARCHIVE",
             "title": "Editorial Lookbook",
-            "description": "Discover how leading stylists, sneakerheads, and collectors pair bespoke weaves with high-heat rotations.",
+            "description": "Discover how stylists and collectors pair bespoke weaves with high-heat footwear rotations.",
             "button_label": "View Lookbook",
             "button_link": "/pages/lookbook"
           }
@@ -156,19 +156,19 @@
         "portal_3": {
           "type": "portal",
           "settings": {
-            "tag": "BEFORE & AFTER",
-            "title": "The Transformation Studio",
-            "description": "Interactive split comparison demonstrating why 10mm rope and waxed flat cotton outperform stock factory laces.",
-            "button_label": "Test Split Slider",
+            "tag": "TRANSFORMATION",
+            "title": "The Split Studio",
+            "description": "Interactive split comparison demonstrating why 10mm rope and waxed flat cotton outperform stock factory cords.",
+            "button_label": "Compare Silhouettes",
             "button_link": "/pages/before-after"
           }
         },
         "portal_4": {
           "type": "portal",
           "settings": {
-            "tag": "OUR PHILOSOPHY",
+            "tag": "MATERIAL CRAFT",
             "title": "The LACEYAAN Standard",
-            "description": "Slow Japanese shuttle looms, solid CNC naval brass hardware, and organic micro-beeswax infusion.",
+            "description": "Japanese shuttle looms, solid CNC naval brass hardware, and organic micro-beeswax infusion.",
             "button_label": "Read Brand Story",
             "button_link": "/pages/story"
           }
@@ -181,9 +181,9 @@
         "portal_4"
       ],
       "settings": {
-        "badge": "DISCOVER THE ATELIER",
-        "heading": "Studio Tools & Editorial Experiences",
-        "subtitle": "Everything engineered to ensure an immaculate, precision lace swap for your entire footwear rotation."
+        "badge": "STUDIO ARCHIVE",
+        "heading": "Studio Tools & Editorial Features",
+        "subtitle": "Interactive tools and editorial stories designed to elevate your footwear rotation."
       }
     },
     "faq": {

@@ -4,27 +4,13 @@
 
 <section class="reviews-section section-padding" {{ section.shopify_attributes }}>
   <div class="container">
-    <!-- Press Coverage Ticker -->
-    <div class="press-coverage-wrap">
-      <span class="press-label">AS FEATURED IN</span>
-      <div class="press-logos-row">
-        <span class="press-name">HYPEBEAST</span>
-        <span class="press-divider">&bull;</span>
-        <span class="press-name">HIGHSNOBIETY</span>
-        <span class="press-divider">&bull;</span>
-        <span class="press-name">COMPLEX SNEAKERS</span>
-        <span class="press-divider">&bull;</span>
-        <span class="press-name">KICKSONFIRE</span>
-      </div>
-    </div>
-
     <!-- Section Header -->
     <div class="section-header text-center">
       {%- if section.settings.badge != blank -%}
         <span class="badge badge-gold">{{ section.settings.badge }}</span>
       {%- endif -%}
-      <h2 class="editorial-heading">{{ section.settings.heading }}</h2>
-      <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      <h2 class="editorial-heading">{{ section.settings.heading | default: 'Collector Feedback' }}</h2>
+      <p class="section-subtitle">{{ section.settings.subtitle | default: 'Verified feedback from footwear collectors and sneaker enthusiasts across India.' }}</p>
     </div>
 
     <!-- Reviews Grid -->
