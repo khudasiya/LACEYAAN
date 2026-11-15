@@ -1,0 +1,62 @@
+{% comment %}
+  LACEYAAN Atelier Delivery Pincode Checker
+  Allows customers to verify express delivery date ("Before 20 December")
+  Accepts context: 'drawer', 'cart-page', 'product'
+{% endcomment %}
+
+<div class="pincode-checker-widget pincode-context-{{ context | default: 'general' }}" data-pincode-widget>
+  <div class="pincode-header">
+    <div class="pincode-title-wrap">
+      <svg class="pincode-pin-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+      <span class="pincode-title">Estimated Delivery</span>
+    </div>
+    <span class="pincode-guarantee-badge">All-India Express</span>
+  </div>
+
+  <!-- Input Form -->
+  <div class="pincode-form" data-pincode-form>
+    <div class="pincode-input-wrapper">
+      <input 
+        type="text" 
+        class="pincode-input" 
+        data-pincode-input
+        placeholder="Enter 6-digit Pincode" 
+        maxlength="6" 
+        inputmode="numeric" 
+        pattern="[0-9]*"
+        autocomplete="postal-code"
+        aria-label="Enter your 6-digit delivery pincode"
+      >
+      <button type="button" class="btn-pincode-check" data-pincode-submit>
+        <span>CHECK</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Success / Result Box (Always delivers before 20 December as required) -->
+  <div class="pincode-result" data-pincode-result style="display: none;">
+    <div class="pincode-success-row">
+      <span class="pincode-check-icon" aria-hidden="true">✓</span>
+      <div class="pincode-message-content">
+        <p class="pincode-delivery-date">
+          Delivering to <strong data-pincode-display>------</strong>: 
+          <span class="date-highlight">Before 20 December</span>
+        </p>
+        <p class="pincode-delivery-sub">
+          Complimentary Express Dispatch &bull; COD &amp; Prepaid Available
+        </p>
+      </div>
+      <button type="button" class="btn-pincode-change" data-pincode-change title="Change Pincode">
+        Change
+      </button>
+    </div>
+  </div>
+
+  <!-- Error notice for invalid input -->
+  <div class="pincode-error" data-pincode-error style="display: none;">
+    Please enter a valid 6-digit Indian pincode
+  </div>
+</div>

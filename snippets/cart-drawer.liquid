@@ -62,7 +62,7 @@
 
     <div class="cart-items-list" id="cart-drawer-items"{% if cart.item_count == 0 %} style="display: none;"{% endif %}>
       {%- for item in cart.items -%}
-        <div class="cart-item-card" data-line="{{ forloop.index }}">
+        <div class="cart-item-card" data-line="{{ forloop.index }}" data-item-key="{{ item.key }}">
           <div class="cart-item-image-wrapper">
             {%- if item.image -%}
               <img src="{{ item.image | image_url: width: 180 }}" alt="{{ item.title | escape }}" class="cart-item-img" width="80" height="80" loading="lazy">
@@ -73,7 +73,7 @@
               <h4 class="cart-item-title">
                 <a href="{{ item.url }}">{{ item.product.title }}</a>
               </h4>
-              <button type="button" class="cart-item-remove" data-cart-item-action="remove" data-item-line="{{ forloop.index }}" aria-label="Remove {{ item.title | escape }}">
+              <button type="button" class="cart-item-remove" data-cart-item-action="remove" data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" aria-label="Remove {{ item.title | escape }}">
                 {% render 'icon-close' %}
               </button>
             </div>
@@ -88,9 +88,9 @@
 
             <div class="cart-item-footer">
               <div class="cart-qty-control">
-                <button type="button" class="qty-btn" data-cart-item-action="minus" data-item-line="{{ forloop.index }}" data-item-qty="{{ item.quantity }}" aria-label="Decrease quantity">-</button>
-                <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" data-cart-quantity-input data-item-line="{{ forloop.index }}">
-                <button type="button" class="qty-btn" data-cart-item-action="plus" data-item-line="{{ forloop.index }}" data-item-qty="{{ item.quantity }}" aria-label="Increase quantity">+</button>
+                <button type="button" class="qty-btn" data-cart-item-action="minus" data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" data-item-qty="{{ item.quantity }}" aria-label="Decrease quantity">-</button>
+                <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" data-cart-quantity-input data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}">
+                <button type="button" class="qty-btn" data-cart-item-action="plus" data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" data-item-qty="{{ item.quantity }}" aria-label="Increase quantity">+</button>
               </div>
               <div class="cart-item-price">
                 {{ item.final_line_price | money }}
@@ -104,6 +104,8 @@
 
   <!-- Drawer Footer (Subtotal & Checkout) -->
   <div class="drawer-footer" id="cart-drawer-filled"{% if cart.item_count == 0 %} style="display: none;"{% endif %}>
+    <!-- Delivery Pincode Checker -->
+    {% render 'pincode-checker', context: 'drawer' %}
     {%- if settings.enable_cart_notes -%}
       <div class="cart-note-container">
         <label for="cart-note-input">{{ 'sections.cart.note' | t }}</label>

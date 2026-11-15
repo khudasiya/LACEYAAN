@@ -457,19 +457,20 @@
           const currentQty = parseInt(target.dataset.itemQty, 10);
 
           if (action === 'remove') {
-            this.changeQuantity(line, 0);
+            this.changeQuantity(key || line, 0);
           } else if (action === 'plus') {
-            this.changeQuantity(line, currentQty + 1);
+            this.changeQuantity(key || line, currentQty + 1);
           } else if (action === 'minus') {
-            this.changeQuantity(line, Math.max(0, currentQty - 1));
+            this.changeQuantity(key || line, Math.max(0, currentQty - 1));
           }
         });
 
         this.itemsContainer.addEventListener('change', (e) => {
           if (e.target.matches('[data-cart-quantity-input]')) {
+            const key = e.target.dataset.itemKey;
             const line = parseInt(e.target.dataset.itemLine, 10);
             const qty = parseInt(e.target.value, 10);
-            if (!isNaN(qty)) this.changeQuantity(line, qty);
+            if (!isNaN(qty)) this.changeQuantity(key || line, qty);
           }
         });
       }
@@ -548,16 +549,27 @@
       }
     }
 
-    async changeQuantity(line, quantity) {
+    async changeQuantity(identifier, quantity) {
       try {
+        const payload = (typeof identifier === 'string' && identifier.length > 5)
+          ? { id: identifier, quantity: parseInt(quantity, 10) }
+          : { line: parseInt(identifier, 10), quantity: parseInt(quantity, 10) };
+
         const res = await fetch('/cart/change.js', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ line, quantity })
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
         });
+
+        if (!res.ok) throw new Error('Could not update cart quantity');
         const cart = await res.json();
         this.render(cart);
+
+        if (window.Laceyaan.cartPage) {
+          window.Laceyaan.cartPage.render(cart);
+        }
       } catch (err) {
+        console.error('Cart quantity update error:', err);
         Utils.showToast('Could not update quantity', 'error');
       }
     }
@@ -641,16 +653,16 @@
               <div class="cart-item-content">
                 <div class="cart-item-header">
                   <h4 class="cart-item-title"><a href="${item.url || '/cart'}">${productTitle}</a></h4>
-                  <button type="button" class="cart-item-remove" data-cart-item-action="remove" data-item-line="${line}" aria-label="Remove item">
+                  <button type="button" class="cart-item-remove" data-cart-item-action="remove" data-item-key="${item.key}" data-item-line="${line}" aria-label="Remove item">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
                   </button>
                 </div>
                 ${optionsHtml}
                 <div class="cart-item-footer">
                   <div class="cart-qty-control">
-                    <button type="button" class="qty-btn" data-cart-item-action="minus" data-item-line="${line}" data-item-qty="${item.quantity}">-</button>
-                    <input type="number" class="qty-input" value="${item.quantity}" min="1" data-cart-quantity-input data-item-line="${line}">
-                    <button type="button" class="qty-btn" data-cart-item-action="plus" data-item-line="${line}" data-item-qty="${item.quantity}">+</button>
+                    <button type="button" class="qty-btn" data-cart-item-action="minus" data-item-key="${item.key}" data-item-line="${line}" data-item-qty="${item.quantity}">-</button>
+                    <input type="number" class="qty-input" value="${item.quantity}" min="1" data-cart-quantity-input data-item-key="${item.key}" data-item-line="${line}">
+                    <button type="button" class="qty-btn" data-cart-item-action="plus" data-item-key="${item.key}" data-item-line="${line}" data-item-qty="${item.quantity}">+</button>
                   </div>
                   <div class="cart-item-price">${linePrice}</div>
                 </div>
@@ -3261,12 +3273,303 @@
   };
 
   /* ==========================================================================
+     Cart Page Controller (AJAX Quantities, Line Removals & Live Summary)
+     ========================================================================== */
+  class CartPage {
+    constructor() {
+      this.cartSection = document.querySelector('.main-cart-section');
+      if (!this.cartSection) return;
+
+      this.tbody = document.getElementById('cart-page-tbody');
+      this.baseSubtotalEl = document.getElementById('cart-page-base-subtotal');
+      this.finalTotalEl = document.getElementById('cart-page-final-total');
+      this.form = document.getElementById('cart-page-form');
+
+      this.initEvents();
+    }
+
+    initEvents() {
+      if (!this.cartSection) return;
+
+      this.cartSection.addEventListener('click', async (e) => {
+        // Remove item
+        const removeBtn = e.target.closest('[data-cart-page-remove]');
+        if (removeBtn) {
+          e.preventDefault();
+          const key = removeBtn.dataset.itemKey;
+          const line = removeBtn.dataset.itemLine;
+          await this.updateItem(key || line, 0, removeBtn.closest('.cart-page-row'));
+          return;
+        }
+
+        // Qty +/-
+        const qtyBtn = e.target.closest('[data-cart-page-qty]');
+        if (qtyBtn) {
+          e.preventDefault();
+          const action = qtyBtn.dataset.cartPageQty;
+          const key = qtyBtn.dataset.itemKey;
+          const line = qtyBtn.dataset.itemLine;
+          const row = qtyBtn.closest('.cart-page-row');
+          const input = row ? row.querySelector('[data-cart-page-qty-input]') : null;
+          let currentQty = input ? parseInt(input.value, 10) : parseInt(qtyBtn.dataset.itemQty, 10);
+          if (isNaN(currentQty)) currentQty = 1;
+
+          const newQty = action === 'plus' ? currentQty + 1 : Math.max(0, currentQty - 1);
+          await this.updateItem(key || line, newQty, row);
+        }
+      });
+
+      // Direct numeric input change
+      this.cartSection.addEventListener('change', async (e) => {
+        const input = e.target.closest('[data-cart-page-qty-input]');
+        if (input) {
+          const key = input.dataset.itemKey;
+          const line = input.dataset.itemLine;
+          const row = input.closest('.cart-page-row');
+          const newQty = Math.max(0, parseInt(input.value, 10) || 0);
+          await this.updateItem(key || line, newQty, row);
+        }
+      });
+    }
+
+    async updateItem(identifier, quantity, rowEl) {
+      if (rowEl) {
+        rowEl.style.opacity = '0.35';
+        rowEl.style.pointerEvents = 'none';
+        rowEl.style.transition = 'opacity 0.25s ease';
+      }
+
+      try {
+        const payload = (typeof identifier === 'string' && identifier.length > 5)
+          ? { id: identifier, quantity: parseInt(quantity, 10) }
+          : { line: parseInt(identifier, 10), quantity: parseInt(quantity, 10) };
+
+        const res = await fetch('/cart/change.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error('Could not update cart item');
+        const cart = await res.json();
+
+        // If drawer is open or available, refresh it too
+        if (window.Laceyaan.cartDrawer) {
+          window.Laceyaan.cartDrawer.render(cart);
+        }
+
+        // Render updated cart page
+        this.render(cart);
+        Utils.showToast(quantity === 0 ? 'Item removed from bag' : 'Quantity updated', 'info');
+      } catch (err) {
+        console.error('Cart update error:', err);
+        Utils.showToast('Could not update cart. Please try again.', 'error');
+        if (rowEl) {
+          rowEl.style.opacity = '1';
+          rowEl.style.pointerEvents = '';
+        }
+      }
+    }
+
+    render(cart) {
+      if (cart.item_count === 0) {
+        // If cart is now empty, reload to display empty state
+        window.location.reload();
+        return;
+      }
+
+      // Update Subtotal and Total
+      if (this.baseSubtotalEl) {
+        this.baseSubtotalEl.dataset.basePrice = cart.total_price;
+        this.baseSubtotalEl.textContent = Utils.formatMoney(cart.total_price);
+      }
+
+      // Sync Delivery Manager if present
+      if (window.Laceyaan.deliveryManager) {
+        window.Laceyaan.deliveryManager.updatePricesForCart(cart.total_price);
+      } else if (this.finalTotalEl) {
+        this.finalTotalEl.textContent = Utils.formatMoney(cart.total_price);
+      }
+
+      // Update rows
+      if (this.tbody) {
+        const currentRows = this.tbody.querySelectorAll('.cart-page-row');
+        currentRows.forEach(row => {
+          const key = row.dataset.key;
+          const matchingItem = cart.items.find(it => it.key === key);
+          if (!matchingItem) {
+            row.style.height = `${row.offsetHeight}px`;
+            row.style.overflow = 'hidden';
+            row.style.transition = 'all 0.35s ease';
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(20px)';
+            setTimeout(() => row.remove(), 350);
+          } else {
+            row.style.opacity = '1';
+            row.style.pointerEvents = '';
+            const qtyInput = row.querySelector('[data-cart-page-qty-input]');
+            if (qtyInput) qtyInput.value = matchingItem.quantity;
+            const totalEl = row.querySelector('.item-line-total');
+            if (totalEl) totalEl.textContent = Utils.formatMoney(matchingItem.final_line_price);
+          }
+        });
+      }
+
+      // Update free shipping bar on cart page if present
+      const shippingBar = this.cartSection.querySelector('.shipping-progress-fill');
+      const shippingText = this.cartSection.querySelector('.shipping-progress-text');
+      const progressContainer = this.cartSection.querySelector('.shipping-progress-container');
+      if (shippingBar && shippingText && progressContainer) {
+        const threshold = parseFloat(progressContainer.dataset.threshold || 149900);
+        const remaining = threshold - cart.total_price;
+        const progress = Math.min(100, (cart.total_price / threshold) * 100);
+        shippingBar.style.width = `${progress}%`;
+        if (remaining <= 0) {
+          shippingText.innerHTML = '<div class="shipping-unlocked"><span>⚡</span> <span>Complimentary Express Shipping Unlocked!</span></div>';
+        } else {
+          shippingText.innerHTML = `Add <strong>${Utils.formatMoney(remaining)}</strong> more for Complimentary Express Shipping`;
+        }
+      }
+
+      // Update header count bubbles
+      document.querySelectorAll('.bag-count-bubble, [data-cart-count]').forEach(bubble => {
+        bubble.textContent = cart.item_count;
+        bubble.style.display = cart.item_count > 0 ? 'inline-flex' : 'none';
+      });
+    }
+  }
+
+  /* ==========================================================================
+     Pincode Delivery Estimator ("Before 20 December")
+     ========================================================================== */
+  class PincodeChecker {
+    constructor() {
+      this.STORAGE_KEY = 'laceyaan_delivery_pincode';
+      this.TARGET_DATE_TEXT = 'Before 20 December';
+      this.init();
+    }
+
+    init() {
+      const savedCode = localStorage.getItem(this.STORAGE_KEY);
+      const widgets = document.querySelectorAll('[data-pincode-widget]');
+      if (!widgets.length) return;
+
+      widgets.forEach(widget => {
+        this.bindWidget(widget, savedCode);
+      });
+    }
+
+    bindWidget(widget, savedCode) {
+      const form = widget.querySelector('[data-pincode-form]');
+      const input = widget.querySelector('[data-pincode-input]');
+      const submitBtn = widget.querySelector('[data-pincode-submit]');
+      const resultBox = widget.querySelector('[data-pincode-result]');
+      const displayEl = widget.querySelector('[data-pincode-display]');
+      const changeBtn = widget.querySelector('[data-pincode-change]');
+      const errorBox = widget.querySelector('[data-pincode-error]');
+
+      if (savedCode && this.isValidPincode(savedCode)) {
+        this.showSuccess(widget, savedCode);
+      }
+
+      const handleSubmit = () => {
+        if (!input) return;
+        const code = input.value.trim();
+        if (this.isValidPincode(code)) {
+          this.saveAndBroadcast(code);
+          if (errorBox) errorBox.style.display = 'none';
+        } else {
+          if (errorBox) errorBox.style.display = 'block';
+          if (resultBox) resultBox.style.display = 'none';
+        }
+      };
+
+      if (submitBtn) {
+        submitBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          handleSubmit();
+        });
+      }
+
+      if (input) {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSubmit();
+          }
+        });
+        // Auto-check when exactly 6 digits are typed
+        input.addEventListener('input', (e) => {
+          const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+          e.target.value = val;
+          if (val.length === 6) {
+            handleSubmit();
+          }
+        });
+      }
+
+      if (changeBtn) {
+        changeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (form) form.style.display = 'block';
+          if (resultBox) resultBox.style.display = 'none';
+          if (input) {
+            input.value = '';
+            input.focus();
+          }
+        });
+      }
+    }
+
+    isValidPincode(val) {
+      return typeof val === 'string' && /^[1-9][0-9]{5}$/.test(val.trim());
+    }
+
+    saveAndBroadcast(code) {
+      localStorage.setItem(this.STORAGE_KEY, code);
+
+      // Update all widgets on the page
+      document.querySelectorAll('[data-pincode-widget]').forEach(w => {
+        this.showSuccess(w, code);
+      });
+
+      // Update cart attributes in Shopify so it persists in the order
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          attributes: {
+            'Delivery Pincode': code,
+            'Guaranteed Delivery': this.TARGET_DATE_TEXT
+          }
+        })
+      }).catch(err => console.debug('Cart attribute update:', err));
+
+      Utils.showToast(`Delivery to ${code}: Guaranteed ${this.TARGET_DATE_TEXT}`, 'success');
+    }
+
+    showSuccess(widget, code) {
+      const form = widget.querySelector('[data-pincode-form]');
+      const resultBox = widget.querySelector('[data-pincode-result]');
+      const displayEl = widget.querySelector('[data-pincode-display]');
+      const errorBox = widget.querySelector('[data-pincode-error]');
+
+      if (form) form.style.display = 'none';
+      if (errorBox) errorBox.style.display = 'none';
+      if (resultBox) resultBox.style.display = 'block';
+      if (displayEl) displayEl.textContent = code;
+    }
+  }
+
+  /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
   function initAll() {
     new AnnouncementBar();
     new Header();
     window.Laceyaan.cartDrawer = new CartDrawer();
+    window.Laceyaan.cartPage = new CartPage();
+    window.Laceyaan.pincodeChecker = new PincodeChecker();
     window.Laceyaan.deliveryManager = new DeliveryManager();
     new PredictiveSearch();
     new BeforeAfterSlider();
@@ -3281,6 +3584,12 @@
     window.Laceyaan.interestVoting = new InterestVotingEngine();
     window.Laceyaan.productStudio = new ProductStudioController();
     new MobileStickyBuyBar();
+    window.Laceyaan.cartPage = new CartPage();
+    if (window.Laceyaan.pincodeChecker) {
+      window.Laceyaan.pincodeChecker.init();
+    } else {
+      window.Laceyaan.pincodeChecker = new PincodeChecker();
+    }
 
     // Initialize Animated Background Shoelace Engine
     if (window.Laceyaan.backgroundLace) {
@@ -3308,6 +3617,12 @@
     window.Laceyaan.interestVoting = new InterestVotingEngine();
     window.Laceyaan.productStudio = new ProductStudioController();
     new MobileStickyBuyBar();
+    window.Laceyaan.cartPage = new CartPage();
+    if (window.Laceyaan.pincodeChecker) {
+      window.Laceyaan.pincodeChecker.init();
+    } else {
+      window.Laceyaan.pincodeChecker = new PincodeChecker();
+    }
     if (window.Laceyaan.deliveryManager) {
       window.Laceyaan.deliveryManager.init();
     } else {

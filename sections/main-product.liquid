@@ -325,6 +325,9 @@
                 {{ form | payment_button }}
               </div>
             {%- endif -%}
+
+            <!-- Pincode Delivery Checker on Product Page -->
+            {% render 'pincode-checker', context: 'product' %}
           {%- endform -%}
         {%- endif -%}
 

@@ -52,9 +52,9 @@
             <span class="col-total">Total</span>
           </div>
 
-          <div class="cart-page-tbody">
+          <div class="cart-page-tbody" id="cart-page-tbody">
             {%- for item in cart.items -%}
-              <div class="cart-page-row" data-key="{{ item.key }}">
+              <div class="cart-page-row" data-key="{{ item.key }}" data-line="{{ forloop.index }}" data-cart-page-row>
                 <div class="col-item item-cell">
                   <div class="item-thumb">
                     {%- if item.image -%}
@@ -70,26 +70,27 @@
                         {%- endfor -%}
                       </div>
                     {%- endunless -%}
-                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="remove-link">
-                      {{ 'sections.cart.remove' | t }}
-                    </a>
+                    <button type="button" class="remove-btn cart-page-remove-btn" data-cart-page-remove data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" aria-label="Remove {{ item.title | escape }}">
+                      <span class="remove-icon" aria-hidden="true">&times;</span>
+                      <span>{{ 'sections.cart.remove' | t | default: 'Remove' }}</span>
+                    </button>
                   </div>
                 </div>
 
                 <div class="col-price price-cell">
-                  <span>{{ item.original_price | money }}</span>
+                  <span class="item-unit-price">{{ item.original_price | money }}</span>
                 </div>
 
                 <div class="col-qty qty-cell">
-                  <div class="quantity-control">
-                    <button type="button" class="qty-btn" onclick="location.href='{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}'">-</button>
-                    <span class="qty-display">{{ item.quantity }}</span>
-                    <button type="button" class="qty-btn" onclick="location.href='{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}'">+</button>
+                  <div class="quantity-control cart-page-qty-control" data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}">
+                    <button type="button" class="qty-btn" data-cart-page-qty="minus" data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" data-item-qty="{{ item.quantity }}" aria-label="Decrease quantity">-</button>
+                    <input type="number" class="qty-display-input" value="{{ item.quantity }}" min="1" data-cart-page-qty-input data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" aria-label="Item quantity">
+                    <button type="button" class="qty-btn" data-cart-page-qty="plus" data-item-key="{{ item.key }}" data-item-line="{{ forloop.index }}" data-item-qty="{{ item.quantity }}" aria-label="Increase quantity">+</button>
                   </div>
                 </div>
 
                 <div class="col-total total-cell">
-                  <strong>{{ item.final_line_price | money }}</strong>
+                  <strong class="item-line-total">{{ item.final_line_price | money }}</strong>
                 </div>
               </div>
             {%- endfor -%}
@@ -186,6 +187,9 @@
           </div>
 
           <div class="cart-totals-col">
+            <!-- Pincode Delivery Checker -->
+            {% render 'pincode-checker', context: 'cart-page' %}
+
             <div class="subtotal-row">
               <span class="subtotal-label">{{ 'sections.cart.subtotal' | t }}</span>
               <span class="subtotal-amount" id="cart-page-base-subtotal" data-base-price="{{ cart.total_price }}">{{ cart.total_price | money }}</span>
@@ -211,6 +215,10 @@
             </div>
 
             <p class="shipping-notice">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
+
+            <div class="cart-page-review-note">
+              <span>🔒 <strong>Review Notice:</strong> Please verify item quantities and lengths before checkout.</span>
+            </div>
 
             <div class="cart-actions-row">
               <a href="{{ routes.all_products_collection_url }}" class="btn-secondary">
