@@ -10,3 +10,5 @@ video_frames/
 !assets/*.mp4
 *.zip
 preview*.html
+test_screenshots/
+viewport_reports/

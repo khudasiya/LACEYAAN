@@ -1326,14 +1326,22 @@ img {
 
 .comparison-wrapper {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 3rem;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.comparison-wrapper > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (min-width: 1024px) {
   .comparison-wrapper {
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   }
 }
 
@@ -3104,8 +3112,10 @@ img {
 }
 
 .footer-pill-submit-btn {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 50%;
   background: #2B2A27;
   border: none;
@@ -3115,6 +3125,7 @@ img {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  touch-action: manipulation;
   transition: all var(--transition-fast);
 }
 
@@ -3291,6 +3302,10 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
+  touch-action: manipulation;
   transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
@@ -3619,14 +3634,27 @@ img {
 
 .product-layout-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(2rem, 5vw, 4.5rem);
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 @media (min-width: 1024px) {
   .product-layout-grid {
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 2.5rem;
   }
+}
+
+.product-gallery,
+.studio-product-gallery,
+.product-info-wrap {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .main-gallery-viewport {
@@ -3635,6 +3663,9 @@ img {
   border-radius: var(--radius-xs);
   overflow: hidden;
   background: #F4F3EF;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .main-product-img {
@@ -3648,6 +3679,11 @@ img {
   gap: 0.75rem;
   margin-top: 1rem;
   overflow-x: auto;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 .gallery-thumb-btn {
@@ -5828,37 +5864,85 @@ img {
     padding: 0.5rem 0 !important;
   }
   .navbar-inner {
-    grid-template-columns: auto 1fr auto !important;
-    gap: 0.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 0 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .navbar-left {
+    flex: 0 0 auto !important;
   }
   .mobile-menu-toggle {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    padding: 8px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    padding: 6px !important;
     cursor: pointer !important;
     touch-action: manipulation !important;
   }
-  .util-instagram {
+  .navbar-center {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    text-align: center !important;
+  }
+  .navbar-center .brand-logo-link {
+    max-width: 100% !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+  }
+  .navbar-center .brand-lockup {
+    gap: 6px !important;
+  }
+  .navbar-center .brand-icon-mark {
+    height: 24px !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+  }
+  .navbar-center .logo-title {
+    font-size: clamp(1.02rem, 4.2vw, 1.35rem) !important;
+    letter-spacing: 0.16em !important;
+    white-space: nowrap !important;
+  }
+  .navbar-center .logo-subtitle {
     display: none !important;
   }
-  .nav-util-btn {
-    min-width: 44px !important;
-    min-height: 44px !important;
+  .navbar-right {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+  }
+  .navbar-utilities {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+  .navbar-utilities > *:not(#open-search-modal):not(#open-cart-drawer):not(.bag-btn) {
+    display: none !important;
+  }
+  .navbar-utilities .nav-util-btn {
+    min-width: 42px !important;
+    min-height: 42px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 8px !important;
+    padding: 6px !important;
     touch-action: manipulation !important;
   }
   .bag-count-bubble {
-    top: 6px !important;
-    right: 4px !important;
-    min-width: 17px !important;
-    height: 17px !important;
-    font-size: 0.62rem !important;
+    top: 4px !important;
+    right: 2px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    font-size: 0.6rem !important;
   }
   .mobile-drawer {
     width: min(340px, 86vw) !important;
@@ -6280,11 +6364,35 @@ img {
   .comparison-wrapper {
     touch-action: pan-y;
     gap: 1.5rem;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .comparison-card-box {
+    padding: 1.25rem 1rem !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .comparison-column {
+    padding: 1rem 0.75rem !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .comparison-col-title {
+    font-size: 1.25rem !important;
+  }
+
+  .comparison-intro-text {
+    font-size: 0.82rem !important;
   }
 
   .slider-container {
     aspect-ratio: 4 / 3 !important;
     border-radius: 10px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
 
   .slider-handle {
@@ -6418,13 +6526,31 @@ img {
 
 /* Extra-Small Smartphones & Folded Screens (320px - 360px: iPhone SE, Galaxy A-series) */
 @media (max-width: 360px) {
+  .container,
   .featured-collection-section .container,
   .main-collection-section .container,
   .register-interest-section .container,
+  .product-page-section .container,
+  .product-section .container,
+  .before-after-section .container,
   .container.container-fullwidth,
   .container-fullwidth {
     padding-left: 8px !important;
     padding-right: 8px !important;
+  }
+
+  .comparison-card-box {
+    padding: 0.95rem 0.65rem !important;
+  }
+
+  .comparison-column {
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  .label-pill {
+    font-size: 0.54rem !important;
+    padding: 0.18rem 0.35rem !important;
+    max-width: 42% !important;
   }
 
   .main-collection-section .product-grid-layout,
@@ -6432,6 +6558,7 @@ img {
   .product-grid-layout,
   .product-grid-layout.grid-cols-4,
   .individual-laces-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     column-gap: 6px !important;
     row-gap: 14px !important;
   }
@@ -7814,19 +7941,98 @@ img {
 
   /* ── Main Collection page: compact 2×2 grid ── */
   .main-collection-section .product-grid-layout,
+  .main-collection-section .product-grid-layout.grid-cols-4,
   .register-interest-section .product-grid-layout,
+  .individual-laces-grid,
   .product-grid-layout,
   .product-grid-layout.grid-cols-4 {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    column-gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 8px !important;
     row-gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .main-collection-section .product-card,
+  .main-collection-section .product-card-editorial,
+  .register-interest-section .product-card,
+  .product-grid-layout .product-card,
+  .product-grid-layout .product-card-editorial {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .product-card-editorial .card-media,
+  .product-card-editorial .media-link,
+  .product-card-editorial .card-content,
+  .product-card-editorial .card-content-editorial,
+  .product-card-editorial .card-info-row,
+  .product-card-editorial .card-details-col {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .product-card-editorial .card-media img.primary-img,
+  .product-card-editorial .card-media img.hover-img {
+    width: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .product-card-editorial .card-title {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .product-card-editorial .card-title a {
+    display: block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
   }
 
   /* ── Reduce portrait aspect-ratio so 2 rows fit on screen (3/4 → 4/5) ── */
   .product-card-editorial .card-media {
     aspect-ratio: 4 / 5 !important;
     border-radius: 10px !important;
+  }
+
+  /* ── Product Page Gallery Mobile Constraints ── */
+  .product-page-section .container,
+  .product-section .container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .main-gallery-viewport.studio-viewport {
+    aspect-ratio: 1 / 1 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+  }
+
+  .gallery-thumbs-rail {
+    margin-top: 0.75rem !important;
+    gap: 0.5rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .gallery-thumb-btn {
+    width: 62px !important;
+    height: 62px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
   }
 
   /* ── Featured Collection homepage: horizontal swipe carousel ── */
@@ -9154,6 +9360,7 @@ img {
 /* 8. Magic UI - Ambient Radiant Glow */
 .design-lab-section {
   position: relative;
+  overflow: hidden;
 }
 
 .design-lab-section::before {
@@ -9163,6 +9370,8 @@ img {
   right: 10%;
   width: 480px;
   height: 480px;
+  max-width: 80vw;
+  max-height: 80vw;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(197, 168, 128, 0.05) 0%, transparent 70%);
   pointer-events: none;
