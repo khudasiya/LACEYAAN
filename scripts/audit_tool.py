@@ -61,7 +61,10 @@ def run_audit():
     for jf in json_files:
         try:
             with open(jf, 'r', encoding='utf-8') as f:
-                json.load(f)
+                raw = f.read()
+            # Strip Shopify JSON comment header if present
+            cleaned = re.sub(r'/\*.*?\*/', '', raw, flags=re.DOTALL).strip()
+            json.loads(cleaned)
         except Exception as e:
             invalid_json.append((jf, str(e)))
 
