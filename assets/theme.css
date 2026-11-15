@@ -767,13 +767,15 @@ img {
    ========================================================================== */
 .hero-section {
   position: relative;
-  min-height: 86vh;
+  min-height: clamp(560px, 86vh, 100vh);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--bg-dark);
   color: var(--text-light);
   overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .hero-bg-media {
@@ -820,8 +822,10 @@ img {
   z-index: 3;
   margin-top: auto;
   margin-bottom: auto;
-  padding-top: clamp(4.5rem, 8vw, 7.5rem);
-  padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+  padding-top: clamp(3.5rem, 7vw, 7.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 5.5rem);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .hero-inner {
@@ -5711,6 +5715,72 @@ img {
   }
 }
 
+/* ── Tablet / Narrow-Desktop Hero Fix (769px – 1200px) ── */
+@media (max-width: 1200px) {
+  .hero-section {
+    min-height: clamp(520px, 80vh, 100vh) !important;
+  }
+
+  .hero-content-wrap {
+    padding-top: clamp(3rem, 6vw, 6rem) !important;
+    padding-bottom: clamp(2rem, 4vw, 5rem) !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 4.8vw, 4.2rem) !important;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.88rem, 1.4vw, 1.1rem) !important;
+    max-width: 540px !important;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    padding: 0.85rem 1.5rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .hero-metrics-grid {
+    gap: 1.25rem !important;
+    padding: 1.1rem 1.5rem !important;
+  }
+
+  .hero-marquee-bar {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* ── Mid Breakpoint: 769px – 900px ── */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: clamp(1.9rem, 4vw, 3rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem !important;
+    max-width: 420px !important;
+    margin-bottom: 1.4rem !important;
+  }
+
+  .hero-cta-group {
+    gap: 0.65rem !important;
+    margin-bottom: 1.75rem !important;
+  }
+
+  .hero-metrics-grid {
+    gap: 0.85rem !important;
+    padding: 0.9rem 1.1rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  .metric-divider {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   /* Global Touch & Font Scale */
   html, body {
@@ -5801,6 +5871,73 @@ img {
   }
 
   /* Hero Section Mobile */
+  .hero-section {
+    min-height: 100svh !important; /* Dynamic viewport height — no browser chrome overlap */
+    min-height: 100vh !important;  /* Fallback for older browsers */
+  }
+
+  .hero-bg-media,
+  .hero-video-bg,
+  .hero-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 30% !important; /* Shift focus up — shows the shoe better */
+  }
+
+  .hero-content-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 4.5rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+  }
+
+  .hero-inner {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .hero-title {
+    font-size: clamp(1.9rem, 7.5vw, 2.8rem) !important;
+    line-height: 1.07 !important;
+    margin-bottom: 0.9rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.82rem, 3.2vw, 0.95rem) !important;
+    max-width: 100% !important;
+    margin-bottom: 1.25rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .hero-cta-group {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.55rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+    font-size: 0.8rem !important;
+    padding: 0.85rem 1.25rem !important;
+  }
+
+  .hero-header-meta {
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .hero-reel-badge,
+  .hero-audio-toggle {
+    font-size: 0.6rem !important;
+    padding: 0.25rem 0.55rem !important;
+  }
+
   .hero-metrics-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
