@@ -399,6 +399,36 @@
     </div>
   </div>
 
+  <!-- Mobile Sticky Add-to-Bag Bar -->
+  <div class="mobile-sticky-buy-bar" id="mobile-sticky-buy-bar" aria-hidden="true">
+    <div class="sticky-buy-bar-inner">
+      <div class="sticky-product-info">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 100 | image_tag: 
+            class: 'sticky-thumb-img', 
+            alt: product.title | escape 
+          }}
+        {%- endif -%}
+        <div class="sticky-text-meta">
+          <span class="sticky-title">{{ product.title | truncate: 24 }}</span>
+          <span class="sticky-price" id="StickyBarPrice">{{ current_variant.price | money }}</span>
+        </div>
+      </div>
+      <button 
+        type="button" 
+        class="sticky-add-btn" 
+        id="StickyAddToCartBtn"
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        {%- if current_variant.available -%}
+          ADD TO BAG
+        {%- else -%}
+          SOLD OUT
+        {%- endif -%}
+      </button>
+    </div>
+  </div>
+
   <!-- Product JSON data for script variant switching -->
   <script type="application/json" id="ProductJson-{{ section.id }}">
     {{ product | json }}

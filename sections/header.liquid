@@ -11,6 +11,7 @@
           type="button" 
           class="mobile-menu-toggle" 
           id="mobile-menu-toggle" 
+          data-mobile-menu-trigger
           aria-label="{{ 'sections.header.menu' | t }}"
           aria-controls="mobile-drawer"
           aria-expanded="false"
@@ -176,8 +177,8 @@
 </header>
 
 <!-- Mobile Navigation Drawer -->
-<div id="mobile-drawer-overlay" class="mobile-drawer-overlay" aria-hidden="true"></div>
-<div id="mobile-drawer" class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation" aria-hidden="true">
+<div id="mobile-drawer-overlay" class="mobile-drawer-overlay" data-mobile-menu-overlay aria-hidden="true"></div>
+<div id="mobile-drawer" class="mobile-drawer" data-mobile-menu-drawer role="dialog" aria-modal="true" aria-label="Mobile Navigation" aria-hidden="true">
   <div class="mobile-drawer-header">
     <div class="brand-text-logo">
       <div class="brand-lockup">
@@ -193,7 +194,7 @@
       </div>
       <span class="logo-subtitle">CRAFTED IN INDIA</span>
     </div>
-    <button type="button" class="drawer-close-btn" id="close-mobile-drawer" aria-label="{{ 'accessibility.close' | t }}">
+    <button type="button" class="drawer-close-btn" id="close-mobile-drawer" data-mobile-menu-close aria-label="{{ 'accessibility.close' | t }}">
       {% render 'icon-close' %}
     </button>
   </div>
@@ -203,7 +204,7 @@
       {%- for link in linklists[section.settings.menu].links -%}
         <div class="mobile-nav-group">
           {%- if link.links != blank -%}
-            <button type="button" class="mobile-nav-accordion-btn">
+            <button type="button" class="mobile-nav-accordion-btn" data-dropdown-trigger>
               <span>{{ link.title }}</span>
               {% render 'icon-chevron-down' %}
             </button>

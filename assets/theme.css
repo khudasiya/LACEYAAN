@@ -5734,14 +5734,104 @@ img {
   .announcement-inner { justify-content: center; }
   .announcement-nav-btn { display: none; }
   .announcement-slide { justify-content: center; }
-  .announcement-text { font-size: 0.72rem; text-align: center; }
+  .announcement-text { font-size: 0.70rem; text-align: center; }
   .util-label { display: none; }
 
+  /* Header & Navigation Mobile */
+  .navbar {
+    padding: 0.5rem 0 !important;
+  }
+  .navbar-inner {
+    grid-template-columns: auto 1fr auto !important;
+    gap: 0.5rem !important;
+  }
+  .mobile-menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 8px !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+  }
+  .util-instagram {
+    display: none !important;
+  }
+  .nav-util-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px !important;
+    touch-action: manipulation !important;
+  }
+  .bag-count-bubble {
+    top: 6px !important;
+    right: 4px !important;
+    min-width: 17px !important;
+    height: 17px !important;
+    font-size: 0.62rem !important;
+  }
+  .mobile-drawer {
+    width: min(340px, 86vw) !important;
+    padding-top: env(safe-area-inset-top, 0px) !important;
+    padding-bottom: env(safe-area-inset-bottom, 16px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .mobile-drawer-header {
+    padding: 1rem 1.25rem !important;
+  }
+  .drawer-close-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .mobile-nav-link,
+  .mobile-nav-accordion-btn {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    font-size: 1rem !important;
+    touch-action: manipulation !important;
+  }
+
   /* Hero Section Mobile */
-  .hero-metrics-grid { gap: 1rem; }
-  .metric-val { font-size: 1.2rem; }
+  .hero-metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    padding: 0.85rem 0.5rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 12px !important;
+  }
+  .hero-metrics-grid .metric-divider {
+    display: none !important;
+  }
+  .hero-metrics-grid .metric-item {
+    text-align: center !important;
+    padding: 0 2px !important;
+  }
+  .hero-metrics-grid .metric-val {
+    font-size: clamp(0.95rem, 3.8vw, 1.25rem) !important;
+  }
+  .hero-metrics-grid .metric-lbl {
+    font-size: clamp(0.58rem, 2.2vw, 0.68rem) !important;
+    letter-spacing: 0.04em !important;
+  }
+  .hero-metrics-grid .metric-crosshair {
+    display: none !important;
+  }
   .comparison-columns-grid { grid-template-columns: 1fr; }
-  .individual-laces-grid { grid-template-columns: 1fr; }
+  .individual-laces-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
 
   /* Cart Drawer Mobile Optimization */
   .cart-drawer {
@@ -6085,36 +6175,43 @@ img {
 
 @media (max-width: 480px) {
   .section-padding {
-    padding: 2.5rem 0;
+    padding: 2.25rem 0;
   }
 
   .editorial-heading {
-    font-size: 1.75rem;
+    font-size: clamp(1.5rem, 6.5vw, 1.85rem) !important;
     line-height: 1.2;
   }
 
   .section-subtitle {
-    font-size: 0.88rem;
+    font-size: clamp(0.82rem, 3.2vw, 0.92rem);
   }
 
   .hero-cta-group {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.65rem;
   }
 
   .hero-btn-primary,
   .hero-btn-secondary {
     width: 100%;
-    min-height: 48px;
+    min-height: 46px;
+    font-size: 0.82rem;
+    justify-content: center;
   }
 
+  /* Keep 3-column metrics clean and balanced without dividers */
   .hero-metrics-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 4px !important;
+    padding: 0.75rem 0.35rem !important;
   }
 
   .calc-silhouette-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
   }
 
   .recommend-numbers-wrap {
@@ -6122,7 +6219,84 @@ img {
   }
 
   .recommend-primary-length {
-    font-size: 2.25rem;
+    font-size: 2.1rem;
+  }
+
+  /* Before/After slider label positioning on small screens */
+  .label-pill {
+    font-size: 0.58rem !important;
+    padding: 0.22rem 0.45rem !important;
+    bottom: 0.5rem !important;
+    max-width: 44% !important;
+  }
+  .label-before { left: 0.5rem !important; }
+  .label-after { right: 0.5rem !important; }
+
+  /* Press row on small screens */
+  .press-logos-row {
+    font-size: 0.85rem !important;
+    gap: 0.65rem 0.85rem !important;
+  }
+
+  /* Colossal Brand Statement Footer scaling */
+  .footer-colossal-text {
+    font-size: clamp(2.2rem, 13vw, 3.8rem) !important;
+  }
+}
+
+/* Extra-Small Smartphones & Folded Screens (320px - 360px: iPhone SE, Galaxy A-series) */
+@media (max-width: 360px) {
+  .featured-collection-section .container,
+  .main-collection-section .container,
+  .register-interest-section .container,
+  .container.container-fullwidth,
+  .container-fullwidth {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .product-grid-layout,
+  .product-grid-layout.grid-cols-4,
+  .individual-laces-grid {
+    column-gap: 6px !important;
+    row-gap: 14px !important;
+  }
+
+  .product-card-editorial .card-media {
+    border-radius: 8px !important;
+  }
+
+  .product-card-editorial .card-title {
+    font-size: 0.68rem !important;
+  }
+
+  .product-card-editorial .card-price-row {
+    font-size: 0.62rem !important;
+  }
+
+  .product-card-editorial .card-action-plus-btn {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    margin: -8px -6px -8px 0 !important;
+  }
+
+  .product-card-editorial .card-bookmark-btn {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    top: 4px !important;
+    right: 4px !important;
+  }
+
+  .hero-metrics-grid .metric-val {
+    font-size: 0.88rem !important;
+  }
+
+  .hero-metrics-grid .metric-lbl {
+    font-size: 0.52rem !important;
+  }
+
+  .brand-lockup .logo-title {
+    font-size: 1.05rem !important;
   }
 }
 
@@ -6958,14 +7132,14 @@ img {
 /* Bookmark Ribbon Silhouette (NO square box background, matching reference) */
 .product-card-editorial .card-bookmark-btn {
   position: absolute !important;
-  top: 10px !important;
-  right: 10px !important;
+  top: 4px !important;
+  right: 4px !important;
   z-index: 5 !important;
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  width: auto !important;
-  height: auto !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
   padding: 0 !important;
   margin: 0 !important;
   display: inline-flex !important;
@@ -6977,6 +7151,7 @@ img {
   -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
   transition: transform 0.2s ease, color 0.2s ease !important;
+  touch-action: manipulation !important;
 }
 
 .product-card-editorial .card-bookmark-btn:hover {
@@ -7112,10 +7287,10 @@ img {
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  width: auto !important;
-  height: auto !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
   padding: 0 4px !important;
-  margin: 0 !important;
+  margin: -10px -8px -10px 0 !important;
   color: #2b2b2b !important;
   cursor: pointer !important;
   display: inline-flex !important;
@@ -7124,6 +7299,7 @@ img {
   box-shadow: none !important;
   transition: transform 0.2s ease, color 0.2s ease !important;
   flex-shrink: 0 !important;
+  touch-action: manipulation !important;
 }
 
 .product-card-editorial .card-action-plus-btn:hover {
@@ -7932,34 +8108,231 @@ img {
   border-radius: 3px;
 }
 
-/* Mobile Responsiveness for Studio Modal */
+/* Mobile Responsiveness for Studio Modal (Native Mobile Bottom-Sheet) */
 @media (max-width: 860px) {
   .studio-3d-modal {
-    width: 95vw !important;
-    max-height: 94vh !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 92vh !important;
+    height: 92dvh !important;
+    max-height: 92vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
   }
-  .studio-modal-grid {
-    grid-template-columns: 1fr;
-    overflow-y: auto;
+
+  .studio-3d-modal.active,
+  .studio-3d-modal.is-open {
+    transform: translateY(0) !important;
   }
-  .studio-viewport-col {
-    border-right: none;
-    border-bottom: 1px solid rgba(20, 19, 17, 0.08);
+
+  .studio-modal-header {
+    padding: 0.75rem 1rem !important;
+    background: #FAF9F5 !important;
+    border-bottom: 1px solid rgba(20, 19, 17, 0.08) !important;
+    flex-shrink: 0 !important;
   }
-  .studio-viewport {
-    min-height: 320px;
-    height: 320px;
-  }
-  .studio-sneaker-video {
-    max-height: 280px;
-  }
-  .studio-details-col {
-    padding: 1.5rem 1.25rem;
-  }
-  .studio-actions-row {
-    flex-direction: column;
-  }
+
   .studio-header-center {
-    display: none;
+    display: none !important;
   }
+
+  .studio-modal-header .close-label {
+    display: none !important;
+  }
+
+  .studio-modal-header .studio-close-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    line-height: 1 !important;
+    touch-action: manipulation !important;
+  }
+
+  .quick-view-content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex: 1 !important;
+  }
+
+  .studio-modal-grid {
+    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .studio-viewport-col {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(20, 19, 17, 0.08) !important;
+    flex-shrink: 0 !important;
+  }
+
+  .studio-viewport {
+    min-height: 220px !important;
+    height: clamp(210px, 46vw, 290px) !important;
+  }
+
+  .studio-sneaker-video {
+    max-height: 100% !important;
+  }
+
+  .studio-controls-bar {
+    padding: 0.5rem 0.75rem !important;
+    gap: 0.35rem !important;
+  }
+
+  .studio-view-btn {
+    min-height: 38px !important;
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.65rem !important;
+    touch-action: manipulation !important;
+  }
+
+  .studio-details-col {
+    padding: 1.25rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 12px)) 1rem !important;
+  }
+
+  .studio-product-title {
+    font-size: clamp(1.15rem, 4.5vw, 1.45rem) !important;
+  }
+
+  .variant-pill-btn {
+    min-height: 42px !important;
+    padding: 0.55rem 0.85rem !important;
+    font-size: 0.76rem !important;
+    touch-action: manipulation !important;
+  }
+
+  .studio-actions-row {
+    flex-direction: column !important;
+    gap: 0.65rem !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    background: #FAF9F5 !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: env(safe-area-inset-bottom, 8px) !important;
+    box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.06) !important;
+    z-index: 5 !important;
+  }
+
+  .studio-btn-add,
+  .studio-btn-buy {
+    min-height: 48px !important;
+    font-size: 0.82rem !important;
+    touch-action: manipulation !important;
+  }
+}
+
+/* ==========================================================================
+   Mobile Sticky Add-to-Bag Bar (Product Page)
+   ========================================================================== */
+.mobile-sticky-buy-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FAF9F5;
+  border-top: 1px solid rgba(20, 19, 17, 0.1);
+  padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px)) 1rem;
+  z-index: 9998;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-sticky-buy-bar.is-visible {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .mobile-sticky-buy-bar {
+    display: block;
+  }
+}
+
+.sticky-buy-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: 100%;
+}
+
+.sticky-product-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.sticky-thumb-img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #EFECE6;
+}
+
+.sticky-text-meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-title {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #141311;
+  line-height: 1.2;
+}
+
+.sticky-price {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--accent-gold-dark, #9C7D47);
+  margin-top: 2px;
+}
+
+.sticky-add-btn {
+  background: #141311 !important;
+  color: var(--accent-gold) !important;
+  border: 1px solid var(--accent-gold) !important;
+  border-radius: 6px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  padding: 0.65rem 1.15rem !important;
+  min-height: 44px !important;
+  letter-spacing: 0.08em !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  touch-action: manipulation !important;
+  transition: all 0.2s ease !important;
+}
+
+.sticky-add-btn:active {
+  background: var(--accent-gold) !important;
+  color: #141311 !important;
+  transform: scale(0.98);
 }

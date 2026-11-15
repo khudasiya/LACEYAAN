@@ -186,11 +186,11 @@
      ========================================================================== */
   class Header {
     constructor() {
-      this.header = document.querySelector('[data-header]');
-      this.menuTrigger = document.querySelector('[data-mobile-menu-trigger]');
-      this.menuDrawer = document.querySelector('[data-mobile-menu-drawer]');
-      this.menuClose = document.querySelector('[data-mobile-menu-close]');
-      this.menuOverlay = document.querySelector('[data-mobile-menu-overlay]');
+      this.header = document.querySelector('[data-header], #site-header, .site-header');
+      this.menuTrigger = document.querySelector('[data-mobile-menu-trigger], #mobile-menu-toggle, .mobile-menu-toggle');
+      this.menuDrawer = document.querySelector('[data-mobile-menu-drawer], #mobile-drawer, .mobile-drawer');
+      this.menuClose = document.querySelector('[data-mobile-menu-close], #close-mobile-drawer, .drawer-close-btn');
+      this.menuOverlay = document.querySelector('[data-mobile-menu-overlay], #mobile-drawer-overlay, .mobile-drawer-overlay');
 
       this.initSticky();
       this.initMobileDrawer();
@@ -211,30 +211,63 @@
       if (!this.menuTrigger || !this.menuDrawer) return;
 
       const openDrawer = () => {
-        this.menuDrawer.classList.add('is-open');
-        if (this.menuOverlay) this.menuOverlay.classList.add('is-open');
+        this.menuDrawer.classList.add('is-open', 'active');
+        this.menuDrawer.setAttribute('aria-hidden', 'false');
+        if (this.menuTrigger) this.menuTrigger.setAttribute('aria-expanded', 'true');
+        if (this.menuOverlay) {
+          this.menuOverlay.classList.add('is-open', 'active');
+          this.menuOverlay.setAttribute('aria-hidden', 'false');
+        }
         document.body.classList.add('overflow-hidden');
       };
 
       const closeDrawer = () => {
-        this.menuDrawer.classList.remove('is-open');
-        if (this.menuOverlay) this.menuOverlay.classList.remove('is-open');
+        this.menuDrawer.classList.remove('is-open', 'active');
+        this.menuDrawer.setAttribute('aria-hidden', 'true');
+        if (this.menuTrigger) this.menuTrigger.setAttribute('aria-expanded', 'false');
+        if (this.menuOverlay) {
+          this.menuOverlay.classList.remove('is-open', 'active');
+          this.menuOverlay.setAttribute('aria-hidden', 'true');
+        }
         document.body.classList.remove('overflow-hidden');
       };
 
-      this.menuTrigger.addEventListener('click', openDrawer);
-      if (this.menuClose) this.menuClose.addEventListener('click', closeDrawer);
-      if (this.menuOverlay) this.menuOverlay.addEventListener('click', closeDrawer);
+      this.menuTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        openDrawer();
+      });
+      if (this.menuClose) {
+        this.menuClose.addEventListener('click', (e) => {
+          e.preventDefault();
+          closeDrawer();
+        });
+      }
+      if (this.menuOverlay) {
+        this.menuOverlay.addEventListener('click', (e) => {
+          e.preventDefault();
+          closeDrawer();
+        });
+      }
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && (this.menuDrawer.classList.contains('active') || this.menuDrawer.classList.contains('is-open'))) {
+          closeDrawer();
+        }
+      });
 
       // Accordion dropdowns in mobile menu
-      const dropdownTriggers = this.menuDrawer.querySelectorAll('[data-dropdown-trigger]');
+      const dropdownTriggers = this.menuDrawer.querySelectorAll('[data-dropdown-trigger], .mobile-nav-accordion-btn');
       dropdownTriggers.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           const content = btn.nextElementSibling;
           if (content) {
-            const isOpen = content.classList.contains('is-open');
+            const isOpen = content.classList.contains('is-open') || content.classList.contains('open');
             content.classList.toggle('is-open', !isOpen);
+            content.classList.toggle('open', !isOpen);
+            btn.classList.toggle('is-open', !isOpen);
+            btn.classList.toggle('open', !isOpen);
             btn.setAttribute('aria-expanded', !isOpen);
           }
         });
@@ -1778,6 +1811,52 @@
   }
 
   /* ==========================================================================
+     8c. Mobile Sticky Add-to-Bag Controller (PDP)
+     ========================================================================== */
+  class MobileStickyBuyBar {
+    constructor() {
+      this.bar = document.getElementById('mobile-sticky-buy-bar');
+      if (!this.bar) return;
+
+      this.mainBtn = document.querySelector('.main-product-section .btn-add-to-cart, .main-product-section [data-add-to-cart-button], .main-product-section form[action*="/cart/add"] button[type="submit"]');
+      this.stickyBtn = document.getElementById('StickyAddToCartBtn');
+      this.priceEl = document.getElementById('StickyBarPrice');
+
+      this.init();
+    }
+
+    init() {
+      if (this.mainBtn) {
+        window.addEventListener('scroll', () => {
+          const rect = this.mainBtn.getBoundingClientRect();
+          if (rect.bottom < 0) {
+            this.bar.classList.add('is-visible');
+            this.bar.setAttribute('aria-hidden', 'false');
+          } else {
+            this.bar.classList.remove('is-visible');
+            this.bar.setAttribute('aria-hidden', 'true');
+          }
+        }, { passive: true });
+      }
+
+      if (this.stickyBtn) {
+        this.stickyBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (this.mainBtn && !this.mainBtn.disabled) {
+            this.mainBtn.click();
+          } else {
+            const form = document.querySelector('form[action*="/cart/add"]');
+            if (form) {
+              const submitEvt = new Event('submit', { cancelable: true, bubbles: true });
+              form.dispatchEvent(submitEvt);
+            }
+          }
+        });
+      }
+    }
+  }
+
+  /* ==========================================================================
      9. Accordions (FAQ & Spec Sheets)
      ========================================================================== */
   class Accordion {
@@ -3201,6 +3280,7 @@
     new HeroVideoShowcase();
     window.Laceyaan.interestVoting = new InterestVotingEngine();
     window.Laceyaan.productStudio = new ProductStudioController();
+    new MobileStickyBuyBar();
 
     // Initialize Animated Background Shoelace Engine
     if (window.Laceyaan.backgroundLace) {
@@ -3227,6 +3307,7 @@
     new HeroVideoShowcase();
     window.Laceyaan.interestVoting = new InterestVotingEngine();
     window.Laceyaan.productStudio = new ProductStudioController();
+    new MobileStickyBuyBar();
     if (window.Laceyaan.deliveryManager) {
       window.Laceyaan.deliveryManager.init();
     } else {
