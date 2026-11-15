@@ -14,14 +14,20 @@
       {%- endif -%}
     </div>
 
-    {%- assign target_collection = collections[section.settings.collection] | default: collections.all -%}
+    {%- assign target_collection = nil -%}
+    {%- if section.settings.collection != blank -%}
+      {%- assign target_collection = collections[section.settings.collection] -%}
+    {%- endif -%}
+    {%- if target_collection == blank or target_collection.products.size == 0 -%}
+      {%- assign target_collection = collections['all'] | default: collections.all -%}
+    {%- endif -%}
 
     <div class="product-grid-layout grid-cols-{{ section.settings.columns_desktop }}">
       {%- if section.settings.product_list != blank and section.settings.product_list.count > 0 -%}
         {%- for product in section.settings.product_list limit: section.settings.products_to_show -%}
           {% render 'product-card', product: product, collection: target_collection %}
         {%- endfor -%}
-      {%- elsif target_collection != blank and target_collection.products_count > 0 -%}
+      {%- elsif target_collection != blank and target_collection.products.size > 0 -%}
         {%- for product in target_collection.products limit: section.settings.products_to_show -%}
           {% render 'product-card', product: product, collection: target_collection %}
         {%- endfor -%}
