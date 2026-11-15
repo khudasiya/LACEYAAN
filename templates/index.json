@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -10,6 +19,7 @@
         "button_1_link": "/collections/all",
         "button_2_label": "Find Your Length",
         "button_2_link": "/pages/length-guide",
+        "show_metrics": true,
         "metric_1_val": "3.8mm",
         "metric_1_lbl": "Universal Eyelet Fit",
         "metric_2_val": "20,000",
@@ -17,6 +27,7 @@
         "metric_3_val": "100%",
         "metric_3_lbl": "Solid Milled Metal Aglets",
         "show_drop_highlights": true,
+        "drop_highlights_video_url": "",
         "drop_highlights_badge": "DROP 01 // HIGHLIGHTS",
         "drop_highlights_title": "HIGHLIGHTS OF DROP 01",
         "drop_highlights_desc": "Slow-crafted weaves in kinetic motion. Universal 3.8mm CNC aglets on bespoke footwear.",
@@ -87,7 +98,7 @@
             "product": "premium-white-laces",
             "custom_title": "Imperial Plum Damier",
             "custom_vendor": "Jacquard Shuttle Loom",
-            "custom_price": "₹249",
+            "custom_price": "₹129",
             "buy_now_label": "BUY NOW"
           }
         }
@@ -106,6 +117,17 @@
         "capsule_products": [],
         "capsule_collection": "",
         "vault_product": ""
+      }
+    },
+    "register_interest": {
+      "type": "register-interest-vault",
+      "settings": {
+        "badge_text": "COMMUNITY PROTOTYPE VAULT // VOTING OPEN",
+        "heading": "Register Interest",
+        "subtitle": "These bespoke weaves are prototype concepts in active development. They are not available for purchase. Cast your vote below to decide which silhouettes enter our next limited drop.",
+        "collection": "register-interest",
+        "products_to_show": 8,
+        "columns_desktop": "4"
       }
     },
     "portals": {
@@ -162,17 +184,6 @@
         "badge": "DISCOVER THE ATELIER",
         "heading": "Studio Tools & Editorial Experiences",
         "subtitle": "Everything engineered to ensure an immaculate, precision lace swap for your entire footwear rotation."
-      }
-    },
-    "register_interest": {
-      "type": "register-interest-vault",
-      "settings": {
-        "badge_text": "COMMUNITY PROTOTYPE VAULT // VOTING OPEN",
-        "heading": "Register Interest",
-        "subtitle": "These bespoke weaves are prototype concepts in active development. They are not available for purchase. Cast your vote below to decide which silhouettes enter our next limited drop.",
-        "collection": "register-interest",
-        "products_to_show": 8,
-        "columns_desktop": "4"
       }
     },
     "faq": {
