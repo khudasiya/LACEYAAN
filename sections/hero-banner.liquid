@@ -34,13 +34,17 @@
 
   <div class="container hero-content-wrap">
     <div class="hero-inner">
-      <h1 class="hero-title">
-        {{ section.settings.heading }}
-      </h1>
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero-title">
+          {{ section.settings.heading }}
+        </h1>
+      {%- endif -%}
 
-      <p class="hero-subtitle">
-        {{ section.settings.subtitle }}
-      </p>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hero-subtitle">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
 
       <div class="hero-cta-group">
         {%- if section.settings.button_1_label != blank -%}
