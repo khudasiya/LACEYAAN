@@ -105,12 +105,6 @@
     <div class="drawer-extras" id="cart-drawer-extras"{% if cart.item_count == 0 %} style="display: none;"{% endif %}>
       <!-- Delivery Pincode Checker -->
       {% render 'pincode-checker', context: 'drawer' %}
-      {%- if settings.enable_cart_notes -%}
-        <div class="cart-note-container">
-          <label for="cart-note-input">{{ 'sections.cart.note' | t }}</label>
-          <textarea id="cart-note" class="cart-note-input" placeholder="Custom lengths, shoe model (e.g. Jordan 1, Samba, Chelsea boot)...">{{ cart.note }}</textarea>
-        </div>
-      {%- endif -%}
 
       <!-- Drawer Delivery Method Selector -->
       {%- assign is_drawer_founder = false -%}
