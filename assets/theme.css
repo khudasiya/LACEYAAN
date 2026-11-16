@@ -12556,3 +12556,16 @@ input[name="quantity"]::-webkit-inner-spin-button {
     display: none;
   }
 }
+
+/* Product gallery "Save %" badge: pin to the top-left of the photo so the
+   right-hand nav arrow no longer covers it */
+.main-gallery-viewport > .gallery-badges {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 30;
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  pointer-events: none;
+}
