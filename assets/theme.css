@@ -1593,7 +1593,8 @@ img {
    ========================================================================== */
 .product-grid-layout {
   display: grid;
-  gap: clamp(1rem, 2vw, 2rem);
+  column-gap: 4px !important;
+  row-gap: clamp(20px, 2.2vw, 32px) !important;
 }
 
 .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
@@ -7541,7 +7542,7 @@ img {
   .product-grid-layout.grid-cols-4,
   .individual-laces-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    column-gap: 6px !important;
+    column-gap: 4px !important;
     row-gap: 14px !important;
   }
 
@@ -8212,24 +8213,25 @@ img {
   align-items: center !important;
 }
 
-/* 3. Sleek 4-Column Responsive Grid with Clean Breathing Gap */
+/* 3. Sleek 4-Column Responsive Grid with Ultra-Thin Gap (Bluorng Luxury Aesthetic) */
 .featured-collection-section .product-grid-layout,
 .main-collection-section .product-grid-layout .product-grid-layout,
+.main-collection-section .product-grid-layout,
 .product-grid-layout.grid-cols-4 {
   display: grid !important;
   width: 100% !important;
   grid-template-columns: repeat(4, 1fr) !important;
-  column-gap: clamp(14px, 1.4vw, 22px) !important;
-  row-gap: clamp(24px, 2.5vw, 36px) !important;
+  column-gap: 4px !important;
+  row-gap: clamp(20px, 2.2vw, 32px) !important;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .featured-collection-section .product-grid-layout,
   .main-collection-section .product-grid-layout,
-    .product-grid-layout.grid-cols-4 {
+  .product-grid-layout.grid-cols-4 {
     grid-template-columns: repeat(3, 1fr) !important;
-    column-gap: 14px !important;
-    row-gap: 22px !important;
+    column-gap: 4px !important;
+    row-gap: 20px !important;
   }
 }
 
@@ -8242,15 +8244,15 @@ img {
     padding-right: 12px !important;
   }
 
-  /* ── Main Collection page: compact 2×2 grid ── */
+  /* ── Main Collection page: compact 2×2 grid with ultra-thin gap ── */
   .main-collection-section .product-grid-layout,
   .main-collection-section .product-grid-layout.grid-cols-4,
-    .individual-laces-grid,
+  .individual-laces-grid,
   .product-grid-layout,
   .product-grid-layout.grid-cols-4 {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    column-gap: 8px !important;
+    column-gap: 4px !important;
     row-gap: 14px !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -8345,7 +8347,7 @@ img {
     overflow-y: visible !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
-    gap: 10px !important;
+    gap: 4px !important;
     padding-bottom: 10px !important;
     /* Hide scrollbar — keep swipe functional */
     scrollbar-width: none !important;
