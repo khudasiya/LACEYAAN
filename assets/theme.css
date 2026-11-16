@@ -12574,8 +12574,7 @@ input[name="quantity"]::-webkit-inner-spin-button {
    PDP desktop (>=1024px): Bluorng-style editorial layout
    - Column 1: first photo stays pinned while you scroll
    - Column 2: the remaining photos stacked, scrolling with the page
-   - Column 3: buy card, scrolls until its bottom is in view, then stays
-     (its sticky offset is set by initStickyBuyCard() in theme.js)
+   - Column 3: buy card pinned under the header (scrolls internally if tall)
    861-1023px keeps the single-photo carousel; mobile is unchanged.
    ========================================================================== */
 @media (min-width: 1024px) {
@@ -12664,8 +12663,24 @@ input[name="quantity"]::-webkit-inner-spin-button {
     align-self: stretch !important;
   }
 
+  /* Buy card stays pinned under the header; anything taller than the
+     screen (description, delivery check) scrolls inside the card */
   .bluorng-product-page .bluorng-buy-card {
     position: sticky !important;
-    top: var(--buy-card-top, 72px) !important;
+    top: 72px !important;
+    max-height: calc(100vh - 88px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(20, 19, 17, 0.18) transparent !important;
+  }
+
+  .bluorng-product-page .bluorng-buy-card::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .bluorng-product-page .bluorng-buy-card::-webkit-scrollbar-thumb {
+    background: rgba(20, 19, 17, 0.18);
+    border-radius: 4px;
   }
 }

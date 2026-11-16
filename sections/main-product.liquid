@@ -137,12 +137,11 @@
             <span class="card-price-was" data-compare-price{% unless current_variant.compare_at_price > current_variant.price %} style="display: none;"{% endunless %}>
               {{ current_variant.compare_at_price | money }}
             </span>
-            <span class="card-stock-status">
-              <span class="stock-dot"></span>
-              <span data-stock-text>
-                {%- if current_variant.available -%}In Stock &mdash; Ready to Dispatch{%- else -%}Sold Out{%- endif -%}
+            {%- unless current_variant.available -%}
+              <span class="card-stock-status">
+                <span data-stock-text>Sold Out</span>
               </span>
-            </span>
+            {%- endunless -%}
           </div>
 
           <!-- Color / Style Selection Header & Swatches (Matching Reference Image) -->
