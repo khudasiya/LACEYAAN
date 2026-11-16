@@ -1,6 +1,269 @@
+{% doc %}
+  @prompt
+    add one collection page and explore collection button 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign featured_collection = block.settings.featured_collection %}
+
+{% style %}
+  .ai-collection-feature-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-inline: auto;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    overflow: hidden;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    min-height: 400px;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__media {
+    position: relative;
+    min-height: 400px;
+    overflow: hidden;
+    background: #e8e4dc;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__media img,
+  .ai-collection-feature-{{ ai_gen_id }}__placeholder svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    object-fit: cover;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    align-items: center;
+    justify-content: center;
+    background: #e8e4dc;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__placeholder svg {
+    color: #8b857b;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__empty-state {
+    position: absolute;
+    inset: auto 16px 16px;
+    padding: 10px 14px;
+    background: rgba(250, 249, 245, 0.94);
+    color: #1e1d1b;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(32px, 6vw, 76px);
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__eyebrow {
+    margin: 0 0 14px;
+    color: {{ block.settings.accent_color }};
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__title {
+    margin: 0 0 18px;
+    color: inherit;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.12;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__description {
+    margin: 0 0 30px;
+    max-width: 42ch;
+    color: inherit;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__button {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 23px;
+    border: 1px solid {{ block.settings.button_background }};
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__button:hover {
+    background: transparent;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-collection-feature-{{ ai_gen_id }}__button:focus-visible {
+    outline: 2px solid {{ block.settings.accent_color }};
+    outline-offset: 4px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-collection-feature-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-collection-feature-{{ ai_gen_id }}__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-collection-feature-{{ ai_gen_id }}__media,
+    .ai-collection-feature-{{ ai_gen_id }}__media img,
+    .ai-collection-feature-{{ ai_gen_id }}__placeholder,
+    .ai-collection-feature-{{ ai_gen_id }}__placeholder svg {
+      min-height: 280px;
+      height: 280px;
+    }
+
+    .ai-collection-feature-{{ ai_gen_id }}__content {
+      padding: 32px 24px 36px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-collection-feature-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-collection-feature-{{ ai_gen_id }}__layout">
+    <div class="ai-collection-feature-{{ ai_gen_id }}__media">
+      {% if featured_collection != blank and featured_collection.image != blank %}
+        <img
+          src="{{ featured_collection.image | image_url: width: 1600 }}"
+          alt="{{ featured_collection.image.alt | default: featured_collection.title | escape }}"
+          loading="lazy"
+          width="{{ featured_collection.image.width }}"
+          height="{{ featured_collection.image.height }}"
+        >
+      {% else %}
+        <div class="ai-collection-feature-{{ ai_gen_id }}__placeholder">
+          {{ 'collection-apparel-1' | placeholder_svg_tag }}
+        </div>
+        {% if featured_collection == blank %}
+          <div class="ai-collection-feature-{{ ai_gen_id }}__empty-state">Choose a collection and add a collection image to display it here.</div>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="ai-collection-feature-{{ ai_gen_id }}__content">
+      {% if block.settings.eyebrow != blank %}
+        <p class="ai-collection-feature-{{ ai_gen_id }}__eyebrow">{{ block.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 class="ai-collection-feature-{{ ai_gen_id }}__title">
+        {% if featured_collection != blank %}{{ featured_collection.title | escape }}{% else %}{{ block.settings.fallback_title | escape }}{% endif %}
+      </h2>
+      {% if block.settings.show_description and featured_collection != blank and featured_collection.description != blank %}
+        <div class="ai-collection-feature-{{ ai_gen_id }}__description">{{ featured_collection.description }}</div>
+      {% elsif featured_collection == blank %}
+        <p class="ai-collection-feature-{{ ai_gen_id }}__description">Select a collection in the block settings to feature it here.</p>
+      {% endif %}
+      {% if featured_collection != blank %}
+        <a class="ai-collection-feature-{{ ai_gen_id }}__button" href="{{ featured_collection.url }}">{{ block.settings.button_label | escape }}</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A considered edit"
+    },
+    {
+      "type": "text",
+      "id": "fallback_title",
+      "label": "Fallback title",
+      "default": "Discover the collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore collection"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FAF9F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#1E1D1B"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#8A6B3F"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#1E1D1B"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FAF9F5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ],
+  "tag": null,
+  "class": "featured-collection-block"
+}
 {% endschema %}
