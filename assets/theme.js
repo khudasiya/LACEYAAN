@@ -3932,6 +3932,25 @@
   /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
+  /* ==========================================================================
+     PDP desktop: buy card scrolls until its bottom is in view, then stays put.
+     Sets --buy-card-top (used by the >=1024px sticky rule in theme.css) so a
+     card taller than the screen never hides its lower half.
+     ========================================================================== */
+  function initStickyBuyCard() {
+    const card = document.querySelector('.bluorng-product-page .bluorng-buy-card');
+    if (!card || card.dataset.stickyBound) return;
+    card.dataset.stickyBound = 'true';
+    const HEADER_OFFSET = 72;
+    const update = () => {
+      const top = Math.min(HEADER_OFFSET, window.innerHeight - card.offsetHeight - 16);
+      card.style.setProperty('--buy-card-top', `${top}px`);
+    };
+    update();
+    window.addEventListener('resize', update);
+    if ('ResizeObserver' in window) new ResizeObserver(update).observe(card);
+  }
+
   function initAll() {
     new AnnouncementBar();
     new Header();
@@ -3951,6 +3970,7 @@
     new EasterEggModal();
     new HeroVideoShowcase();
     new MobileStickyBuyBar();
+    initStickyBuyCard();
 
     // Visual Micro-Interactions & GSAP Motion Engine
     window.Laceyaan.reactBits = new ReactBitsEnhanceSuite();

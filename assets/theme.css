@@ -12569,3 +12569,103 @@ input[name="quantity"]::-webkit-inner-spin-button {
   margin: 0;
   pointer-events: none;
 }
+
+/* ==========================================================================
+   PDP desktop (>=1024px): Bluorng-style editorial layout
+   - Column 1: first photo stays pinned while you scroll
+   - Column 2: the remaining photos stacked, scrolling with the page
+   - Column 3: buy card, scrolls until its bottom is in view, then stays
+     (its sticky offset is set by initStickyBuyCard() in theme.js)
+   861-1023px keeps the single-photo carousel; mobile is unchanged.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .bluorng-product-page .bluorng-product-layout {
+    grid-template-columns: minmax(0, 1.85fr) minmax(340px, 1fr) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  /* All photos are on screen, so carousel controls are not needed */
+  .bluorng-product-page .gallery-floating-bar,
+  .bluorng-product-page .hero-nav-arrow,
+  .bluorng-product-page .gallery-progress-wrap,
+  .bluorng-product-page #ProductGalleryThumbs {
+    display: none !important;
+  }
+
+  .bluorng-product-page .bluorng-gallery-col {
+    align-self: start !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 12px !important;
+    row-gap: 0 !important;
+    align-items: start !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid .gallery-item-card,
+  .bluorng-product-page .bluorng-editorial-grid .gallery-item-card.active {
+    display: block !important;
+    grid-column: 2 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    margin: 0 0 12px !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid .gallery-item-card.is-hero-item {
+    grid-column: 1 !important;
+    /* Span far more rows than there are photos; empty rows collapse to 0 */
+    grid-row: 1 / span 40 !important;
+    align-self: start !important;
+    position: sticky !important;
+    top: 72px !important;
+    margin: 0 !important;
+    z-index: 1 !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid .gallery-editorial-img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    border-radius: 16px !important;
+    background: #F4F3EF !important;
+  }
+
+  /* Pinned photo never taller than the screen */
+  .bluorng-product-page .bluorng-editorial-grid .is-hero-item .gallery-editorial-img {
+    max-height: calc(100vh - 88px) !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid .gallery-item-card:hover .gallery-editorial-img {
+    transform: none !important;
+  }
+
+  /* Single photo: one centred column, nothing to pin against */
+  .bluorng-product-page .bluorng-editorial-grid[data-media-count="0"],
+  .bluorng-product-page .bluorng-editorial-grid[data-media-count="1"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid[data-media-count="0"] .gallery-item-card.is-hero-item,
+  .bluorng-product-page .bluorng-editorial-grid[data-media-count="1"] .gallery-item-card.is-hero-item {
+    grid-row: auto !important;
+    position: relative !important;
+    top: auto !important;
+  }
+
+  .bluorng-product-page .bluorng-card-col {
+    align-self: stretch !important;
+  }
+
+  .bluorng-product-page .bluorng-buy-card {
+    position: sticky !important;
+    top: var(--buy-card-top, 72px) !important;
+  }
+}
