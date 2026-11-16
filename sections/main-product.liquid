@@ -248,27 +248,42 @@
     </div>
   </div>
 
-  <!-- Fullscreen Lightbox Image Gallery Modal ("i should be able to go through all the pictures") -->
-  <div class="gallery-lightbox-modal" id="GalleryLightboxModal" aria-hidden="true">
+  <!-- Fullscreen Lightbox Image Gallery Modal with Zoom, Nav & Top-Left Exit -->
+  <div class="gallery-lightbox-modal" id="GalleryLightboxModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Fullscreen Product Image Viewer">
     <div class="lightbox-overlay" id="LightboxOverlay"></div>
     <div class="lightbox-stage">
-      <button type="button" class="lightbox-close-btn" id="LightboxCloseBtn" aria-label="Close Lightbox">&times;</button>
+      <!-- Cross Button on Top Left Corner to Exit Fullscreen ("cross button on top left corner to exit full screen and come back to this normal screen") -->
+      <button type="button" class="lightbox-close-btn" id="LightboxCloseBtn" aria-label="Exit Fullscreen">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
       
+      <!-- Counter Bar (Centered at Top) -->
       <div class="lightbox-counter-bar">
         <span class="lightbox-counter" id="LightboxCounter">1 / 1</span>
         <span class="lightbox-title">{{ product.title }}</span>
       </div>
 
-      <div class="lightbox-image-wrap">
+      <!-- Zoom Toggle Button on Top Right Corner -->
+      <button type="button" class="lightbox-zoom-btn" id="LightboxZoomBtn" aria-label="Zoom in or out">
+        <svg class="zoom-in-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+        <span class="zoom-level-text" id="ZoomLevelText">1x</span>
+      </button>
+
+      <!-- Main Fullscreen Stage with Left/Right Navigation and Zoomable Image -->
+      <div class="lightbox-image-wrap" id="LightboxImageWrap">
         <button type="button" class="lightbox-arrow-btn prev-arrow" id="LightboxPrevBtn" aria-label="Previous image">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </button>
-        <img src="" alt="{{ product.title | escape }}" class="lightbox-active-img" id="LightboxActiveImg">
+        <img src="" alt="{{ product.title | escape }}" class="lightbox-active-img" id="LightboxActiveImg" draggable="false">
         <button type="button" class="lightbox-arrow-btn next-arrow" id="LightboxNextBtn" aria-label="Next image">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
       </div>
 
+      <!-- Quick Thumbnail Dock at Bottom -->
       <div class="lightbox-thumbs-strip" id="LightboxThumbsStrip"></div>
     </div>
   </div>
