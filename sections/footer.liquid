@@ -74,7 +74,7 @@
             {%- for link in linklists[section.settings.menu_1].links -%}
               <li><a href="{{ link.url }}">{{ link.title }}</a></li>
             {%- else -%}
-              <li><a href="/pages/order-status">TRACK YOUR ORDER</a></li>
+              <li><a href="{{ routes.account_url }}">TRACK YOUR ORDER</a></li>
               <li><a href="#faq">FAQ</a></li>
               <li><a href="/policies/shipping-policy">SHIPPING POLICY</a></li>
               <li><a href="/policies/privacy-policy">PRIVACY POLICY</a></li>
@@ -97,7 +97,7 @@
               <li><a href="{{ routes.all_products_collection_url }}">HERITAGE WAXED FLAT</a></li>
               <li><a href="{{ routes.all_products_collection_url }}">CALFSKIN &amp; VELVET</a></li>
               <li><a href="{{ routes.all_products_collection_url }}">DESIGN LAB CAPSULES</a></li>
-              <li><a href="/pages/policies">POLICIES</a></li>
+              <li><a href="/policies/shipping-policy">POLICIES</a></li>
               <li><a href="{{ routes.root_url }}">-LACEYAAN-</a></li>
             {%- endfor -%}
           </ul>

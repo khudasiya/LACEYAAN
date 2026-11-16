@@ -13,7 +13,7 @@
         </div>
         <div class="user-info-text">
           <span class="user-tier-badge">ATELIER MEMBER</span>
-          <h1 class="user-display-name">{{ customer.name | default: 'Valued Collector' }}</h1>
+          <h1 class="user-display-name">{{ customer.name | default: 'Valued Collector' | escape }}</h1>
           <span class="user-email-text">{{ customer.email }}</span>
         </div>
       </div>

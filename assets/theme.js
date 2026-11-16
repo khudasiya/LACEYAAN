@@ -59,6 +59,21 @@
       return formatString.replace(placeholderRegex, value);
     },
 
+    escapeHtml(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    },
+
+    // Only allow links back into this store (relative paths), never javascript: etc.
+    safePath(value, fallback = '/') {
+      const v = String(value == null ? '' : value).trim();
+      return (v.startsWith('/') && !v.startsWith('//')) ? v : fallback;
+    },
+
     debounce(fn, wait) {
       let timeout;
       return function (...args) {
@@ -81,12 +96,12 @@
       
       let actionHtml = '';
       if (action && action.url) {
-        actionHtml = `<a href="${action.url}" class="toast-action-link">${action.text || 'View Cart &rarr;'}</a>`;
+        actionHtml = `<a href="${Utils.escapeHtml(Utils.safePath(action.url, '/cart'))}" class="toast-action-link">${Utils.escapeHtml(action.text || 'View Cart →')}</a>`;
       }
 
       toast.innerHTML = `
         <span class="toast-indicator"></span>
-        <span class="toast-message">${message}</span>
+        <span class="toast-message">${Utils.escapeHtml(message)}</span>
         ${actionHtml}
       `;
       toastContainer.appendChild(toast);
@@ -481,7 +496,11 @@
             const key = e.target.dataset.itemKey;
             const line = parseInt(e.target.dataset.itemLine, 10);
             const qty = parseInt(e.target.value, 10);
-            if (!isNaN(qty)) this.changeQuantity(key || line, qty);
+            if (isNaN(qty) || qty < 0) {
+              this.refresh(); // restore the real quantity
+              return;
+            }
+            this.changeQuantity(key || line, qty);
           }
         });
       }
@@ -571,7 +590,16 @@
           body: JSON.stringify(payload)
         });
 
-        if (!res.ok) throw new Error('Could not update cart quantity');
+        if (!res.ok) {
+          let message = 'Could not update quantity';
+          try {
+            const data = await res.json();
+            if (data && (data.description || data.message)) message = data.description || data.message;
+          } catch (parseErr) { /* keep default message */ }
+          const error = new Error(message);
+          error.fromShopify = true;
+          throw error;
+        }
         const cart = await res.json();
         this.render(cart);
 
@@ -580,7 +608,8 @@
         }
       } catch (err) {
         console.error('Cart quantity update error:', err);
-        Utils.showToast('Could not update quantity', 'error');
+        Utils.showToast(err.fromShopify ? err.message : 'Could not update quantity', 'error');
+        this.refresh(); // show what is really in the bag
       }
     }
 
@@ -1010,19 +1039,19 @@
         const products = data.resources.results.products;
 
         if (!products || products.length === 0) {
-          this.resultsContainer.innerHTML = `<div class="search-empty">No bespoke laces found matching "${query}".</div>`;
+          this.resultsContainer.innerHTML = `<div class="search-empty">No bespoke laces found matching "${Utils.escapeHtml(query)}".</div>`;
           return;
         }
 
         this.resultsContainer.innerHTML = `
           <div class="search-results-grid">
             ${products.map(prod => `
-              <a href="${prod.url}" class="search-result-item">
+              <a href="${Utils.escapeHtml(Utils.safePath(prod.url, '/search'))}" class="search-result-item">
                 <div class="search-result-thumb">
-                  <img src="${prod.image || prod.featured_image || ''}" alt="${prod.title}" width="60" height="60" loading="lazy">
+                  <img src="${Utils.escapeHtml(prod.image || prod.featured_image || '')}" alt="${Utils.escapeHtml(prod.title)}" width="60" height="60" loading="lazy">
                 </div>
                 <div class="search-result-info">
-                  <span class="search-result-title">${prod.title}</span>
+                  <span class="search-result-title">${Utils.escapeHtml(prod.title)}</span>
                   <span class="search-result-price">${Utils.formatMoney(prod.price)}</span>
                 </div>
               </a>
@@ -4009,8 +4038,8 @@
         : [{
             handle: data.handle,
             title: data.title || '',
-            url: data.url || `/products/${data.handle}`,
-            image: data.image || '',
+            url: Utils.safePath(data.url, `/products/${encodeURIComponent(data.handle)}`),
+            image: /^(https?:)?\/\//.test(data.image || '') ? data.image : '',
             price: data.price || ''
           }, ...list];
       this.store(next);
@@ -4048,7 +4077,14 @@
       this.itemsEl.style.display = list.length ? 'flex' : 'none';
       this.itemsEl.textContent = '';
 
-      list.forEach(item => {
+      list.forEach(raw => {
+        const item = {
+          handle: String(raw.handle),
+          title: String(raw.title || ''),
+          url: Utils.safePath(raw.url, `/products/${encodeURIComponent(raw.handle)}`),
+          image: /^(https?:)?\/\//.test(raw.image || '') ? raw.image : '',
+          price: String(raw.price || '')
+        };
         const card = document.createElement('div');
         card.className = 'cart-item-card wishlist-item-card';
 

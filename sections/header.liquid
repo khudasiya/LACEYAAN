@@ -146,11 +146,11 @@
               href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
               class="nav-util-btn nav-account-btn" 
               id="header-account-btn"
-              aria-label="{% if customer %}Account: {{ customer.first_name }}{% else %}{{ 'sections.header.account' | t | default: 'Sign In' }}{% endif %}"
-              title="{% if customer %}Account: {{ customer.first_name }}{% else %}Sign In{% endif %}"
+              aria-label="{% if customer %}Account: {{ customer.first_name | escape }}{% else %}{{ 'sections.header.account' | t | default: 'Sign In' }}{% endif %}"
+              title="{% if customer %}Account: {{ customer.first_name | escape }}{% else %}Sign In{% endif %}"
             >
               {% render 'icon-user' %}
-              <span class="util-label">{% if customer %}{{ customer.first_name | default: 'Account' }}{% else %}Sign In{% endif %}</span>
+              <span class="util-label">{% if customer %}{{ customer.first_name | default: 'Account' | escape }}{% else %}Sign In{% endif %}</span>
             </a>
           {%- else -%}
             <a 
@@ -259,7 +259,7 @@
           <div class="mobile-avatar-badge">{{ customer.first_name | slice: 0, 1 | default: 'L' }}</div>
           <div class="mobile-user-details">
             <span class="mobile-welcome-lbl">SIGNED IN AS</span>
-            <span class="mobile-user-name">{{ customer.name }}</span>
+            <span class="mobile-user-name">{{ customer.name | escape }}</span>
           </div>
         </div>
         <div class="mobile-account-links-row">

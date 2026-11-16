@@ -37,7 +37,7 @@
               autocomplete="name"
               placeholder="Your full name"
               required
-              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              value="{% if form.name %}{{ form.name | escape_once }}{% elsif customer %}{{ customer.name | escape }}{% endif %}"
             >
           </div>
 
@@ -52,7 +52,7 @@
               spellcheck="false"
               placeholder="you@example.com"
               required
-              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              value="{% if form.email %}{{ form.email | escape_once }}{% elsif customer %}{{ customer.email | escape }}{% endif %}"
             >
           </div>
 
@@ -64,7 +64,7 @@
               rows="6"
               placeholder="Tell us about your order, sneaker model or custom request..."
               required
-            >{{ form.body }}</textarea>
+            >{{ form.body | escape_once }}</textarea>
           </div>
         </div>
 
