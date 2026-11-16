@@ -4720,11 +4720,11 @@ img {
   box-shadow: 0 4px 14px rgba(20, 19, 17, 0.18) !important;
 }
 
-/* Actions Row (Add to Bag in White, Buy Now in Black) */
+/* Actions Row (Add to Bag in Luxury Obsidian & Champagne Gold, Buy Now in Radiant Gold) */
 .card-actions-row,
 .product-purchase-row {
   display: flex !important;
-  gap: 10px !important;
+  gap: 12px !important;
   margin: 1.25rem 0 1.5rem !important;
 }
 
@@ -4736,30 +4736,64 @@ img {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: #FFFFFF !important;
-  border: 1px solid rgba(20, 19, 17, 0.25) !important;
+  gap: 8px !important;
+  background: #141311 !important;
+  background-color: #141311 !important;
+  border: 1.5px solid var(--accent-gold, #C5A880) !important;
   border-radius: 999px !important;
-  font-family: var(--font-sans) !important;
-  font-size: 0.82rem !important;
+  font-family: var(--font-heading, var(--font-sans)) !important;
+  font-size: 0.78rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
-  color: #141311 !important;
+  color: var(--accent-gold, #C5A880) !important;
+  -webkit-text-fill-color: var(--accent-gold, #C5A880) !important;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   touch-action: manipulation !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
 }
 
 .btn-bluorng-bag:hover,
 .btn-add-main:hover,
 .btn-add-to-cart-main:hover {
-  background: #141311 !important;
-  color: #FFFFFF !important;
-  border-color: #141311 !important;
+  background: #1F1E1B !important;
+  color: #DFC090 !important;
+  -webkit-text-fill-color: #DFC090 !important;
+  border-color: #DFC090 !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(197, 168, 128, 0.25) !important;
 }
 
-/* ── BUY NOW BUTTON: Solid Black Background + Radiant Golden Text ── */
+.btn-bluorng-bag span,
+.btn-add-main span,
+.btn-add-to-cart-main span {
+  color: var(--accent-gold, #C5A880) !important;
+  -webkit-text-fill-color: var(--accent-gold, #C5A880) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.btn-bluorng-bag svg,
+.btn-bluorng-bag .bag-icon,
+.btn-add-main svg,
+.btn-add-to-cart-main svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: var(--accent-gold, #C5A880) !important;
+  fill: none !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+
+.btn-bluorng-bag:hover svg,
+.btn-bluorng-bag:hover .bag-icon {
+  stroke: #DFC090 !important;
+}
+
+/* ── BUY NOW BUTTON: Radiant Gold Background + Deep Obsidian Black Text ── */
 .btn-bluorng-buy,
 .btn-buy-now-main,
 .shopify-payment-button__button,
@@ -4772,20 +4806,21 @@ img {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: #141311 !important;
-  background-color: #141311 !important;
+  background: var(--accent-gold, #C5A880) !important;
+  background-color: var(--accent-gold, #C5A880) !important;
   border: 1.5px solid var(--accent-gold, #C5A880) !important;
   border-radius: 999px !important;
-  font-family: var(--font-sans) !important;
-  font-size: 0.85rem !important;
+  font-family: var(--font-heading, var(--font-sans)) !important;
+  font-size: 0.78rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
-  color: var(--accent-gold, #C5A880) !important;
+  color: #141311 !important;
+  -webkit-text-fill-color: #141311 !important;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   touch-action: manipulation !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+  box-shadow: 0 4px 16px rgba(197, 168, 128, 0.25) !important;
   width: 100% !important;
 }
 
@@ -4796,12 +4831,13 @@ img {
 .dynamic-payment-buttons .shopify-payment-button__button:hover,
 .dynamic-payment-buttons button:hover,
 [data-direct-buy-now]:hover {
-  background: #000000 !important;
-  background-color: #000000 !important;
-  color: #DFC090 !important;
+  background: #DFC090 !important;
+  background-color: #DFC090 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
   border-color: #DFC090 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28) !important;
+  box-shadow: 0 6px 20px rgba(197, 168, 128, 0.35) !important;
 }
 
 .btn-bluorng-buy span,
@@ -4809,7 +4845,12 @@ img {
 .shopify-payment-button__button span,
 .shopify-payment-button__button--unbranded span,
 .dynamic-payment-buttons .shopify-payment-button__button span {
-  color: var(--accent-gold, #C5A880) !important;
+  color: #141311 !important;
+  -webkit-text-fill-color: #141311 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
 }
 
 /* Dynamic Shopify Payment Buttons Wrapper */
@@ -5611,34 +5652,15 @@ img {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    gap: 10px !important;
+    gap: 8px !important;
     width: 100% !important;
     margin: 1.15rem 0 1.35rem !important;
   }
 
   .btn-bluorng-bag,
   .btn-add-main,
-  .btn-add-to-cart-main {
-    flex: 1 1 50% !important;
-    width: 50% !important;
-    min-width: 0 !important;
-    min-height: 48px !important;
-    height: 48px !important;
-    background: #FFFFFF !important;
-    border: 1.5px solid #141311 !important;
-    color: #141311 !important;
-    border-radius: 10px !important;
-    font-size: 14.5px !important;
-    font-weight: 700 !important;
-    text-transform: capitalize !important;
-    letter-spacing: normal !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
-  }
-
-  .btn-bluorng-buy,
-  .btn-buy-now-main,
-  [data-direct-buy-now],
-  .dynamic-payment-buttons button {
+  .btn-add-to-cart-main,
+  [data-add-to-cart-button] {
     flex: 1 1 50% !important;
     width: 50% !important;
     min-width: 0 !important;
@@ -5650,11 +5672,119 @@ img {
     color: var(--accent-gold, #C5A880) !important;
     -webkit-text-fill-color: var(--accent-gold, #C5A880) !important;
     border-radius: 10px !important;
-    font-size: 14.5px !important;
+    font-family: var(--font-heading, inherit) !important;
+    font-size: 11.5px !important;
     font-weight: 700 !important;
-    text-transform: capitalize !important;
-    letter-spacing: normal !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 0 8px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+  }
+
+  .btn-bluorng-bag:hover,
+  .btn-bluorng-bag:active,
+  .btn-add-main:hover,
+  .btn-add-to-cart-main:hover {
+    background: #1F1E1B !important;
+    border-color: #DFC090 !important;
+    color: #DFC090 !important;
+    -webkit-text-fill-color: #DFC090 !important;
+    box-shadow: 0 6px 18px rgba(197, 168, 128, 0.3) !important;
+  }
+
+  .btn-bluorng-bag span,
+  .btn-bluorng-bag [data-add-to-cart-text],
+  .btn-add-main span,
+  .btn-add-to-cart-main span {
+    color: var(--accent-gold, #C5A880) !important;
+    -webkit-text-fill-color: var(--accent-gold, #C5A880) !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  .btn-bluorng-bag svg,
+  .btn-bluorng-bag .bag-icon,
+  .btn-add-main svg,
+  .btn-add-to-cart-main svg {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: var(--accent-gold, #C5A880) !important;
+    fill: none !important;
+    flex-shrink: 0 !important;
+    display: inline-block !important;
+  }
+
+  .btn-bluorng-buy,
+  .btn-buy-now-main,
+  [data-direct-buy-now],
+  .dynamic-payment-buttons button {
+    flex: 1 1 50% !important;
+    width: 50% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    background: var(--accent-gold, #C5A880) !important;
+    background-color: var(--accent-gold, #C5A880) !important;
+    border: 1.5px solid var(--accent-gold, #C5A880) !important;
+    color: #141311 !important;
+    -webkit-text-fill-color: #141311 !important;
+    border-radius: 10px !important;
+    font-family: var(--font-heading, inherit) !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 0 8px !important;
+    box-shadow: 0 4px 14px rgba(197, 168, 128, 0.28) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+  }
+
+  .btn-bluorng-buy span,
+  .btn-buy-now-main span,
+  .shopify-payment-button__button span,
+  .shopify-payment-button__button--unbranded span,
+  .dynamic-payment-buttons .shopify-payment-button__button span {
+    color: #141311 !important;
+    -webkit-text-fill-color: #141311 !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  .btn-bluorng-buy:hover,
+  .btn-bluorng-buy:active,
+  .btn-buy-now-main:hover,
+  [data-direct-buy-now]:hover {
+    background: #DFC090 !important;
+    background-color: #DFC090 !important;
+    border-color: #DFC090 !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    box-shadow: 0 6px 18px rgba(197, 168, 128, 0.4) !important;
   }
 }
 

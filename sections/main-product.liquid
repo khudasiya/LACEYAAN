@@ -213,7 +213,7 @@
               </div>
             {%- endunless -%}
 
-            <!-- Actions Row: Add to cart (White) + Buy now (Theme Black & Champagne Gold) -->
+            <!-- Actions Row: Add to cart (Gold & Black) + Buy now (Gold & Black) -->
             <div class="card-actions-row">
               <button 
                 type="submit" 
@@ -223,6 +223,7 @@
                 data-add-to-cart-button
                 {% unless current_variant.available %}disabled{% endunless %}
               >
+                <svg class="bag-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 <span id="AddToCartText-{{ section.id }}" data-add-to-cart-text>
                   {%- if current_variant.available -%}Add to cart{%- else -%}SOLD OUT{%- endif -%}
                 </span>
@@ -237,7 +238,7 @@
                 data-product-handle="{{ product.handle }}"
                 {% unless current_variant.available %}disabled style="display:none;"{% endunless %}
               >
-                Buy now
+                <span>Buy now</span>
               </button>
             </div>
 

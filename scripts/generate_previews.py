@@ -314,13 +314,14 @@ product_main = """
               </div>
             </div>
 
-            <!-- Actions Row: Add to cart (White) + Buy now (Theme Black & Gold) -->
+            <!-- Actions Row: Add to cart (Gold & Black) + Buy now (Gold & Black) -->
             <div class="card-actions-row">
               <button type="button" class="btn-bluorng-bag" id="MainAddToCartBtn">
-                Add to cart
+                <svg class="bag-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span>Add to cart</span>
               </button>
               <button type="button" class="btn-bluorng-buy" id="MainBuyNowBtn" onclick="window.location.href='preview_cart.html'">
-                Buy now
+                <span>Buy now</span>
               </button>
             </div>
 
