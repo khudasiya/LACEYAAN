@@ -1,43 +1,78 @@
 {%- comment -%}
-  LACEYAAN Atelier Contact Information & Email Redirect Section
-  Redirects visitors directly to sharmaom.2424@gmail.com while displaying a luxury concierge card.
+  LACEYAAN Atelier Contact Section
+  Native Shopify contact form (name, email, message). Submissions are emailed
+  by Shopify to the store's contact email (Settings > General / Notifications).
 {%- endcomment -%}
-
-<script>
-  // Immediate client-side redirection to atelier concierge email
-  (function() {
-    try {
-      window.location.href = "mailto:sharmaom.2424@gmail.com";
-    } catch(e) {
-      console.log("Mailto redirect initiated", e);
-    }
-  })();
-</script>
-
-<noscript>
-  <meta http-equiv="refresh" content="1; url=mailto:sharmaom.2424@gmail.com">
-</noscript>
 
 <section class="main-contact-section section-padding">
   <div class="container container-narrow">
-    <div class="contact-editorial-card text-center">
-      <div class="contact-badge-wrap">
+    <div class="contact-editorial-card">
+      <div class="contact-head text-center">
         <span class="badge badge-gold">✦ ATELIER CONCIERGE DIRECT</span>
-      </div>
-
-      <h1 class="contact-title editorial-heading">Contact Information</h1>
-      <p class="contact-subtitle">
-        For orders, sizing questions, archive collection inquiries, or custom wholesale requests, direct inquiries are handled by our dedicated atelier concierge.
-      </p>
-
-      <div class="contact-redirect-box">
-        <p class="redirect-status">
-          <span class="pulse-indicator"></span> Launching your mail client...
+        <h1 class="contact-title editorial-heading">Contact Us</h1>
+        <p class="contact-subtitle">
+          Orders, sizing questions, archive collection inquiries or custom wholesale requests &mdash; write to us and our atelier concierge will reply within 24 business hours.
         </p>
-        <a href="mailto:sharmaom.2424@gmail.com" class="btn btn-primary contact-cta-btn">
-          <span>Email: sharmaom.2424@gmail.com &rarr;</span>
-        </a>
       </div>
+
+      {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="contact-form-status is-success" role="status" tabindex="-1">
+            <span class="status-icon" aria-hidden="true">&#10003;</span>
+            <span>Thank you &mdash; your message is on its way. We&rsquo;ll get back to you within 24 business hours.</span>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="contact-form-status is-error" role="alert" tabindex="-1">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="contact-form-grid">
+          <div class="contact-field">
+            <label for="ContactForm-name">Name</label>
+            <input
+              id="ContactForm-name"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              placeholder="Your full name"
+              required
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            >
+          </div>
+
+          <div class="contact-field">
+            <label for="ContactForm-email">Email</label>
+            <input
+              id="ContactForm-email"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="you@example.com"
+              required
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            >
+          </div>
+
+          <div class="contact-field contact-field--full">
+            <label for="ContactForm-message">Message</label>
+            <textarea
+              id="ContactForm-message"
+              name="contact[body]"
+              rows="6"
+              placeholder="Tell us about your order, sneaker model or custom request..."
+              required
+            >{{ form.body }}</textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="contact-submit-btn">
+          <span>Send Message</span>
+          <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+        </button>
+      {%- endform -%}
 
       <div class="contact-details-grid">
         <div class="contact-detail-item">
@@ -71,7 +106,7 @@
 
 {% schema %}
 {
-  "name": "Contact Redirect Card",
+  "name": "Contact Form",
   "settings": []
 }
 {% endschema %}

@@ -2405,7 +2405,8 @@
 
     /* ── WISHLIST BOOKMARK ── */
     initBookmark() {
-      if (!this.bookmarkBtn) return;
+      // Saving is handled site-wide by the Wishlist class ([data-wishlist-toggle])
+      if (!this.bookmarkBtn || this.bookmarkBtn.hasAttribute('data-wishlist-toggle')) return;
       const productTitle = document.querySelector('.card-product-title, .product-page-title');
       const key = 'laceyaan_saved_' + (productTitle ? productTitle.textContent.trim().toLowerCase().replace(/\s+/g, '-') : 'product');
 
@@ -3932,10 +3933,222 @@
   /* ==========================================================================
      DOM Ready & Shopify Theme Editor Events Initialization
      ========================================================================== */
+  /* ==========================================================================
+     Saved Items (Wishlist)
+     Stored in this visitor's browser (localStorage). Buttons with
+     [data-wishlist-toggle] + data-handle/title/url/image/price save a product;
+     #open-wishlist-btn / [data-wishlist-open] open the drawer.
+     ========================================================================== */
+  class Wishlist {
+    constructor() {
+      this.KEY = 'laceyaan_wishlist';
+      this.drawer = document.getElementById('wishlist-drawer');
+      this.overlay = document.getElementById('wishlist-drawer-overlay');
+      this.itemsEl = this.drawer ? this.drawer.querySelector('[data-wishlist-items]') : null;
+      this.emptyEl = this.drawer ? this.drawer.querySelector('[data-wishlist-empty]') : null;
+
+      document.addEventListener('click', (e) => {
+        const toggle = e.target.closest('[data-wishlist-toggle]');
+        if (toggle) {
+          e.preventDefault();
+          e.stopPropagation();
+          this.toggle(toggle.dataset);
+          return;
+        }
+        if (e.target.closest('#open-wishlist-btn, [data-wishlist-open]')) {
+          e.preventDefault();
+          this.open();
+          return;
+        }
+        const removeBtn = e.target.closest('[data-wishlist-remove]');
+        if (removeBtn) {
+          e.preventDefault();
+          this.remove(removeBtn.dataset.wishlistRemove);
+          return;
+        }
+        if (e.target.closest('[data-wishlist-close]')) this.close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.isOpen()) this.close();
+      });
+
+      // Keep other open tabs in sync
+      window.addEventListener('storage', (e) => {
+        if (e.key === this.KEY) {
+          this.memory = null;
+          this.sync();
+        }
+      });
+
+      this.sync();
+    }
+
+    load() {
+      try {
+        const list = JSON.parse(localStorage.getItem(this.KEY) || '[]');
+        return Array.isArray(list) ? list.filter(i => i && i.handle) : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    store(list) {
+      this.memory = list;
+      try {
+        localStorage.setItem(this.KEY, JSON.stringify(list));
+      } catch (err) { /* storage unavailable: list lasts for this page only */ }
+    }
+
+    items() {
+      return this.memory || this.load();
+    }
+
+    toggle(data) {
+      if (!data || !data.handle) return;
+      const list = this.items();
+      const exists = list.some(i => i.handle === data.handle);
+      const next = exists
+        ? list.filter(i => i.handle !== data.handle)
+        : [{
+            handle: data.handle,
+            title: data.title || '',
+            url: data.url || `/products/${data.handle}`,
+            image: data.image || '',
+            price: data.price || ''
+          }, ...list];
+      this.store(next);
+      this.sync();
+    }
+
+    remove(handle) {
+      this.store(this.items().filter(i => i.handle !== handle));
+      this.sync();
+    }
+
+    sync() {
+      const list = this.items();
+      const saved = new Set(list.map(i => i.handle));
+
+      document.querySelectorAll('[data-wishlist-toggle]').forEach(btn => {
+        const on = saved.has(btn.dataset.handle);
+        btn.classList.toggle('is-saved', on);
+        btn.classList.toggle('is-bookmarked', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.setAttribute('aria-label', on ? 'Remove from Saved Items' : 'Save to Wishlist');
+      });
+
+      document.querySelectorAll('[data-wishlist-count]').forEach(el => {
+        el.textContent = list.length;
+        if (el.classList.contains('wishlist-count-bubble')) el.hidden = list.length === 0;
+      });
+
+      this.render(list);
+    }
+
+    render(list) {
+      if (!this.itemsEl) return;
+      if (this.emptyEl) this.emptyEl.style.display = list.length ? 'none' : 'block';
+      this.itemsEl.style.display = list.length ? 'flex' : 'none';
+      this.itemsEl.textContent = '';
+
+      list.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'cart-item-card wishlist-item-card';
+
+        const imgWrap = document.createElement('a');
+        imgWrap.className = 'cart-item-image-wrapper';
+        imgWrap.href = item.url;
+        if (item.image) {
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.title;
+          img.className = 'cart-item-img';
+          img.width = 80;
+          img.height = 80;
+          img.loading = 'lazy';
+          imgWrap.appendChild(img);
+        }
+
+        const content = document.createElement('div');
+        content.className = 'cart-item-content';
+
+        const header = document.createElement('div');
+        header.className = 'cart-item-header';
+        const title = document.createElement('h4');
+        title.className = 'cart-item-title';
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.textContent = item.title;
+        title.appendChild(link);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'cart-item-remove';
+        removeBtn.dataset.wishlistRemove = item.handle;
+        removeBtn.setAttribute('aria-label', `Remove ${item.title} from Saved Items`);
+        removeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+        header.append(title, removeBtn);
+
+        const footer = document.createElement('div');
+        footer.className = 'cart-item-footer';
+        const view = document.createElement('a');
+        view.className = 'wishlist-view-link';
+        view.href = item.url;
+        view.textContent = 'View Product →';
+        const price = document.createElement('div');
+        price.className = 'cart-item-price';
+        price.textContent = item.price;
+        footer.append(view, price);
+
+        content.append(header, footer);
+        card.append(imgWrap, content);
+        this.itemsEl.appendChild(card);
+      });
+    }
+
+    isOpen() {
+      return !!(this.drawer && this.drawer.classList.contains('active'));
+    }
+
+    open() {
+      if (!this.drawer) return;
+      // Close the mobile menu or bag first if either is open
+      const mobileMenu = document.getElementById('mobile-drawer');
+      if (mobileMenu && mobileMenu.classList.contains('is-open')) {
+        const closeMenu = document.getElementById('close-mobile-drawer');
+        if (closeMenu) closeMenu.click();
+      }
+      const bag = window.Laceyaan.cartDrawer;
+      if (bag && bag.drawer && bag.drawer.classList.contains('active')) bag.close();
+
+      this.sync();
+      this.drawer.classList.add('active', 'is-open');
+      this.drawer.setAttribute('aria-hidden', 'false');
+      if (this.overlay) {
+        this.overlay.classList.add('active', 'is-open');
+        this.overlay.setAttribute('aria-hidden', 'false');
+      }
+      document.body.classList.add('overflow-hidden');
+    }
+
+    close() {
+      if (!this.drawer) return;
+      this.drawer.classList.remove('active', 'is-open');
+      this.drawer.setAttribute('aria-hidden', 'true');
+      if (this.overlay) {
+        this.overlay.classList.remove('active', 'is-open');
+        this.overlay.setAttribute('aria-hidden', 'true');
+      }
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
+
   function initAll() {
     new AnnouncementBar();
     new Header();
     window.Laceyaan.cartDrawer = new CartDrawer();
+    window.Laceyaan.wishlist = new Wishlist();
     window.Laceyaan.cartPage = new CartPage();
     window.Laceyaan.pincodeChecker = new PincodeChecker();
     window.Laceyaan.deliveryManager = new DeliveryManager();

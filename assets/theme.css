@@ -12684,3 +12684,235 @@ input[name="quantity"]::-webkit-inner-spin-button {
     border-radius: 4px;
   }
 }
+
+/* ==========================================================================
+   Contact page form
+   ========================================================================== */
+.contact-head {
+  margin-bottom: 2rem;
+}
+
+.contact-form {
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-field--full {
+  grid-column: 1 / -1;
+}
+
+.contact-field label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #141311;
+  margin-bottom: 0.45rem;
+}
+
+.contact-field input,
+.contact-field textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background: #FAF9F5;
+  border: 1px solid rgba(20, 19, 17, 0.16);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #141311;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.contact-field textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  color: #A19C92;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  background: #FFFFFF;
+  border-color: var(--accent-gold-dark, #A38760);
+  box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.22);
+}
+
+.contact-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 1.75rem;
+  background: #141311;
+  color: var(--accent-gold);
+  border: 1px solid #141311;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-submit-btn:hover {
+  background: var(--accent-gold);
+  color: #141311;
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.contact-submit-btn .btn-arrow {
+  transition: transform 0.2s ease;
+}
+
+.contact-submit-btn:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+.contact-form-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.contact-form-status.is-success {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #166534;
+}
+
+.contact-form-status.is-success .status-icon {
+  font-weight: 800;
+}
+
+.contact-form-status.is-error {
+  display: block;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #991B1B;
+}
+
+.contact-form-status.is-error ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .contact-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Saved Items (wishlist)
+   ========================================================================== */
+.wishlist-btn {
+  position: relative;
+}
+
+.wishlist-count-bubble {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #141311;
+  color: var(--accent-gold);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.wishlist-count-bubble[hidden] {
+  display: none !important;
+}
+
+.wishlist-btn .wishlist-count-bubble {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+}
+
+.photo-action-btn.is-saved svg {
+  fill: #E0245E;
+  stroke: #E0245E;
+}
+
+.btn-wishlist-bookmark.is-bookmarked .bookmark-icon,
+.btn-wishlist-bookmark.is-saved svg {
+  fill: #141311 !important;
+}
+
+.mobile-saved-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 19, 17, 0.12);
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #141311;
+  cursor: pointer;
+}
+
+.mobile-saved-btn .wishlist-count-bubble {
+  margin-left: auto;
+}
+
+.wishlist-drawer .cart-items-list {
+  flex-direction: column;
+}
+
+.wishlist-drawer .cart-item-image-wrapper {
+  display: block;
+}
+
+.wishlist-view-link {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-gold-dark, #A38760);
+  text-decoration: none;
+}
+
+.wishlist-view-link:hover {
+  color: #141311;
+}

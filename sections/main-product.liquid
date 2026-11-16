@@ -23,7 +23,14 @@
             <div class="gallery-photo-stage">
               <!-- Top-Right Floating Actions (Wishlist & Share) -->
               <div class="photo-floating-actions">
-                <button type="button" class="photo-action-btn" id="PhotoWishlistBtn" aria-label="Save to Wishlist" title="Save to Wishlist">
+                <button type="button" class="photo-action-btn" id="PhotoWishlistBtn" aria-label="Save to Wishlist" title="Save to Wishlist"
+                  data-wishlist-toggle
+                  data-handle="{{ product.handle }}"
+                  data-title="{{ product.title | escape }}"
+                  data-url="{{ product.url }}"
+                  data-image="{% if product.featured_media %}{{ product.featured_media | image_url: width: 240 }}{% endif %}"
+                  data-price="{{ current_variant.price | money | escape }}"
+                  aria-pressed="false">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </button>
                 <button type="button" class="photo-action-btn" id="PhotoShareBtn" aria-label="Share Product" title="Share Product" onclick="if(navigator.share){navigator.share({title:document.title,url:window.location.href});}">
@@ -126,7 +133,14 @@
           <!-- Card Header: Title & Wishlist Bookmark -->
           <div class="card-title-row">
             <h1 class="card-product-title">{{ product.title }}</h1>
-            <button type="button" class="btn-wishlist-bookmark" id="WishlistBookmarkBtn" aria-label="Save to Wishlist" title="Save to Wishlist">
+            <button type="button" class="btn-wishlist-bookmark" id="WishlistBookmarkBtn" aria-label="Save to Wishlist" title="Save to Wishlist"
+                  data-wishlist-toggle
+                  data-handle="{{ product.handle }}"
+                  data-title="{{ product.title | escape }}"
+                  data-url="{{ product.url }}"
+                  data-image="{% if product.featured_media %}{{ product.featured_media | image_url: width: 240 }}{% endif %}"
+                  data-price="{{ current_variant.price | money | escape }}"
+                  aria-pressed="false">
               <svg class="bookmark-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
             </button>
           </div>

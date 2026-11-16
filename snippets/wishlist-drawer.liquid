@@ -1,0 +1,38 @@
+{% comment %}
+  Saved Items (wishlist) drawer.
+  Saved products live in the visitor's browser (localStorage) and are
+  rendered by the Wishlist class in theme.js. Any button with
+  [data-wishlist-toggle] + product data attributes saves/unsaves a product;
+  #open-wishlist-btn or [data-wishlist-open] opens this drawer.
+{% endcomment %}
+
+<div id="wishlist-drawer-overlay" class="cart-drawer-overlay" data-wishlist-close aria-hidden="true"></div>
+
+<div id="wishlist-drawer" class="cart-drawer wishlist-drawer" role="dialog" aria-modal="true" aria-labelledby="wishlist-drawer-heading" aria-hidden="true">
+  <div class="drawer-header">
+    <div class="drawer-title-group">
+      <h2 id="wishlist-drawer-heading" class="drawer-title">
+        Saved Items
+        <span class="drawer-count" data-wishlist-count>0</span>
+      </h2>
+    </div>
+    <div class="drawer-header-actions">
+      <button type="button" class="drawer-close-btn" data-wishlist-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon-close' %}
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer-body">
+    <div class="cart-empty-state" data-wishlist-empty>
+      <div class="empty-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+      </div>
+      <p class="empty-heading">Nothing saved yet</p>
+      <p class="empty-subtext">Tap the bookmark or heart on any lace to keep it here for later.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn-primary">Browse the Catalog</a>
+    </div>
+
+    <div class="cart-items-list" data-wishlist-items></div>
+  </div>
+</div>
