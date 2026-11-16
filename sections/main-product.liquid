@@ -194,12 +194,10 @@
             {%- endif -%}
           {%- endform -%}
 
-          <!-- Bluorng Tabs & Luxury Streetwear Perks -->
+          <!-- Bluorng Details & Luxury Streetwear Perks -->
           <div class="card-tabs-suite" id="CardTabsSuite">
             <div class="tabs-nav-bar">
-              <button type="button" class="tab-nav-btn active" data-tab-target="tab-desc">Details &amp; Description</button>
-              <button type="button" class="tab-nav-btn" data-tab-target="tab-shipping">Shipping &amp; Delivery</button>
-              <button type="button" class="tab-nav-btn" data-tab-target="tab-fit">Fit &amp; Sizing</button>
+              <span class="tab-nav-heading active">Details &amp; Description</span>
             </div>
 
             <div class="tab-pane active" id="tab-desc">
@@ -211,20 +209,6 @@
               <div class="tab-description-rte">
                 {{ product.description }}
               </div>
-            </div>
-
-            <div class="tab-pane" id="tab-shipping" hidden>
-              <p class="tab-lead-text">Dispatched from our New Delhi atelier with express pan-India tracking.</p>
-              {% render 'pincode-checker', context: 'product' %}
-            </div>
-
-            <div class="tab-pane" id="tab-fit" hidden>
-              <p class="tab-lead-text">Count the pairs of eyelets on your footwear to select your length:</p>
-              <ul class="tab-fit-list">
-                <li><strong>120cm (47")</strong> &mdash; 5 to 6 Eyelets (Low-tops &amp; untied court sneakers)</li>
-                <li><strong>140cm (55")</strong> &mdash; 6 to 7 Eyelets (Standard mid-top &amp; lifestyle kicks)</li>
-                <li><strong>160cm (63")</strong> &mdash; 7 to 8 Eyelets (High-tops tied to top eyelet)</li>
-              </ul>
             </div>
           </div>
         </div>

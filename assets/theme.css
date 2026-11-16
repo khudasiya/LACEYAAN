@@ -4296,6 +4296,25 @@ img {
   margin-bottom: 1rem !important;
 }
 
+.tab-nav-heading {
+  padding: 0.65rem 0.25rem !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
+  color: #141311 !important;
+  border-bottom: 2px solid #141311 !important;
+  display: inline-block !important;
+  text-transform: capitalize !important;
+}
+
+/* Suppress all legacy accordions (Shoelace Sizing & Length Guide, Shipping, Exchanges & Warranty) */
+.product-accordion,
+.accordion-item,
+.accordion-trigger,
+.accordion-panel {
+  display: none !important;
+}
+
 .tab-nav-btn {
   padding: 0.65rem 0.25rem !important;
   font-family: var(--font-sans) !important;

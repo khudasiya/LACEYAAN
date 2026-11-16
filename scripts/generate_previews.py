@@ -290,12 +290,10 @@ product_main = """
               </button>
             </div>
 
-            <!-- Bluorng Tabs & Luxury Streetwear Perks -->
+            <!-- Bluorng Details & Luxury Streetwear Perks (No Accordion Bloat) -->
             <div class="card-tabs-suite" id="CardTabsSuite">
               <div class="tabs-nav-bar">
-                <button type="button" class="tab-nav-btn active" data-tab-target="tab-desc">Details &amp; Description</button>
-                <button type="button" class="tab-nav-btn" data-tab-target="tab-shipping">Shipping &amp; Delivery</button>
-                <button type="button" class="tab-nav-btn" data-tab-target="tab-fit">Fit &amp; Sizing</button>
+                <span class="tab-nav-heading active">Details &amp; Description</span>
               </div>
 
               <div class="tab-pane active" id="tab-desc">
@@ -307,43 +305,6 @@ product_main = """
                 <div class="tab-description-rte">
                   <p>Triple-braided on high-tension Japanese shuttle looms. Woven from 100% long-staple combed cotton, finished with solid CNC-milled brass tips engraved with the LACEYAAN hallmark.</p>
                 </div>
-              </div>
-
-              <div class="tab-pane" id="tab-shipping" hidden>
-                <p class="tab-lead-text">Dispatched from our New Delhi atelier with express pan-India tracking.</p>
-                <!-- Pincode Estimator Widget -->
-                <div class="pincode-checker-widget pincode-context-product" data-pincode-widget>
-                  <div class="pincode-header">
-                    <div class="pincode-title-wrap">
-                      <span class="pincode-title">Estimated Delivery</span>
-                    </div>
-                  </div>
-                  <div class="pincode-form" data-pincode-form>
-                    <div class="pincode-input-wrapper">
-                      <input type="text" class="pincode-input" data-pincode-input placeholder="Enter 6-digit Pincode" maxlength="6">
-                      <button type="button" class="btn-pincode-check" data-pincode-submit><span>CHECK</span></button>
-                    </div>
-                  </div>
-                  <div class="pincode-result" data-pincode-result style="display: none;">
-                    <div class="pincode-success-row">
-                      <span class="pincode-check-icon">&#10003;</span>
-                      <div class="pincode-message-content">
-                        <p class="pincode-delivery-date">Delivering to <strong data-pincode-display>------</strong>: <span class="date-highlight">Before 20 December</span></p>
-                        <p class="pincode-delivery-sub">Complimentary Express Dispatch &bull; COD &amp; Prepaid Available</p>
-                      </div>
-                      <button type="button" class="btn-pincode-change" data-pincode-change>Change</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="tab-fit" hidden>
-                <p class="tab-lead-text">Count the pairs of eyelets on your footwear to select your length:</p>
-                <ul class="tab-fit-list">
-                  <li><strong>120cm (47")</strong> &mdash; 5 to 6 Eyelets (Low-tops &amp; untied court sneakers)</li>
-                  <li><strong>140cm (55")</strong> &mdash; 6 to 7 Eyelets (Standard mid-top &amp; lifestyle kicks)</li>
-                  <li><strong>160cm (63")</strong> &mdash; 7 to 8 Eyelets (High-tops tied to top eyelet)</li>
-                </ul>
               </div>
             </div>
           </div>
