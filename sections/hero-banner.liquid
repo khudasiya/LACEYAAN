@@ -34,17 +34,13 @@
 
   <div class="container hero-content-wrap">
     <div class="hero-inner">
-      {%- if section.settings.heading != blank -%}
-        <h1 class="hero-title">
-          {{ section.settings.heading }}
-        </h1>
-      {%- endif -%}
+      <h1 class="hero-title">
+        {{ section.settings.heading }}
+      </h1>
 
-      {%- if section.settings.subtitle != blank -%}
-        <p class="hero-subtitle">
-          {{ section.settings.subtitle }}
-        </p>
-      {%- endif -%}
+      <p class="hero-subtitle">
+        {{ section.settings.subtitle }}
+      </p>
 
       <div class="hero-cta-group">
         {%- if section.settings.button_1_label != blank -%}
@@ -133,13 +129,13 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading (Supports italics for luxury serif accent)",
-      "default": ""
+      "default": "Elevate Every Step. <em>Precision Laces</em> for Every Style."
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Subtitle",
-      "default": ""
+      "default": "Factory laces were made to save margins. laceyaan laces are engineered to honor design. Hand-finished in solid brass and Japanese combed cotton to elevate your sneakers, sport shoes, formal wear, and boots."
     },
     {
       "type": "text",
@@ -156,7 +152,7 @@
       "type": "text",
       "id": "button_2_label",
       "label": "Secondary Button Label",
-      "default": ""
+      "default": "Find Your Length"
     },
     {
       "type": "url",
