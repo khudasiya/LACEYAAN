@@ -1704,52 +1704,381 @@
   }
 
   /* ==========================================================================
-     8b. Main Product Detail Page Pure Real-Photo Gallery Controller
+     8b. Main Product Detail Page Bluorng Editorial Gallery & Lightbox Suite
+     - Direct Picture Navigation & Carousel Controls ("go through all the pictures")
+     - Fullscreen Image Lightbox Modal with Arrow & Keyboard Navigation
+     - Wishlist Bookmark Toggle
+     - Size Guide Modal
+     - Bluorng Streetwear Tabs
      ========================================================================== */
   class ProductGalleryController {
     constructor() {
-      this.mainImg = document.getElementById('ProductMainImage');
-      this.thumbs = document.querySelectorAll('.gallery-thumb-btn');
-      if (!this.mainImg) return;
+      this.galleryGrid = document.getElementById('BluorngEditorialGrid');
+      this.cards = document.querySelectorAll('.gallery-item-card');
+      this.counterPill = document.getElementById('GalleryCounterPill');
+      this.zoomTrigger = document.getElementById('GalleryZoomTrigger');
+      this.prevBtn = document.getElementById('GalleryPrevBtn');
+      this.nextBtn = document.getElementById('GalleryNextBtn');
+      this.dots = document.querySelectorAll('.carousel-dot');
+      this.thumbs = document.querySelectorAll('.thumb-dock-pill, .gallery-thumb-btn');
 
+      // Lightbox elements
+      this.lightbox = document.getElementById('GalleryLightboxModal');
+      this.lightboxImg = document.getElementById('LightboxActiveImg');
+      this.lightboxCounter = document.getElementById('LightboxCounter');
+      this.lightboxPrev = document.getElementById('LightboxPrevBtn');
+      this.lightboxNext = document.getElementById('LightboxNextBtn');
+      this.lightboxClose = document.getElementById('LightboxCloseBtn');
+      this.lightboxOverlay = document.getElementById('LightboxOverlay');
+      this.lightboxThumbsStrip = document.getElementById('LightboxThumbsStrip');
+
+      // Card controls
+      this.bookmarkBtn = document.getElementById('WishlistBookmarkBtn');
+      this.sizeGuideBtn = document.getElementById('OpenSizeGuideBtn');
+      this.sizeGuideModal = document.getElementById('SizeGuideModal');
+      this.sizeGuideClose = document.getElementById('SizeGuideCloseBtn');
+      this.sizeGuideBackdrop = document.getElementById('SizeGuideBackdrop');
+      this.tabBtns = document.querySelectorAll('.tab-nav-btn');
+
+      this.currentIndex = 0;
+      this.imagesList = [];
+
+      this.initImageList();
       this.bindEvents();
+      this.initTabs();
+      this.initSizeGuide();
+      this.initBookmark();
+    }
+
+    initImageList() {
+      this.imagesList = [];
+      if (this.cards.length > 0) {
+        this.cards.forEach((card, idx) => {
+          const img = card.querySelector('img');
+          const fullUrl = card.dataset.fullUrl || (img ? img.src : '');
+          const thumbUrl = img ? img.src : fullUrl;
+          this.imagesList.push({
+            index: idx,
+            fullUrl: fullUrl,
+            thumbUrl: thumbUrl,
+            alt: img ? img.alt : ''
+          });
+        });
+      } else {
+        const mainImg = document.getElementById('ProductMainImage');
+        if (mainImg) {
+          this.imagesList.push({
+            index: 0,
+            fullUrl: mainImg.src,
+            thumbUrl: mainImg.src,
+            alt: mainImg.alt || ''
+          });
+        }
+      }
+
+      this.updateCounter();
     }
 
     bindEvents() {
-      // Gallery thumb buttons switch real product photos with high-end crossfade
-      this.thumbs.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+      // 1. Click on card or expand button opens fullscreen lightbox
+      this.cards.forEach((card, idx) => {
+        card.addEventListener('click', (e) => {
           e.preventDefault();
-          this.thumbs.forEach(t => t.classList.remove('active'));
+          this.openLightbox(idx);
+        });
+      });
+
+      // 2. Zoom button opens lightbox
+      if (this.zoomTrigger) {
+        this.zoomTrigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.openLightbox(this.currentIndex);
+        });
+      }
+
+      // 3. Carousel Next/Prev buttons on page
+      if (this.prevBtn) {
+        this.prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.goToSlide(this.currentIndex - 1);
+        });
+      }
+      if (this.nextBtn) {
+        this.nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.goToSlide(this.currentIndex + 1);
+        });
+      }
+
+      // 4. Dot navigation
+      this.dots.forEach((dot, idx) => {
+        dot.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.goToSlide(idx);
+        });
+      });
+
+      // 5. Thumbnail dock buttons
+      this.thumbs.forEach((thumb, idx) => {
+        thumb.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetIdx = thumb.dataset.thumbIndex !== undefined ? parseInt(thumb.dataset.thumbIndex, 10) : idx;
+          this.goToSlide(targetIdx);
+
+          // If legacy single image viewport exists, switch image src
+          const mediaUrl = thumb.dataset.mediaUrl;
+          const mainImg = document.getElementById('ProductMainImage');
+          if (mediaUrl && mainImg) {
+            mainImg.src = mediaUrl;
+            mainImg.removeAttribute('srcset');
+          }
+        });
+      });
+
+      // 6. Scroll tracking on mobile carousel to update counter and dots
+      if (this.galleryGrid) {
+        let scrollTimeout;
+        this.galleryGrid.addEventListener('scroll', () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            const scrollLeft = this.galleryGrid.scrollLeft;
+            const cardWidth = this.cards[0] ? this.cards[0].offsetWidth : window.innerWidth;
+            const newIndex = Math.round(scrollLeft / cardWidth);
+            if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex < this.imagesList.length) {
+              this.currentIndex = newIndex;
+              this.updateCounter();
+              this.updateActiveDot();
+            }
+          }, 60);
+        }, { passive: true });
+      }
+
+      // 7. Lightbox controls
+      if (this.lightboxClose) {
+        this.lightboxClose.addEventListener('click', () => this.closeLightbox());
+      }
+      if (this.lightboxOverlay) {
+        this.lightboxOverlay.addEventListener('click', () => this.closeLightbox());
+      }
+      if (this.lightboxPrev) {
+        this.lightboxPrev.addEventListener('click', () => this.lightboxStep(-1));
+      }
+      if (this.lightboxNext) {
+        this.lightboxNext.addEventListener('click', () => this.lightboxStep(1));
+      }
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (!this.lightbox || !this.lightbox.classList.contains('is-open')) return;
+        if (e.key === 'ArrowLeft') this.lightboxStep(-1);
+        else if (e.key === 'ArrowRight') this.lightboxStep(1);
+        else if (e.key === 'Escape') this.closeLightbox();
+      });
+    }
+
+    goToSlide(index) {
+      const total = this.imagesList.length;
+      if (total === 0) return;
+      if (index < 0) index = total - 1;
+      if (index >= total) index = 0;
+
+      this.currentIndex = index;
+      this.updateCounter();
+      this.updateActiveDot();
+
+      // Scroll card into view smoothly
+      if (this.cards[index]) {
+        this.cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+
+      // Highlight active thumb
+      this.thumbs.forEach((t, i) => {
+        t.classList.toggle('active', i === index);
+      });
+    }
+
+    updateCounter() {
+      const total = this.imagesList.length || 1;
+      const displayIndex = (this.currentIndex + 1);
+      if (this.counterPill) {
+        this.counterPill.textContent = `${displayIndex} / ${total}`;
+      }
+      if (this.lightboxCounter) {
+        this.lightboxCounter.textContent = `${displayIndex} / ${total}`;
+      }
+    }
+
+    updateActiveDot() {
+      this.dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === this.currentIndex);
+      });
+    }
+
+    /* ── FULLSCREEN LIGHTBOX MODAL ── */
+    openLightbox(index) {
+      if (!this.lightbox || this.imagesList.length === 0) return;
+      const total = this.imagesList.length;
+      if (index < 0) index = 0;
+      if (index >= total) index = total - 1;
+
+      this.currentIndex = index;
+      this.renderLightboxThumbs();
+      this.setLightboxImage(this.currentIndex);
+
+      this.lightbox.classList.add('is-open');
+      this.lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    closeLightbox() {
+      if (!this.lightbox) return;
+      this.lightbox.classList.remove('is-open');
+      this.lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    lightboxStep(delta) {
+      const total = this.imagesList.length;
+      if (total <= 1) return;
+      let nextIdx = this.currentIndex + delta;
+      if (nextIdx < 0) nextIdx = total - 1;
+      if (nextIdx >= total) nextIdx = 0;
+      this.currentIndex = nextIdx;
+      this.setLightboxImage(this.currentIndex);
+    }
+
+    setLightboxImage(index) {
+      const item = this.imagesList[index];
+      if (!item || !this.lightboxImg) return;
+
+      this.lightboxImg.style.opacity = '0.35';
+      this.lightboxImg.style.transform = 'scale(0.97)';
+      setTimeout(() => {
+        this.lightboxImg.src = item.fullUrl;
+        this.lightboxImg.alt = item.alt || 'Product image';
+        this.lightboxImg.style.opacity = '1';
+        this.lightboxImg.style.transform = 'scale(1)';
+      }, 100);
+
+      this.updateCounter();
+
+      // Highlight active thumbnail in lightbox strip
+      if (this.lightboxThumbsStrip) {
+        const thumbButtons = this.lightboxThumbsStrip.querySelectorAll('.lightbox-thumb-item');
+        thumbButtons.forEach((btn, i) => {
+          btn.classList.toggle('active', i === index);
+        });
+      }
+    }
+
+    renderLightboxThumbs() {
+      if (!this.lightboxThumbsStrip) return;
+      this.lightboxThumbsStrip.innerHTML = '';
+      if (this.imagesList.length <= 1) return;
+
+      this.imagesList.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `lightbox-thumb-item${idx === this.currentIndex ? ' active' : ''}`;
+        btn.setAttribute('aria-label', `View photo ${idx + 1}`);
+        const img = document.createElement('img');
+        img.src = item.thumbUrl;
+        img.alt = `Thumbnail ${idx + 1}`;
+        btn.appendChild(img);
+
+        btn.addEventListener('click', () => {
+          this.currentIndex = idx;
+          this.setLightboxImage(idx);
+        });
+
+        this.lightboxThumbsStrip.appendChild(btn);
+      });
+    }
+
+    /* ── BLUORNG CARD TABS ── */
+    initTabs() {
+      this.tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.dataset.tabTarget;
+          this.tabBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
 
-          const mediaUrl = btn.dataset.mediaUrl;
-          if (mediaUrl && this.mainImg) {
-            this.mainImg.style.transition = 'opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)';
-            this.mainImg.style.opacity = '0.35';
-            this.mainImg.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-              this.mainImg.src = mediaUrl;
-              this.mainImg.removeAttribute('srcset');
-              this.mainImg.style.opacity = '1';
-              this.mainImg.style.transform = 'scale(1)';
-            }, 100);
-          }
+          const tabPanes = document.querySelectorAll('.tab-pane');
+          tabPanes.forEach(pane => {
+            if (pane.id === targetId) {
+              pane.removeAttribute('hidden');
+              pane.classList.add('active');
+            } else {
+              pane.setAttribute('hidden', '');
+              pane.classList.remove('active');
+            }
+          });
         });
       });
     }
 
-    setImage(url) {
-      if (!this.mainImg || !url) return;
-      this.mainImg.src = url;
-      this.mainImg.removeAttribute('srcset');
-      const cleanUrl = url.split('?')[0];
-      this.thumbs.forEach(thumb => {
-        const thumbUrl = (thumb.dataset.mediaUrl || '').split('?')[0];
-        thumb.classList.toggle('active', thumbUrl === cleanUrl);
+    /* ── SIZE GUIDE MODAL ── */
+    initSizeGuide() {
+      if (this.sizeGuideBtn && this.sizeGuideModal) {
+        this.sizeGuideBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.sizeGuideModal.classList.add('is-open');
+          this.sizeGuideModal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        });
+
+        const closeGuide = () => {
+          this.sizeGuideModal.classList.remove('is-open');
+          this.sizeGuideModal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        };
+
+        if (this.sizeGuideClose) this.sizeGuideClose.addEventListener('click', closeGuide);
+        if (this.sizeGuideBackdrop) this.sizeGuideBackdrop.addEventListener('click', closeGuide);
+      }
+    }
+
+    /* ── WISHLIST BOOKMARK ── */
+    initBookmark() {
+      if (!this.bookmarkBtn) return;
+      const productTitle = document.querySelector('.card-product-title, .product-page-title');
+      const key = 'laceyaan_saved_' + (productTitle ? productTitle.textContent.trim().toLowerCase().replace(/\s+/g, '-') : 'product');
+
+      if (localStorage.getItem(key) === 'true') {
+        this.bookmarkBtn.classList.add('is-bookmarked');
+      }
+
+      this.bookmarkBtn.addEventListener('click', () => {
+        const isSaved = this.bookmarkBtn.classList.toggle('is-bookmarked');
+        localStorage.setItem(key, isSaved ? 'true' : 'false');
       });
     }
+
+    /* ── EXTERNAL VARIANT SWITCHER COMPATIBILITY ── */
+    setImage(url) {
+      if (!url) return;
+      const cleanUrl = url.split('?')[0];
+
+      // Find matching card index
+      let matchIdx = -1;
+      this.imagesList.forEach((item, idx) => {
+        if (item.fullUrl.split('?')[0] === cleanUrl || item.thumbUrl.split('?')[0] === cleanUrl) {
+          matchIdx = idx;
+        }
+      });
+
+      if (matchIdx !== -1) {
+        this.goToSlide(matchIdx);
+      } else {
+        const mainImg = document.getElementById('ProductMainImage');
+        if (mainImg) {
+          mainImg.src = url;
+          mainImg.removeAttribute('srcset');
+        }
+      }
+    }
   }
+
 
   /* ==========================================================================
      8c. Mobile Sticky Add-to-Bag Controller (PDP)

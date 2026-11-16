@@ -1,13 +1,13 @@
 {%- comment -%}
-  LACEYAAN Atelier Native Product Detail Section with Dynamic Variants & Accordion Tabs
+  LACEYAAN Atelier High-Fashion Editorial Product Detail Section (Bluorng Luxury Aesthetic)
 {%- endcomment -%}
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
-<section class="main-product-section" data-section-id="{{ section.id }}" data-section-type="main-product" {{ section.shopify_attributes }}>
-  <div class="container">
-    <!-- Breadcrumbs -->
-    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+<section class="main-product-section bluorng-product-page" data-section-id="{{ section.id }}" data-section-type="main-product" {{ section.shopify_attributes }}>
+  <div class="container bluorng-container">
+    <!-- Clean Minimalist Breadcrumbs -->
+    <nav class="breadcrumb-nav bluorng-breadcrumb" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Home</a>
       <span class="bc-sep">/</span>
       {%- if collection -%}
@@ -20,119 +20,134 @@
       <span class="bc-current" aria-current="page">{{ product.title }}</span>
     </nav>
 
-    <div class="product-layout-grid">
-      <!-- Left: High-Resolution Atelier Product Gallery -->
-      <div class="product-gallery atelier-product-gallery">
-        <div class="main-gallery-viewport" id="ProductPageGalleryViewport">
-          <div class="gallery-main-image-wrap" id="ProductMainImageWrap">
-            {%- if product.featured_media != blank -%}
-              {{ product.featured_media | image_url: width: 1400 | image_tag: 
-                class: 'main-product-img', 
-                id: 'ProductMainImage',
-                widths: '600, 800, 1000, 1200, 1400',
-                loading: 'eager',
-                alt: product.featured_media.alt | default: product.title | escape 
-              }}
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-            {%- endif -%}
-          </div>
-
-          <div class="gallery-badges">
-            {%- if current_variant.available == false -%}
-              <span class="badge badge-sold-out" data-stock-text>{{ 'products.product.sold_out' | t }}</span>
-            {%- elsif product.compare_at_price > product.price -%}
-              {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-              <span class="badge badge-sale" data-save-badge>Save {{ savings }}%</span>
-            {%- endif -%}
-          </div>
+    <div class="bluorng-product-layout">
+      <!-- Left: Bluorng Multi-Image Editorial Gallery -->
+      <div class="bluorng-gallery-col" id="BluorngGalleryCol">
+        <!-- Floating Controls / Counter on Gallery -->
+        <div class="gallery-floating-bar">
+          <span class="gallery-counter-pill" id="GalleryCounterPill">1 / {{ product.media.size | default: 1 }}</span>
+          <button type="button" class="gallery-zoom-trigger" id="GalleryZoomTrigger" aria-label="Open Fullscreen Lightbox">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </button>
         </div>
 
+        <!-- Editorial Gallery Grid (Desktop 2-Column Mosaic) & Swipe Carousel (Mobile) -->
+        <div class="bluorng-editorial-grid" id="BluorngEditorialGrid" data-media-count="{{ product.media.size }}">
+          {%- if product.media.size > 0 -%}
+            {%- for media in product.media -%}
+              <div 
+                class="gallery-item-card{% if forloop.first %} is-hero-item active{% endif %}" 
+                data-media-index="{{ forloop.index0 }}"
+                data-full-url="{{ media | image_url: width: 2000 }}"
+              >
+                {{ media | image_url: width: 1400 | image_tag: 
+                  class: 'gallery-editorial-img',
+                  id: forloop.first ? 'ProductMainImage' : '',
+                  loading: forloop.first ? 'eager' : 'lazy',
+                  widths: '600, 800, 1000, 1400',
+                  alt: media.alt | default: product.title | escape 
+                }}
+                <button type="button" class="card-expand-btn" aria-label="View photo {{ forloop.index }} in high resolution">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                </button>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="gallery-item-card is-hero-item active" data-media-index="0" data-full-url="{% if product.featured_media != blank %}{{ product.featured_media | image_url: width: 2000 }}{% endif %}">
+              {%- if product.featured_media != blank -%}
+                {{ product.featured_media | image_url: width: 1400 | image_tag: 
+                  class: 'gallery-editorial-img', 
+                  id: 'ProductMainImage',
+                  loading: 'eager',
+                  alt: product.title | escape 
+                }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <!-- Mobile Carousel Navigation Controls (Arrows + Dots) -->
+        <div class="gallery-carousel-nav" id="GalleryCarouselNav">
+          <button type="button" class="carousel-arrow-btn prev-btn" id="GalleryPrevBtn" aria-label="Previous photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          
+          <div class="carousel-dots-wrap" id="GalleryDotsWrap">
+            {%- for media in product.media -%}
+              <button type="button" class="carousel-dot{% if forloop.first %} active{% endif %}" data-dot-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+            {%- endfor -%}
+          </div>
+
+          <button type="button" class="carousel-arrow-btn next-btn" id="GalleryNextBtn" aria-label="Next photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+
+        <!-- Desktop Quick Thumbnail Bar below grid if 2+ photos -->
         {%- if product.media.size > 1 -%}
-          <div class="gallery-thumbs-rail" id="ProductGalleryThumbs">
+          <div class="bluorng-thumbs-dock" id="BluorngThumbsDock">
             {%- for media in product.media -%}
               <button 
                 type="button" 
-                class="gallery-thumb-btn{% if forloop.first %} active{% endif %}" 
+                class="thumb-dock-pill gallery-thumb-btn{% if forloop.first %} active{% endif %}" 
+                data-thumb-index="{{ forloop.index0 }}"
                 data-media-url="{{ media | image_url: width: 1400 }}"
-                aria-label="View product image {{ forloop.index }}"
+                aria-label="Jump to photo {{ forloop.index }}"
               >
-                {{ media | image_url: width: 180, height: 180, crop: 'center' | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
+                {{ media | image_url: width: 120, height: 120, crop: 'center' | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
               </button>
             {%- endfor -%}
           </div>
         {%- endif -%}
       </div>
 
-      <!-- Right: Product Information & Native Variant Form -->
-      <div class="product-info-column">
-        {%- assign vendor_clean = product.vendor | default: '' | strip -%}
-        {%- assign vendor_lower = vendor_clean | downcase -%}
-        {%- assign shop_lower = shop.name | downcase -%}
-        {%- if settings.show_vendor and vendor_clean != blank and vendor_lower != 'my store' and vendor_lower != shop_lower -%}
-          <span class="product-vendor-badge">{{ vendor_clean }}</span>
-        {%- elsif product.type != blank -%}
-          <span class="product-vendor-badge">{{ product.type }}</span>
-        {%- endif -%}
+      <!-- Right: Bluorng Floating White Purchasing Card -->
+      <div class="bluorng-card-col">
+        <div class="bluorng-buy-card">
+          <!-- Card Header: Title & Wishlist Bookmark -->
+          <div class="card-title-row">
+            <h1 class="card-product-title">{{ product.title }}</h1>
+            <button type="button" class="btn-wishlist-bookmark" id="WishlistBookmarkBtn" aria-label="Save to Wishlist" title="Save to Wishlist">
+              <svg class="bookmark-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            </button>
+          </div>
 
-        <h1 class="product-page-title">{{ product.title }}</h1>
-
-        <!-- Price -->
-        <div class="product-price-container" id="product-price-{{ section.id }}" data-product-price-container>
-          <span class="price-now" data-product-price>{{ current_variant.price | money }}</span>
-          <span class="price-was" data-compare-price{% unless current_variant.compare_at_price > current_variant.price %} style="display: none;"{% endunless %}>
-            {{ current_variant.compare_at_price | money }}
-          </span>
-          {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
-          <span class="badge badge-sale" data-save-badge{% unless current_variant.compare_at_price > current_variant.price %} style="display: none;"{% endunless %}>
-            SAVE {{ save_amount | money }}
-          </span>
-        </div>
-
-        <!-- Stock indicator -->
-        <div class="product-stock-status" data-stock-badge>
-          {%- if current_variant.available -%}
-            <span class="stock-pill stock-in">
-              <span class="stock-dot"></span>
-              <span data-stock-text>{{ 'products.product.in_stock' | t | default: 'IN ATELIER STOCK' }}</span>
+          <!-- Price & Stock Status -->
+          <div class="card-price-row">
+            <span class="card-price-now" data-product-price>{{ current_variant.price | money }}</span>
+            <span class="card-price-was" data-compare-price{% unless current_variant.compare_at_price > current_variant.price %} style="display: none;"{% endunless %}>
+              {{ current_variant.compare_at_price | money }}
             </span>
-          {%- else -%}
-            <span class="stock-pill stock-out">
+            <span class="card-stock-status">
               <span class="stock-dot"></span>
-              <span data-stock-text>{{ 'products.product.sold_out' | t | default: 'SOLD OUT' }}</span>
+              <span data-stock-text>
+                {%- if current_variant.available -%}In Stock &mdash; Ready to Dispatch{%- else -%}Sold Out{%- endif -%}
+              </span>
             </span>
-          {%- endif -%}
-        </div>
+          </div>
 
-        <!-- Short Subtitle or Summary -->
-        {%- if product.metafields.descriptors.subtitle != blank -%}
-          <p class="product-teaser">{{ product.metafields.descriptors.subtitle }}</p>
-        {%- endif -%}
-
-        <!-- Native Shopify Product Form with Buy Now & Add to Bag -->
-        {%- form 'product', product, id: 'product-form-installment', class: 'native-product-form' -%}
+          <!-- Native Shopify Form -->
+          {%- form 'product', product, id: 'product-form-installment', class: 'bluorng-native-form' -%}
             <input type="hidden" name="id" value="{{ current_variant.id }}" id="selected-variant-id">
+            <input type="hidden" name="quantity" value="1" id="product-quantity-input">
 
-            <!-- Dynamic Option Selectors (Length, Color, Aglet Finish) -->
+            <!-- Size / Length Selection -->
             {%- unless product.has_only_default_variant -%}
-              <div class="product-options-wrapper">
+              <div class="card-variants-section">
                 {%- for option in product.options_with_values -%}
-                  <div class="option-group" data-option-group data-option-index="{{ forloop.index0 }}">
-                    <div class="option-header">
-                      <label class="option-label">
-                        {{ option.name }}: <strong class="selected-option-value" data-selected-option-label="{{ option.name | escape }}">{{ option.selected_value }}</strong>
-                      </label>
-                      {%- assign opt_down = option.name | downcase -%}
-                      {%- if opt_down contains 'length' -%}
-                        <a href="/pages/length-guide" class="length-calculator-link" target="_blank" rel="noopener noreferrer">
-                          <span>Calculate Length &rarr;</span>
-                        </a>
-                      {%- endif -%}
+                  <div class="variant-option-block" data-option-group data-option-index="{{ forloop.index0 }}">
+                    <div class="variant-label-row">
+                      <span class="variant-name-label">
+                        {{ option.name }}: <strong class="active-val" data-selected-option-label="{{ option.name | escape }}">{{ option.selected_value }}</strong>
+                      </span>
+                      <button type="button" class="btn-size-guide-pill" id="OpenSizeGuideBtn">Size Guide</button>
                     </div>
 
-                    <div class="option-values-row">
+                    <div class="variant-pills-row">
                       {%- for value in option.values -%}
-                        <label class="option-value-chip{% if option.selected_value == value %} active{% endif %}" data-chip-label>
+                        <label class="variant-size-pill{% if option.selected_value == value %} is-selected{% endif %}">
                           <input 
                             type="radio" 
                             name="options[{{ option.name | escape }}]" 
@@ -142,117 +157,167 @@
                             data-option-input
                             data-option-position="{{ option.position }}"
                           >
-                          <span class="chip-label">{{ value }}</span>
+                          <span class="pill-text">{{ value }}</span>
                         </label>
                       {%- endfor -%}
                     </div>
                   </div>
                 {%- endfor -%}
               </div>
+            {%- else -%}
+              <div class="card-variants-section single-variant-guide">
+                <div class="variant-label-row">
+                  <span class="variant-name-label">Standard Atelier Universal Fit</span>
+                  <button type="button" class="btn-size-guide-pill" id="OpenSizeGuideBtn">Size Guide</button>
+                </div>
+              </div>
             {%- endunless -%}
 
-            <!-- Quantity Picker & Add to Bag / Buy Now Action Row -->
-            <div class="product-purchase-row">
-              <div class="quantity-input-wrap">
-                <label for="Quantity-{{ section.id }}" class="visually-hidden">{{ 'products.product.quantity' | t }}</label>
-                <button type="button" class="qty-btn" data-qty-action="minus" data-qty-minus aria-label="Decrease quantity">-</button>
-                <input 
-                  type="number" 
-                  name="quantity" 
-                  id="Quantity-{{ section.id }}" 
-                  min="1" 
-                  value="1" 
-                  class="quantity-input"
-                  aria-label="{{ 'products.product.quantity' | t }}"
-                >
-                <button type="button" class="qty-btn" data-qty-action="plus" data-qty-plus aria-label="Increase quantity">+</button>
-              </div>
-
+            <!-- Actions Row: Add to Bag (White) + Buy Now (Black) -->
+            <div class="card-actions-row">
               <button 
                 type="submit" 
                 name="add" 
-                class="btn-primary btn-add-main" 
+                class="btn-bluorng-bag" 
                 id="AddToCart-{{ section.id }}"
                 data-add-to-cart-button
                 {% unless current_variant.available %}disabled{% endunless %}
               >
-                {% render 'icon-shopping-bag' %}
                 <span id="AddToCartText-{{ section.id }}" data-add-to-cart-text>
-                  {%- if current_variant.available -%}
-                    {{ 'products.product.add_to_cart' | t | default: 'ADD TO BAG' }} &bull; <span class="btn-price">{{ current_variant.price | money }}</span>
-                  {%- else -%}
-                    {{ 'products.product.sold_out' | t | default: 'SOLD OUT' }}
-                  {%- endif -%}
+                  {%- if current_variant.available -%}ADD TO BAG{%- else -%}SOLD OUT{%- endif -%}
                 </span>
               </button>
 
               <button 
                 type="button" 
-                class="btn-secondary btn-buy-now-main" 
+                class="btn-bluorng-buy" 
                 id="BuyNow-{{ section.id }}"
                 data-direct-buy-now
                 data-variant-id="{{ current_variant.id }}"
                 data-product-handle="{{ product.handle }}"
                 {% unless current_variant.available %}disabled style="display:none;"{% endunless %}
               >
-                <span>BUY NOW</span>
+                BUY NOW
               </button>
             </div>
 
-            <!-- Dynamic Shopify Payment Buttons (Apple Pay, Google Pay, Shop Pay) -->
             {%- if section.settings.show_dynamic_checkout -%}
               <div class="dynamic-payment-buttons">
                 {{ form | payment_button }}
               </div>
             {%- endif -%}
-
-            <!-- Pincode Delivery Checker on Product Page -->
-            {% render 'pincode-checker', context: 'product' %}
           {%- endform -%}
-        {%- endif -%}
 
+          <!-- Bluorng Tabs & Luxury Streetwear Perks -->
+          <div class="card-tabs-suite" id="CardTabsSuite">
+            <div class="tabs-nav-bar">
+              <button type="button" class="tab-nav-btn active" data-tab-target="tab-desc">Details &amp; Description</button>
+              <button type="button" class="tab-nav-btn" data-tab-target="tab-shipping">Shipping &amp; Delivery</button>
+              <button type="button" class="tab-nav-btn" data-tab-target="tab-fit">Fit &amp; Sizing</button>
+            </div>
 
-        <!-- Accordion Information Tabs -->
-        <div class="product-accordions">
-          <div class="accordion-item active">
-            <button type="button" class="accordion-trigger" aria-expanded="true">
-              <span>Textile Weave &amp; Craft Details</span>
-              <span class="acc-icon">&minus;</span>
-            </button>
-            <div class="accordion-panel">
-              <div class="rte product-description-body">
+            <div class="tab-pane active" id="tab-desc">
+              <div class="luxury-perks-list">
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
+              </div>
+              <div class="tab-description-rte">
                 {{ product.description }}
               </div>
             </div>
-          </div>
 
-          <div class="accordion-item">
-            <button type="button" class="accordion-trigger" aria-expanded="false">
-              <span>Shoelace Sizing &amp; Length Guide</span>
-              <span class="acc-icon">+</span>
-            </button>
-            <div class="accordion-panel" hidden>
-              <p>Count the pairs of eyelets on your shoes to choose your ideal length:</p>
-              <ul class="sizing-bullets">
-                <li><strong>36" (90cm)</strong> &mdash; 4 Eyelets (Casual low-tops, dress oxfords)</li>
-                <li><strong>45" (114cm)</strong> &mdash; 5–6 Eyelets (Retro court low-tops, running trainers, untied drape)</li>
-                <li><strong>54" (137cm)</strong> &mdash; 6–7 Eyelets (Standard sneakers, lifestyle kicks, trainers)</li>
-                <li><strong>63" (160cm)</strong> &mdash; 7–8 Eyelets (Mid-tops, high-tops tied to collar)</li>
-                <li><strong>72" (182cm)</strong> &mdash; 8–9 Eyelets (High-top basketball sneakers, workwear boots)</li>
+            <div class="tab-pane" id="tab-shipping" hidden>
+              <p class="tab-lead-text">Dispatched from our New Delhi atelier with express pan-India tracking.</p>
+              {% render 'pincode-checker', context: 'product' %}
+            </div>
+
+            <div class="tab-pane" id="tab-fit" hidden>
+              <p class="tab-lead-text">Count the pairs of eyelets on your footwear to select your length:</p>
+              <ul class="tab-fit-list">
+                <li><strong>120cm (47")</strong> &mdash; 5 to 6 Eyelets (Low-tops &amp; untied court sneakers)</li>
+                <li><strong>140cm (55")</strong> &mdash; 6 to 7 Eyelets (Standard mid-top &amp; lifestyle kicks)</li>
+                <li><strong>160cm (63")</strong> &mdash; 7 to 8 Eyelets (High-tops tied to top eyelet)</li>
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div class="accordion-item">
-            <button type="button" class="accordion-trigger" aria-expanded="false">
-              <span>Shipping, Exchanges &amp; Warranty</span>
-              <span class="acc-icon">+</span>
-            </button>
-            <div class="accordion-panel" hidden>
-              <p>Every pair is hand-checked in our New Delhi atelier. Orders placed before 2:00 PM IST dispatch the same business day via Bluedart / Delhivery express courier.</p>
-              <p>Backed by our 30-Day Guaranteed Fit Policy: if the length or hue isn't immaculate on your rotation, we exchange it for free.</p>
-            </div>
-          </div>
+  <!-- Fullscreen Lightbox Image Gallery Modal ("i should be able to go through all the pictures") -->
+  <div class="gallery-lightbox-modal" id="GalleryLightboxModal" aria-hidden="true">
+    <div class="lightbox-overlay" id="LightboxOverlay"></div>
+    <div class="lightbox-stage">
+      <button type="button" class="lightbox-close-btn" id="LightboxCloseBtn" aria-label="Close Lightbox">&times;</button>
+      
+      <div class="lightbox-counter-bar">
+        <span class="lightbox-counter" id="LightboxCounter">1 / 1</span>
+        <span class="lightbox-title">{{ product.title }}</span>
+      </div>
+
+      <div class="lightbox-image-wrap">
+        <button type="button" class="lightbox-arrow-btn prev-arrow" id="LightboxPrevBtn" aria-label="Previous image">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <img src="" alt="{{ product.title | escape }}" class="lightbox-active-img" id="LightboxActiveImg">
+        <button type="button" class="lightbox-arrow-btn next-arrow" id="LightboxNextBtn" aria-label="Next image">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="lightbox-thumbs-strip" id="LightboxThumbsStrip"></div>
+    </div>
+  </div>
+
+  <!-- Interactive Size Guide Modal -->
+  <div class="size-guide-modal" id="SizeGuideModal" aria-hidden="true">
+    <div class="size-guide-backdrop" id="SizeGuideBackdrop"></div>
+    <div class="size-guide-dialog">
+      <div class="size-guide-header">
+        <h3 class="size-guide-title">Shoelace Length &amp; Fit Guide</h3>
+        <button type="button" class="size-guide-close" id="SizeGuideCloseBtn" aria-label="Close Size Guide">&times;</button>
+      </div>
+      <div class="size-guide-body">
+        <p class="size-guide-sub">Use your shoe's eyelet count to select the perfect drape:</p>
+        <div class="size-guide-table-wrap">
+          <table class="size-guide-table">
+            <thead>
+              <tr>
+                <th>Pairs of Eyelets</th>
+                <th>Recommended Length</th>
+                <th>Sneaker Silhouettes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>4 Eyelets</strong></td>
+                <td>90cm (36")</td>
+                <td>Low-top casuals, dress shoes</td>
+              </tr>
+              <tr>
+                <td><strong>5 &ndash; 6 Eyelets</strong></td>
+                <td>120cm (47")</td>
+                <td>Air Force 1 Low, Dunk Low, Sambas</td>
+              </tr>
+              <tr>
+                <td><strong>6 &ndash; 7 Eyelets</strong></td>
+                <td>140cm (55")</td>
+                <td>Jordan 1 Mid, New Balance 550, Forum</td>
+              </tr>
+              <tr>
+                <td><strong>7 &ndash; 8 Eyelets</strong></td>
+                <td>160cm (63")</td>
+                <td>Jordan 1 High, Dunk High, Blazers</td>
+              </tr>
+              <tr>
+                <td><strong>8+ Eyelets</strong></td>
+                <td>180cm (71")</td>
+                <td>Boots, high basketball collars</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
