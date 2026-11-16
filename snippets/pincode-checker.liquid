@@ -2,29 +2,56 @@
   LACEYAAN Atelier Delivery Pincode Checker
   Allows customers to verify express delivery date ("Before 20 December")
   Accepts context: 'drawer', 'cart-page', 'product'
+  In the cart drawer it renders as a collapsed one-line row so it does not
+  push the bag items out of view; tapping it reveals the pincode form.
 {% endcomment %}
 
-<div class="pincode-checker-widget pincode-context-{{ context | default: 'general' }}" data-pincode-widget>
-  <div class="pincode-header">
-    <div class="pincode-title-wrap">
-      <svg class="pincode-pin-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
+{%- liquid
+  assign is_collapsible = false
+  if context == 'drawer'
+    assign is_collapsible = true
+  endif
+-%}
+
+{%- capture pin_icon -%}
+  <svg class="pincode-pin-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+    <circle cx="12" cy="10" r="3"></circle>
+  </svg>
+{%- endcapture -%}
+
+<{% if is_collapsible %}details{% else %}div{% endif %} class="pincode-checker-widget pincode-context-{{ context | default: 'general' }}{% if is_collapsible %} pincode-collapsible{% endif %}" data-pincode-widget>
+  {%- if is_collapsible -%}
+    <summary class="pincode-summary">
+      <span class="pincode-title-wrap">
+        {{ pin_icon }}
+        <span class="pincode-title"><span class="pincode-title-extra">Estimated </span>Delivery</span>
+      </span>
+      <span class="pincode-summary-status" data-pincode-summary>Check pincode</span>
+      <svg class="pincode-summary-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
-      <span class="pincode-title">Estimated Delivery</span>
+    </summary>
+    <div class="pincode-collapsible-body">
+  {%- else -%}
+    <div class="pincode-header">
+      <div class="pincode-title-wrap">
+        {{ pin_icon }}
+        <span class="pincode-title">Estimated Delivery</span>
+      </div>
     </div>
-  </div>
+  {%- endif -%}
 
   <!-- Input Form -->
   <div class="pincode-form" data-pincode-form>
     <div class="pincode-input-wrapper">
-      <input 
-        type="text" 
-        class="pincode-input" 
+      <input
+        type="text"
+        class="pincode-input"
         data-pincode-input
-        placeholder="Enter 6-digit Pincode" 
-        maxlength="6" 
-        inputmode="numeric" 
+        placeholder="Enter 6-digit Pincode"
+        maxlength="6"
+        inputmode="numeric"
         pattern="[0-9]*"
         autocomplete="postal-code"
         aria-label="Enter your 6-digit delivery pincode"
@@ -41,7 +68,7 @@
       <span class="pincode-check-icon" aria-hidden="true">✓</span>
       <div class="pincode-message-content">
         <p class="pincode-delivery-date">
-          Delivering to <strong data-pincode-display>------</strong>: 
+          Delivering to <strong data-pincode-display>------</strong>:
           <span class="date-highlight">Before 20 December</span>
         </p>
         <p class="pincode-delivery-sub">
@@ -58,4 +85,8 @@
   <div class="pincode-error" data-pincode-error style="display: none;">
     Please enter a valid 6-digit Indian pincode
   </div>
-</div>
+
+  {%- if is_collapsible -%}
+    </div>
+  {%- endif -%}
+</{% if is_collapsible %}details{% else %}div{% endif %}>

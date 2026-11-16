@@ -100,50 +100,53 @@
         </div>
       {%- endfor -%}
     </div>
+
+    <!-- Delivery options scroll with the items so they never squeeze the bag -->
+    <div class="drawer-extras" id="cart-drawer-extras"{% if cart.item_count == 0 %} style="display: none;"{% endif %}>
+      <!-- Delivery Pincode Checker -->
+      {% render 'pincode-checker', context: 'drawer' %}
+      {%- if settings.enable_cart_notes -%}
+        <div class="cart-note-container">
+          <label for="cart-note-input">{{ 'sections.cart.note' | t }}</label>
+          <textarea id="cart-note" class="cart-note-input" placeholder="Custom lengths, shoe model (e.g. Jordan 1, Samba, Chelsea boot)...">{{ cart.note }}</textarea>
+        </div>
+      {%- endif -%}
+
+      <!-- Drawer Delivery Method Selector -->
+      {%- assign is_drawer_founder = false -%}
+      {%- if cart.attributes['delivery_method'] contains 'Founder' or cart.attributes['Delivery Method'] contains 'Founder' -%}
+        {%- assign is_drawer_founder = true -%}
+      {%- endif -%}
+      {%- assign drawer_founder_fee_cents = 300000 -%}
+      <div class="drawer-delivery-selector" id="drawer-delivery-selector" data-founder-fee="{{ drawer_founder_fee_cents }}">
+        <div class="drawer-delivery-header">
+          <span class="drawer-delivery-label">DELIVERY METHOD</span>
+        </div>
+        <div class="drawer-delivery-pills">
+          <label class="drawer-delivery-pill{% unless is_drawer_founder %} is-selected{% endunless %}" data-drawer-delivery="standard">
+            <input type="radio" name="drawer_delivery_radio" value="standard" class="visually-hidden"{% unless is_drawer_founder %} checked{% endunless %}>
+            <span class="pill-dot"></span>
+            <div class="pill-info">
+              <span class="pill-title">Standard Courier</span>
+            </div>
+            <span class="pill-price free">FREE</span>
+          </label>
+          <label class="drawer-delivery-pill founder-pill{% if is_drawer_founder %} is-selected{% endif %}" data-drawer-delivery="founder">
+            <input type="radio" name="drawer_delivery_radio" value="founder" class="visually-hidden"{% if is_drawer_founder %} checked{% endif %}>
+            <span class="pill-dot"></span>
+            <div class="pill-info">
+              <span class="pill-title">Hand Delivered by Founder</span>
+              <span class="pill-badge">Only available in Vellore</span>
+            </div>
+            <span class="pill-price founder-price">+ ₹3,000</span>
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Drawer Footer (Subtotal & Checkout) -->
   <div class="drawer-footer" id="cart-drawer-filled"{% if cart.item_count == 0 %} style="display: none;"{% endif %}>
-    <!-- Delivery Pincode Checker -->
-    {% render 'pincode-checker', context: 'drawer' %}
-    {%- if settings.enable_cart_notes -%}
-      <div class="cart-note-container">
-        <label for="cart-note-input">{{ 'sections.cart.note' | t }}</label>
-        <textarea id="cart-note" class="cart-note-input" placeholder="Custom lengths, shoe model (e.g. Jordan 1, Samba, Chelsea boot)...">{{ cart.note }}</textarea>
-      </div>
-    {%- endif -%}
-
-    <!-- Drawer Delivery Method Selector -->
-    {%- assign is_drawer_founder = false -%}
-    {%- if cart.attributes['delivery_method'] contains 'Founder' or cart.attributes['Delivery Method'] contains 'Founder' -%}
-      {%- assign is_drawer_founder = true -%}
-    {%- endif -%}
-    {%- assign drawer_founder_fee_cents = 300000 -%}
-    <div class="drawer-delivery-selector" id="drawer-delivery-selector" data-founder-fee="{{ drawer_founder_fee_cents }}">
-      <div class="drawer-delivery-header">
-        <span class="drawer-delivery-label">DELIVERY METHOD</span>
-      </div>
-      <div class="drawer-delivery-pills">
-        <label class="drawer-delivery-pill{% unless is_drawer_founder %} is-selected{% endunless %}" data-drawer-delivery="standard">
-          <input type="radio" name="drawer_delivery_radio" value="standard" class="visually-hidden"{% unless is_drawer_founder %} checked{% endunless %}>
-          <span class="pill-dot"></span>
-          <div class="pill-info">
-            <span class="pill-title">Standard Courier</span>
-          </div>
-          <span class="pill-price free">FREE</span>
-        </label>
-        <label class="drawer-delivery-pill founder-pill{% if is_drawer_founder %} is-selected{% endif %}" data-drawer-delivery="founder">
-          <input type="radio" name="drawer_delivery_radio" value="founder" class="visually-hidden"{% if is_drawer_founder %} checked{% endif %}>
-          <span class="pill-dot"></span>
-          <div class="pill-info">
-            <span class="pill-title">Hand Delivered by Founder</span>
-            <span class="pill-badge">Only available in Vellore</span>
-          </div>
-          <span class="pill-price founder-price">+ ₹3,000</span>
-        </label>
-      </div>
-    </div>
-
     <div class="drawer-subtotal-row">
       <span class="subtotal-label">{{ 'sections.cart.subtotal' | t }}</span>
       <span class="subtotal-amount" id="cart-drawer-subtotal" data-base-price="{{ cart.total_price }}">{{ cart.total_price | money }}</span>

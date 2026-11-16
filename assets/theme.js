@@ -293,6 +293,7 @@
       this.freeShippingText = this.drawer.querySelector('#shipping-progress-text, .shipping-progress-text');
       this.emptyState = this.drawer.querySelector('#cart-drawer-empty, .cart-empty-state');
       this.filledState = this.drawer.querySelector('#cart-drawer-filled, .drawer-footer');
+      this.extrasState = this.drawer.querySelector('#cart-drawer-extras');
 
       this.threshold = parseInt(window.Laceyaan.freeShippingThreshold || '149900', 10);
 
@@ -599,12 +600,14 @@
         if (this.emptyState) this.emptyState.style.display = 'block';
         if (this.filledState) this.filledState.style.display = 'none';
         if (this.itemsContainer) this.itemsContainer.style.display = 'none';
+        if (this.extrasState) this.extrasState.style.display = 'none';
         return;
       }
 
       if (this.emptyState) this.emptyState.style.display = 'none';
       if (this.filledState) this.filledState.style.display = 'block';
       if (this.itemsContainer) this.itemsContainer.style.display = 'block';
+      if (this.extrasState) this.extrasState.style.display = 'block';
 
       // Subtotal
       if (this.subtotalElement) {
@@ -3788,6 +3791,14 @@
       if (errorBox) errorBox.style.display = 'none';
       if (resultBox) resultBox.style.display = 'block';
       if (displayEl) displayEl.textContent = code;
+
+      // Collapsed drawer row: surface the result without needing to expand it
+      const summaryEl = widget.querySelector('[data-pincode-summary]');
+      if (summaryEl) {
+        const shortDate = this.TARGET_DATE_TEXT.replace(/([A-Za-z]{3})[a-z]+$/, '$1');
+        summaryEl.textContent = `${code} · ${shortDate}`;
+        summaryEl.classList.add('is-checked');
+      }
     }
   }
 

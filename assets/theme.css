@@ -6174,6 +6174,54 @@ input[name="quantity"]::-webkit-inner-spin-button {
   padding: 1.5rem;
   background: #FFFFFF;
   border-top: 1px solid var(--border-light);
+  /* Fallback: scroll rather than overflow on very short screens */
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Delivery estimate, notes and delivery method scroll below the bag items */
+.drawer-extras {
+  margin-top: 1rem;
+}
+
+.drawer-extras .cart-note-container {
+  margin-bottom: 0.9rem;
+}
+
+.drawer-extras .cart-note-container label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #141311;
+  margin-bottom: 0.4rem;
+}
+
+.drawer-extras .cart-note-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  height: 44px;
+  resize: vertical;
+  padding: 0.6rem 0.75rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(20, 19, 17, 0.2);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #141311;
+}
+
+.drawer-extras .cart-note-input:focus {
+  outline: none;
+  border-color: var(--accent-gold-dark, #9C7D47);
+  box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.25);
 }
 
 .drawer-subtotal-row {
@@ -10617,6 +10665,70 @@ input[name="quantity"]::-webkit-inner-spin-button {
   border: 1px solid rgba(20, 19, 17, 0.08);
   padding: 0.75rem 0.85rem;
   margin: 0.65rem 0 1rem;
+}
+
+/* Cart drawer: collapsed single-row variant so it never crowds the bag items */
+.pincode-collapsible {
+  padding: 0;
+  margin: 0 0 0.75rem;
+}
+
+.pincode-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.pincode-summary .pincode-title-wrap {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pincode-summary::-webkit-details-marker,
+.pincode-summary::marker {
+  display: none;
+  content: '';
+}
+
+.pincode-summary-status {
+  margin-left: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.74rem;
+  color: var(--accent-gold-dark, #9C7D47);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pincode-summary-status.is-checked {
+  color: #15803D;
+  text-decoration: none;
+}
+
+.pincode-summary-chevron {
+  flex-shrink: 0;
+  color: #8C8880;
+  transition: transform 0.2s ease;
+}
+
+.pincode-collapsible[open] .pincode-summary-chevron {
+  transform: rotate(180deg);
+}
+
+.pincode-collapsible-body {
+  padding: 0 0.85rem 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .pincode-summary .pincode-title-extra {
+    display: none;
+  }
 }
 
 .pincode-context-product {
