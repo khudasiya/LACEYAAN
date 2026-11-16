@@ -36,6 +36,31 @@
         "drop_highlights_tag3": "ZERO RESTOCKS"
       }
     },
+    "1794798332e04175c1": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_3234858_HnTPy9": {
+          "type": "ai_gen_block_3234858",
+          "settings": {
+            "heading": "Leopard lace",
+            "photo_1": "shopify://shop_images/CreamSneakerwithLeopardLaces.png",
+            "photo_2": "shopify://shop_images/Leopard-LacedSneakerEditorial.png",
+            "featured_product": "wildcat-leopard-print-laces",
+            "button_label": "Buy now",
+            "desktop_width_percent": 100,
+            "background_color": "#FAF9F5",
+            "text_color": "#1E1D1B",
+            "button_color": "#1E1D1B",
+            "button_text_color": "#FAF9F5"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_3234858_HnTPy9"
+      ],
+      "settings": {}
+    },
     "before_after": {
       "type": "before-after-slider",
       "settings": {
@@ -223,6 +248,7 @@
   },
   "order": [
     "hero",
+    "1794798332e04175c1",
     "before_after",
     "featured_collection",
     "design_lab",
