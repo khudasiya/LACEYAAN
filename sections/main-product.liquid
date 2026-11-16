@@ -186,22 +186,24 @@
             {%- endif -%}
           {%- endform -%}
 
-          <!-- Bluorng Details & Luxury Streetwear Perks -->
-          <div class="card-tabs-suite" id="CardTabsSuite">
-            <div class="tabs-nav-bar">
-              <span class="tab-nav-heading active">Details &amp; Description</span>
+          <!-- 1. Product Description (Directly below Buy Now in the red area) -->
+          <div class="product-description-block" id="ProductDescriptionBlock">
+            <div class="desc-heading-wrap">
+              <span class="desc-heading">Details &amp; Description</span>
             </div>
+            <div class="luxury-perks-list">
+              <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
+              <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
+              <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
+            </div>
+            <div class="tab-description-rte">
+              {{ product.description }}
+            </div>
+          </div>
 
-            <div class="tab-pane active" id="tab-desc">
-              <div class="luxury-perks-list">
-                <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
-                <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
-                <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
-              </div>
-              <div class="tab-description-rte">
-                {{ product.description }}
-              </div>
-            </div>
+          <!-- 2. Pincode Delivery Checker (Placed after and below the product description) -->
+          <div class="product-pincode-wrap" id="ProductPincodeWrap">
+            {% render 'pincode-checker', context: 'product' %}
           </div>
         </div>
       </div>

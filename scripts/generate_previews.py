@@ -281,25 +281,43 @@ product_main = """
               </button>
             </div>
 
-            <!-- Bluorng Details & Luxury Streetwear Perks (No Accordion Bloat) -->
-            <div class="card-tabs-suite" id="CardTabsSuite">
-              <div class="tabs-nav-bar">
-                <span class="tab-nav-heading active">Details &amp; Description</span>
+            <!-- 1. Product Description (Directly below Buy Now in red area) -->
+            <div class="product-description-block" id="ProductDescriptionBlock">
+              <div class="desc-heading-wrap">
+                <span class="desc-heading">Details &amp; Description</span>
               </div>
+              <div class="luxury-perks-list">
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
+              </div>
+              <div class="tab-description-rte">
+                <p>Triple-braided on high-tension Japanese shuttle looms. Woven from 100% long-staple combed cotton, finished with solid CNC-milled brass tips engraved with the LACEYAAN hallmark.</p>
+                <p><strong>Type:</strong> Rope Round &mdash; 10mm diameter braided construction</p>
+                <p><strong>Material:</strong> 100% long-staple combed cotton</p>
+                <p><strong>Aglet:</strong> Solid CNC-milled naval brass, engraved LACEYAAN hallmark</p>
+                <p><strong>Colour:</strong> Natural Ecru / Off-White</p>
+                <p><strong>Delivery:</strong> Dispatched within 24 hours via tracked express courier. Free pan-India shipping on all orders.</p>
+              </div>
+            </div>
 
-              <div class="tab-pane active" id="tab-desc">
-                <div class="luxury-perks-list">
-                  <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
-                  <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
-                  <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
+            <!-- 2. Pincode Delivery Checker (Placed after and below the product description) -->
+            <div class="product-pincode-wrap" id="ProductPincodeWrap">
+              <div class="pincode-checker-widget pincode-context-product" data-pincode-widget>
+                <div class="pincode-header">
+                  <div class="pincode-title-wrap">
+                    <svg class="pincode-pin-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span class="pincode-title">Estimated Delivery</span>
+                  </div>
                 </div>
-                <div class="tab-description-rte">
-                  <p>Triple-braided on high-tension Japanese shuttle looms. Woven from 100% long-staple combed cotton, finished with solid CNC-milled brass tips engraved with the LACEYAAN hallmark.</p>
-                  <p><strong>Type:</strong> Rope Round &mdash; 10mm diameter braided construction</p>
-                  <p><strong>Material:</strong> 100% long-staple combed cotton</p>
-                  <p><strong>Aglet:</strong> Solid CNC-milled naval brass, engraved LACEYAAN hallmark</p>
-                  <p><strong>Colour:</strong> Natural Ecru / Off-White</p>
-                  <p><strong>Delivery:</strong> Dispatched within 24 hours via tracked express courier. Free pan-India shipping on all orders.</p>
+                <div class="pincode-form">
+                  <div class="pincode-input-wrapper">
+                    <input type="text" class="pincode-input" placeholder="Enter 6-digit Pincode" maxlength="6" value="110001">
+                    <button type="button" class="btn-pincode-check"><span>CHECK</span></button>
+                  </div>
                 </div>
               </div>
             </div>

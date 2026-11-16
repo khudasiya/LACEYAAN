@@ -4338,40 +4338,106 @@ img {
   transform: translateY(-1px) !important;
 }
 
+/* ── BUY NOW BUTTON: Solid Black Background + Radiant Golden Text ── */
 .btn-bluorng-buy,
-.btn-buy-now-main {
+.btn-buy-now-main,
+.shopify-payment-button__button,
+.shopify-payment-button__button--unbranded,
+.dynamic-payment-buttons .shopify-payment-button__button,
+.dynamic-payment-buttons button,
+[data-direct-buy-now] {
   flex: 1 !important;
   min-height: 50px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   background: #141311 !important;
-  border: 1px solid #141311 !important;
+  background-color: #141311 !important;
+  border: 1.5px solid var(--accent-gold, #C5A880) !important;
   border-radius: 999px !important;
   font-family: var(--font-sans) !important;
-  font-size: 0.82rem !important;
+  font-size: 0.85rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
-  color: #FFFFFF !important;
+  color: var(--accent-gold, #C5A880) !important;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   touch-action: manipulation !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+  width: 100% !important;
 }
 
 .btn-bluorng-buy:hover,
-.btn-buy-now-main:hover {
-  background: #2D2B28 !important;
-  border-color: #2D2B28 !important;
+.btn-buy-now-main:hover,
+.shopify-payment-button__button:hover,
+.shopify-payment-button__button--unbranded:hover,
+.dynamic-payment-buttons .shopify-payment-button__button:hover,
+.dynamic-payment-buttons button:hover,
+[data-direct-buy-now]:hover {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #DFC090 !important;
+  border-color: #DFC090 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28) !important;
 }
 
-/* Bluorng Tabs & Luxury Streetwear Perks */
+.btn-bluorng-buy span,
+.btn-buy-now-main span,
+.shopify-payment-button__button span,
+.shopify-payment-button__button--unbranded span,
+.dynamic-payment-buttons .shopify-payment-button__button span {
+  color: var(--accent-gold, #C5A880) !important;
+}
+
+/* Dynamic Shopify Payment Buttons Wrapper */
+.dynamic-payment-buttons,
+.shopify-payment-button {
+  width: 100% !important;
+  margin-top: 0.65rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* ── 1. Product Description Block (Directly below Buy Now in red area) ── */
+.product-description-block,
 .card-tabs-suite {
   border-top: 1px solid rgba(20, 19, 17, 0.08) !important;
   padding-top: 1.15rem !important;
-  margin-top: 1rem !important;
+  margin-top: 1.25rem !important;
+}
+
+.desc-heading-wrap {
+  display: flex !important;
+  align-items: center !important;
+  border-bottom: 1px solid rgba(20, 19, 17, 0.08) !important;
+  padding-bottom: 0.45rem !important;
+  margin-bottom: 0.85rem !important;
+}
+
+.desc-heading {
+  font-family: var(--font-sans) !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  color: #141311 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* ── 2. Pincode Delivery Checker (Placed after and below the product description) ── */
+.product-pincode-wrap {
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+  width: 100% !important;
+}
+
+.product-pincode-wrap .pincode-checker-widget {
+  background: #FAF9F5 !important;
+  border: 1px solid rgba(20, 19, 17, 0.12) !important;
+  border-radius: 12px !important;
+  padding: 0.85rem 1rem !important;
+  margin: 0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
 }
 
 /* Completely remove and collapse all accordions, trust badges, and extra dead space sections */
