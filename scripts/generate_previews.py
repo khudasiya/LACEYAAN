@@ -518,16 +518,34 @@ collection_main = """
         <p class="section-subtitle">Precision engineered laces crafted to elevate every sneaker rotation.</p>
       </div>
 
-      <!-- Filter / Sort Toolbar -->
-      <div class="collection-toolbar">
-        <span class="collection-count">8 Silhouettes</span>
-        <div class="toolbar-actions">
-          <button type="button" class="btn-filter-trigger"><span>Filter Laces</span></button>
-          <select class="sort-select" aria-label="Sort silhouettes">
-            <option>Featured</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-          </select>
+      <!-- Filter & Sort Bar (Theme-Aligned Luxury Streetwear Suite) -->
+      <div class="collection-controls-bar">
+        <!-- Collection Filter Pills -->
+        <div class="collection-pills-row" role="region" aria-label="Filter collection by weave">
+          <a href="#" class="filter-pill active">All Weaves</a>
+          <a href="#" class="filter-pill">Braided Rope</a>
+          <a href="#" class="filter-pill">Japanese Waxed</a>
+          <a href="#" class="filter-pill">3M Reflective</a>
+          <a href="#" class="filter-pill">Printed Camo</a>
+          <a href="#" class="filter-pill">Jacquard Tapestry</a>
+          <a href="#" class="filter-pill">Chunky 10mm</a>
+          <a href="#" class="filter-pill">Solid Brass</a>
+          <a href="#" class="filter-pill">Leather Lace</a>
+          <a href="#" class="filter-pill">Flat Sneaker</a>
+        </div>
+
+        <!-- Sort Options Dropdown -->
+        <div class="collection-sort-wrap">
+          <label for="sort-by" class="sort-label">Sort by:</label>
+          <div class="sort-select-wrapper">
+            <select id="sort-by" class="sort-select" aria-label="Sort silhouettes">
+              <option value="manual" selected>Featured</option>
+              <option value="best-selling">Best Selling</option>
+              <option value="price-ascending">Price: Low to High</option>
+              <option value="price-descending">Price: High to Low</option>
+              <option value="created-descending">Newest Drops</option>
+            </select>
+          </div>
         </div>
       </div>
 

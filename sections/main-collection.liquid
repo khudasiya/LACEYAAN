@@ -19,8 +19,8 @@
     <!-- Filter & Sort Bar -->
     <div class="collection-controls-bar">
       <!-- Collection Filter Pills -->
-      <div class="collection-pills-row">
-        <a href="{{ routes.all_products_collection_url }}" class="filter-pill{% if collection.handle == 'all' %} active{% endif %}">
+      <div class="collection-pills-row" role="region" aria-label="Filter collection by weave">
+        <a href="{{ collection.url | default: routes.all_products_collection_url }}" class="filter-pill{% if current_tags == blank %} active{% endif %}">
           All Weaves
         </a>
         {%- for tag in collection.all_tags -%}
@@ -33,14 +33,16 @@
       <!-- Sort Options Dropdown -->
       <div class="collection-sort-wrap">
         <label for="sort-by" class="sort-label">Sort by:</label>
-        <select id="sort-by" class="sort-select" onchange="location = this.value;">
-          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-          <option value="{{ collection.url }}?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
-          <option value="{{ collection.url }}?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-          <option value="{{ collection.url }}?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-          <option value="{{ collection.url }}?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-          <option value="{{ collection.url }}?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest Drops</option>
-        </select>
+        <div class="sort-select-wrapper">
+          <select id="sort-by" class="sort-select" onchange="location = this.value;" aria-label="Sort silhouettes">
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            <option value="{{ collection.url }}?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
+            <option value="{{ collection.url }}?sort_by=best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+            <option value="{{ collection.url }}?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+            <option value="{{ collection.url }}?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+            <option value="{{ collection.url }}?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest Drops</option>
+          </select>
+        </div>
       </div>
     </div>
 
