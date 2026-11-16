@@ -79,23 +79,6 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
         </div>
-
-        <!-- Desktop Quick Thumbnail Bar below grid if 2+ photos -->
-        {%- if product.media.size > 1 -%}
-          <div class="bluorng-thumbs-dock" id="BluorngThumbsDock">
-            {%- for media in product.media -%}
-              <button 
-                type="button" 
-                class="thumb-dock-pill gallery-thumb-btn{% if forloop.first %} active{% endif %}" 
-                data-thumb-index="{{ forloop.index0 }}"
-                data-media-url="{{ media | image_url: width: 1400 }}"
-                aria-label="Jump to photo {{ forloop.index }}"
-              >
-                {{ media | image_url: width: 120, height: 120, crop: 'center' | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
-              </button>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
       </div>
 
       <!-- Right: Bluorng Floating White Purchasing Card -->

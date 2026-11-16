@@ -222,22 +222,6 @@ product_main = """
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
           </div>
-
-          <!-- Desktop Quick Thumbnail Bar below grid -->
-          <div class="bluorng-thumbs-dock" id="BluorngThumbsDock">
-            <button type="button" class="thumb-dock-pill gallery-thumb-btn active" data-thumb-index="0" data-media-url="assets/product-rope.jpg" aria-label="Photo 1">
-              <img src="assets/product-rope.jpg" alt="Rope Still">
-            </button>
-            <button type="button" class="thumb-dock-pill gallery-thumb-btn" data-thumb-index="1" data-media-url="assets/lace-white.jpg" aria-label="Photo 2">
-              <img src="assets/lace-white.jpg" alt="White Still">
-            </button>
-            <button type="button" class="thumb-dock-pill gallery-thumb-btn" data-thumb-index="2" data-media-url="assets/lace-black.jpg" aria-label="Photo 3">
-              <img src="assets/lace-black.jpg" alt="Black Still">
-            </button>
-            <button type="button" class="thumb-dock-pill gallery-thumb-btn" data-thumb-index="3" data-media-url="assets/product-waxed.jpg" aria-label="Photo 4">
-              <img src="assets/product-waxed.jpg" alt="Waxed Still">
-            </button>
-          </div>
         </div>
 
         <!-- Right: Bluorng Floating White Purchasing Card -->

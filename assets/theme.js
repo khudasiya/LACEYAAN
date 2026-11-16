@@ -1765,18 +1765,86 @@
           });
         });
       } else {
-        const mainImg = document.getElementById('ProductMainImage');
-        if (mainImg) {
-          this.imagesList.push({
-            index: 0,
-            fullUrl: mainImg.src,
-            thumbUrl: mainImg.src,
-            alt: mainImg.alt || ''
+        const thumbBtns = document.querySelectorAll('.gallery-thumb-btn, [data-media-url]');
+        if (thumbBtns.length > 0) {
+          thumbBtns.forEach((btn, idx) => {
+            const url = btn.dataset.mediaUrl || (btn.querySelector('img') ? btn.querySelector('img').src : '');
+            if (url) {
+              this.imagesList.push({
+                index: idx,
+                fullUrl: url,
+                thumbUrl: url,
+                alt: ''
+              });
+            }
           });
+        }
+        if (this.imagesList.length === 0) {
+          const mainImg = document.getElementById('ProductMainImage');
+          if (mainImg) {
+            this.imagesList.push({
+              index: 0,
+              fullUrl: mainImg.src,
+              thumbUrl: mainImg.src,
+              alt: mainImg.alt || ''
+            });
+          }
         }
       }
 
+      this.ensureHeroArrows();
       this.updateCounter();
+    }
+
+    ensureHeroArrows() {
+      if (this.imagesList.length <= 1) return;
+      let prevArrow = document.getElementById('HeroPrevArrow');
+      let nextArrow = document.getElementById('HeroNextArrow');
+
+      if (!prevArrow || !nextArrow) {
+        const host = document.querySelector('.gallery-item-card.is-hero-item') ||
+                     document.getElementById('ProductMainImageWrap') ||
+                     document.getElementById('ProductPageGalleryViewport') ||
+                     document.querySelector('.main-gallery-viewport');
+        if (host) {
+          host.style.position = 'relative';
+          if (!prevArrow) {
+            prevArrow = document.createElement('button');
+            prevArrow.type = 'button';
+            prevArrow.className = 'hero-nav-arrow hero-prev-arrow';
+            prevArrow.id = 'HeroPrevArrow';
+            prevArrow.setAttribute('aria-label', 'Previous photo');
+            prevArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+            host.appendChild(prevArrow);
+          }
+          if (!nextArrow) {
+            nextArrow = document.createElement('button');
+            nextArrow.type = 'button';
+            nextArrow.className = 'hero-nav-arrow hero-next-arrow';
+            nextArrow.id = 'HeroNextArrow';
+            nextArrow.setAttribute('aria-label', 'Next photo');
+            nextArrow.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+            host.appendChild(nextArrow);
+          }
+        }
+      }
+
+      if (prevArrow && !prevArrow.dataset.bound) {
+        prevArrow.dataset.bound = 'true';
+        prevArrow.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          this.goToSlide(this.currentIndex - 1);
+        });
+      }
+      if (nextArrow && !nextArrow.dataset.bound) {
+        nextArrow.dataset.bound = 'true';
+        nextArrow.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          this.goToSlide(this.currentIndex + 1);
+        });
+      }
     }
 
     bindEvents() {
@@ -1908,12 +1976,17 @@
       // so the arrows visually navigate through images within the hero portrait
       const heroCard = document.querySelector('.gallery-item-card.is-hero-item');
       const heroImg = heroCard ? heroCard.querySelector('.gallery-editorial-img') : null;
-      if (heroImg && this.imagesList[index]) {
-        const newSrc = this.imagesList[index].thumbUrl;
-        if (newSrc) {
-          heroImg.src = newSrc;
-          heroImg.removeAttribute('srcset');
-        }
+      const targetUrl = this.imagesList[index] ? (this.imagesList[index].thumbUrl || this.imagesList[index].fullUrl) : null;
+      if (heroImg && targetUrl) {
+        heroImg.src = targetUrl;
+        heroImg.removeAttribute('srcset');
+      }
+
+      // Also support legacy main product image (#ProductMainImage)
+      const legacyMainImg = document.getElementById('ProductMainImage');
+      if (legacyMainImg && targetUrl) {
+        legacyMainImg.src = targetUrl;
+        legacyMainImg.removeAttribute('srcset');
       }
 
       // Also highlight the active card in the grid
