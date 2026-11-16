@@ -194,9 +194,9 @@ product_main = """
                     </button>
                   </div>
 
-                  <!-- Photo 2: Secondary Close-up Detail -->
-                  <div class="gallery-item-card" data-media-index="1" data-full-url="assets/lace-white.jpg">
-                    <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="gallery-editorial-img" loading="lazy">
+                  <!-- Photo 2: Secondary Close-up Detail (Model Portrait Test) -->
+                  <div class="gallery-item-card" data-media-index="1" data-full-url="assets/test-model-portrait.jpg">
+                    <img src="assets/test-model-portrait.jpg" alt="Model On-Foot Lifestyle" class="gallery-editorial-img" loading="lazy">
                     <button type="button" class="card-expand-btn" aria-label="View photo 2 in high resolution">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
                     </button>
@@ -233,8 +233,8 @@ product_main = """
               <button type="button" class="gallery-thumb-btn thumb-dock-pill active" data-thumb-index="0" data-media-url="assets/product-rope.jpg" aria-label="View product image 1">
                 <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="thumb-img" width="110" height="110">
               </button>
-              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="1" data-media-url="assets/lace-white.jpg" aria-label="View product image 2">
-                <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="thumb-img" width="110" height="110">
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="1" data-media-url="assets/test-model-portrait.jpg" aria-label="View product image 2">
+                <img src="assets/test-model-portrait.jpg" alt="Model On-Foot Lifestyle" class="thumb-img" width="110" height="110">
               </button>
               <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="2" data-media-url="assets/lace-black.jpg" aria-label="View product image 3">
                 <img src="assets/lace-black.jpg" alt="Atelier Noir Contrast" class="thumb-img" width="110" height="110">

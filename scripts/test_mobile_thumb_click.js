@@ -88,12 +88,12 @@ server.listen(PORT, '127.0.0.1', async () => {
     await send('Page.navigate', { url: `http://127.0.0.1:${PORT}/preview_product.html` });
     await new Promise(r => setTimeout(r, 2000));
 
-    // Click thumbnail index 2 (lace-black) in ProductGalleryThumbs
+    // Click thumbnail index 1 (model portrait) in ProductGalleryThumbs
     await send('Runtime.evaluate', {
       expression: `
         const thumbs = document.querySelectorAll('#ProductGalleryThumbs .gallery-thumb-btn');
-        if (thumbs[2]) {
-          thumbs[2].click();
+        if (thumbs[1]) {
+          thumbs[1].click();
         }
       `
     });

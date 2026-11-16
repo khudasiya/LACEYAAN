@@ -5427,21 +5427,21 @@ img {
     display: flex !important;
   }
 
-  /* Mobile Blue Box Area: Full width, half the screen (~50vh), uncropped full fit */
+  /* Mobile Blue Box Area: Full width edge-to-edge, ~52vh screen height */
   .gallery-photo-stage {
     position: relative !important;
     width: 100% !important;
     max-width: 100vw !important;
-    height: 50vh !important;
-    min-height: 320px !important;
-    max-height: 50vh !important;
+    height: 52vh !important;
+    min-height: 380px !important;
+    max-height: 56vh !important;
     border-radius: 0 !important;
     overflow: hidden !important;
     background: #FFFFFF !important;
     box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Horizontal Swipe Carousel */
@@ -5474,11 +5474,10 @@ img {
     background: #FFFFFF !important;
     border: none !important;
     box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    display: block !important;
     overflow: hidden !important;
-    padding: 6px !important;
+    padding: 0 !important;
+    margin: 0 !important;
     box-sizing: border-box !important;
   }
 
@@ -5490,7 +5489,7 @@ img {
     border-radius: 0 !important;
   }
 
-  /* Image in Full Fit form - never cut off or cropped */
+  /* Photo comes in full - NO empty left and right whitespace in mobile view */
   .gallery-editorial-img,
   .main-product-img,
   #ProductMainImage {
@@ -5498,11 +5497,13 @@ img {
     height: 100% !important;
     max-width: 100% !important;
     max-height: 100% !important;
-    object-fit: contain !important;
-    object-position: center center !important;
+    object-fit: cover !important;
+    object-position: center 20% !important;
     display: block !important;
-    background: transparent !important;
+    background: #FFFFFF !important;
     border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Purple Line Area: Horizontal thumbnails strip directly below the main photo */
