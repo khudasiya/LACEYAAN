@@ -151,15 +151,6 @@ product_main = """
 <main id="MainContent" class="main-content" role="main">
   <section class="main-product-section bluorng-product-page">
     <div class="container bluorng-container">
-      <!-- Clean Minimalist Breadcrumbs -->
-      <nav class="breadcrumb-nav bluorng-breadcrumb" aria-label="Breadcrumb">
-        <a href="preview_public_store.html">Home</a>
-        <span class="bc-sep">/</span>
-        <a href="preview_collection.html">Atelier Laces</a>
-        <span class="bc-sep">/</span>
-        <span class="bc-current">10mm Chunky Braided Rope Laces</span>
-      </nav>
-
       <div class="bluorng-product-layout">
         <!-- Left: Bluorng Multi-Image Editorial Gallery -->
         <div class="bluorng-gallery-col" id="BluorngGalleryCol">
@@ -454,8 +445,56 @@ product_main = """
 </main>
 """
 
+# Clean Minimalist Bluorng Header for PDP (flush top, centered logo, no announcement bar)
+product_head_and_nav = head_and_nav
+
+# Ensure template-product body class so CSS rules apply properly
+product_head_and_nav = product_head_and_nav.replace('class="template-"', 'class="template-product"')
+product_head_and_nav = product_head_and_nav.replace('class="template-index"', 'class="template-product"')
+
+# Completely remove announcement bar block from PDP header
+product_head_and_nav = re.sub(r'<div id="header-group-wrapper">[\s\S]*?<!-- LACEYAAN Luxury Header', '<!-- LACEYAAN Luxury Header', product_head_and_nav)
+product_head_and_nav = re.sub(r'<div\s+id="announcement-bar"[\s\S]*?</div>\s*</div>\s*</div>\s*</div>', '', product_head_and_nav)
+product_head_and_nav = re.sub(r'<aside class="announcement-bar-section[\s\S]*?</aside>', '', product_head_and_nav)
+product_head_and_nav = re.sub(r'<div class="announcement-bar-section[\s\S]*?</div>\s*</div>', '', product_head_and_nav)
+
+# Suppress logo subtitle and standardize logo dimensions
+product_head_and_nav = re.sub(r'<span class="logo-subtitle">.*?</span>', '', product_head_and_nav)
+product_head_and_nav = product_head_and_nav.replace('width="34"', 'width="26"').replace('height="38"', 'height="28"')
+
+# Clean luxury streetwear nav links (like Bluorng)
+product_head_and_nav = product_head_and_nav.replace('Shop All Laces', 'New In')
+product_head_and_nav = product_head_and_nav.replace('Length Guide', 'Collections')
+
+# Remove text labels in utility items
+product_head_and_nav = re.sub(r'<span class="util-label">.*?</span>', '', product_head_and_nav)
+
+# Inject crisp feather SVGs into clean minimalist navbar-utilities (Bluorng-style)
+search_svg = '<svg class="icon icon-search" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'
+user_svg = '<svg class="icon icon-user" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+bookmark_svg = '<svg class="icon icon-bookmark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>'
+bag_svg = '<svg class="icon icon-shopping-bag" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>'
+
+clean_navbar_utilities = f'''<div class="navbar-utilities">
+          <button type="button" class="nav-util-btn" id="open-search-modal" aria-label="Search" title="Search catalog">
+            {search_svg}
+          </button>
+          <a href="/account/login" class="nav-util-btn nav-account-btn" id="header-account-btn" aria-label="Customer Account" title="Sign In">
+            {user_svg}
+          </a>
+          <button type="button" class="nav-util-btn wishlist-btn" id="open-wishlist-btn" aria-label="Wishlist" title="Saved Items">
+            {bookmark_svg}
+          </button>
+          <button type="button" class="nav-util-btn bag-btn" id="open-cart-drawer" aria-label="Shopping Bag" title="View Bag">
+            {bag_svg}
+            <span class="bag-count-bubble" id="header-cart-count">2</span>
+          </button>
+        </div>'''
+
+product_head_and_nav = re.sub(r'<div class="navbar-utilities">[\s\S]*?</div>\s*</div>\s*</div>\s*</div>\s*</header>', clean_navbar_utilities + '\n      </div>\n    </div>\n  </div>\n</header>', product_head_and_nav)
+
 with open('preview_product.html', 'w', encoding='utf-8') as f:
-    f.write(head_and_nav + mobile_drawer_html + product_main + footer_and_scripts)
+    f.write(product_head_and_nav + mobile_drawer_html + product_main + footer_and_scripts)
 print("Created preview_product.html")
 
 # 3. PREVIEW_COLLECTION.HTML (2-column Catalog & Filters)

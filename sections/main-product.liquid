@@ -6,20 +6,6 @@
 
 <section class="main-product-section bluorng-product-page" data-section-id="{{ section.id }}" data-section-type="main-product" {{ section.shopify_attributes }}>
   <div class="container bluorng-container">
-    <!-- Clean Minimalist Breadcrumbs -->
-    <nav class="breadcrumb-nav bluorng-breadcrumb" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span class="bc-sep">/</span>
-      {%- if collection -%}
-        <a href="{{ collection.url }}">{{ collection.title }}</a>
-        <span class="bc-sep">/</span>
-      {%- else -%}
-        <a href="{{ routes.all_products_collection_url }}">Atelier Laces</a>
-        <span class="bc-sep">/</span>
-      {%- endif -%}
-      <span class="bc-current" aria-current="page">{{ product.title }}</span>
-    </nav>
-
     <div class="bluorng-product-layout">
       <!-- Left: Bluorng Multi-Image Editorial Gallery -->
       <div class="bluorng-gallery-col" id="BluorngGalleryCol">

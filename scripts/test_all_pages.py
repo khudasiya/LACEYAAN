@@ -70,10 +70,19 @@ async function runAllTests() {
     'about:blank'
   ]);
 
-  await new Promise(r => setTimeout(r, 1200));
+  let versionData = null;
+  for (let attempt = 0; attempt < 10; attempt++) {
+    try {
+      await new Promise(r => setTimeout(r, 600));
+      versionData = await fetchJson('http://127.0.0.1:9334/json/version');
+      if (versionData && versionData.webSocketDebuggerUrl) break;
+    } catch (e) {
+      // retry
+    }
+  }
+  if (!versionData) throw new Error('Could not connect to Chrome debugging port 9334 after 10 attempts');
 
   try {
-    const versionData = await fetchJson('http://127.0.0.1:9334/json/version');
     const ws = new WebSocket(versionData.webSocketDebuggerUrl);
     let msgId = 1;
     const callbacks = new Map();
