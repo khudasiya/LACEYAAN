@@ -4226,18 +4226,18 @@ img {
   display: none;
 }
 
-/* ── DESKTOP GALLERY WITH SIDE THUMBNAILS ("Small pieces by side of the image") ── */
+/* ── DESKTOP GALLERY: horizontal thumbnail row below the main photo ── */
 @media (min-width: 861px) {
   .gallery-layout-with-thumbs {
     display: flex !important;
-    flex-direction: row !important;
-    gap: 16px !important;
-    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    align-items: stretch !important;
     width: 100% !important;
   }
 
   .gallery-main-stage {
-    flex: 1 !important;
+    width: 100% !important;
     min-width: 0 !important;
     order: 1 !important;
   }
@@ -4247,23 +4247,30 @@ img {
   #ProductGalleryThumbs {
     display: flex !important;
     visibility: visible !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     gap: 10px !important;
-    flex-shrink: 0 !important;
-    width: 82px !important;
-    max-height: 82vh !important;
-    overflow-y: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     scrollbar-width: thin !important;
-    position: sticky !important;
-    top: 76px !important;
-    padding: 2px !important;
+    position: static !important;
+    top: auto !important;
+    padding: 4px 2px 6px !important;
     margin: 0 !important;
     pointer-events: auto !important;
     order: 2 !important;
+    box-sizing: border-box !important;
+  }
+
+  .gallery-side-thumbs .gallery-thumb-btn {
+    flex: 0 0 auto !important;
   }
 
   .gallery-side-thumbs::-webkit-scrollbar {
-    width: 3px;
+    height: 3px;
   }
   .gallery-side-thumbs::-webkit-scrollbar-thumb {
     background: rgba(20, 19, 17, 0.2);
