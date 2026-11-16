@@ -1929,14 +1929,17 @@
       // 3b. Hero image arrows (overlay arrows on the main portrait card)
       const heroPrevArrow = document.getElementById('HeroPrevArrow');
       const heroNextArrow = document.getElementById('HeroNextArrow');
-      if (heroPrevArrow) {
+      // Same `bound` guard as the arrow builder above, so one click = one slide
+      if (heroPrevArrow && !heroPrevArrow.dataset.bound) {
+        heroPrevArrow.dataset.bound = 'true';
         heroPrevArrow.addEventListener('click', (e) => {
           e.stopPropagation(); // Don't open lightbox
           e.preventDefault();
           this.goToSlide(this.currentIndex - 1);
         });
       }
-      if (heroNextArrow) {
+      if (heroNextArrow && !heroNextArrow.dataset.bound) {
+        heroNextArrow.dataset.bound = 'true';
         heroNextArrow.addEventListener('click', (e) => {
           e.stopPropagation();
           e.preventDefault();
