@@ -343,7 +343,6 @@
               await window.Laceyaan.cartDrawer.refresh();
               window.Laceyaan.cartDrawer.open();
             }
-            Utils.showToast(`${item.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
           } catch (err) {
             Utils.showToast(err.message, 'error');
           } finally {
@@ -445,7 +444,6 @@
             await window.Laceyaan.cartDrawer.refresh();
             window.Laceyaan.cartDrawer.open();
           }
-          Utils.showToast(`${item.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
         } catch (err) {
           if (handle) {
             window.location.href = `/products/${handle}`;
@@ -551,7 +549,6 @@
         const addedItem = await res.json();
         await this.refresh();
         this.open();
-        Utils.showToast(`${addedItem.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
       } catch (err) {
         Utils.showToast(err.message, 'error');
       } finally {
@@ -1505,7 +1502,6 @@
             await window.Laceyaan.cartDrawer.refresh();
             window.Laceyaan.cartDrawer.open();
           }
-          Utils.showToast(`${addedItem.title} added to your bag`, 'success', { text: 'View Bag [ → ]', url: '/cart' });
         } catch (err) {
           Utils.showToast(err.message, 'error');
         } finally {
