@@ -12916,3 +12916,86 @@ input[name="quantity"]::-webkit-inner-spin-button {
 .wishlist-view-link:hover {
   color: #141311;
 }
+
+/* ==========================================================================
+   UI fit pass
+   ========================================================================== */
+
+/* "Selected Color" swatches only repeated the product's own photos (all with
+   the same colour name). Photos are already shown in the gallery. */
+.bluorng-product-page .product-swatches-section {
+  display: none !important;
+}
+
+/* Small text buttons get a finger-sized tap area without changing their look */
+.btn-size-chart-link,
+.btn-pincode-change {
+  position: relative;
+}
+
+.btn-size-chart-link::after,
+.btn-pincode-change::after {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
+}
+
+/* Tablets (600-860px): product photo no taller than ~2/3 of the screen so
+   name, price and Add to Bag are visible without scrolling. Uncropped. */
+@media (min-width: 600px) and (max-width: 860px) {
+  .bluorng-product-page .bluorng-editorial-grid[data-media-count] .gallery-item-card {
+    aspect-ratio: auto !important;
+    height: 68vh !important;
+    max-height: 68vh !important;
+    background: #EEECE6 !important;
+  }
+
+  .bluorng-product-page .bluorng-editorial-grid .gallery-editorial-img,
+  .bluorng-product-page #ProductMainImage {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+  }
+}
+
+/* Cart page on phones: quantity and line total share one row; the unit price
+   row is dropped (line total already shows the price) */
+@media (max-width: 768px) {
+  .main-cart-section .cart-page-row {
+    display: grid !important;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0.9rem 1rem !important;
+  }
+
+  .main-cart-section .cart-page-row > .col-item {
+    grid-column: 1 / -1;
+  }
+
+  .main-cart-section .cart-page-row > .col-price {
+    display: none !important;
+  }
+
+  .main-cart-section .cart-page-row > .col-qty,
+  .main-cart-section .cart-page-row > .col-total {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .main-cart-section .cart-page-row > .col-qty::before,
+  .main-cart-section .cart-page-row > .col-total::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  .main-cart-section .cart-page-row > .col-total {
+    justify-self: end;
+    text-align: right;
+  }
+}

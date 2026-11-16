@@ -161,13 +161,10 @@
 
     showSlide(index) {
       this.slides.forEach((slide, i) => {
-        if (i === index) {
-          slide.classList.add('is-active');
-          slide.setAttribute('aria-hidden', 'false');
-        } else {
-          slide.classList.remove('is-active');
-          slide.setAttribute('aria-hidden', 'true');
-        }
+        const on = i === index;
+        slide.classList.toggle('active', on);
+        slide.classList.toggle('is-active', on);
+        slide.setAttribute('aria-hidden', on ? 'false' : 'true');
       });
       this.currentIndex = index;
     }
@@ -184,6 +181,7 @@
 
     startTimer() {
       this.stopTimer();
+      if (this.container.dataset.autoplay === 'false') return;
       this.timer = setInterval(() => this.next(), this.speed);
     }
 
@@ -300,6 +298,9 @@
 
       this.overlay = document.getElementById('cart-drawer-overlay');
       this.closeBtn = this.drawer.querySelector('[data-cart-close], #close-cart-drawer');
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.drawer.classList.contains('active')) this.close();
+      });
       this.openTriggers = document.querySelectorAll('[data-cart-drawer-trigger], [data-open-cart], #open-cart-drawer, .bag-btn');
       this.itemsContainer = this.drawer.querySelector('#cart-drawer-items, #cart-items-container');
       this.countElements = document.querySelectorAll('#cart-drawer-count, .cart-count-bubble, [data-cart-count], #header-cart-count, .bag-count-bubble');
@@ -996,6 +997,16 @@
           this.performSearch(e.target.value.trim());
         }, 300));
       }
+
+      // Trending search buttons fill the box and run the search
+      this.modal.addEventListener('click', (e) => {
+        const pill = e.target.closest('.suggestion-pill[data-query]');
+        if (!pill || !this.input) return;
+        e.preventDefault();
+        this.input.value = pill.dataset.query;
+        this.input.focus();
+        this.performSearch(pill.dataset.query);
+      });
 
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && (this.modal.classList.contains('active') || this.modal.classList.contains('is-open'))) {
@@ -2424,6 +2435,9 @@
         };
 
         if (this.sizeGuideClose) this.sizeGuideClose.addEventListener('click', closeGuide);
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.sizeGuideModal.classList.contains('is-open')) closeGuide();
+        });
         if (this.sizeGuideBackdrop) this.sizeGuideBackdrop.addEventListener('click', closeGuide);
       }
     }
@@ -3622,7 +3636,6 @@
 
         // Render updated cart page
         this.render(cart);
-        Utils.showToast(quantity === 0 ? 'Item removed from bag' : 'Quantity updated', 'info');
       } catch (err) {
         console.error('Cart update error:', err);
         Utils.showToast('Could not update cart. Please try again.', 'error');
@@ -4200,12 +4213,8 @@
     // Visual Micro-Interactions & GSAP Motion Engine
     window.Laceyaan.reactBits = new ReactBitsEnhanceSuite();
     window.Laceyaan.gsapEngine = new GsapMotionEngine();
-    window.Laceyaan.cartPage = new CartPage();
-    if (window.Laceyaan.pincodeChecker) {
-      window.Laceyaan.pincodeChecker.init();
-    } else {
-      window.Laceyaan.pincodeChecker = new PincodeChecker();
-    }
+    // CartPage and PincodeChecker are created once above; creating them again
+    // here bound every cart/pincode handler twice (double requests and toasts).
 
     // Initialize Animated Background Shoelace Engine only if visible
     const bgContainer = document.getElementById('laceyaan-background-lace');

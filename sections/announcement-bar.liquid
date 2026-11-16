@@ -5,14 +5,15 @@
 {%- if section.settings.show_announcement -%}
   <div 
     id="announcement-bar" 
-    class="announcement-bar" 
+    class="announcement-bar"
+    data-announcement-bar
     data-autoplay="{{ section.settings.auto_rotate }}" 
-    data-speed="{{ section.settings.rotate_speed | times: 1000 }}"
+    data-speed="{{ section.settings.rotate_speed }}"
   >
     <div class="container announcement-inner">
       <div class="announcement-ticker">
         {%- if section.blocks.size > 1 -%}
-          <button type="button" class="announcement-nav-btn" id="announcement-prev" aria-label="Previous quote">
+          <button type="button" class="announcement-nav-btn" id="announcement-prev" data-announcement-prev aria-label="Previous quote">
             {% render 'icon-chevron-left' %}
           </button>
         {%- endif -%}
@@ -39,7 +40,7 @@
         </div>
 
         {%- if section.blocks.size > 1 -%}
-          <button type="button" class="announcement-nav-btn" id="announcement-next" aria-label="Next quote">
+          <button type="button" class="announcement-nav-btn" id="announcement-next" data-announcement-next aria-label="Next quote">
             {% render 'icon-chevron-right' %}
           </button>
         {%- endif -%}
