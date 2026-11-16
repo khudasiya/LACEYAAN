@@ -50,7 +50,7 @@
             "desktop_width_percent": 100,
             "background_color": "#faf9f5",
             "text_color": "#1e1d1b",
-            "button_color": "#BD9C5A",
+            "button_color": "#bd9c5a",
             "button_text_color": "#faf9f5"
           },
           "blocks": {}
@@ -67,11 +67,11 @@
             "button_label": "BUY NOW",
             "button_link": "",
             "desktop_width_percent": 100,
-            "background_color": "#FAF9F5",
-            "text_color": "#1E1D1B",
-            "accent_color": "#A38760",
-            "button_color": "#2D432C",
-            "button_text_color": "#FAF9F5"
+            "background_color": "#faf9f5",
+            "text_color": "#1e1d1b",
+            "accent_color": "#a38760",
+            "button_color": "#2d432c",
+            "button_text_color": "#faf9f5"
           },
           "blocks": {}
         }
@@ -220,51 +220,6 @@
         "heading": "Studio Tools & Editorial Features",
         "subtitle": "Interactive tools and editorial stories designed to elevate your footwear rotation."
       }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "faq_1": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How do I choose the correct shoelace length for my shoes?",
-            "answer": "<p>The simplest way is using our interactive Shoelace Length Calculator! As a rule of thumb: 4-5 eyelet low-tops require 36\"–45\", 6-7 eyelet casual kicks require 45\"–54\", and 8-9 eyelet high-tops require 63\"–72\".</p>"
-          }
-        },
-        "faq_2": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Will solid metal aglets fit through standard footwear eyelets?",
-            "answer": "<p>Yes! All laceyaan metal aglets are precision CNC-milled to an outer diameter of 3.8mm, rigorously tested to glide smoothly through 99.8% of modern sneakers, trainers, dress shoes, and boot lace holes.</p>"
-          }
-        },
-        "faq_3": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What makes Japanese shuttle-loom combed cotton superior to stock laces?",
-            "answer": "<p>Standard factory laces are mass-produced from cheap, slippery polyester that frays, wrinkles, and unties constantly. laceyaan laces are woven on heritage shuttle looms from 100% combed Japanese cotton and infused with organic beeswax for rich structural drape and knot lock.</p>"
-          }
-        },
-        "faq_4": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is your shipping and return policy across India?",
-            "answer": "<p>We provide complimentary tracked express courier delivery across India on all orders over ₹1,499. Orders before 2:00 PM IST dispatch same business day. We back every pair with our 30-Day Guaranteed Fit Promise: free exchanges with zero questions asked.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "faq_1",
-        "faq_2",
-        "faq_3",
-        "faq_4"
-      ],
-      "settings": {
-        "badge": "ATELIER SPECIFICATIONS",
-        "heading": "Frequently Asked Questions",
-        "subtitle": "Everything you need to know about sizing, eyelet compatibility, materials, and express delivery.",
-        "support_email": "laceyaan@gmail.com"
-      }
     }
   },
   "order": [
@@ -273,7 +228,6 @@
     "before_after",
     "featured_collection",
     "design_lab",
-    "portals",
-    "faq"
+    "portals"
   ]
 }
