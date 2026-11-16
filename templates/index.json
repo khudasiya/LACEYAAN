@@ -165,61 +165,31 @@
         "vault_product": ""
       }
     },
-    "portals": {
-      "type": "home-portals",
+    "1794867689c8a17f5e": {
+      "type": "_blocks",
       "blocks": {
-        "portal_1": {
-          "type": "portal",
+        "ai_gen_block_5f076d9_qMtKdV": {
+          "type": "ai_gen_block_5f076d9",
           "settings": {
-            "tag": "INTERACTIVE SIZING",
-            "title": "Shoelace Length Calculator",
-            "description": "Never guess your lace length. Select your footwear silhouette and eyelet count for a precision guaranteed fit.",
-            "button_label": "Launch Calculator",
-            "button_link": "/pages/length-guide"
-          }
-        },
-        "portal_2": {
-          "type": "portal",
-          "settings": {
-            "tag": "RUNWAY ARCHIVE",
-            "title": "Editorial Lookbook",
-            "description": "Discover how stylists and collectors pair bespoke weaves with high-heat footwear rotations.",
-            "button_label": "View Lookbook",
-            "button_link": "/pages/lookbook"
-          }
-        },
-        "portal_3": {
-          "type": "portal",
-          "settings": {
-            "tag": "TRANSFORMATION",
-            "title": "The Split Studio",
-            "description": "Interactive split comparison demonstrating why 10mm rope and waxed flat cotton outperform stock factory cords.",
-            "button_label": "Compare Silhouettes",
-            "button_link": "/pages/before-after"
-          }
-        },
-        "portal_4": {
-          "type": "portal",
-          "settings": {
-            "tag": "MATERIAL CRAFT",
-            "title": "The LACEYAAN Standard",
-            "description": "Japanese shuttle looms, solid CNC naval brass hardware, and organic micro-beeswax infusion.",
-            "button_label": "Read Brand Story",
-            "button_link": "/pages/story"
-          }
+            "featured_collection": "combo-deal",
+            "eyebrow": "Value Combos",
+            "fallback_title": "Discover the collection",
+            "show_description": true,
+            "button_label": "Explore collection",
+            "desktop_width_percent": 100,
+            "background_color": "#FAF9F5",
+            "text_color": "#1E1D1B",
+            "accent_color": "#8A6B3F",
+            "button_background": "#1E1D1B",
+            "button_text_color": "#FAF9F5"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "portal_1",
-        "portal_2",
-        "portal_3",
-        "portal_4"
+        "ai_gen_block_5f076d9_qMtKdV"
       ],
-      "settings": {
-        "badge": "STUDIO ARCHIVE",
-        "heading": "Studio Tools & Editorial Features",
-        "subtitle": "Interactive tools and editorial stories designed to elevate your footwear rotation."
-      }
+      "settings": {}
     }
   },
   "order": [
@@ -228,6 +198,6 @@
     "before_after",
     "featured_collection",
     "design_lab",
-    "portals"
+    "1794867689c8a17f5e"
   ]
 }
