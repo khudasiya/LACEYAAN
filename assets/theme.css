@@ -12449,3 +12449,103 @@ input[name="quantity"]::-webkit-inner-spin-button {
 .contact-policy-links .sep {
   color: #D3CEBE;
 }
+
+/* ==========================================================================
+   Cart drawer: compact header & footer on phones
+   - One-line header (title + count + "Go to cart" + close)
+   - Slim subtotal/checkout footer; the duplicate "Go to cart page" button
+     is hidden because the header already links to the cart
+   ========================================================================== */
+@media (max-width: 768px) {
+  .cart-drawer .drawer-header {
+    padding: 0.55rem 0.5rem 0.55rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .cart-drawer .drawer-title-group {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .cart-drawer .drawer-title-group > svg {
+    display: none;
+  }
+
+  .cart-drawer .drawer-title {
+    font-size: 1.05rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .cart-drawer .drawer-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    background: #141311;
+    color: var(--accent-gold);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .cart-drawer .drawer-header-actions {
+    gap: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .cart-drawer .drawer-header-cart-link {
+    white-space: nowrap;
+    font-size: 0.66rem;
+    padding: 0.35rem 0.4rem;
+  }
+
+  .cart-drawer .drawer-header-cart-link .btn-arrow {
+    display: none;
+  }
+
+  .cart-drawer .shipping-progress-container {
+    padding: 0.55rem 1rem 0.65rem;
+  }
+
+  .cart-drawer .shipping-progress-text {
+    font-size: 0.72rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .cart-drawer .drawer-footer {
+    padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    overflow-x: hidden;
+    box-shadow: 0 -6px 18px rgba(20, 19, 17, 0.06);
+  }
+
+  .cart-drawer .drawer-subtotal-row {
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: 1rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .cart-drawer .drawer-shipping-notice {
+    font-size: 0.68rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .cart-drawer .drawer-actions-group {
+    margin-bottom: 0;
+  }
+
+  .cart-drawer .drawer-actions-group .btn-checkout {
+    min-height: 46px;
+  }
+
+  .cart-drawer .drawer-actions-group .btn-view-cart {
+    display: none;
+  }
+}
