@@ -3777,8 +3777,6 @@
           }
         })
       }).catch(err => console.debug('Cart attribute update:', err));
-
-      Utils.showToast(`Delivery to ${code}: Guaranteed ${this.TARGET_DATE_TEXT}`, 'success');
     }
 
     showSuccess(widget, code) {
