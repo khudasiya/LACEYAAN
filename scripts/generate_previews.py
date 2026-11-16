@@ -646,3 +646,268 @@ collection_main = """
 with open('preview_collection.html', 'w', encoding='utf-8') as f:
     f.write(head_and_nav + mobile_drawer_html + collection_main + footer_and_scripts)
 print("Created preview_collection.html")
+
+
+# 4. PREVIEW_SHIPPING_POLICY.HTML
+shipping_main = """
+<main id="MainContent" class="main-content" role="main">
+  <section class="main-policy-section section-padding">
+    <div class="container container-narrow">
+      <nav class="policy-nav-tabs" aria-label="Policy Navigation">
+        <a href="preview_shipping_policy.html" class="policy-tab-link is-active">Shipping Policy</a>
+        <a href="preview_privacy_policy.html" class="policy-tab-link">Privacy Policy</a>
+        <a href="preview_terms_of_service.html" class="policy-tab-link">Terms of Service</a>
+        <a href="mailto:sharmaom.2424@gmail.com" class="policy-tab-link contact-pill">Contact: sharmaom.2424@gmail.com &rarr;</a>
+      </nav>
+
+      <article class="policy-editorial-card">
+        <header class="policy-header text-center">
+          <span class="badge badge-gold">✦ ATELIER GOVERNANCE</span>
+          <h1 class="policy-heading editorial-heading">Shipping Policy</h1>
+          <p class="policy-meta-date">Last Updated &amp; Effective: November 2026 &bull; LACEYAAN New Delhi Atelier</p>
+        </header>
+
+        <div class="policy-body-content rte">
+          <h2>1. Atelier Fulfillment &amp; Dispatch Timeline</h2>
+          <p>Every pair of LACEYAAN laces is precision braided, inspected, and hallmarked with our solid CNC-milled tips before dispatch. All orders are processed and packed within <strong>24 hours</strong> of confirmation.</p>
+          <p>Orders received before <strong>2:00 PM IST (Monday through Saturday)</strong> dispatch from our New Delhi atelier on the <strong>same business day</strong>. Orders placed on Sundays or national holidays dispatch the following business morning.</p>
+
+          <h2>2. Pan-India Express Delivery &amp; Rates</h2>
+          <ul>
+            <li><strong>Complimentary Express Courier:</strong> Free on all orders above ₹1,499 across India.</li>
+            <li><strong>Standard Flat-Rate Express:</strong> ₹99 for orders below ₹1,499.</li>
+            <li><strong>Delivery Timeline:</strong>
+              <ul>
+                <li><strong>Metro Cities (Delhi NCR, Mumbai, Bengaluru, Hyderabad, Chennai, Kolkata):</strong> 2 to 4 business days.</li>
+                <li><strong>Tier 2 &amp; Tier 3 Cities:</strong> 3 to 6 business days.</li>
+                <li><strong>Remote Locations / J&amp;K / North East:</strong> 5 to 8 business days.</li>
+              </ul>
+            </li>
+          </ul>
+
+          <h2>3. Trusted Carrier Partners &amp; Real-Time Tracking</h2>
+          <p>We partner with premier express logistics carriers including <strong>BlueDart, Delhivery, and DTDC</strong>. As soon as your order is picked up, an automated SMS and email containing your live Air Waybill (AWB) tracking number will be delivered to your registered contact credentials.</p>
+
+          <h2>4. Tamper-Evident Luxury Packaging</h2>
+          <p>All laces are packaged in sealed, weather-resistant archive packaging designed to protect the weave texture and prevent metal aglet scratching during high-speed courier sorting.</p>
+
+          <h2>5. Address Amendments &amp; Support</h2>
+          <p>Need to update your shipping address? Please email our concierge immediately at <a href="mailto:sharmaom.2424@gmail.com"><strong>sharmaom.2424@gmail.com</strong></a> with your order number. Once a consignment has dispatched, address changes are subject to courier route policies.</p>
+        </div>
+
+        <footer class="policy-concierge-callout">
+          <div class="concierge-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="concierge-content">
+            <h4>Need Direct Assistance?</h4>
+            <p>Our atelier concierge is available to answer any questions regarding shipping, sizing, or terms.</p>
+            <a href="mailto:sharmaom.2424@gmail.com" class="btn-concierge-email">
+              Contact Concierge: sharmaom.2424@gmail.com &rarr;
+            </a>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </section>
+</main>
+"""
+
+with open('preview_shipping_policy.html', 'w', encoding='utf-8') as f:
+    f.write(head_and_nav + mobile_drawer_html + shipping_main + footer_and_scripts)
+print("Created preview_shipping_policy.html")
+
+# 5. PREVIEW_PRIVACY_POLICY.HTML
+privacy_main = """
+<main id="MainContent" class="main-content" role="main">
+  <section class="main-policy-section section-padding">
+    <div class="container container-narrow">
+      <nav class="policy-nav-tabs" aria-label="Policy Navigation">
+        <a href="preview_shipping_policy.html" class="policy-tab-link">Shipping Policy</a>
+        <a href="preview_privacy_policy.html" class="policy-tab-link is-active">Privacy Policy</a>
+        <a href="preview_terms_of_service.html" class="policy-tab-link">Terms of Service</a>
+        <a href="mailto:sharmaom.2424@gmail.com" class="policy-tab-link contact-pill">Contact: sharmaom.2424@gmail.com &rarr;</a>
+      </nav>
+
+      <article class="policy-editorial-card">
+        <header class="policy-header text-center">
+          <span class="badge badge-gold">✦ ATELIER GOVERNANCE</span>
+          <h1 class="policy-heading editorial-heading">Privacy Policy</h1>
+          <p class="policy-meta-date">Last Updated &amp; Effective: November 2026 &bull; LACEYAAN New Delhi Atelier</p>
+        </header>
+
+        <div class="policy-body-content rte">
+          <h2>1. Commitment to Privacy</h2>
+          <p>At LACEYAAN (<strong>laceyaan.in</strong>), we respect your personal privacy and are committed to protecting the personal data you share with us in compliance with applicable Indian information technology laws and international data standards.</p>
+
+          <h2>2. Information We Collect</h2>
+          <p>When you visit our store, register interest in our vault drops, or make a purchase, we collect the following information:</p>
+          <ul>
+            <li><strong>Order &amp; Contact Details:</strong> Full name, shipping address, billing address, phone number, and email address.</li>
+            <li><strong>Device &amp; Session Data:</strong> IP address, device type, browser specifications, and browsing interactions on our collections.</li>
+          </ul>
+
+          <h2>3. How Your Information is Utilized</h2>
+          <p>Your data is utilized strictly for legitimate business and fulfillment purposes:</p>
+          <ul>
+            <li>Fulfilling, packaging, and delivering your shoelace orders.</li>
+            <li>Sending real-time shipping notifications and customer service updates.</li>
+            <li>Detecting and mitigating payment fraud or security threats.</li>
+            <li>Providing optional VIP early access drop alerts (only if subscribed).</li>
+          </ul>
+
+          <h2>4. Encrypted Payment Processing</h2>
+          <p>We do not store or capture your banking credentials, credit card numbers, debit card numbers, or UPI PINs. All payment transactions are processed securely through Level 1 PCI-DSS certified payment gateways (Razorpay, Cashfree, Shopify Payments) using 256-bit SSL encryption.</p>
+
+          <h2>5. Third-Party Sharing Restrictions</h2>
+          <p><strong>We never sell, rent, lease, or monetize your personal information.</strong> Data is shared only with verified logistics partners (such as Delhivery or BlueDart) strictly for delivering your orders.</p>
+
+          <h2>6. Your Privacy Rights &amp; Erasure</h2>
+          <p>You have the right to request access to the data we hold, request rectification of any errors, or request permanent deletion of your customer account. To submit a request, email <a href="mailto:sharmaom.2424@gmail.com"><strong>sharmaom.2424@gmail.com</strong></a>.</p>
+        </div>
+
+        <footer class="policy-concierge-callout">
+          <div class="concierge-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="concierge-content">
+            <h4>Need Direct Assistance?</h4>
+            <p>Our atelier concierge is available to answer any questions regarding shipping, sizing, or terms.</p>
+            <a href="mailto:sharmaom.2424@gmail.com" class="btn-concierge-email">
+              Contact Concierge: sharmaom.2424@gmail.com &rarr;
+            </a>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </section>
+</main>
+"""
+
+with open('preview_privacy_policy.html', 'w', encoding='utf-8') as f:
+    f.write(head_and_nav + mobile_drawer_html + privacy_main + footer_and_scripts)
+print("Created preview_privacy_policy.html")
+
+# 6. PREVIEW_TERMS_OF_SERVICE.HTML
+terms_main = """
+<main id="MainContent" class="main-content" role="main">
+  <section class="main-policy-section section-padding">
+    <div class="container container-narrow">
+      <nav class="policy-nav-tabs" aria-label="Policy Navigation">
+        <a href="preview_shipping_policy.html" class="policy-tab-link">Shipping Policy</a>
+        <a href="preview_privacy_policy.html" class="policy-tab-link">Privacy Policy</a>
+        <a href="preview_terms_of_service.html" class="policy-tab-link is-active">Terms of Service</a>
+        <a href="mailto:sharmaom.2424@gmail.com" class="policy-tab-link contact-pill">Contact: sharmaom.2424@gmail.com &rarr;</a>
+      </nav>
+
+      <article class="policy-editorial-card">
+        <header class="policy-header text-center">
+          <span class="badge badge-gold">✦ ATELIER GOVERNANCE</span>
+          <h1 class="policy-heading editorial-heading">Terms of Service</h1>
+          <p class="policy-meta-date">Last Updated &amp; Effective: November 2026 &bull; LACEYAAN New Delhi Atelier</p>
+        </header>
+
+        <div class="policy-body-content rte">
+          <h2>1. Introduction &amp; Binding Agreement</h2>
+          <p>These Terms of Service govern your access to and use of <strong>laceyaan.in</strong>. By accessing our atelier catalog, subscribing to notifications, or placing an order, you agree to comply with and be bound by these Terms.</p>
+
+          <h2>2. Bespoke Craftsmanship &amp; Accuracy</h2>
+          <p>LACEYAAN manufactures luxury footwear accessories woven from long-staple combed cotton and finished with solid CNC-milled aglets. While we display product colors, weave textures, and dimensions as accurately as possible, slight variations may appear due to your display screen settings or natural textile characteristics.</p>
+
+          <h2>3. Pricing &amp; Payments</h2>
+          <p>All prices listed on the store are in <strong>Indian Rupees (INR)</strong> and include applicable Goods and Services Tax (GST). We reserve the right to modify pricing or retire limited archive drops without prior notice.</p>
+
+          <h2>4. Order Acceptance &amp; Discretion</h2>
+          <p>We reserve the right to refuse or cancel any order in the event of suspected fraud, pricing errors, or unauthorized purchase activity. In the rare event of an order cancellation after payment has been completed, a full refund will be processed to the original payment source within 3–5 business days.</p>
+
+          <h2>5. Intellectual Property</h2>
+          <p>All trademarks, hallmark logos, brand typography, bespoke photography, product designs, and software code on this website are the exclusive property of LACEYAAN. Unauthorized reproduction, modification, or distribution is prohibited.</p>
+
+          <h2>6. Governing Law &amp; Jurisdiction</h2>
+          <p>These Terms are governed by and construed in accordance with the laws of the Republic of India. Any dispute arising out of or related to these Terms shall be subject to the exclusive jurisdiction of the competent courts in New Delhi, India.</p>
+
+          <h2>7. Contact &amp; Legal Notices</h2>
+          <p>For any legal notices, inquiries, or clarifications regarding these Terms, contact us directly at <a href="mailto:sharmaom.2424@gmail.com"><strong>sharmaom.2424@gmail.com</strong></a>.</p>
+        </div>
+
+        <footer class="policy-concierge-callout">
+          <div class="concierge-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="concierge-content">
+            <h4>Need Direct Assistance?</h4>
+            <p>Our atelier concierge is available to answer any questions regarding shipping, sizing, or terms.</p>
+            <a href="mailto:sharmaom.2424@gmail.com" class="btn-concierge-email">
+              Contact Concierge: sharmaom.2424@gmail.com &rarr;
+            </a>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </section>
+</main>
+"""
+
+with open('preview_terms_of_service.html', 'w', encoding='utf-8') as f:
+    f.write(head_and_nav + mobile_drawer_html + terms_main + footer_and_scripts)
+print("Created preview_terms_of_service.html")
+
+# 7. PREVIEW_CONTACT.HTML
+contact_main = """
+<main id="MainContent" class="main-content" role="main">
+  <section class="main-contact-section section-padding">
+    <div class="container container-narrow">
+      <div class="contact-editorial-card text-center">
+        <div class="contact-badge-wrap">
+          <span class="badge badge-gold">✦ ATELIER CONCIERGE DIRECT</span>
+        </div>
+
+        <h1 class="contact-title editorial-heading">Contact Information</h1>
+        <p class="contact-subtitle">
+          For orders, sizing questions, archive collection inquiries, or custom wholesale requests, direct inquiries are handled by our dedicated atelier concierge.
+        </p>
+
+        <div class="contact-redirect-box">
+          <p class="redirect-status">
+            <span class="pulse-indicator"></span> Direct mailto connection to concierge
+          </p>
+          <a href="mailto:sharmaom.2424@gmail.com" class="btn btn-primary contact-cta-btn">
+            <span>Email: sharmaom.2424@gmail.com &rarr;</span>
+          </a>
+        </div>
+
+        <div class="contact-details-grid">
+          <div class="contact-detail-item">
+            <span class="detail-label">OFFICIAL INBOX</span>
+            <a href="mailto:sharmaom.2424@gmail.com" class="detail-value highlight-gold">sharmaom.2424@gmail.com</a>
+          </div>
+          <div class="contact-detail-item">
+            <span class="detail-label">CONCIERGE HOURS</span>
+            <span class="detail-value">Mon &ndash; Sat &bull; 10:00 AM &ndash; 7:00 PM IST</span>
+          </div>
+          <div class="contact-detail-item">
+            <span class="detail-label">AVERAGE RESPONSE</span>
+            <span class="detail-value">Within 24 Business Hours</span>
+          </div>
+          <div class="contact-detail-item">
+            <span class="detail-label">DISPATCH ATELIER</span>
+            <span class="detail-value">New Delhi, India (110001)</span>
+          </div>
+        </div>
+
+        <div class="contact-policy-links">
+          <a href="preview_shipping_policy.html" class="text-link">Shipping Policy</a>
+          <span class="sep">&bull;</span>
+          <a href="preview_privacy_policy.html" class="text-link">Privacy Policy</a>
+          <span class="sep">&bull;</span>
+          <a href="preview_terms_of_service.html" class="text-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+"""
+
+with open('preview_contact.html', 'w', encoding='utf-8') as f:
+    f.write(head_and_nav + mobile_drawer_html + contact_main + footer_and_scripts)
+print("Created preview_contact.html")
