@@ -3704,7 +3704,10 @@ img {
 .secret-code-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
+  max-width: 100%;
+  box-sizing: border-box;
   background: #191815;
   border: 2px dashed var(--accent-gold);
   border-radius: 12px;
@@ -3738,6 +3741,27 @@ img {
   color: #8C8880;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+}
+
+/* Keep the code pill inside the modal on narrow phones */
+@media (max-width: 480px) {
+  .secret-code-pill {
+    width: 100%;
+    gap: 0.6rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .secret-code-lbl {
+    font-size: 0.66rem;
+    min-width: 0;
+  }
+
+  .secret-code-string {
+    font-size: clamp(1rem, 4.6vw, 1.2rem);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
 }
 
 .secret-code-pill:hover .secret-copy-icon {
