@@ -1810,6 +1810,24 @@
         });
       }
 
+      // 3b. Hero image arrows (overlay arrows on the main portrait card)
+      const heroPrevArrow = document.getElementById('HeroPrevArrow');
+      const heroNextArrow = document.getElementById('HeroNextArrow');
+      if (heroPrevArrow) {
+        heroPrevArrow.addEventListener('click', (e) => {
+          e.stopPropagation(); // Don't open lightbox
+          e.preventDefault();
+          this.goToSlide(this.currentIndex - 1);
+        });
+      }
+      if (heroNextArrow) {
+        heroNextArrow.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          this.goToSlide(this.currentIndex + 1);
+        });
+      }
+
       // 4. Dot navigation
       this.dots.forEach((dot, idx) => {
         dot.addEventListener('click', (e) => {
@@ -1886,8 +1904,23 @@
       this.updateCounter();
       this.updateActiveDot();
 
-      // Scroll card into view smoothly
-      if (this.cards[index]) {
+      // On desktop: update the hero card image to reflect current selection
+      // so the arrows visually navigate through images within the hero portrait
+      const heroCard = document.querySelector('.gallery-item-card.is-hero-item');
+      const heroImg = heroCard ? heroCard.querySelector('.gallery-editorial-img') : null;
+      if (heroImg && this.imagesList[index]) {
+        const newSrc = this.imagesList[index].thumbUrl;
+        if (newSrc) {
+          heroImg.src = newSrc;
+          heroImg.removeAttribute('srcset');
+        }
+      }
+
+      // Also highlight the active card in the grid
+      this.cards.forEach((c, i) => c.classList.toggle('active', i === index));
+
+      // Scroll card into view smoothly (mobile carousel)
+      if (this.cards[index] && window.innerWidth <= 860) {
         this.cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 

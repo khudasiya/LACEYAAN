@@ -3973,6 +3973,92 @@ img {
   transform: translateY(0) !important;
 }
 
+/* ── Hero Image: Left / Right Nav Arrows (always visible on hero card) ── */
+.hero-nav-arrow {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(20, 19, 17, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #141311 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  opacity: 0.75 !important;
+}
+
+.hero-nav-arrow:hover {
+  opacity: 1 !important;
+  background: #FFFFFF !important;
+  transform: translateY(-50%) scale(1.06) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18) !important;
+}
+
+.hero-prev-arrow {
+  left: 14px !important;
+}
+
+.hero-next-arrow {
+  right: 14px !important;
+}
+
+/* Hide hero arrows when only 1 image */
+.bluorng-editorial-grid[data-media-count="1"] .hero-nav-arrow,
+.bluorng-editorial-grid[data-media-count="0"] .hero-nav-arrow {
+  display: none !important;
+}
+
+/* ── Extended Product Description Block (fills remaining card space) ── */
+.product-desc-extended {
+  margin-top: 1.5rem !important;
+  padding: 0 !important;
+}
+
+.desc-divider {
+  height: 1px !important;
+  background: rgba(20, 19, 17, 0.08) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.desc-extended-rte {
+  font-family: var(--font-sans) !important;
+  font-size: 0.84rem !important;
+  line-height: 1.65 !important;
+  color: #4A4845 !important;
+}
+
+.desc-extended-rte p {
+  margin-bottom: 0.75rem !important;
+}
+
+.desc-extended-rte p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.desc-extended-rte strong {
+  color: #141311 !important;
+  font-weight: 600 !important;
+}
+
+.desc-extended-rte ul,
+.desc-extended-rte ol {
+  padding-left: 1.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.desc-extended-rte li {
+  margin-bottom: 0.4rem !important;
+}
+
 /* Mobile Carousel Navigation */
 .gallery-carousel-nav {
   display: none;
