@@ -3605,6 +3605,9 @@
     }
 
     render(cart) {
+      // Only the /cart page has this section; the drawer calls render() from every page
+      if (!this.cartSection) return;
+
       if (cart.item_count === 0) {
         // If cart is now empty, reload to display empty state
         window.location.reload();
