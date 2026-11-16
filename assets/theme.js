@@ -1932,12 +1932,18 @@
         });
       });
 
-      // 5. Thumbnail dock buttons
+      // 5. Thumbnail dock buttons & Swatch cards
       this.thumbs.forEach((thumb, idx) => {
         thumb.addEventListener('click', (e) => {
           e.preventDefault();
           const targetIdx = thumb.dataset.thumbIndex !== undefined ? parseInt(thumb.dataset.thumbIndex, 10) : idx;
           this.goToSlide(targetIdx);
+
+          const colorTitle = thumb.dataset.colorTitle;
+          const selectedColorLabel = document.getElementById('SelectedColorLabel');
+          if (selectedColorLabel && colorTitle) {
+            selectedColorLabel.textContent = colorTitle;
+          }
 
           // If legacy single image viewport exists, switch image src
           const mediaUrl = thumb.dataset.mediaUrl;
@@ -2164,6 +2170,19 @@
       }
       if (this.lightboxCounter) {
         this.lightboxCounter.textContent = `${displayIndex} / ${total}`;
+      }
+
+      // Update sleek horizontal slider progress bar
+      const progressIndicator = document.getElementById('GalleryProgressIndicator');
+      if (progressIndicator) {
+        progressIndicator.style.width = `${100 / total}%`;
+        progressIndicator.style.transform = `translateX(${this.currentIndex * 100}%)`;
+      }
+
+      // Update selected color label if present
+      const selectedColorLabel = document.getElementById('SelectedColorLabel');
+      if (selectedColorLabel && this.imagesList[this.currentIndex] && this.imagesList[this.currentIndex].alt) {
+        selectedColorLabel.textContent = this.imagesList[this.currentIndex].alt;
       }
     }
 

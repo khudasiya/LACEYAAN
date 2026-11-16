@@ -44,66 +44,67 @@
 
           <!-- Main Gallery Stage (Editorial Grid & Hero Photo with arrows) -->
           <div class="gallery-main-stage">
-            <div class="bluorng-editorial-grid" id="BluorngEditorialGrid" data-media-count="{{ product.media.size }}">
-              {%- if product.media.size > 0 -%}
-                {%- for media in product.media -%}
-                  <div 
-                    class="gallery-item-card{% if forloop.first %} is-hero-item active{% endif %}" 
-                    data-media-index="{{ forloop.index0 }}"
-                    data-full-url="{{ media | image_url: width: 2000 }}"
-                  >
-                    {{ media | image_url: width: 1400 | image_tag: 
-                      class: 'gallery-editorial-img',
-                      id: forloop.first ? 'ProductMainImage' : '',
-                      loading: forloop.first ? 'eager' : 'lazy',
-                      widths: '600, 800, 1000, 1400',
-                      alt: media.alt | default: product.title | escape 
-                    }}
-                    {% if forloop.first %}
-                      <!-- Hero image: left/right arrows for navigation -->
-                      <button type="button" class="hero-nav-arrow hero-prev-arrow" id="HeroPrevArrow" aria-label="Previous photo">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                      </button>
-                      <button type="button" class="hero-nav-arrow hero-next-arrow" id="HeroNextArrow" aria-label="Next photo">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                      </button>
-                    {% endif %}
-                    <button type="button" class="card-expand-btn" aria-label="View photo {{ forloop.index }} in high resolution">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    </button>
-                  </div>
-                {%- endfor -%}
-              {%- else -%}
-                <div class="gallery-item-card is-hero-item active" data-media-index="0" data-full-url="{% if product.featured_media != blank %}{{ product.featured_media | image_url: width: 2000 }}{% endif %}">
-                  {%- if product.featured_media != blank -%}
-                    {{ product.featured_media | image_url: width: 1400 | image_tag: 
-                      class: 'gallery-editorial-img', 
-                      id: 'ProductMainImage',
-                      loading: 'eager',
-                      alt: product.title | escape 
-                    }}
-                  {%- else -%}
-                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                  {%- endif -%}
-                </div>
-              {%- endif -%}
-            </div>
-
-            <!-- Mobile Carousel Navigation Controls (Arrows + Dots) -->
-            <div class="gallery-carousel-nav" id="GalleryCarouselNav">
-              <button type="button" class="carousel-arrow-btn prev-btn" id="GalleryPrevBtn" aria-label="Previous photo">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              </button>
-              
-              <div class="carousel-dots-wrap" id="GalleryDotsWrap">
-                {%- for media in product.media -%}
-                  <button type="button" class="carousel-dot{% if forloop.first %} active{% endif %}" data-dot-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
-                {%- endfor -%}
+            <div class="gallery-photo-stage">
+              <!-- Top-Right Floating Actions (Wishlist & Share) -->
+              <div class="photo-floating-actions">
+                <button type="button" class="photo-action-btn" id="PhotoWishlistBtn" aria-label="Save to Wishlist" title="Save to Wishlist">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <button type="button" class="photo-action-btn" id="PhotoShareBtn" aria-label="Share Product" title="Share Product" onclick="if(navigator.share){navigator.share({title:document.title,url:window.location.href});}">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
               </div>
 
-              <button type="button" class="carousel-arrow-btn next-btn" id="GalleryNextBtn" aria-label="Next photo">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
+              <!-- Bottom-Left Floating Rating Badge over photo (Matching Reference) -->
+              <div class="photo-rating-badge">
+                <span class="rating-num">4.9</span>
+                <span class="rating-star">★</span>
+                <span class="rating-sep">|</span>
+                <span class="rating-count">978</span>
+              </div>
+
+              <div class="bluorng-editorial-grid" id="BluorngEditorialGrid" data-media-count="{{ product.media.size }}">
+                {%- if product.media.size > 0 -%}
+                  {%- for media in product.media -%}
+                    <div 
+                      class="gallery-item-card{% if forloop.first %} is-hero-item active{% endif %}" 
+                      data-media-index="{{ forloop.index0 }}"
+                      data-full-url="{{ media | image_url: width: 2000 }}"
+                    >
+                      {{ media | image_url: width: 1400 | image_tag: 
+                        class: 'gallery-editorial-img',
+                        id: forloop.first ? 'ProductMainImage' : '',
+                        loading: forloop.first ? 'eager' : 'lazy',
+                        widths: '600, 800, 1000, 1400',
+                        alt: media.alt | default: product.title | escape 
+                      }}
+                      <button type="button" class="card-expand-btn" aria-label="View photo {{ forloop.index }} in high resolution">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                      </button>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  <div class="gallery-item-card is-hero-item active" data-media-index="0" data-full-url="{% if product.featured_media != blank %}{{ product.featured_media | image_url: width: 2000 }}{% endif %}">
+                    {%- if product.featured_media != blank -%}
+                      {{ product.featured_media | image_url: width: 1400 | image_tag: 
+                        class: 'gallery-editorial-img', 
+                        id: 'ProductMainImage',
+                        loading: 'eager',
+                        alt: product.title | escape 
+                      }}
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+            <!-- Sleek Horizontal Slider Progress Bar (Matching Reference) -->
+            <div class="gallery-progress-wrap" id="GalleryProgressWrap" aria-hidden="true">
+              <div class="gallery-progress-track">
+                <div class="gallery-progress-bar" id="GalleryProgressIndicator"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -134,6 +135,34 @@
             </span>
           </div>
 
+          <!-- Color / Style Selection Header & Swatches (Matching Reference Image) -->
+          <div class="product-swatches-section" id="ProductSwatchesSection">
+            <div class="swatches-label-row">
+              <span class="swatches-label">Selected Color: <strong class="swatches-active-val" id="SelectedColorLabel">{{ current_variant.title | default: product.title }}</strong></span>
+            </div>
+            <div class="product-swatches-strip" id="ProductSwatchesStrip">
+              {%- for media in product.media -%}
+                <button 
+                  type="button" 
+                  class="swatch-card-btn thumb-dock-pill{% if forloop.first %} active{% endif %}" 
+                  data-thumb-index="{{ forloop.index0 }}" 
+                  data-media-url="{{ media | image_url: width: 1400 }}"
+                  data-color-title="{{ media.alt | default: product.title | escape }}"
+                  aria-label="Select {{ media.alt | default: product.title | escape }}"
+                >
+                  <img 
+                    src="{{ media | image_url: width: 220, height: 220, crop: 'center' }}" 
+                    alt="{{ media.alt | default: product.title | escape }}" 
+                    loading="lazy" 
+                    width="72" 
+                    height="72"
+                    class="swatch-img"
+                  >
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+
           <!-- Native Shopify Form -->
           {%- form 'product', product, id: 'product-form-installment', class: 'bluorng-native-form' -%}
             <input type="hidden" name="id" value="{{ current_variant.id }}" id="selected-variant-id">
@@ -146,9 +175,9 @@
                   <div class="variant-option-block" data-option-group data-option-index="{{ forloop.index0 }}">
                     <div class="variant-label-row">
                       <span class="variant-name-label">
-                        {{ option.name }}: <strong class="active-val" data-selected-option-label="{{ option.name | escape }}">{{ option.selected_value }}</strong>
+                        Select {{ option.name }}: <strong class="active-val" data-selected-option-label="{{ option.name | escape }}">{{ option.selected_value }}</strong>
                       </span>
-                      <button type="button" class="btn-size-guide-pill" id="OpenSizeGuideBtn">Size Guide</button>
+                      <button type="button" class="btn-size-chart-link" id="OpenSizeGuideBtn">Size Chart</button>
                     </div>
 
                     <div class="variant-pills-row">
@@ -173,13 +202,18 @@
             {%- else -%}
               <div class="card-variants-section single-variant-guide">
                 <div class="variant-label-row">
-                  <span class="variant-name-label">Standard Atelier Universal Fit</span>
-                  <button type="button" class="btn-size-guide-pill" id="OpenSizeGuideBtn">Size Guide</button>
+                  <span class="variant-name-label">Select Size</span>
+                  <button type="button" class="btn-size-chart-link" id="OpenSizeGuideBtn">Size Chart</button>
+                </div>
+                <div class="variant-pills-row">
+                  <span class="variant-size-pill is-selected">
+                    <span class="pill-text">Universal 140cm (Standard Fit)</span>
+                  </span>
                 </div>
               </div>
             {%- endunless -%}
 
-            <!-- Actions Row: Add to Bag (White) + Buy Now (Black) -->
+            <!-- Actions Row: Add to cart (White) + Buy now (Theme Black & Champagne Gold) -->
             <div class="card-actions-row">
               <button 
                 type="submit" 
@@ -190,7 +224,7 @@
                 {% unless current_variant.available %}disabled{% endunless %}
               >
                 <span id="AddToCartText-{{ section.id }}" data-add-to-cart-text>
-                  {%- if current_variant.available -%}ADD TO BAG{%- else -%}SOLD OUT{%- endif -%}
+                  {%- if current_variant.available -%}Add to cart{%- else -%}SOLD OUT{%- endif -%}
                 </span>
               </button>
 
@@ -203,7 +237,7 @@
                 data-product-handle="{{ product.handle }}"
                 {% unless current_variant.available %}disabled style="display:none;"{% endunless %}
               >
-                BUY NOW
+                Buy now
               </button>
             </div>
 
