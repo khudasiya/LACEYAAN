@@ -4171,26 +4171,88 @@ img {
   display: none;
 }
 
-/* Thumbnail Dock / Rail Completely Removed (Photo navigation is directly on the hero image via arrows) */
-.bluorng-thumbs-dock,
-.gallery-thumbs-rail,
-#BluorngThumbsDock,
-#ProductGalleryThumbs,
-.gallery-thumbs-wrap,
-.studio-thumbs {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  pointer-events: none !important;
-  overflow: hidden !important;
+/* ── GALLERY WITH SIDE THUMBNAILS ("Small pieces by side of the image") ── */
+.gallery-layout-with-thumbs {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+  width: 100% !important;
 }
 
-.thumb-dock-pill,
-.gallery-thumb-btn {
-  display: none !important;
+.gallery-side-thumbs,
+.gallery-thumbs-rail,
+#ProductGalleryThumbs {
+  display: flex !important;
+  visibility: visible !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+  width: 76px !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
+  position: sticky !important;
+  top: 76px !important;
+  padding: 2px !important;
+  margin: 0 !important;
+  pointer-events: auto !important;
+}
+
+.gallery-side-thumbs::-webkit-scrollbar {
+  width: 3px;
+}
+.gallery-side-thumbs::-webkit-scrollbar-thumb {
+  background: rgba(20, 19, 17, 0.2);
+  border-radius: 4px;
+}
+
+.gallery-thumb-btn,
+.thumb-dock-pill {
+  display: block !important;
+  visibility: visible !important;
+  width: 72px !important;
+  height: 72px !important;
+  min-width: 72px !important;
+  min-height: 72px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  border: 1.5px solid rgba(20, 19, 17, 0.14) !important;
+  background: #FFFFFF !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.gallery-thumb-btn:hover,
+.thumb-dock-pill:hover {
+  border-color: #141311 !important;
+  transform: scale(1.04) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.gallery-thumb-btn.active,
+.thumb-dock-pill.active {
+  border-color: #141311 !important;
+  box-shadow: 0 0 0 2px #141311, 0 3px 10px rgba(0, 0, 0, 0.12) !important;
+  transform: scale(1.04) !important;
+}
+
+.gallery-thumb-btn img,
+.thumb-dock-pill img,
+.thumb-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.gallery-main-stage {
+  flex: 1 !important;
+  min-width: 0 !important;
 }
 
 /* ── RIGHT COLUMN: BLUORNG FLOATING WHITE CARD ── */
@@ -4900,6 +4962,42 @@ img {
   .product-layout-grid {
     grid-template-columns: 1fr !important;
     gap: 1.25rem !important;
+  }
+
+  .gallery-layout-with-thumbs {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .gallery-side-thumbs,
+  .gallery-thumbs-rail,
+  #ProductGalleryThumbs {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    position: static !important;
+    padding: 6px 2px !important;
+    margin-top: 4px !important;
+  }
+
+  .gallery-side-thumbs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .gallery-thumb-btn,
+  .thumb-dock-pill {
+    width: 62px !important;
+    height: 62px !important;
+    min-width: 62px !important;
+    min-height: 62px !important;
+    border-radius: 8px !important;
   }
 
   /* Horizontal Swipe Carousel */

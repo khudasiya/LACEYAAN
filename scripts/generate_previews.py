@@ -152,7 +152,7 @@ product_main = """
   <section class="main-product-section bluorng-product-page">
     <div class="container bluorng-container">
       <div class="bluorng-product-layout">
-        <!-- Left: Bluorng Multi-Image Editorial Gallery -->
+        <!-- Left: Bluorng Multi-Image Editorial Gallery with Side Thumbnails -->
         <div class="bluorng-gallery-col" id="BluorngGalleryCol">
           <!-- Floating Controls / Counter on Gallery -->
           <div class="gallery-floating-bar">
@@ -163,64 +163,84 @@ product_main = """
             </button>
           </div>
 
-          <!-- Editorial Gallery Grid (Desktop 2-Column Mosaic) & Swipe Carousel (Mobile) -->
-          <div class="bluorng-editorial-grid" id="BluorngEditorialGrid" data-media-count="4">
-            <!-- Photo 1: Large Hero Portrait (Matches Bluorng full model shot) -->
-            <div class="gallery-item-card is-hero-item active" data-media-index="0" data-full-url="assets/product-rope.jpg">
-              <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="gallery-editorial-img" id="ProductMainImage">
-              <!-- Hero nav arrows: left and right to cycle through all images -->
-              <button type="button" class="hero-nav-arrow hero-prev-arrow" id="HeroPrevArrow" aria-label="Previous photo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <div class="gallery-layout-with-thumbs">
+            <!-- Small Thumbnail Pieces By Side of the Image ("i should be able to see them in small piece by side of the image") -->
+            <aside class="gallery-side-thumbs" id="ProductGalleryThumbs" aria-label="Product thumbnails">
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill active" data-thumb-index="0" data-media-url="assets/product-rope.jpg" aria-label="View product image 1">
+                <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="thumb-img" width="110" height="110">
               </button>
-              <button type="button" class="hero-nav-arrow hero-next-arrow" id="HeroNextArrow" aria-label="Next photo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="1" data-media-url="assets/lace-white.jpg" aria-label="View product image 2">
+                <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="thumb-img" width="110" height="110">
               </button>
-              <button type="button" class="card-expand-btn" aria-label="View photo 1 in high resolution">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="2" data-media-url="assets/lace-black.jpg" aria-label="View product image 3">
+                <img src="assets/lace-black.jpg" alt="Atelier Noir Contrast" class="thumb-img" width="110" height="110">
               </button>
-            </div>
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="3" data-media-url="assets/product-waxed.jpg" aria-label="View product image 4">
+                <img src="assets/product-waxed.jpg" alt="Atelier Waxed Finish" class="thumb-img" width="110" height="110">
+              </button>
+            </aside>
 
-            <!-- Photo 2: Secondary Close-up Detail (Matches Bluorng top detail) -->
-            <div class="gallery-item-card" data-media-index="1" data-full-url="assets/lace-white.jpg">
-              <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="gallery-editorial-img" loading="lazy">
-              <button type="button" class="card-expand-btn" aria-label="View photo 2 in high resolution">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-              </button>
-            </div>
+            <!-- Main Gallery Stage (Editorial Grid & Hero Photo with arrows) -->
+            <div class="gallery-main-stage">
+              <div class="bluorng-editorial-grid" id="BluorngEditorialGrid" data-media-count="4">
+                <!-- Photo 1: Large Hero Portrait (Matches Bluorng full model shot) -->
+                <div class="gallery-item-card is-hero-item active" data-media-index="0" data-full-url="assets/product-rope.jpg">
+                  <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="gallery-editorial-img" id="ProductMainImage">
+                  <!-- Hero nav arrows: left and right to cycle through all images -->
+                  <button type="button" class="hero-nav-arrow hero-prev-arrow" id="HeroPrevArrow" aria-label="Previous photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  </button>
+                  <button type="button" class="hero-nav-arrow hero-next-arrow" id="HeroNextArrow" aria-label="Next photo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                  <button type="button" class="card-expand-btn" aria-label="View photo 1 in high resolution">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                  </button>
+                </div>
 
-            <!-- Photo 3: Third Detail Shot (Matches Bluorng bottom detail) -->
-            <div class="gallery-item-card" data-media-index="2" data-full-url="assets/lace-black.jpg">
-              <img src="assets/lace-black.jpg" alt="Atelier Noir Contrast" class="gallery-editorial-img" loading="lazy">
-              <button type="button" class="card-expand-btn" aria-label="View photo 3 in high resolution">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-              </button>
-            </div>
+                <!-- Photo 2: Secondary Close-up Detail (Matches Bluorng top detail) -->
+                <div class="gallery-item-card" data-media-index="1" data-full-url="assets/lace-white.jpg">
+                  <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="gallery-editorial-img" loading="lazy">
+                  <button type="button" class="card-expand-btn" aria-label="View photo 2 in high resolution">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                  </button>
+                </div>
 
-            <!-- Photo 4: Fourth Still Shot -->
-            <div class="gallery-item-card" data-media-index="3" data-full-url="assets/product-waxed.jpg">
-              <img src="assets/product-waxed.jpg" alt="Atelier Waxed Finish" class="gallery-editorial-img" loading="lazy">
-              <button type="button" class="card-expand-btn" aria-label="View photo 4 in high resolution">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-              </button>
-            </div>
-          </div>
+                <!-- Photo 3: Third Detail Shot (Matches Bluorng bottom detail) -->
+                <div class="gallery-item-card" data-media-index="2" data-full-url="assets/lace-black.jpg">
+                  <img src="assets/lace-black.jpg" alt="Atelier Noir Contrast" class="gallery-editorial-img" loading="lazy">
+                  <button type="button" class="card-expand-btn" aria-label="View photo 3 in high resolution">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                  </button>
+                </div>
 
-          <!-- Mobile Carousel Navigation Controls (Arrows + Dots) -->
-          <div class="gallery-carousel-nav" id="GalleryCarouselNav">
-            <button type="button" class="carousel-arrow-btn prev-btn" id="GalleryPrevBtn" aria-label="Previous photo">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            
-            <div class="carousel-dots-wrap" id="GalleryDotsWrap">
-              <button type="button" class="carousel-dot active" data-dot-index="0" aria-label="Slide 1"></button>
-              <button type="button" class="carousel-dot" data-dot-index="1" aria-label="Slide 2"></button>
-              <button type="button" class="carousel-dot" data-dot-index="2" aria-label="Slide 3"></button>
-              <button type="button" class="carousel-dot" data-dot-index="3" aria-label="Slide 4"></button>
-            </div>
+                <!-- Photo 4: Fourth Still Shot -->
+                <div class="gallery-item-card" data-media-index="3" data-full-url="assets/product-waxed.jpg">
+                  <img src="assets/product-waxed.jpg" alt="Atelier Waxed Finish" class="gallery-editorial-img" loading="lazy">
+                  <button type="button" class="card-expand-btn" aria-label="View photo 4 in high resolution">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                  </button>
+                </div>
+              </div>
 
-            <button type="button" class="carousel-arrow-btn next-btn" id="GalleryNextBtn" aria-label="Next photo">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
+              <!-- Mobile Carousel Navigation Controls (Arrows + Dots) -->
+              <div class="gallery-carousel-nav" id="GalleryCarouselNav">
+                <button type="button" class="carousel-arrow-btn prev-btn" id="GalleryPrevBtn" aria-label="Previous photo">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                
+                <div class="carousel-dots-wrap" id="GalleryDotsWrap">
+                  <button type="button" class="carousel-dot active" data-dot-index="0" aria-label="Slide 1"></button>
+                  <button type="button" class="carousel-dot" data-dot-index="1" aria-label="Slide 2"></button>
+                  <button type="button" class="carousel-dot" data-dot-index="2" aria-label="Slide 3"></button>
+                  <button type="button" class="carousel-dot" data-dot-index="3" aria-label="Slide 4"></button>
+                </div>
+
+                <button type="button" class="carousel-arrow-btn next-btn" id="GalleryNextBtn" aria-label="Next photo">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -284,20 +304,20 @@ product_main = """
             <!-- 1. Product Description (Directly below Buy Now in red area) -->
             <div class="product-description-block" id="ProductDescriptionBlock">
               <div class="desc-heading-wrap">
-                <span class="desc-heading">Details &amp; Description</span>
+                <span class="desc-heading">Product Description</span>
               </div>
-              <div class="luxury-perks-list">
-                <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
-                <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
-                <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
-              </div>
-              <div class="tab-description-rte">
+              <div class="tab-description-rte rte product-description-body">
                 <p>Triple-braided on high-tension Japanese shuttle looms. Woven from 100% long-staple combed cotton, finished with solid CNC-milled brass tips engraved with the LACEYAAN hallmark.</p>
                 <p><strong>Type:</strong> Rope Round &mdash; 10mm diameter braided construction</p>
                 <p><strong>Material:</strong> 100% long-staple combed cotton</p>
                 <p><strong>Aglet:</strong> Solid CNC-milled naval brass, engraved LACEYAAN hallmark</p>
                 <p><strong>Colour:</strong> Natural Ecru / Off-White</p>
                 <p><strong>Delivery:</strong> Dispatched within 24 hours via tracked express courier. Free pan-India shipping on all orders.</p>
+              </div>
+              <div class="luxury-perks-list">
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Packed within 24 hours.</div>
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Free delivery pan-India.</div>
+                <div class="perk-item"><span class="perk-bullet">&bull;</span> Dispatches next day.</div>
               </div>
             </div>
 
