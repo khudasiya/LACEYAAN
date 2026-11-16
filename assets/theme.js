@@ -1268,6 +1268,23 @@
           });
         });
       });
+
+      // Ensure Add to Bag button never shows price tags (User instruction: only ADD TO BAG must be there)
+      const cleanBagButton = () => {
+        const bagButtons = document.querySelectorAll('.btn-bluorng-bag, [data-add-to-cart-button], .btn-add-main');
+        bagButtons.forEach(btn => {
+          const priceEls = btn.querySelectorAll('.btn-price, .price, [data-button-price]');
+          priceEls.forEach(el => el.remove());
+          const textEl = btn.querySelector('[data-add-to-cart-text], span');
+          if (textEl && (textEl.textContent.includes('•') || textEl.textContent.includes('·') || textEl.textContent.includes('Rs.'))) {
+            const parts = textEl.textContent.split(/[•·]/);
+            textEl.textContent = parts[0].trim();
+          }
+        });
+      };
+      cleanBagButton();
+      setTimeout(cleanBagButton, 500);
+      setTimeout(cleanBagButton, 1500);
     }
 
     getSelectedOptions() {
@@ -1326,11 +1343,11 @@
         }
       }
 
-      // Update Availability & Add To Bag Button
+      // Update Availability & Add To Bag Button (No price tag, only ADD TO BAG)
       if (this.submitBtn) {
         if (variant.available) {
           this.submitBtn.disabled = false;
-          this.submitBtn.innerHTML = '<svg class="bag-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>Add to cart</span>';
+          this.submitBtn.innerHTML = '<svg class="bag-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>ADD TO BAG</span>';
         } else {
           this.submitBtn.disabled = true;
           this.submitBtn.innerHTML = '<span>SOLD OUT</span>';

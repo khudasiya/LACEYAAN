@@ -4909,6 +4909,15 @@ input[name="quantity"]::-webkit-inner-spin-button {
   text-transform: uppercase !important;
 }
 
+.btn-bluorng-bag .btn-price,
+.btn-bluorng-bag .price,
+.btn-bluorng-bag [data-button-price],
+.btn-add-main .btn-price,
+.btn-add-to-cart-main .btn-price {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 .btn-bluorng-bag svg,
 .btn-bluorng-bag .bag-icon,
 .btn-add-main svg,
