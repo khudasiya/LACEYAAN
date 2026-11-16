@@ -1968,6 +1968,12 @@
               this.currentIndex = newIndex;
               this.updateCounter();
               this.updateActiveDot();
+              this.thumbs.forEach((t, i) => {
+                t.classList.toggle('active', i === newIndex);
+              });
+              if (this.thumbs[newIndex]) {
+                this.thumbs[newIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              }
             }
           }, 60);
         }, { passive: true });
@@ -2160,6 +2166,9 @@
       this.thumbs.forEach((t, i) => {
         t.classList.toggle('active', i === index);
       });
+      if (this.thumbs[index] && window.innerWidth <= 860) {
+        this.thumbs[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     updateCounter() {
@@ -3928,6 +3937,24 @@
         window.Laceyaan.backgroundLace.destroy();
       }
       window.Laceyaan.backgroundLace = new BackgroundLace();
+    }
+    // Remove Orange Line Sale Badge on Mobile View
+    function removeMobileSaleBadges() {
+      if (window.innerWidth <= 860) {
+        document.querySelectorAll('.badge-sale, .sale-badge, [data-save-badge]').forEach(el => el.remove());
+        document.querySelectorAll('div, span, p, aside, a').forEach(el => {
+          if (el.children.length <= 1 && /^\s*SAVE\s*\d+%/i.test(el.textContent.trim())) {
+            el.remove();
+          }
+        });
+      }
+    }
+    removeMobileSaleBadges();
+    window.addEventListener('resize', removeMobileSaleBadges);
+    if (typeof MutationObserver !== 'undefined') {
+      try {
+        new MutationObserver(removeMobileSaleBadges).observe(document.documentElement, { childList: true, subtree: true });
+      } catch (e) {}
     }
   }
 

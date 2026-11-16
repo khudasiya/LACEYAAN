@@ -18,31 +18,7 @@
         </div>
 
         <div class="gallery-layout-with-thumbs">
-          <!-- Small Thumbnail Pieces By Side of the Image ("i should be able to see them in small piece by side of the image") -->
-          {%- if product.media.size > 1 -%}
-            <aside class="gallery-side-thumbs" id="ProductGalleryThumbs" aria-label="Product thumbnails">
-              {%- for media in product.media -%}
-                <button 
-                  type="button" 
-                  class="gallery-thumb-btn thumb-dock-pill{% if forloop.first %} active{% endif %}" 
-                  data-thumb-index="{{ forloop.index0 }}" 
-                  data-media-url="{{ media | image_url: width: 1400 }}"
-                  aria-label="View product image {{ forloop.index }}"
-                >
-                  <img 
-                    src="{{ media | image_url: width: 220, height: 220, crop: 'center' }}" 
-                    alt="{{ media.alt | default: product.title | escape }}" 
-                    loading="lazy" 
-                    width="110" 
-                    height="110"
-                    class="thumb-img"
-                  >
-                </button>
-              {%- endfor -%}
-            </aside>
-          {%- endif -%}
-
-          <!-- Main Gallery Stage (Editorial Grid & Hero Photo with arrows) -->
+          <!-- Main Gallery Stage (Hero Photo on Left in Website View) -->
           <div class="gallery-main-stage">
             <div class="gallery-photo-stage">
               <!-- Top-Right Floating Actions (Wishlist & Share) -->
@@ -107,6 +83,30 @@
               </div>
             </div>
           </div>
+
+          <!-- Small Thumbnail Pieces By Side of the Image: Placed on the RIGHT of the Main Big Photo in Website View -->
+          {%- if product.media.size > 1 -%}
+            <aside class="gallery-side-thumbs" id="ProductGalleryThumbs" aria-label="Product thumbnails">
+              {%- for media in product.media -%}
+                <button 
+                  type="button" 
+                  class="gallery-thumb-btn thumb-dock-pill{% if forloop.first %} active{% endif %}" 
+                  data-thumb-index="{{ forloop.index0 }}" 
+                  data-media-url="{{ media | image_url: width: 1400 }}"
+                  aria-label="View product image {{ forloop.index }}"
+                >
+                  <img 
+                    src="{{ media | image_url: width: 220, height: 220, crop: 'center' }}" 
+                    alt="{{ media.alt | default: product.title | escape }}" 
+                    loading="lazy" 
+                    width="110" 
+                    height="110"
+                    class="thumb-img"
+                  >
+                </button>
+              {%- endfor -%}
+            </aside>
+          {%- endif -%}
         </div>
       </div>
 

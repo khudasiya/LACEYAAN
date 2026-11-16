@@ -164,23 +164,7 @@ product_main = """
           </div>
 
           <div class="gallery-layout-with-thumbs">
-            <!-- Small Thumbnail Pieces By Side of the Image ("i should be able to see them in small piece by side of the image") -->
-            <aside class="gallery-side-thumbs" id="ProductGalleryThumbs" aria-label="Product thumbnails">
-              <button type="button" class="gallery-thumb-btn thumb-dock-pill active" data-thumb-index="0" data-media-url="assets/product-rope.jpg" aria-label="View product image 1">
-                <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="thumb-img" width="110" height="110">
-              </button>
-              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="1" data-media-url="assets/lace-white.jpg" aria-label="View product image 2">
-                <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="thumb-img" width="110" height="110">
-              </button>
-              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="2" data-media-url="assets/lace-black.jpg" aria-label="View product image 3">
-                <img src="assets/lace-black.jpg" alt="Atelier Noir Contrast" class="thumb-img" width="110" height="110">
-              </button>
-              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="3" data-media-url="assets/product-waxed.jpg" aria-label="View product image 4">
-                <img src="assets/product-waxed.jpg" alt="Atelier Waxed Finish" class="thumb-img" width="110" height="110">
-              </button>
-            </aside>
-
-            <!-- Main Gallery Stage (Editorial Grid & Hero Photo) -->
+            <!-- Main Gallery Stage (Editorial Grid & Hero Photo on Left in Website View) -->
             <div class="gallery-main-stage">
               <div class="gallery-photo-stage">
                 <!-- Top-Right Floating Actions (Wishlist & Share) -->
@@ -243,6 +227,22 @@ product_main = """
                 </div>
               </div>
             </div>
+
+            <!-- Small Thumbnail Pieces By Side of Image (Placed on the RIGHT of the Main Big Photo in Website View) -->
+            <aside class="gallery-side-thumbs" id="ProductGalleryThumbs" aria-label="Product thumbnails">
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill active" data-thumb-index="0" data-media-url="assets/product-rope.jpg" aria-label="View product image 1">
+                <img src="assets/product-rope.jpg" alt="10mm Chunky Braided Rope Laces" class="thumb-img" width="110" height="110">
+              </button>
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="1" data-media-url="assets/lace-white.jpg" aria-label="View product image 2">
+                <img src="assets/lace-white.jpg" alt="Atelier Weave Close-up" class="thumb-img" width="110" height="110">
+              </button>
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="2" data-media-url="assets/lace-black.jpg" aria-label="View product image 3">
+                <img src="assets/lace-black.jpg" alt="Atelier Noir Contrast" class="thumb-img" width="110" height="110">
+              </button>
+              <button type="button" class="gallery-thumb-btn thumb-dock-pill" data-thumb-index="3" data-media-url="assets/product-waxed.jpg" aria-label="View product image 4">
+                <img src="assets/product-waxed.jpg" alt="Atelier Waxed Finish" class="thumb-img" width="110" height="110">
+              </button>
+            </aside>
           </div>
         </div>
 
