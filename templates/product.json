@@ -3,7 +3,7 @@
     "main": {
       "type": "main-product",
       "settings": {
-        "show_dynamic_checkout": true
+        "show_dynamic_checkout": false
       }
     },
     "related_products": {
