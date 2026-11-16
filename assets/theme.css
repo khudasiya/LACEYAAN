@@ -4443,9 +4443,33 @@ img {
 }
 
 .tab-description-rte {
-  font-size: 0.85rem !important;
-  color: #555555 !important;
-  line-height: 1.6 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.84rem !important;
+  color: #4A4845 !important;
+  line-height: 1.65 !important;
+}
+
+.tab-description-rte p {
+  margin-bottom: 0.75rem !important;
+}
+
+.tab-description-rte p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.tab-description-rte strong {
+  color: #141311 !important;
+  font-weight: 600 !important;
+}
+
+.tab-description-rte ul,
+.tab-description-rte ol {
+  padding-left: 1.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.tab-description-rte li {
+  margin-bottom: 0.4rem !important;
 }
 
 .tab-lead-text {

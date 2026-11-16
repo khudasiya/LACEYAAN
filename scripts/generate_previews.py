@@ -311,20 +311,12 @@ product_main = """
                 </div>
                 <div class="tab-description-rte">
                   <p>Triple-braided on high-tension Japanese shuttle looms. Woven from 100% long-staple combed cotton, finished with solid CNC-milled brass tips engraved with the LACEYAAN hallmark.</p>
+                  <p><strong>Type:</strong> Rope Round &mdash; 10mm diameter braided construction</p>
+                  <p><strong>Material:</strong> 100% long-staple combed cotton</p>
+                  <p><strong>Aglet:</strong> Solid CNC-milled naval brass, engraved LACEYAAN hallmark</p>
+                  <p><strong>Colour:</strong> Natural Ecru / Off-White</p>
+                  <p><strong>Delivery:</strong> Dispatched within 24 hours via tracked express courier. Free pan-India shipping on all orders.</p>
                 </div>
-              </div>
-            </div>
-
-            <!-- Full product description below the buy card (fills empty space) -->
-            <div class="product-desc-extended">
-              <div class="desc-divider"></div>
-              <div class="desc-extended-rte">
-                <p>Triple-braided on high-tension Japanese shuttle looms. Woven from 100% long-staple combed cotton, finished with solid CNC-milled brass tips engraved with the LACEYAAN hallmark.</p>
-                <p><strong>Type:</strong> Rope Round &mdash; 10mm diameter braided construction</p>
-                <p><strong>Material:</strong> 100% long-staple combed cotton</p>
-                <p><strong>Aglet:</strong> Solid CNC-milled naval brass, engraved LACEYAAN hallmark</p>
-                <p><strong>Colour:</strong> Natural Ecru / Off-White</p>
-                <p><strong>Delivery:</strong> Dispatched within 24 hours via tracked express courier. Free pan-India shipping on all orders.</p>
               </div>
             </div>
           </div>
