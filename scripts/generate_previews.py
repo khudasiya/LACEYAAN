@@ -314,6 +314,13 @@ product_main = """
               </div>
             </div>
 
+            <!-- Compact Luxury Quantity Selector (Short Pill) -->
+            <div class="product-quantity-wrapper" data-quantity-wrapper>
+              <button type="button" class="qty-btn" data-qty-action="minus" data-qty-minus aria-label="Decrease quantity" onclick="const q=document.getElementById('ProductQuantityInput');if(q&&parseInt(q.value,10)>1)q.value=parseInt(q.value,10)-1;">&minus;</button>
+              <input type="number" name="quantity" id="ProductQuantityInput" value="1" min="1" class="quantity-input" aria-label="Quantity" data-quantity-input>
+              <button type="button" class="qty-btn" data-qty-action="plus" data-qty-plus aria-label="Increase quantity" onclick="const q=document.getElementById('ProductQuantityInput');if(q)q.value=parseInt(q.value,10)+1;">&#43;</button>
+            </div>
+
             <!-- Actions Row: Add to cart (Gold & Black) + Buy now (Gold & Black) -->
             <div class="card-actions-row">
               <button type="button" class="btn-bluorng-bag" id="MainAddToCartBtn">

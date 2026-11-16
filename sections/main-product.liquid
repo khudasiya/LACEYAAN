@@ -166,7 +166,6 @@
           <!-- Native Shopify Form -->
           {%- form 'product', product, id: 'product-form-installment', class: 'bluorng-native-form' -%}
             <input type="hidden" name="id" value="{{ current_variant.id }}" id="selected-variant-id">
-            <input type="hidden" name="quantity" value="1" id="product-quantity-input">
 
             <!-- Size / Length Selection -->
             {%- unless product.has_only_default_variant -%}
@@ -212,6 +211,22 @@
                 </div>
               </div>
             {%- endunless -%}
+
+            <!-- Compact Luxury Quantity Selector (Short Pill) -->
+            <div class="product-quantity-wrapper" data-quantity-wrapper>
+              <button type="button" class="qty-btn" data-qty-action="minus" data-qty-minus aria-label="Decrease quantity">&minus;</button>
+              <input 
+                type="number" 
+                name="quantity" 
+                id="Quantity-{{ section.id }}" 
+                value="1" 
+                min="1" 
+                class="quantity-input" 
+                aria-label="Quantity"
+                data-quantity-input
+              >
+              <button type="button" class="qty-btn" data-qty-action="plus" data-qty-plus aria-label="Increase quantity">&#43;</button>
+            </div>
 
             <!-- Actions Row: Add to cart (Gold & Black) + Buy now (Gold & Black) -->
             <div class="card-actions-row">
