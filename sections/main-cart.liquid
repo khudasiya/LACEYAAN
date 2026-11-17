@@ -107,9 +107,9 @@
               {%- if cart.attributes['delivery_method'] contains 'Founder' or cart.attributes['Delivery Method'] contains 'Founder' -%}
                 {%- assign is_founder = true -%}
               {%- endif -%}
-              {%- assign founder_fee = section.settings.founder_delivery_fee | default: 3000 -%}
-              {%- assign founder_fee_cents = founder_fee | times: 100 -%}
-              <div class="cart-delivery-selector-card" id="cart-delivery-selector" data-founder-fee="{{ founder_fee_cents }}" data-founder-variant-id="{{ section.settings.founder_delivery_product.selected_or_first_available_variant.id }}">
+              {%- capture founder_fee_raw -%}{% render 'founder-fee-cents' %}{%- endcapture -%}
+              {%- assign founder_fee_cents = founder_fee_raw | strip | plus: 0 -%}
+              <div class="cart-delivery-selector-card" id="cart-delivery-selector" data-founder-fee="{{ founder_fee_cents }}">
                 <div class="delivery-selector-header">
                   <span class="delivery-selector-title">Select Delivery Experience</span>
                   <span class="delivery-selector-sub">Direct from our atelier</span>
@@ -143,7 +143,7 @@
                     <input 
                       type="radio" 
                       name="attributes[delivery_method]" 
-                      value="Hand Delivered by Founder (₹3,000 - Vellore Only)" 
+                      value="Hand Delivered by Founder ({{ founder_fee_cents | money }} - Vellore Only)" 
                       class="delivery-radio-input visually-hidden"
                       {% if is_founder %}checked{% endif %}
                       data-delivery-radio="founder"
@@ -175,7 +175,7 @@
                     id="cart-founder-vellore-address" 
                     class="founder-vellore-input"
                     placeholder="e.g. VIT Vellore Mens/Womens Hostel Block, Room No., or Street Address..." 
-                    value="{{ cart.attributes['founder_delivery_vellore_address'] }}"
+                    value="{{ cart.attributes['founder_delivery_vellore_address'] | escape }}"
                   >
                   <span class="founder-vellore-hint">Our founder will personally coordinate dispatch time directly via your checkout phone number.</span>
                 </div>
@@ -257,12 +257,6 @@
       "default": "Hand Delivered by Founder"
     },
     {
-      "type": "number",
-      "id": "founder_delivery_fee",
-      "label": "Delivery Charge (in ₹)",
-      "default": 3000
-    },
-    {
       "type": "text",
       "id": "founder_delivery_badge",
       "label": "Availability Tag / Badge",
@@ -273,12 +267,6 @@
       "id": "founder_delivery_desc",
       "label": "Delivery Description",
       "default": "White-glove personal hand delivery and bespoke lace styling directly by the LACEYAAN founder."
-    },
-    {
-      "type": "product",
-      "id": "founder_delivery_product",
-      "label": "Founder Delivery Add-on Product (Optional)",
-      "info": "Select a ₹3,000 product to automatically add as a line item so it passes directly into native Shopify Checkout"
     }
   ],
   "blocks": [

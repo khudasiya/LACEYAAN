@@ -111,7 +111,8 @@
       {%- if cart.attributes['delivery_method'] contains 'Founder' or cart.attributes['Delivery Method'] contains 'Founder' -%}
         {%- assign is_drawer_founder = true -%}
       {%- endif -%}
-      {%- assign drawer_founder_fee_cents = 300000 -%}
+      {%- capture founder_fee_raw -%}{% render 'founder-fee-cents' %}{%- endcapture -%}
+      {%- assign drawer_founder_fee_cents = founder_fee_raw | strip | plus: 0 -%}
       <div class="drawer-delivery-selector" id="drawer-delivery-selector" data-founder-fee="{{ drawer_founder_fee_cents }}">
         <div class="drawer-delivery-header">
           <span class="drawer-delivery-label">DELIVERY METHOD</span>
@@ -132,7 +133,7 @@
               <span class="pill-title">Hand Delivered by Founder</span>
               <span class="pill-badge">Only available in Vellore</span>
             </div>
-            <span class="pill-price founder-price">+ ₹3,000</span>
+            <span class="pill-price founder-price">+ {{ drawer_founder_fee_cents | money }}</span>
           </label>
         </div>
       </div>
@@ -149,7 +150,7 @@
     <!-- Drawer Founder Fee Breakdown Row -->
     <div class="drawer-founder-row" id="drawer-founder-fee-row"{% unless is_drawer_founder %} style="display: none;"{% endunless %}>
       <span class="drawer-fee-label">Founder Hand Delivery:</span>
-      <span class="drawer-fee-amount">+ ₹3,000</span>
+      <span class="drawer-fee-amount">+ {{ drawer_founder_fee_cents | money }}</span>
     </div>
 
     <div class="drawer-final-total-row" id="drawer-final-total-row"{% unless is_drawer_founder %} style="display: none;"{% endunless %}>
@@ -165,8 +166,8 @@
 
     <div class="drawer-actions-group">
       <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form" class="cart-drawer-form-action">
-        <input type="hidden" name="attributes[delivery_method]" id="drawer-attr-delivery-method" value="{% if is_drawer_founder %}Hand Delivered by Founder (₹3,000 - Vellore Only){% else %}Standard Atelier Shipping{% endif %}">
-        <input type="hidden" name="attributes[founder_delivery_fee]" id="drawer-attr-founder-fee" value="{% if is_drawer_founder %}₹3,000{% endif %}">
+        <input type="hidden" name="attributes[delivery_method]" id="drawer-attr-delivery-method" value="{% if is_drawer_founder %}Hand Delivered by Founder ({{ drawer_founder_fee_cents | money }} - Vellore Only){% else %}Standard Atelier Shipping{% endif %}">
+        <input type="hidden" name="attributes[founder_delivery_fee]" id="drawer-attr-founder-fee" value="{% if is_drawer_founder %}{{ drawer_founder_fee_cents | money }}{% endif %}">
         <button type="submit" name="checkout" class="btn-primary btn-checkout" id="drawer-checkout-btn">
           {% render 'icon-shield-check' %}
           <span id="drawer-checkout-text">{{ 'sections.cart.checkout' | t | default: 'PROCEED TO CHECKOUT' }}</span>

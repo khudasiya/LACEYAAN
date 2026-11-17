@@ -721,7 +721,9 @@
      ========================================================================== */
   class DeliveryManager {
     constructor() {
-      this.FEE_CENTS = 300000; // ₹3,000 in cents / paise
+      // Fee comes from snippets/founder-fee-cents.liquid via data-founder-fee
+      const feeEl = document.querySelector('#cart-delivery-selector[data-founder-fee], #drawer-delivery-selector[data-founder-fee]');
+      this.FEE_CENTS = feeEl ? (parseInt(feeEl.dataset.founderFee, 10) || 0) : 0;
       this.STORAGE_KEY = 'laceyaan_founder_delivery';
 
       this.init();
@@ -756,6 +758,10 @@
     }
 
     async syncLineItem(selected) {
+      // The founder fee is charged by the "Hand Delivered by Founder" shipping rate at
+      // checkout. Adding a fee product as well would double-charge, so only remove any
+      // leftover fee line from older carts.
+      if (selected) return;
       const pageSelector = document.getElementById('cart-delivery-selector') || document.getElementById('drawer-delivery-selector');
       const variantId = pageSelector ? pageSelector.dataset.founderVariantId : null;
 
@@ -794,8 +800,8 @@
       const velloreAddress = (addressInput && addressInput.value) ? addressInput.value.trim() : '';
 
       const attributes = {
-        'Delivery Method': selected ? 'Hand Delivered by Founder (₹3,000 - Only available in Vellore)' : 'Standard Atelier Shipping',
-        'Founder Delivery Fee': selected ? '₹3,000' : '',
+        'Delivery Method': selected ? `Hand Delivered by Founder (${Utils.formatMoney(this.FEE_CENTS)} - Only available in Vellore)` : 'Standard Atelier Shipping',
+        'Founder Delivery Fee': selected ? Utils.formatMoney(this.FEE_CENTS) : '',
         'Delivery City': selected ? 'Only available in Vellore' : '',
         'delivery_method': selected ? 'Hand Delivered by Founder' : 'Standard'
       };
@@ -866,10 +872,10 @@
         if (drawerTotalRow) drawerTotalRow.style.display = selected ? 'flex' : 'none';
 
         if (drawerAttrMethod) {
-          drawerAttrMethod.value = selected ? 'Hand Delivered by Founder (₹3,000 - Vellore Only)' : 'Standard Atelier Shipping';
+          drawerAttrMethod.value = selected ? `Hand Delivered by Founder (${Utils.formatMoney(this.FEE_CENTS)} - Vellore Only)` : 'Standard Atelier Shipping';
         }
         if (drawerAttrFee) {
-          drawerAttrFee.value = selected ? '₹3,000' : '';
+          drawerAttrFee.value = selected ? Utils.formatMoney(this.FEE_CENTS) : '';
         }
 
         if (drawerSubtotalEl && drawerFinalTotalEl) {

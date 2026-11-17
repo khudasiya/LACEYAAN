@@ -1,0 +1,10 @@
+{%- comment -%}
+  Single source of truth for the "Hand Delivered by Founder" fee, in paise.
+  MUST match the "Hand Delivered by Founder" shipping rate in
+  Shopify admin > Settings > Shipping and delivery (that rate is what
+  checkout actually charges). 200000 = Rs. 2,000.
+
+  Usage: {%- capture fee -%}{% render 'founder-fee-cents' %}{%- endcapture -%}
+         {%- assign fee_cents = fee | plus: 0 -%}
+{%- endcomment -%}
+200000
