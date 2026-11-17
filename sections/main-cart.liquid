@@ -100,9 +100,6 @@
         <!-- Cart Summary Footer -->
         <div class="cart-page-footer">
           <div class="cart-note-col">
-            <label for="cart-page-note">{{ 'sections.cart.note' | t }}</label>
-            <textarea name="note" id="cart-page-note" placeholder="Special length instructions or sneaker models...">{{ cart.note }}</textarea>
-
             <!-- Delivery Experience Selector -->
             {%- assign enable_founder_delivery = section.settings.enable_founder_delivery | default: true -%}
             {%- if enable_founder_delivery -%}
