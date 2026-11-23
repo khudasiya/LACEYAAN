@@ -39,6 +39,20 @@
     "1794798332e04175c1": {
       "type": "_blocks",
       "blocks": {
+        "ai_gen_block_1354b45_xFb7KD": {
+          "type": "ai_gen_block_1354b45",
+          "settings": {
+            "photo": "shopify://shop_images/LACEYAAN_Black_Friday_Sneaker_Banner.png",
+            "collection": "combo-deal",
+            "button_label": "BUY NOW",
+            "caption": "",
+            "alignment": "center",
+            "desktop_width_percent": 100,
+            "corner_radius": 0,
+            "button_radius": 0
+          },
+          "blocks": {}
+        },
         "ai_gen_block_3234858_HnTPy9": {
           "type": "ai_gen_block_3234858",
           "settings": {
@@ -77,6 +91,7 @@
         }
       },
       "block_order": [
+        "ai_gen_block_1354b45_xFb7KD",
         "ai_gen_block_3234858_HnTPy9",
         "ai_gen_block_b3e89b1_pzhKqP"
       ],
@@ -177,11 +192,11 @@
             "show_description": true,
             "button_label": "Explore collection",
             "desktop_width_percent": 100,
-            "background_color": "#FAF9F5",
-            "text_color": "#1E1D1B",
-            "accent_color": "#8A6B3F",
-            "button_background": "#1E1D1B",
-            "button_text_color": "#FAF9F5"
+            "background_color": "#faf9f5",
+            "text_color": "#1e1d1b",
+            "accent_color": "#8a6b3f",
+            "button_background": "#1e1d1b",
+            "button_text_color": "#faf9f5"
           },
           "blocks": {}
         }
