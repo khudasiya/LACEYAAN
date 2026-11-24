@@ -47,7 +47,7 @@
             "button_label": "BUY NOW",
             "caption": "",
             "alignment": "center",
-            "desktop_width_percent": 80,
+            "desktop_width_percent": 100,
             "corner_radius": 0,
             "button_radius": 0
           },
