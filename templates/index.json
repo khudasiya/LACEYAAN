@@ -42,12 +42,12 @@
         "ai_gen_block_1354b45_xFb7KD": {
           "type": "ai_gen_block_1354b45",
           "settings": {
-            "photo": "shopify://shop_images/LACEYAAN_Black_Friday_Banner.png",
+            "photo": "shopify://shop_images/3dfe798c-58de-45e8-8c9f-c237ea3dd0ed.png",
             "collection": "set-of-3",
             "button_label": "BUY NOW",
             "caption": "",
             "alignment": "center",
-            "desktop_width_percent": 100,
+            "desktop_width_percent": 80,
             "corner_radius": 0,
             "button_radius": 0
           },
