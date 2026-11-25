@@ -1667,15 +1667,15 @@ img {
 }
 
 .grid-cols-2 {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid-cols-3 {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid-cols-4 {
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .product-card {
@@ -3146,7 +3146,6 @@ img {
   margin-bottom: 1rem;
 }
 
-/* ==========================================================================
 /* ==========================================================================
    Streetwear Statement Footer (Spankers Exact Style Reproduction)
    ========================================================================== */
@@ -9017,6 +9016,11 @@ input[name="quantity"]::-webkit-inner-spin-button {
   box-shadow: none !important;
   overflow: visible !important;
   transition: transform 0.25s ease;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
 .product-card-editorial:hover {
@@ -9027,6 +9031,8 @@ input[name="quantity"]::-webkit-inner-spin-button {
 .product-card-editorial .card-media {
   position: relative !important;
   width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
   aspect-ratio: 3 / 4 !important;
   border-radius: 12px !important;
   overflow: hidden !important;
@@ -9035,9 +9041,12 @@ input[name="quantity"]::-webkit-inner-spin-button {
   transform: translateZ(0) !important;
   background: #EFECE6 !important;
   box-shadow: none !important;
+  flex-shrink: 0 !important;
 }
 
 .product-card-editorial .media-link {
+  position: absolute !important;
+  inset: 0 !important;
   display: block !important;
   width: 100% !important;
   height: 100% !important;
@@ -9046,9 +9055,12 @@ input[name="quantity"]::-webkit-inner-spin-button {
 
 .product-card-editorial .primary-img,
 .product-card-editorial .hover-img {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+  object-position: center !important;
   border-radius: 12px !important;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
   display: block !important;
@@ -9770,7 +9782,7 @@ input[name="quantity"]::-webkit-inner-spin-button {
 .product-grid-layout.grid-cols-4 {
   display: grid !important;
   width: 100% !important;
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   column-gap: 4px !important;
   row-gap: clamp(20px, 2.2vw, 32px) !important;
 }
@@ -9780,7 +9792,7 @@ input[name="quantity"]::-webkit-inner-spin-button {
   .featured-collection-section .product-grid-layout,
   .main-collection-section .product-grid-layout,
   .product-grid-layout.grid-cols-4 {
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     column-gap: 4px !important;
     row-gap: 20px !important;
   }
@@ -9834,9 +9846,13 @@ input[name="quantity"]::-webkit-inner-spin-button {
 
   .product-card-editorial .card-media img.primary-img,
   .product-card-editorial .card-media img.hover-img {
+    position: absolute !important;
+    inset: 0 !important;
     width: 100% !important;
+    height: 100% !important;
     max-width: 100% !important;
     object-fit: cover !important;
+    object-position: center !important;
   }
 
   .product-card-editorial .card-title {
@@ -9855,9 +9871,9 @@ input[name="quantity"]::-webkit-inner-spin-button {
     max-width: 100% !important;
   }
 
-  /* ── Reduce portrait aspect-ratio so 2 rows fit on screen (3/4 → 4/5) ── */
+  /* ── Uniform aspect-ratio across viewports ── */
   .product-card-editorial .card-media {
-    aspect-ratio: 4 / 5 !important;
+    aspect-ratio: 3 / 4 !important;
     border-radius: 10px !important;
   }
 
@@ -11193,8 +11209,15 @@ input[name="quantity"]::-webkit-inner-spin-button {
   -webkit-text-fill-color: #C5A880 !important;
 }
 
-/* 6. Tactile Streetwear Card Image Zoom */
-.product-card-editorial .card-media img.primary-img {
+/* 6. Tactile Streetwear Card Image Zoom & Strict Aspect Lock */
+.product-card-editorial .card-media img.primary-img,
+.product-card-editorial .card-media img.hover-img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: transform;
 }

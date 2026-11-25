@@ -16,7 +16,7 @@
   </script>
 
   <!-- Editorial Rounded Media Container -->
-  <div class="card-media">
+  <div class="card-media" style="aspect-ratio: 3 / 4;">
     <a href="{{ product.url }}" class="media-link" aria-label="{{ product.title | escape }}">
       {%- if featured_media -%}
         {{ featured_media | image_url: width: 750 | image_tag: 
