@@ -5055,45 +5055,130 @@ input[name="quantity"]::-webkit-inner-spin-button {
 }
 
 /* ==========================================================================
-   Back-in-Stock Restock Notification & Customer Segments Waitlist
+   Minimalist Restock Notification Modal (Clean, No On-Page Clutter)
    ========================================================================== */
-.product-notify-wrapper {
-  margin-top: 14px;
-  width: 100%;
+.notify-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 9, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: notifyFadeIn 0.2s ease;
 }
 
-.notify-card-box {
+@keyframes notifyFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.notify-modal-card {
   background: #181715;
-  border: 1px solid rgba(197, 168, 128, 0.35);
-  border-radius: 14px;
-  padding: 16px 18px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(197, 168, 128, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   position: relative;
-  overflow: hidden;
+  animation: notifySlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.notify-card-box::before {
-  content: '';
+@keyframes notifySlideUp {
+  from { transform: translateY(14px) scale(0.97); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.notify-modal-close {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #C5A880, transparent);
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #8C8880;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.15s ease;
 }
 
-.notify-header-row {
+.notify-modal-close:hover {
+  color: #FAF9F5;
+}
+
+.notify-modal-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.notify-modal-title {
+  font-family: var(--font-heading, sans-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #FAF9F5;
+  margin: 0;
+}
+
+.notify-modal-desc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #A6A29A;
+  margin: 0 0 16px 0;
+}
+
+.notify-modal-input-row {
+  display: flex;
   gap: 8px;
 }
 
-.notify-title-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.notify-modal-input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  background: #232220 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 0 14px !important;
+  font-size: 0.82rem !important;
+  color: #FAF9F5 !important;
+  font-family: var(--font-sans, inherit) !important;
+  outline: none !important;
+}
+
+.notify-modal-input:focus {
+  border-color: #C5A880 !important;
+  box-shadow: 0 0 0 1px #C5A880 !important;
+}
+
+.notify-modal-btn {
+  flex-shrink: 0;
+  height: 44px;
+  padding: 0 16px;
+  background: #C5A880;
+  color: #141311;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-heading, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.notify-modal-btn:hover {
+  background: #DFC090;
 }
 
 .notify-pulse-orb {
@@ -5111,125 +5196,17 @@ input[name="quantity"]::-webkit-inner-spin-button {
   100% { transform: scale(0.95); opacity: 0.7; }
 }
 
-.notify-card-heading {
-  font-family: var(--font-heading, sans-serif);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #FAF9F5;
+.btn-bluorng-notify.is-notified {
+  background: #1E1D1B !important;
+  border-color: #2ED573 !important;
+  color: #2ED573 !important;
+  -webkit-text-fill-color: #2ED573 !important;
+  pointer-events: none;
 }
 
-.notify-badge-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: rgba(197, 168, 128, 0.15);
-  color: #DFC090;
-  border: 1px solid rgba(197, 168, 128, 0.3);
-  padding: 2px 8px;
-  border-radius: 999px;
-}
-
-.notify-card-subtext {
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: #A6A29A;
-  margin: 0 0 14px 0;
-}
-
-.notify-card-subtext strong {
-  color: #FAF9F5;
-}
-
-.notify-inputs-row {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-}
-
-.notify-input-wrapper {
-  flex: 1;
-  min-width: 0;
-}
-
-.notify-email-field {
-  width: 100% !important;
-  height: 44px !important;
-  background: #232220 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 8px !important;
-  padding: 0 14px !important;
-  font-size: 0.8rem !important;
-  color: #FAF9F5 !important;
-  font-family: var(--font-sans, inherit) !important;
-  outline: none !important;
-  transition: border-color 0.2s ease !important;
-}
-
-.notify-email-field:focus {
-  border-color: #C5A880 !important;
-  box-shadow: 0 0 0 1px #C5A880 !important;
-}
-
-.notify-action-btn {
-  flex-shrink: 0;
-  height: 44px;
-  padding: 0 16px;
-  background: #C5A880;
-  color: #141311;
-  border: none;
-  border-radius: 8px;
-  font-family: var(--font-heading, sans-serif);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.notify-action-btn:hover {
-  background: #DFC090;
-  transform: translateY(-1px);
-}
-
-.notify-status-alert {
-  margin-top: 10px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 0.78rem;
-  line-height: 1.4;
-}
-
-.notify-status-alert.is-success {
-  background: rgba(46, 213, 115, 0.15);
-  border: 1px solid rgba(46, 213, 115, 0.4);
-  color: #2ED573;
-  display: block !important;
-}
-
-.notify-status-alert.is-error {
-  background: rgba(255, 71, 87, 0.15);
-  border: 1px solid rgba(255, 71, 87, 0.4);
-  color: #FF6B81;
-  display: block !important;
-}
-
-@media (max-width: 480px) {
-  .notify-inputs-row {
-    flex-direction: column;
-  }
-  .notify-action-btn {
-    width: 100%;
-    justify-content: center;
-  }
+.btn-bluorng-notify.is-notified span {
+  color: #2ED573 !important;
+  -webkit-text-fill-color: #2ED573 !important;
 }
 
 .btn-bluorng-buy:hover,

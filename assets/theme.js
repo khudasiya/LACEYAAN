@@ -1332,74 +1332,86 @@
       setTimeout(cleanBagButton, 500);
       setTimeout(cleanBagButton, 1500);
 
-      // Initialize Restock Notification Form & Waitlist Trigger
+      // Initialize Clean Restock Notification Trigger & Modal
       const notifyTrigger = this.section.querySelector('[data-notify-trigger]');
-      const notifyWrapper = this.section.querySelector('[data-notify-wrapper]');
-      const notifyForm = this.section.querySelector('.product-notify-form');
+      const notifyModal = document.getElementById('NotifyModal');
+      const closeNotifyModal = document.getElementById('CloseNotifyModal');
+      const notifyModalForm = document.getElementById('NotifyModalCustomerForm');
 
-      if (notifyTrigger && notifyWrapper) {
+      const submitWaitlist = async (email, btn) => {
+        if (!email) return;
+        const currentVariantId = notifyTrigger?.dataset?.variantId || this.masterSelect?.value || '';
+        const productHandle = notifyTrigger?.dataset?.productHandle || '';
+        const productTitle = notifyTrigger?.dataset?.productTitle || document.title;
+        const variantTitle = notifyTrigger?.dataset?.variantTitle || '';
+
+        const formData = new FormData();
+        formData.append('form_type', 'customer');
+        formData.append('utf8', '✓');
+        formData.append('contact[email]', email);
+        formData.append('contact[tags]', `out-of-stock-waitlist, back-in-stock, waitlist-${productHandle}, variant-${currentVariantId}`);
+        formData.append('contact[note]', `Customer requested restock alert for: ${productTitle} (Variant: ${variantTitle})`);
+
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<span>SAVING...</span>';
+        }
+
+        try {
+          await fetch('/contact#contact_form', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+          });
+        } catch (e) {
+          console.warn('Waitlist submit:', e);
+        }
+
+        if (notifyTrigger) {
+          notifyTrigger.classList.add('is-notified');
+          notifyTrigger.disabled = true;
+          notifyTrigger.innerHTML = '<span>✓ YOU\'RE ON THE LIST</span>';
+        }
+
+        if (notifyModal) {
+          notifyModal.style.display = 'none';
+        }
+      };
+
+      if (notifyTrigger) {
         notifyTrigger.addEventListener('click', (e) => {
           e.preventDefault();
-          const isHidden = notifyWrapper.style.display === 'none' || notifyWrapper.classList.contains('is-hidden');
-          if (isHidden) {
-            notifyWrapper.classList.remove('is-hidden');
-            notifyWrapper.style.setProperty('display', 'block', 'important');
-            const emailInput = notifyWrapper.querySelector('.notify-email-field');
-            if (emailInput) emailInput.focus();
-            notifyWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          const customerEmail = notifyTrigger.dataset.customerEmail || '';
+          if (customerEmail && customerEmail.trim()) {
+            // Already logged in customer: 1-click notification!
+            submitWaitlist(customerEmail.trim(), notifyTrigger);
           } else {
-            notifyWrapper.classList.add('is-hidden');
-            notifyWrapper.style.setProperty('display', 'none', 'important');
+            // Guest customer: open clean modal
+            if (notifyModal) {
+              notifyModal.style.display = 'flex';
+              const input = document.getElementById('NotifyModalEmail');
+              if (input) input.focus();
+            }
           }
         });
       }
 
-      if (notifyForm) {
-        notifyForm.addEventListener('submit', async (e) => {
+      if (closeNotifyModal && notifyModal) {
+        closeNotifyModal.addEventListener('click', () => {
+          notifyModal.style.display = 'none';
+        });
+        notifyModal.addEventListener('click', (e) => {
+          if (e.target === notifyModal) notifyModal.style.display = 'none';
+        });
+      }
+
+      if (notifyModalForm) {
+        notifyModalForm.addEventListener('submit', (e) => {
           e.preventDefault();
-          const submitBtn = notifyForm.querySelector('[data-notify-submit-btn]');
-          const feedback = notifyForm.querySelector('[data-notify-feedback]');
-          const emailInput = notifyForm.querySelector('.notify-email-field');
-
-          if (!emailInput || !emailInput.value.trim()) return;
-
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>SAVING...</span>';
-          }
-
-          try {
-            const formData = new FormData(notifyForm);
-            await fetch(notifyForm.getAttribute('action') || '/contact#contact_form', {
-              method: 'POST',
-              body: formData,
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-              }
-            });
-
-            if (feedback) {
-              feedback.className = 'notify-status-alert is-success';
-              feedback.innerHTML = '<span style="font-weight:700; margin-right:4px;">✦ YOU\'RE ON THE VIP WAITLIST.</span> We\'ll notify you the moment this piece restocks.';
-              feedback.style.display = 'block';
-            }
-            if (emailInput) {
-              emailInput.value = '';
-              emailInput.style.display = 'none';
-            }
-            if (submitBtn) {
-              submitBtn.style.display = 'none';
-            }
-          } catch (err) {
-            if (feedback) {
-              feedback.className = 'notify-status-alert is-error';
-              feedback.innerHTML = 'Unable to save your request. Please check your email and try again.';
-              feedback.style.display = 'block';
-            }
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.innerHTML = '<span>JOIN WAITLIST</span>';
-            }
+          const emailInput = document.getElementById('NotifyModalEmail');
+          const submitBtn = document.getElementById('NotifyModalSubmitBtn');
+          if (emailInput && emailInput.value.trim()) {
+            submitWaitlist(emailInput.value.trim(), submitBtn);
           }
         });
       }
@@ -1494,10 +1506,6 @@
           notifyTrigger.classList.add('is-hidden');
           notifyTrigger.style.setProperty('display', 'none', 'important');
         }
-        if (notifyWrapper) {
-          notifyWrapper.classList.add('is-hidden');
-          notifyWrapper.style.setProperty('display', 'none', 'important');
-        }
         if (qtyWrapper) {
           qtyWrapper.style.setProperty('display', 'flex', 'important');
         }
@@ -1514,10 +1522,12 @@
         if (notifyTrigger) {
           notifyTrigger.classList.remove('is-hidden');
           notifyTrigger.style.setProperty('display', 'inline-flex', 'important');
-        }
-        if (notifyWrapper) {
-          notifyWrapper.classList.remove('is-hidden');
-          notifyWrapper.style.setProperty('display', 'block', 'important');
+          notifyTrigger.dataset.variantId = variant.id;
+          notifyTrigger.dataset.variantTitle = variant.title || '';
+          if (!notifyTrigger.classList.contains('is-notified')) {
+            notifyTrigger.disabled = false;
+            notifyTrigger.innerHTML = '<svg class="notify-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span>Notify Me</span>';
+          }
         }
         if (qtyWrapper) {
           qtyWrapper.style.setProperty('display', 'none', 'important');
@@ -1525,12 +1535,6 @@
         if (dynamicPayment) {
           dynamicPayment.classList.add('is-hidden');
           dynamicPayment.style.setProperty('display', 'none', 'important');
-        }
-        if (notifyTags) {
-          notifyTags.value = `out-of-stock-waitlist, back-in-stock, waitlist-${variant.handle || ''}, variant-${variant.id}`;
-        }
-        if (notifyNote) {
-          notifyNote.value = `Customer requested back-in-stock alert for: ${document.title} (Variant: ${variant.title || variant.id})`;
         }
       }
 
