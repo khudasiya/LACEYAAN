@@ -4996,6 +4996,242 @@ input[name="quantity"]::-webkit-inner-spin-button {
   width: 100% !important;
 }
 
+/* Strictly hide Buy Now and dynamic checkout when item is Sold Out */
+.btn-bluorng-buy.is-hidden,
+.btn-bluorng-buy[disabled],
+.btn-buy-now-main.is-hidden,
+.btn-buy-now-main[disabled],
+[data-direct-buy-now].is-hidden,
+[data-direct-buy-now][disabled],
+.btn-bluorng-notify.is-hidden,
+.product-notify-wrapper.is-hidden,
+.dynamic-payment-buttons.is-hidden {
+  display: none !important;
+}
+
+/* ── NOTIFY ME BUTTON (Sold Out Replacement) ── */
+.btn-bluorng-notify {
+  flex: 1 !important;
+  min-height: 50px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  background: var(--accent-gold, #C5A880) !important;
+  background-color: var(--accent-gold, #C5A880) !important;
+  border: 1.5px solid var(--accent-gold, #C5A880) !important;
+  border-radius: 999px !important;
+  font-family: var(--font-heading, var(--font-sans)) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: #141311 !important;
+  -webkit-text-fill-color: #141311 !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  touch-action: manipulation !important;
+  box-shadow: 0 4px 16px rgba(197, 168, 128, 0.25) !important;
+  width: 100% !important;
+}
+
+.btn-bluorng-notify:hover {
+  background: #DFC090 !important;
+  background-color: #DFC090 !important;
+  border-color: #DFC090 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(197, 168, 128, 0.35) !important;
+}
+
+.btn-bluorng-notify span {
+  color: #141311 !important;
+  -webkit-text-fill-color: #141311 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* ==========================================================================
+   Back-in-Stock Restock Notification & Customer Segments Waitlist
+   ========================================================================== */
+.product-notify-wrapper {
+  margin-top: 14px;
+  width: 100%;
+}
+
+.notify-card-box {
+  background: #181715;
+  border: 1px solid rgba(197, 168, 128, 0.35);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.notify-card-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C5A880, transparent);
+}
+
+.notify-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.notify-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notify-pulse-orb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #DFC090;
+  box-shadow: 0 0 10px rgba(223, 192, 144, 0.8);
+  animation: notifyPulse 1.8s infinite;
+}
+
+@keyframes notifyPulse {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.notify-card-heading {
+  font-family: var(--font-heading, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #FAF9F5;
+}
+
+.notify-badge-pill {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(197, 168, 128, 0.15);
+  color: #DFC090;
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.notify-card-subtext {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #A6A29A;
+  margin: 0 0 14px 0;
+}
+
+.notify-card-subtext strong {
+  color: #FAF9F5;
+}
+
+.notify-inputs-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.notify-input-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.notify-email-field {
+  width: 100% !important;
+  height: 44px !important;
+  background: #232220 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 0 14px !important;
+  font-size: 0.8rem !important;
+  color: #FAF9F5 !important;
+  font-family: var(--font-sans, inherit) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.notify-email-field:focus {
+  border-color: #C5A880 !important;
+  box-shadow: 0 0 0 1px #C5A880 !important;
+}
+
+.notify-action-btn {
+  flex-shrink: 0;
+  height: 44px;
+  padding: 0 16px;
+  background: #C5A880;
+  color: #141311;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-heading, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.notify-action-btn:hover {
+  background: #DFC090;
+  transform: translateY(-1px);
+}
+
+.notify-status-alert {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.notify-status-alert.is-success {
+  background: rgba(46, 213, 115, 0.15);
+  border: 1px solid rgba(46, 213, 115, 0.4);
+  color: #2ED573;
+  display: block !important;
+}
+
+.notify-status-alert.is-error {
+  background: rgba(255, 71, 87, 0.15);
+  border: 1px solid rgba(255, 71, 87, 0.4);
+  color: #FF6B81;
+  display: block !important;
+}
+
+@media (max-width: 480px) {
+  .notify-inputs-row {
+    flex-direction: column;
+  }
+  .notify-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .btn-bluorng-buy:hover,
 .btn-buy-now-main:hover,
 .shopify-payment-button__button:hover,

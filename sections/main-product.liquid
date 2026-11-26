@@ -228,7 +228,7 @@
             {%- endunless -%}
 
             <!-- Compact Luxury Quantity Selector (Short Pill) -->
-            <div class="product-quantity-wrapper" data-quantity-wrapper>
+            <div class="product-quantity-wrapper" data-quantity-wrapper{% unless current_variant.available %} style="display: none !important;"{% endunless %}>
               <button type="button" class="qty-btn" data-qty-action="minus" data-qty-minus aria-label="Decrease quantity">&minus;</button>
               <input 
                 type="number" 
@@ -243,12 +243,12 @@
               <button type="button" class="qty-btn" data-qty-action="plus" data-qty-plus aria-label="Increase quantity">&#43;</button>
             </div>
 
-            <!-- Actions Row: Add to cart (Gold & Black) + Buy now (Gold & Black) -->
+            <!-- Actions Row: Add to cart / Sold Out + Buy now / Notify Me -->
             <div class="card-actions-row">
               <button 
                 type="submit" 
                 name="add" 
-                class="btn-bluorng-bag" 
+                class="btn-bluorng-bag{% unless current_variant.available %} is-sold-out{% endunless %}" 
                 id="AddToCart-{{ section.id }}"
                 data-add-to-cart-button
                 {% unless current_variant.available %}disabled{% endunless %}
@@ -261,23 +261,75 @@
 
               <button 
                 type="button" 
-                class="btn-bluorng-buy" 
+                class="btn-bluorng-buy{% unless current_variant.available %} is-hidden{% endunless %}" 
                 id="BuyNow-{{ section.id }}"
                 data-direct-buy-now
                 data-variant-id="{{ current_variant.id }}"
                 data-product-handle="{{ product.handle }}"
-                {% unless current_variant.available %}disabled style="display:none;"{% endunless %}
+                {% unless current_variant.available %}disabled style="display:none !important;"{% endunless %}
               >
                 <span>Buy now</span>
+              </button>
+
+              <button 
+                type="button" 
+                class="btn-bluorng-notify{% if current_variant.available %} is-hidden{% endif %}" 
+                id="NotifyMeBtn-{{ section.id }}"
+                data-notify-trigger
+                {% if current_variant.available %}style="display:none !important;"{% endif %}
+              >
+                <svg class="notify-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <span>Notify Me</span>
               </button>
             </div>
 
             {%- if section.settings.show_dynamic_checkout -%}
-              <div class="dynamic-payment-buttons">
+              <div class="dynamic-payment-buttons" {% unless current_variant.available %}style="display:none !important;"{% endunless %}>
                 {{ form | payment_button }}
               </div>
             {%- endif -%}
           {%- endform -%}
+
+          <!-- Back in Stock Restock Notification & Customer Segments Waitlist -->
+          <div class="product-notify-wrapper{% if current_variant.available %} is-hidden{% endif %}" id="ProductNotifyWrapper-{{ section.id }}" data-notify-wrapper {% if current_variant.available %}style="display:none !important;"{% endif %}>
+            {%- form 'customer', id: 'BackInStockForm', class: 'product-notify-form' -%}
+              <input type="hidden" name="contact[tags]" value="out-of-stock-waitlist, back-in-stock, waitlist-{{ product.handle }}, variant-{{ current_variant.id }}" id="NotifyVariantTags-{{ section.id }}">
+              <input type="hidden" name="contact[note]" value="Customer requested restock alert for: {{ product.title | escape }} (Variant: {{ current_variant.title | escape }})" id="NotifyVariantNote-{{ section.id }}">
+              
+              <div class="notify-card-box">
+                <div class="notify-header-row">
+                  <div class="notify-title-group">
+                    <span class="notify-pulse-orb"></span>
+                    <span class="notify-card-heading">Back In Stock Notification</span>
+                  </div>
+                  <span class="notify-badge-pill">VIP Waitlist</span>
+                </div>
+                <p class="notify-card-subtext">This silhouette is currently sold out. Enter your email below to be added to our priority waitlist and get an instant drop link when restocked.</p>
+                
+                <div class="notify-inputs-row">
+                  <div class="notify-input-wrapper">
+                    <input 
+                      type="email" 
+                      name="contact[email]" 
+                      id="NotifyEmail-{{ section.id }}"
+                      class="notify-email-field" 
+                      placeholder="Enter your email address" 
+                      required 
+                      value="{% if customer %}{{ customer.email }}{% endif %}"
+                      autocomplete="email"
+                      aria-label="Email for restock alert"
+                    >
+                  </div>
+                  <button type="submit" class="notify-action-btn" data-notify-submit-btn>
+                    <span>JOIN WAITLIST</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </button>
+                </div>
+                
+                <div class="notify-status-alert" data-notify-feedback style="display:none;"></div>
+              </div>
+            {%- endform -%}
+          </div>
 
           <!-- 1. Product Description (Directly below Buy Now in the red area) -->
           <div class="product-description-block" id="ProductDescriptionBlock">

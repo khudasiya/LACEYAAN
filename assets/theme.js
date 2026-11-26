@@ -1331,6 +1331,78 @@
       cleanBagButton();
       setTimeout(cleanBagButton, 500);
       setTimeout(cleanBagButton, 1500);
+
+      // Initialize Restock Notification Form & Waitlist Trigger
+      const notifyTrigger = this.section.querySelector('[data-notify-trigger]');
+      const notifyWrapper = this.section.querySelector('[data-notify-wrapper]');
+      const notifyForm = this.section.querySelector('.product-notify-form');
+
+      if (notifyTrigger && notifyWrapper) {
+        notifyTrigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isHidden = notifyWrapper.style.display === 'none' || notifyWrapper.classList.contains('is-hidden');
+          if (isHidden) {
+            notifyWrapper.classList.remove('is-hidden');
+            notifyWrapper.style.setProperty('display', 'block', 'important');
+            const emailInput = notifyWrapper.querySelector('.notify-email-field');
+            if (emailInput) emailInput.focus();
+            notifyWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            notifyWrapper.classList.add('is-hidden');
+            notifyWrapper.style.setProperty('display', 'none', 'important');
+          }
+        });
+      }
+
+      if (notifyForm) {
+        notifyForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const submitBtn = notifyForm.querySelector('[data-notify-submit-btn]');
+          const feedback = notifyForm.querySelector('[data-notify-feedback]');
+          const emailInput = notifyForm.querySelector('.notify-email-field');
+
+          if (!emailInput || !emailInput.value.trim()) return;
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>SAVING...</span>';
+          }
+
+          try {
+            const formData = new FormData(notifyForm);
+            await fetch(notifyForm.getAttribute('action') || '/contact#contact_form', {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            });
+
+            if (feedback) {
+              feedback.className = 'notify-status-alert is-success';
+              feedback.innerHTML = '<span style="font-weight:700; margin-right:4px;">✦ YOU\'RE ON THE VIP WAITLIST.</span> We\'ll notify you the moment this piece restocks.';
+              feedback.style.display = 'block';
+            }
+            if (emailInput) {
+              emailInput.value = '';
+              emailInput.style.display = 'none';
+            }
+            if (submitBtn) {
+              submitBtn.style.display = 'none';
+            }
+          } catch (err) {
+            if (feedback) {
+              feedback.className = 'notify-status-alert is-error';
+              feedback.innerHTML = 'Unable to save your request. Please check your email and try again.';
+              feedback.style.display = 'block';
+            }
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<span>JOIN WAITLIST</span>';
+            }
+          }
+        });
+      }
     }
 
     getSelectedOptions() {
@@ -1389,27 +1461,76 @@
         }
       }
 
-      // Update Availability & Add To Bag Button (No price tag, only ADD TO BAG)
+      // Update Availability, Add To Bag Button & Sold Out State
+      const buyNowBtn = this.section.querySelector('[data-direct-buy-now]');
+      const notifyTrigger = this.section.querySelector('[data-notify-trigger]');
+      const notifyWrapper = this.section.querySelector('[data-notify-wrapper]');
+      const qtyWrapper = this.section.querySelector('[data-quantity-wrapper]');
+      const notifyTags = this.section.querySelector('[id^="NotifyVariantTags-"]');
+      const notifyNote = this.section.querySelector('[id^="NotifyVariantNote-"]');
+      const dynamicPayment = this.section.querySelector('.dynamic-payment-buttons');
+
       if (this.submitBtn) {
         if (variant.available) {
           this.submitBtn.disabled = false;
+          this.submitBtn.classList.remove('is-sold-out');
           this.submitBtn.innerHTML = '<svg class="bag-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>ADD TO BAG</span>';
         } else {
           this.submitBtn.disabled = true;
-          this.submitBtn.innerHTML = '<span>SOLD OUT</span>';
+          this.submitBtn.classList.add('is-sold-out');
+          this.submitBtn.innerHTML = '<svg class="bag-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>SOLD OUT</span>';
         }
       }
 
-      // Update Direct Buy Now button
-      const buyNowBtn = this.section.querySelector('[data-direct-buy-now]');
-      if (buyNowBtn) {
-        buyNowBtn.dataset.variantId = variant.id;
-        if (variant.available) {
+      // Update Buy Now vs Notify Me buttons & Quantity
+      if (variant.available) {
+        if (buyNowBtn) {
           buyNowBtn.disabled = false;
-          buyNowBtn.style.display = 'inline-flex';
-        } else {
+          buyNowBtn.dataset.variantId = variant.id;
+          buyNowBtn.classList.remove('is-hidden');
+          buyNowBtn.style.setProperty('display', 'inline-flex', 'important');
+        }
+        if (notifyTrigger) {
+          notifyTrigger.classList.add('is-hidden');
+          notifyTrigger.style.setProperty('display', 'none', 'important');
+        }
+        if (notifyWrapper) {
+          notifyWrapper.classList.add('is-hidden');
+          notifyWrapper.style.setProperty('display', 'none', 'important');
+        }
+        if (qtyWrapper) {
+          qtyWrapper.style.setProperty('display', 'flex', 'important');
+        }
+        if (dynamicPayment) {
+          dynamicPayment.classList.remove('is-hidden');
+          dynamicPayment.style.setProperty('display', 'block', 'important');
+        }
+      } else {
+        if (buyNowBtn) {
           buyNowBtn.disabled = true;
-          buyNowBtn.style.display = 'none';
+          buyNowBtn.classList.add('is-hidden');
+          buyNowBtn.style.setProperty('display', 'none', 'important');
+        }
+        if (notifyTrigger) {
+          notifyTrigger.classList.remove('is-hidden');
+          notifyTrigger.style.setProperty('display', 'inline-flex', 'important');
+        }
+        if (notifyWrapper) {
+          notifyWrapper.classList.remove('is-hidden');
+          notifyWrapper.style.setProperty('display', 'block', 'important');
+        }
+        if (qtyWrapper) {
+          qtyWrapper.style.setProperty('display', 'none', 'important');
+        }
+        if (dynamicPayment) {
+          dynamicPayment.classList.add('is-hidden');
+          dynamicPayment.style.setProperty('display', 'none', 'important');
+        }
+        if (notifyTags) {
+          notifyTags.value = `out-of-stock-waitlist, back-in-stock, waitlist-${variant.handle || ''}, variant-${variant.id}`;
+        }
+        if (notifyNote) {
+          notifyNote.value = `Customer requested back-in-stock alert for: ${document.title} (Variant: ${variant.title || variant.id})`;
         }
       }
 
@@ -1742,12 +1863,18 @@
                 ` : ''}
 
                 <div class="studio-actions-row" style="display: flex; gap: 0.65rem; margin-top: 1.25rem;">
-                  <button type="submit" class="btn-primary studio-btn-add" style="flex: 1; padding: 0.85rem 1rem;">
-                    <span>ADD TO BAG</span>
+                  <button type="submit" class="btn-primary studio-btn-add" ${!firstVariant.available ? 'disabled' : ''} style="flex: 1; padding: 0.85rem 1rem;">
+                    <span>${firstVariant.available ? 'ADD TO BAG' : 'SOLD OUT'}</span>
                   </button>
+                  ${firstVariant.available ? `
                   <button type="button" class="btn-secondary studio-btn-buy" onclick="window.Laceyaan.quickViewModal.buyNow('${firstVariant.id}')" style="flex: 1; padding: 0.85rem 1rem;">
                     <span>BUY NOW</span>
                   </button>
+                  ` : `
+                  <a href="/products/${product.handle}" class="btn-secondary studio-btn-buy" style="flex: 1; padding: 0.85rem 1rem; text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center;">
+                    <span>NOTIFY ME</span>
+                  </a>
+                  `}
                 </div>
               </form>
 
