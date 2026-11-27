@@ -1,0 +1,74 @@
+{%- comment -%}
+  robots.txt for LACEYAAN (https://laceyaan.in)
+  Configured for Google Search and AI indexing platforms.
+{%- endcomment -%}
+
+# ==============================================================================
+# Website: https://laceyaan.in
+# LACEYAAN Luxury Streetwear & Sneaker Lace Atelier
+# ==============================================================================
+
+{% for group in robots.default_groups %}
+  {{- group.user_agent -}}
+
+  {% for rule in group.rules %}
+    {{- rule -}}
+  {% endfor %}
+
+  {%- if group.sitemap != blank -%}
+    {{ group.sitemap }}
+  {%- endif -%}
+{% endfor %}
+
+# ==============================================================================
+# Google Search & Google AI (Gemini) Crawlers
+# ==============================================================================
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Google-Extended
+Allow: /
+Allow: /collections/
+Allow: /products/
+Allow: /pages/
+Allow: /blogs/
+Disallow: /admin
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkouts/
+Disallow: /checkout
+Disallow: /account
+Disallow: /*?*preview_theme_id*
+
+# ==============================================================================
+# AI Search & Generation Crawlers (ChatGPT, Claude, Perplexity, Meta, Apple)
+# ==============================================================================
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Meta-ExternalAgent
+User-agent: FacebookBot
+User-agent: CCBot
+User-agent: cohere-ai
+User-agent: Diffbot
+User-agent: Bytespider
+Allow: /
+Allow: /collections/
+Allow: /products/
+Allow: /pages/
+Allow: /blogs/
+Disallow: /admin
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkouts/
+Disallow: /checkout
+Disallow: /account
+
+# ==============================================================================
+# Sitemaps
+# ==============================================================================
+Sitemap: https://laceyaan.in/sitemap.xml
